@@ -101,32 +101,37 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		<div class="firstBoxDev">
 			<div class="innerFirstDevBox"  >
 				<div class="devBoxTitle">
-					<b>About</b>
+					<b>Update</b>
 				</div>
 				<div class="devBoxContent">
-					gitStatus
+					Current Version <?php echo $configStatic['version']; ?>
 					<br><br>
-					A Simple Git Status Monitor
-					<br><br>
-					Version <?php echo $configStatic['version']; ?>
+					<button>Check for Update</button>
 				</div>
 			</div>
 		</div>
 		<div class="firstBoxDev">
 			<div class="innerFirstDevBox"  >
 				<div class="devBoxTitle">
-					<b>Github:</b>
+					<b>Changelog</b>
 				</div>
 				<div class="devBoxContent">
-					<a style="color: black;" href="https://github.com/mreishman/gitStatus">Github link</a>
-					<br><br>
-					<a style="color: black;" href="https://github.com/mreishman/gitStatus/issues">Issues</a>
+					<ul>
+						<li>
+						Version 1.0
+							<ul>
+								<li>
+									Initial Upload
+								</li>
+							</ul>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
 	<div>
 	<script src="core/js/allPages.js"></script>
 	<script type="text/javascript">
-		document.getElementById("menuBarLeftAbout").style.backgroundColor  = "#ffffff";
+		document.getElementById("menuBarLeftUpdate").style.backgroundColor  = "#ffffff";
 	</script>
 </body>

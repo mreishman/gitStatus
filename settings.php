@@ -112,21 +112,9 @@ for($i = 0; $i < $newestVersionCount; $i++)
 				</div>
 			</div>
 		</div>
-		<div class="firstBoxDev">
-			<div class="innerFirstDevBox"  >
-				<div class="devBoxTitle">
-					<b>Github:</b>
-				</div>
-				<div class="devBoxContent">
-					<a style="color: black;" href="https://github.com/mreishman/gitStatus">Github link</a>
-					<br><br>
-					<a style="color: black;" href="https://github.com/mreishman/gitStatus/issues">Issues</a>
-				</div>
-			</div>
-		</div>
 	<div>
 	<script src="core/js/allPages.js"></script>
 	<script type="text/javascript">
-		document.getElementById("menuBarLeftAbout").style.backgroundColor  = "#ffffff";
+		document.getElementById("menuBarLeftSettings").style.backgroundColor  = "#ffffff";
 	</script>
 </body>

@@ -12,7 +12,10 @@ for(var i = 0; i < arrayOfFilesLength; i++)
 	  jsonpCallback: 'MyJSONPCallback', // specify the callback name if you're hard-coding it
 	  success: function(data){
 	    // we make a successful JSONP call!
-	    document.getElementById(data['idName']).outerHTML = data['branch'];
+	    var dataBranchForFile = '<span id="'+data['idName']+'";">'+data['branch']+'</span>';
+	    var dataBranchForFileUpdateTime = '<span id="'+data['idName']+'Update";">'+data['time']+'</span>';
+	    document.getElementById(data['idName']).outerHTML = dataBranchForFile;
+	    document.getElementById(data['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
 	  }
 	});
 }

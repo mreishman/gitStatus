@@ -1,7 +1,0 @@
-<?php
-
-$branchName = "";
-$lastUpdateDaybranchName = "";
-$lastUpdateTimebranchName = "";
-
-?>

@@ -30,10 +30,10 @@
 				<li id="menuBarLeftAbout" onclick="window.location.href = 'about.php';" >
 				About
 				</li>
-				<li id="menuBarLeftSettings" onclick="window.location.href = 'about.php';" >
+				<li id="menuBarLeftSettings" onclick="window.location.href = 'settings.php';" >
 				Settings
 				</li>
-				<li id="menuBarLeftUpdate" onclick="window.location.href = 'about.php';" >
+				<li id="menuBarLeftUpdate" onclick="window.location.href = 'update.php';" >
 				Update
 				</li>
 			</ul>

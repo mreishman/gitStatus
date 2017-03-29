@@ -117,6 +117,11 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>";">
 						--Pending--
 					</span>
+					<br><br>
+					Last Updated
+					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update";">
+						--Pending--
+					</span>
 				</div>
 			</div>
 		</div>
