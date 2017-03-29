@@ -20,14 +20,14 @@ function toggleMenuSideBar() {
 		document.getElementById("sidebar").style.width = "0px";
 		document.getElementById("sidebarBG").style.width = "0px";
 		document.getElementById("sidebarMenu").style.display = "none";
-		document.cookie = "toggleMenuSideBarGitStatus=open";
+		document.cookie = "toggleMenuSideBarGitStatus=closed";
 	}
 	else
 	{
 		document.getElementById("sidebar").style.width = "100px";
 		document.getElementById("sidebarBG").style.width = "100px";
 		document.getElementById("sidebarMenu").style.display = "block";
-		document.cookie = "toggleMenuSideBarGitStatus=closed";
+		document.cookie = "toggleMenuSideBarGitStatus=open";
 	}
 }
 
