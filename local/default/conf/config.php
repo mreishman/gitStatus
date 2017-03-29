@@ -1,6 +1,6 @@
 <?php
 
-$defaultConfig = array(
+$config = array(
 	'sliceSize'		=> 500,
 	'pollingRate'	=> 500,
 	'pausePoll'		=> 'false',
@@ -11,6 +11,8 @@ $defaultConfig = array(
 	'enableSystemPrefShellOrPhp'	=> 'false',
 	'expSettingsAvail'	=> 'true',
 	'watchList'		=> array(
-		'mreishmandev.lan.goedekers.com'	        => 'mreishmandev'
+		'mreishmandev'		=> array(
+		'mreishmandev.lan.goedekers.com'	        => '/var/www/html/'
+	)
 	)
 );

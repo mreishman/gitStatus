@@ -9,8 +9,5 @@ $defaultConfig = array(
 	'developmentTabEnabled' => 'false',
 	'enableDevBranchDownload' => 'false',
 	'enableSystemPrefShellOrPhp'	=> 'false',
-	'expSettingsAvail'	=> 'true',
-	'watchList'		=> array(
-		'mreishmandev.lan.goedekers.com'	        => 'mreishmandev'
-	)
+	'expSettingsAvail'	=> 'true'
 );

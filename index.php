@@ -103,7 +103,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	</div>
 	
 	<div id="title">&nbsp;</div>
-	<!-- 
+
 	<script>
 		<?php
 			if(array_key_exists('pollingRate', $config))
@@ -146,23 +146,24 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		var refreshPauseActionVar;
 		var userPaused = false;
 		var refreshing = false;
+		var arrayOfFiles = new Array();
+
+	<?php
+		foreach($config['watchList'] as $key => $item)
+		{
+			echo "arrayOfFiles.push(['";
+			echo $key;
+			echo "','";
+				foreach($item as $key2 => $item2)
+			{
+				echo $key2;
+				echo "','";
+				echo $item2;
+			}
+			echo "']);";
+		}
+	?>
 	</script>
-	
 	<script src="core/js/main.js"></script>
-	-->
+	
 </body>
-
-<script type="text/javascript">
-
-
-$.ajax({
-  url: 'https://mreishmandev.lan.goedekers.com/status/core/php/functions/gitBranchName.php?format=json',
-  dataType: 'json',
-  jsonpCallback: 'MyJSONPCallback', // specify the callback name if you're hard-coding it
-  success: function(data){
-    // we make a successful JSONP call!
-    console.log(data);
-  }
-});
-
-</script>
