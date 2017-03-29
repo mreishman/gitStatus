@@ -86,10 +86,15 @@ for($i = 0; $i < $newestVersionCount; $i++)
 </head>
 <body>
 	<div id="sidebar" >
+		<div id="sidebarMenu" style="display: none;">
+		<?php require_once('core/php/templateFiles/sidebar.php'); ?>
+		</div>
+	</div>
+	<div id="sidebarBG"  >
 	</div>
 	<div id="main">
 		<div id="menu">
-		<div class="nav-toggle pull-right link">
+		<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
 		<a class="show-sidebar" id="show">
 	    	<span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
@@ -103,7 +108,8 @@ for($i = 0; $i < $newestVersionCount; $i++)
 			<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
 		</div>
 	</div>
-	<?php foreach ($config['watchList'] as $key => $value): ?>
+	<?php foreach ($config['watchList'] as $key => $value):
+	$keyNoSpace = preg_replace('/\s+/', '_', $key); ?>
 		<div class="firstBoxDev">
 		<div class="innerFirstDevBox"  >
 			<div class="devBoxTitle">
@@ -111,7 +117,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 			</div>
 			<div class="devBoxContent">
 				Current Branch: 
-				<span id="branchNameDevBox1<?php echo $key?>";">
+				<span id="branchNameDevBox1<?php echo $keyNoSpace;?>";">
 					--Pending--
 				</span>
 			</div>
@@ -182,5 +188,5 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	?>
 	</script>
 	<script src="core/js/main.js"></script>
-	
+	<script src="core/js/allPages.js"></script>
 </body>
