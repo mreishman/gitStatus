@@ -13,6 +13,9 @@ $config = array(
 	'watchList'		=> array(
 		'mreishmandev'		=> array(
 		'mreishmandev.lan.goedekers.com'	        => '/var/www/html/'
+	),
+		'mreishmanBlog'		=> array(
+		'mreishmandev.lan.goedekers.com'	        => '/var/www/html/blog/'
 	)
 	)
 );

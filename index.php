@@ -89,19 +89,36 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	</div>
 	<div id="main">
 		<div id="menu">
+		<div class="nav-toggle pull-right link">
+		<a class="show-sidebar" id="show">
+	    	<span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	    </a>
+		</div>
 		<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
 			<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
 		</div>
 		<div onclick="refreshAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
 			<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
 		</div>
-		<div onclick="window.location.href = './settings/main.php';" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-			<img id="gear" class="menuImage" src="core/img/Gear.png" height="30px">
-			<?php  if($levelOfUpdate == 1){echo '<img src="core/img/yellowWarning.png" height="15px" style="position: absolute;margin-left: 13px;margin-top: -34px;">';} ?> <?php if($levelOfUpdate == 2){echo '<img src="core/img/redWarning.png" height="15px" style="position: absolute;margin-left: 13px;margin-top: -34px;">';} ?>
+	</div>
+	<?php foreach ($config['watchList'] as $key => $value): ?>
+		<div class="firstBoxDev">
+		<div class="innerFirstDevBox"  >
+			<div class="devBoxTitle">
+				<?php echo $key; ?>
+			</div>
+			<div class="devBoxContent">
+				Current Branch: 
+				<span id="branchNameDevBox1<?php echo $key?>";">
+					--Pending--
+				</span>
+			</div>
 		</div>
+		</div>
+	<?php endforeach; ?>
 	</div>
-	</div>
-	
 	<div id="title">&nbsp;</div>
 
 	<script>

@@ -1,0 +1,48 @@
+body
+{
+	background-color: #222222;
+}
+
+.nav-toggle {
+	display: inline-block;
+	background-color: transparent;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	height: 30px;
+}
+.icon-bar {
+	display: block;
+	width: 22px;
+	height: 2px;
+	border-radius: 1px;
+	background-color: #ffffff;
+	margin-top: 4px;
+}
+.show-sidebar {
+	display: block;
+	margin-top: 8px;
+}
+.link{
+	cursor: pointer;
+}
+.firstBoxDev{
+	width: 300px;
+	height: 150px;
+	background-color: #aaaaaa;
+	display: inline-table;
+	margin: 20px;
+	border: 1px solid white;
+}
+.innerFirstDevBox{
+	width: 300px;
+}
+.devBoxTitle{
+	background-color: #FFFFFF;
+	padding: 2px;
+	padding-left: 10px;
+}
+.devBoxContent{
+	word-wrap: break-word;
+	padding: 10px;
+	color: #000000;
+}
