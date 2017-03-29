@@ -31,13 +31,3 @@ function toggleMenuSideBar() {
 	}
 }
 
-document.getElementById("menuBarLeftMain").style.backgroundColor  = "#ffffff";
-var cookieToggleNavBar = getCookie("toggleMenuSideBarGitStatus");
-if(cookieToggleNavBar != "")
-{
-	console.log(cookieToggleNavBar);
-	if(cookieToggleNavBar != "open")
-	{
-		toggleMenuSideBar();
-	}
-}

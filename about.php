@@ -85,10 +85,9 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	<script src="core/js/visibility.timers.js"></script>
 </head>
 <body>
-
-
-	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
 	
+	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
+		
 	<div id="main">
 		<div id="menu">
 			<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
@@ -98,94 +97,36 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		        <span class="icon-bar"></span>
 		    </a>
 			</div>
-			<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-				<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
-			</div>
-			<div onclick="refreshAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-				<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
-			</div>
 		</div>
-	<?php foreach ($config['watchList'] as $key => $value):
-	$keyNoSpace = preg_replace('/\s+/', '_', $key); ?>
 		<div class="firstBoxDev">
 			<div class="innerFirstDevBox"  >
 				<div class="devBoxTitle">
-					<b><?php echo $key; ?></b>
+					<b>About</b>
 				</div>
 				<div class="devBoxContent">
-					Current Branch: 
-					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>";">
-						--Pending--
-					</span>
+					gitStatus
+					<br><br>
+					A Simple Git Status Monitor
+					<br><br>
+					Version <?php echo $configStatic['version']; ?>
 				</div>
 			</div>
 		</div>
-	<?php endforeach; ?>
-	</div>
-
-	<script>
-		<?php
-			if(array_key_exists('pollingRate', $config))
-			{
-				echo "var pollingRate = ".$config['pollingRate'].";";
-			}
-			else
-			{
-				echo "var pollingRate = ".$defaultConfig['pollingRate'].";";
-			} 
-			if(array_key_exists('pausePoll', $config))
-			{
-				echo "var pausePollFromFile = ".$config['pausePoll'].";";
-			}
-			else
-			{
-				echo "var pausePollFromFile = ".$defaultConfig['pausePoll'].";";
-			}
-			if(array_key_exists('pauseOnNotFocus', $config))
-			{
-				echo "var pausePollOnNotFocus = ".$config['pauseOnNotFocus'].";";
-			}
-			else
-			{
-				echo "var pausePollOnNotFocus = ".$defaultConfig['pauseOnNotFocus'].";";
-			}
-			if(array_key_exists('autoCheckUpdate', $config))
-			{
-				echo "var autoCheckUpdate = ".$config['autoCheckUpdate'].";";
-			}
-			else
-			{
-				echo "var autoCheckUpdate = ".$defaultConfig['autoCheckUpdate'].";";
-			}
-		echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
-		?>
-
-		var pausePoll = false;
-		var refreshActionVar;
-		var refreshPauseActionVar;
-		var userPaused = false;
-		var refreshing = false;
-		var arrayOfFiles = new Array();
-
-	<?php
-		foreach($config['watchList'] as $key => $item)
-		{
-			echo "arrayOfFiles.push(['";
-			echo $key;
-			echo "','";
-				foreach($item as $key2 => $item2)
-			{
-				echo $key2;
-				echo "','";
-				echo $item2;
-			}
-			echo "']);";
-		}
-	?>
-	</script>
-	<script src="core/js/main.js"></script>
+		<div class="firstBoxDev">
+			<div class="innerFirstDevBox"  >
+				<div class="devBoxTitle">
+					<b>Github:</b>
+				</div>
+				<div class="devBoxContent">
+					<a style="color: black;" href="https://github.com/mreishman/gitStatus">Github link</a>
+					<br><br>
+					<a style="color: black;" href="https://github.com/mreishman/gitStatus/issues">Issues</a>
+				</div>
+			</div>
+		</div>
+	<div>
 	<script src="core/js/allPages.js"></script>
 	<script type="text/javascript">
-		document.getElementById("menuBarLeftMain").style.backgroundColor  = "#ffffff";
+		document.getElementById("menuBarLeftAbout").style.backgroundColor  = "#ffffff";
 	</script>
 </body>
