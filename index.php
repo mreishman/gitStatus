@@ -98,19 +98,22 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		        <span class="icon-bar"></span>
 		    </a>
 			</div>
-			<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-				<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
-			</div>
-			<div onclick="refreshAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
+			<div onclick="refreshAction('refreshImage');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
 				<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
 			</div>
 		</div>
-	<?php foreach ($config['watchList'] as $key => $value):
+	<?php 
+	$h = -1;
+	foreach ($config['watchList'] as $key => $value): 
+	$h++;	
 	$keyNoSpace = preg_replace('/\s+/', '_', $key); ?>
 		<div class="firstBoxDev">
 			<div class="innerFirstDevBox"  >
 				<div class="devBoxTitle">
 					<b><?php echo $key; ?></b>
+					<div onclick="refreshAction('refreshImage<?php echo $key; ?>','<?php echo $h;?>');" style="display: inline-block; cursor: pointer; height: 17px; width: 17px; ">
+						<img id="refreshImage<?php echo $key; ?>" class="menuImage" src="core/img/Refresh.png" height="17px">
+					</div> 
 				</div>
 				<div class="devBoxContent">
 					Current Branch: 
