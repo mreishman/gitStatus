@@ -6,7 +6,7 @@ $function = "git --git-dir=".$_POST['location'].".git log --stat -1 --pretty=\"<
 $branchStats = trim(shell_exec($function));
 $branchStats = substr($branchStats, 0, strpos($branchStats, "}"));
 $date = date('j m Y');
-$time = trim(shell_exec(date));;
+$time = trim(shell_exec('date'));;
 $response = array(
 	'branch' 	=> $branchName,
 	'idName'	=> $keyNoSpace,
