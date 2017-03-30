@@ -2,33 +2,33 @@
 
 //check for previous update, if failed
 
-$baseUrl = "../../core/";
-if(file_exists('../../local/layout.php'))
+$baseUrl = "../../../core/";
+if(file_exists('../../../local/layout.php'))
 {
-  $baseUrl = "../../local/";
+  $baseUrl = "../../../local/";
   //there is custom information, use this
-  require_once('../../local/layout.php');
+  require_once('../../../local/layout.php');
   $baseUrl .= $currentSelectedTheme."/";
 }
 require_once($baseUrl.'conf/config.php'); 
-require_once('../conf/config.php');
+require_once('../../conf/config.php');
 
 require_once('verifyWriteStatus.php');
 checkForUpdate($_SERVER['REQUEST_URI']);
 
-if(file_exists("../../update/downloads/versionCheck/extracted/"))
+if(file_exists("../../../update/downloads/versionCheck/extracted/"))
 {
   //dir exists
-  if(file_exists("../../update/downloads/versionCheck/extracted/versionsCheckFile.php"))
+  if(file_exists("../../../update/downloads/versionCheck/extracted/versionsCheckFile.php"))
   {
     //last version check here
-    $files = glob("../../update/downloads/versionCheck/extracted/*"); // get all file names
+    $files = glob("../../../update/downloads/versionCheck/extracted/*"); // get all file names
     foreach($files as $file)
     { // iterate files
         if(is_file($file))
           unlink($file); // delete file
     }
-    rmdir("../../update/downloads/versionCheck/extracted/");
+    rmdir("../../../update/downloads/versionCheck/extracted/");
   }
 
 }
@@ -44,13 +44,13 @@ else
 
 if($enableDevBranchDownload == "true")
 {
-  file_put_contents("../../update/downloads/versionCheck/versionCheck.zip", 
+  file_put_contents("../../../update/downloads/versionCheck/versionCheck.zip", 
   file_get_contents("https://github.com/mreishman/Log-Hog/archive/versionCheckDev.zip")
   );
 }
 else
 {
-  file_put_contents("../../update/downloads/versionCheck/versionCheck.zip", 
+  file_put_contents("../../../update/downloads/versionCheck/versionCheck.zip", 
   file_get_contents("https://github.com/mreishman/Log-Hog/archive/versionCheck.zip")
   );
 }
@@ -58,9 +58,9 @@ else
 
 
 
-mkdir("../../update/downloads/versionCheck/extracted/");
+mkdir("../../../update/downloads/versionCheck/extracted/");
 $zip = new ZipArchive;
-$path = "../../update/downloads/versionCheck/versionCheck.zip";
+$path = "../../../update/downloads/versionCheck/versionCheck.zip";
 $res = $zip->open($path);
 if ($res === TRUE) {
   for($i = 0; $i < $zip->numFiles; $i++) {
@@ -68,16 +68,16 @@ if ($res === TRUE) {
         $fileinfo = pathinfo($filename);
         if (strpos($fileinfo['basename'], '.php') !== false) 
         {
-          copy("zip://".$path."#".$filename, "../../update/downloads/versionCheck/extracted/".$fileinfo['basename']);
+          copy("zip://".$path."#".$filename, "../../../update/downloads/versionCheck/extracted/".$fileinfo['basename']);
         }
     }                   
     $zip->close();  
 }
 
-unlink("../../update/downloads/versionCheck/versionCheck.zip");
+unlink("../../../update/downloads/versionCheck/versionCheck.zip");
 
-require_once('../../update/downloads/versionCheck/extracted/versionsCheckFile.php');
-require_once('configStatic.php');
+require_once('../../../update/downloads/versionCheck/extracted/versionsCheckFile.php');
+require_once('../configStatic.php');
 
 $arrayForVersionList = "";
 $countOfArray = count($versionCheckArray['versionList']);
@@ -119,7 +119,7 @@ $"."configStatic = array(
 
 //write new info to version file in core/php/configStatic.php
 
-$files = glob("../../update/downloads/versionCheck/extracted/*"); // get all file names
+$files = glob("../../../update/downloads/versionCheck/extracted/*"); // get all file names
 foreach($files as $file){ // iterate files
   if(is_file($file))
     unlink($file); // delete file
@@ -127,7 +127,7 @@ foreach($files as $file){ // iterate files
 
 file_put_contents("configStatic.php", $newInfoForConfig);
 
-rmdir("../../update/downloads/versionCheck/extracted/");
+rmdir("../../../update/downloads/versionCheck/extracted/");
 
 if(array_key_exists('HTTP_REFERER', $_SERVER))
 {
