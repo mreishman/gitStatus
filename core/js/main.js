@@ -6,7 +6,7 @@ function poll(all = -1)
 		var arrayOfFilesLength = arrayOfFiles.length
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
-			var urlForSend = 'https://'+arrayOfFiles[i][1]+'/status/core/php/functions/gitBranchName.php?format=json'
+			var urlForSend = 'http://'+arrayOfFiles[i][1]+'/status/core/php/functions/gitBranchName.php?format=json'
 			var name = "branchNameDevBox1"+arrayOfFiles[i][0];
 			var data = {location: arrayOfFiles[i][2], name: name};
 			$.ajax({

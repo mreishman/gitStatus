@@ -145,7 +145,7 @@ else
 							</li>
 							<li>
 								<span class="leftSpacingserverNames" > pausePoll: </span>
-									<select disabled="true" name="pausePoll">
+									<select name="pausePoll">
 				  						<option <?php if($pausePoll == 'true'){echo "selected";} ?> value="true">True</option>
 				  						<option <?php if($pausePoll == 'false'){echo "selected";} ?> value="false">False</option>
 									</select>

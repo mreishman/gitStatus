@@ -1,4 +1,17 @@
 <?php
+if(isset($_COOKIE['httpsRedirectStatus']))
+{
+	unset($_COOKIE['httpsRedirectStatus']);
+}
+else
+{
+	if ($_SERVER['HTTPS'] == 'on') {
+		setcookie("httpsRedirectStatus", "true");
+	    $url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	    header('Location: ' . $url, true, 301);
+	    exit();
+	}
+}
 
 $baseUrl = "core/";
 if(file_exists('local/layout.php'))
@@ -87,7 +100,11 @@ for($i = 0; $i < $newestVersionCount; $i++)
 <body>
 
 
-	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
+	<?php require_once('core/php/templateFiles/sidebar.php'); 
+	if($_SERVER['HTTPS'] == 'on'){
+    echo "<div style=' position: absolute; display: inline-table; width: 100%; background: red; text-align: center;  height: 34px;' >Please switch to http</div>";	
+	}
+	?>
 	
 	<div id="main">
 		<div id="menu">
