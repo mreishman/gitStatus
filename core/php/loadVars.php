@@ -5,16 +5,23 @@ checkForUpdate($_SERVER['REQUEST_URI']);
 
 //check for previous update, if failed
 
-$baseUrl = "../../core/";
-if(file_exists('../../local/layout.php'))
+$varToIndexDir = "";
+$countOfSlash = 0;
+while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
 {
-  $baseUrl = "../../local/";
+  $varToIndexDir .= "../";        
+}
+
+$baseUrl = $varToIndexDir."core/";
+if(file_exists($varToIndexDir.'local/layout.php'))
+{
+  $baseUrl = $varToIndexDir."local/";
   //there is custom information, use this
-  require_once('../../local/layout.php');
+  require_once($varToIndexDir.'local/layout.php');
   $baseUrl .= $currentSelectedTheme."/";
 }
 require_once($baseUrl.'conf/config.php'); 
-require_once('../conf/config.php');
+require_once($varToIndexDir.'core/conf/config.php');
 
 
 if(array_key_exists('watchList', $config))
@@ -88,7 +95,18 @@ $i = 0;
 foreach ($watchList as $key => $value) 
 {
 	$i++;
-	$arrayWatchList .= "'".$key."' => '".$value."'";
+	$j = 0;
+	$numberOfRows2 = count($value);
+	$arrayWatchList .= "'".$key."' => array(";
+	foreach ($value as $key2 => $value2) {
+		$j++;
+		$arrayWatchList .= "'".$key2."' =>  '".$value2."'";
+		if($j != $numberOfRows2)
+		{
+			$arrayWatchList .= ",";
+		}
+	}
+	$arrayWatchList .= ")";
 	if($i != $numberOfRows)
 	{
 		$arrayWatchList .= ",";

@@ -133,79 +133,83 @@ else
 			</div>
 		</div>
 		<div class="firstBoxDev">
-			<div class="innerFirstDevBox"  >
-				<div class="devBoxTitle">
-					<b>Settings</b> <button>Save Changes</button>
-				</div>
-				<div class="devBoxContent">
-					<ul class="settingsUl">
-						<li>
-							<span class="leftSpacingserverNames" > pollingRate: </span> <input style="width: 52px;" type="text" name="pollingRate" value="<?php echo $pollingRate;?>" > Minutes
-						</li>
-						<li>
-							<span class="leftSpacingserverNames" > pausePoll: </span>
-								<select disabled="true" name="pausePoll">
-			  						<option <?php if($pausePoll == 'true'){echo "selected";} ?> value="true">True</option>
-			  						<option <?php if($pausePoll == 'false'){echo "selected";} ?> value="false">False</option>
-								</select>
-						</li>
-						<li>
-							<span class="leftSpacingserverNames" > autoPause: </span>
-								<select name="pauseOnNotFocus">
-			  						<option <?php if($pauseOnNotFocus == 'true'){echo "selected";} ?> value="true">True</option>
-			  						<option <?php if($pauseOnNotFocus == 'false'){echo "selected";} ?> value="false">False</option>
-								</select>
-						</li>
-						<li>
-							<span class="leftSpacingserverNames" > CheckUpdate: </span>
-								<select name="autoCheckUpdate">
-			  						<option <?php if($autoCheckUpdate == 'true'){echo "selected";} ?> value="true">Auto</option>
-			  						<option <?php if($autoCheckUpdate == 'false'){echo "selected";} ?> value="false">Manual</option>
-								</select>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="firstBoxDev">
-			<div class="innerFirstDevBox" style="width: 500px;" >
-				<div class="devBoxTitle">
-					<b>Watch List</b> <button>Save Changes</button>
-				</div>
-				<div class="devBoxContent">
-					<ul class="settingsUl">
-						<?php 
-							$i = 0;
-							foreach($config['watchList'] as $key => $item): $i++; ?>
-						<li id="rowNumber<?php echo $i; ?>" >
-							<span class="leftSpacingserverNames" > Name: </span>
-			 				<input class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
-			 				<?php
-			 				$j = 0;
-			 				foreach($item as $key2 => $item2): $j++; ?>
-			 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span>
-			 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
-			 				<?php endforeach; ?>
-			 				<br>
-			 				<span class="leftSpacingserverNames" ></span>
-							<a class="link underlineLink" onclick="deleteRowFunction(<?php echo $i; ?>, true)">Remove</a>
-						</li>
-						<br>
-						<?php endforeach; ?>
-						<div id="newRowLocationForWatchList">
-						</div>
-						</ul>
+			<form id="settingsMainVars" action="core/php/saveFunctions/settingsMainUpdateVars.php" method="post">
+				<div class="innerFirstDevBox"  >
+					<div class="devBoxTitle">
+						<b>Settings</b> <button>Save Changes</button>
+					</div>
+					<div class="devBoxContent">
 						<ul class="settingsUl">
 							<li>
-								<a class="link underlineLink"  onclick="addRowFunction()">Add New Server</a>
+								<span class="leftSpacingserverNames" > pollingRate: </span> <input style="width: 52px;" type="text" name="pollingRate" value="<?php echo $pollingRate;?>" > Minutes
+							</li>
+							<li>
+								<span class="leftSpacingserverNames" > pausePoll: </span>
+									<select disabled="true" name="pausePoll">
+				  						<option <?php if($pausePoll == 'true'){echo "selected";} ?> value="true">True</option>
+				  						<option <?php if($pausePoll == 'false'){echo "selected";} ?> value="false">False</option>
+									</select>
+							</li>
+							<li>
+								<span class="leftSpacingserverNames" > autoPause: </span>
+									<select name="pauseOnNotFocus">
+				  						<option <?php if($pauseOnNotFocus == 'true'){echo "selected";} ?> value="true">True</option>
+				  						<option <?php if($pauseOnNotFocus == 'false'){echo "selected";} ?> value="false">False</option>
+									</select>
+							</li>
+							<li>
+								<span class="leftSpacingserverNames" > CheckUpdate: </span>
+									<select name="autoCheckUpdate">
+				  						<option <?php if($autoCheckUpdate == 'true'){echo "selected";} ?> value="true">Auto</option>
+				  						<option <?php if($autoCheckUpdate == 'false'){echo "selected";} ?> value="false">Manual</option>
+									</select>
 							</li>
 						</ul>
-						</div>
-						<div id="hidden" style="display: none">
-							<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
-						</div>
+					</div>
 				</div>
-			</div>
+			</form>
+		</div>
+		<div class="firstBoxDev">
+			<form id="settingsMainWatch" action="core/php/saveFunctions/settingsMainUpdateWatchList.php" method="post">
+				<div class="innerFirstDevBox" style="width: 500px;" >
+					<div class="devBoxTitle">
+						<b>Watch List</b> <button>Save Changes</button>
+					</div>
+					<div class="devBoxContent">
+						<ul class="settingsUl">
+							<?php 
+								$i = 0;
+								foreach($config['watchList'] as $key => $item): $i++; ?>
+							<li id="rowNumber<?php echo $i; ?>" >
+								<span class="leftSpacingserverNames" > Name: </span>
+				 				<input class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
+				 				<?php
+				 				$j = 0;
+				 				foreach($item as $key2 => $item2): $j++; ?>
+				 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span>
+				 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
+				 				<?php endforeach; ?>
+				 				<br>
+				 				<span class="leftSpacingserverNames" ></span>
+								<a class="link underlineLink" onclick="deleteRowFunction(<?php echo $i; ?>, true)">Remove</a>
+							</li>
+							<br>
+							<?php endforeach; ?>
+							<div id="newRowLocationForWatchList">
+							</div>
+							</ul>
+							<ul class="settingsUl">
+								<li>
+									<a class="link underlineLink"  onclick="addRowFunction()">Add New Server</a>
+								</li>
+							</ul>
+							</div>
+							<div id="hidden" style="display: none">
+								<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
+							</div>
+					</div>
+				</div>
+			</form>
 		</div>
 	<div>
 	<script src="core/js/allPages.js"></script>
