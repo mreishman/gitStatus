@@ -17,10 +17,19 @@ function poll(all = -1)
 			  jsonpCallback: 'MyJSONPCallback', // specify the callback name if you're hard-coding it
 			  success: function(data){
 			    // we make a successful JSONP call!
+			    var dataStats = data['stats'].split(",");
 			    var dataBranchForFile = '<span id="'+data['idName']+'";">'+data['branch']+'</span>';
 			    var dataBranchForFileUpdateTime = '<span id="'+data['idName']+'Update";">'+data['time']+'</span>';
+			    var dataBranchForFileStats = '<span id="'+data['idName']+'Stats";">';
+			    for(var j = 0; j < dataStats.length; j++)
+			    {
+			    	dataBranchForFileStats += dataStats[j];
+			    	dataBranchForFileStats += "<br><br>";
+			    }
+			    dataBranchForFileStats +='</span>';
 			    document.getElementById(data['idName']).outerHTML = dataBranchForFile;
 			    document.getElementById(data['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
+			    document.getElementById(data['idName']+'Stats').outerHTML = dataBranchForFileStats;
 			  }
 			});
 		}
