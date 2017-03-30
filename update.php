@@ -197,7 +197,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 							}
 							if($levelOfUpdate != 0)
 							{
-								echo "<li><h2>Changelog For ".$key." update</h2></li>";
+								echo "<li class='settingsUl' ><h2>Changelog For ".$key." update</h2></li>";
 								echo $value['releaseNotes'];
 							}
 						}
