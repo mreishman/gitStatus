@@ -1,4 +1,4 @@
-<?php
+<?php header('Access-Control-Allow-Origin: *'); 
 $function = "git --git-dir=".$_POST['location'].".git rev-parse --abbrev-ref HEAD";
 $branchName = trim(shell_exec($function));
 $keyNoSpace = preg_replace('/\s+/', '_', $_POST['name']);

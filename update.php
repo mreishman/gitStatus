@@ -112,7 +112,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					
 					<form id="settingsCheckForUpdate" action="update/updater.php" method="post">
 					<?php
-					if($levelOfUpdate != 0){echo '<br><br><button onclick="installUpdates();">Install '.$configStatic["newestVersion"].' Update</button>';}
+					if($levelOfUpdate != 0){echo '<br><br><button>Install '.$configStatic["newestVersion"].' Update</button>';}
 					?>
 					</form>
 					

@@ -4,10 +4,10 @@
 function updateMainProgressLogFile($dotsTime)
 {
 
-	require_once('configStatic.php');
-	require_once('updateProgressFileNext.php');
+	require_once('../configStatic.php');
+	require_once('../update/updateProgressFileNext.php');
 
-	require_once('verifyWriteStatus.php');
+	require_once('../verifyWriteStatus.php');
 	checkForUpdate($_SERVER['REQUEST_URI']);
 
 	$dots = "";
@@ -108,14 +108,14 @@ function updateMainProgressLogFile($dotsTime)
 	
 	$stringToFindHead = "$"."updateProgress['currentStep']";
 	
-	$headerFileContents = file_get_contents("updateProgressLogHead.php");
+	$headerFileContents = file_get_contents("../update/updateProgressLogHead.php");
 	$headerFileContents = str_replace('id="headerForUpdate"', "", $headerFileContents);
 	$headerFileContents = str_replace($stringToFindHead, $varForHeader , $headerFileContents);
 	$headerFileContents = str_replace($stringToFindHeadTwo, $varForHeaderTwo , $headerFileContents);
 	$headerFileContents = str_replace('.</p>', $dots, $headerFileContents);
-	$mainFileContents = file_get_contents("updateProgressLog.php");
+	$mainFileContents = file_get_contents("../update/updateProgressLog.php");
 	$mainFileContents = $headerFileContents.$mainFileContents;
-	file_put_contents("updateProgressLog.php", $mainFileContents);
+	file_put_contents("../update/updateProgressLog.php", $mainFileContents);
 }
 
 function updateHeadProgressLogFile($message)
@@ -140,11 +140,11 @@ function updateProgressFile($status, $pathToFile, $typeOfProgress, $action)
 
 function downloadFile($file)
 {
-	require_once('configStatic.php');
+	require_once('../configStatic.php');
 
 	$arrayForFile = $configStatic['versionList'];
 	$arrayForFile = $arrayForFile[$file];
-	file_put_contents("../../update/downloads/updateFiles/updateFiles.zip", 
+	file_put_contents("../../../update/downloads/updateFiles/updateFiles.zip", 
 	file_get_contents("https://github.com/mreishman/Log-Hog/archive/".$arrayForFile['branchName'].".zip")
 	);
 }
@@ -153,9 +153,9 @@ function unzipFile()
 {
 
 
-	mkdir("../../update/downloads/updateFiles/extracted/");
+	mkdir("../../../update/downloads/updateFiles/extracted/");
 	$zip = new ZipArchive;
-	$path = "../../update/downloads/updateFiles/updateFiles.zip";
+	$path = "../../../update/downloads/updateFiles/updateFiles.zip";
 	$res = $zip->open($path);
 	$arrayOfExtensions = array('.php','.js','.css','.html','.png','.jpg','.jpeg');
 	if ($res === TRUE) {
@@ -164,7 +164,7 @@ function unzipFile()
 	        $fileinfo = pathinfo($filename);
 	        if (strposa($fileinfo['basename'], $arrayOfExtensions, 1)) 
 	        {
-	          copy("zip://".$path."#".$filename, "../../update/downloads/updateFiles/extracted/".$fileinfo['basename']);
+	          copy("zip://".$path."#".$filename, "../../../update/downloads/updateFiles/extracted/".$fileinfo['basename']);
 	        }
 	    }                   
 	    $zip->close();  
@@ -181,25 +181,25 @@ function strposa($haystack, $needle, $offset=0) {
 
 function removeZipFile()
 {
-	unlink("../../update/downloads/updateFiles/updateFiles.zip");
+	unlink("../../../update/downloads/updateFiles/updateFiles.zip");
 }
 
 
 function removeUnZippedFiles()
 {
-	$files = glob("../../update/downloads/updateFiles/extracted/*"); // get all file names
+	$files = glob("../../../update/downloads/updateFiles/extracted/*"); // get all file names
 	foreach($files as $file){ // iterate files
 	  if(is_file($file))
 	    unlink($file); // delete file
 	}
 
-	rmdir("../../update/downloads/updateFiles/extracted/");
+	rmdir("../../../update/downloads/updateFiles/extracted/");
 
 }
 
 function handOffToUpdate()
 {
-	require_once('../../update/downloads/updateFiles/extracted/updateScript.php');
+	require_once('../../../update/downloads/updateFiles/extracted/updateScript.php');
 }
 
 function finishedUpdate()

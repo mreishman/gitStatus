@@ -1,17 +1,17 @@
 <?php
 
-$baseUrl = "../../core/";
-if(file_exists('../../local/layout.php'))
+$baseUrl = "../../../core/";
+if(file_exists('../../../local/layout.php'))
 {
-	$baseUrl = "../../local/";
+	$baseUrl = "../../../local/";
 	//there is custom information, use this
-	require_once('../../local/layout.php');
+	require_once('../../../local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
 
 require_once($baseUrl.'conf/config.php');
-require_once('../../core/conf/config.php'); 	
-require_once('loadVars.php');
+require_once('../../../core/conf/config.php'); 	
+require_once('../loadVars.php');
 
 
 
