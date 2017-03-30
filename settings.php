@@ -72,6 +72,40 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	}
 }
 
+
+if(array_key_exists('pollingRate', $config))
+{
+	$pollingRate = $config['pollingRate'];
+}
+else
+{
+	$pollingRate = $defaultConfig['pollingRate'];
+} 
+if(array_key_exists('pausePoll', $config))
+{
+	$pausePoll = $config['pausePoll'];
+}
+else
+{
+	$pausePoll = $defaultConfig['pausePoll'];
+}
+if(array_key_exists('pauseOnNotFocus', $config))
+{
+	$pauseOnNotFocus = $config['pauseOnNotFocus'];
+}
+else
+{
+	$pauseOnNotFocus = $defaultConfig['pauseOnNotFocus'];
+}
+if(array_key_exists('autoCheckUpdate', $config))
+{
+	$autoCheckUpdate = $config['autoCheckUpdate'];
+}
+else
+{
+	$autoCheckUpdate = $defaultConfig['autoCheckUpdate'];
+}
+
 ?>
 <!doctype html>
 <head>
@@ -104,7 +138,32 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					<b>Settings</b> <button>Save Changes</button>
 				</div>
 				<div class="devBoxContent">
-					
+					<ul class="settingsUl">
+						<li>
+							<span class="leftSpacingserverNames" > pollingRate: </span> <input style="width: 52px;" type="text" name="pollingRate" value="<?php echo $pollingRate;?>" > Minutes
+						</li>
+						<li>
+							<span class="leftSpacingserverNames" > pausePoll: </span>
+								<select name="pausePoll">
+			  						<option <?php if($pausePoll == 'true'){echo "selected";} ?> value="true">True</option>
+			  						<option <?php if($pausePoll == 'false'){echo "selected";} ?> value="false">False</option>
+								</select>
+						</li>
+						<li>
+							<span class="leftSpacingserverNames" > autoPause: </span>
+								<select name="pauseOnNotFocus">
+			  						<option <?php if($pauseOnNotFocus == 'true'){echo "selected";} ?> value="true">True</option>
+			  						<option <?php if($pauseOnNotFocus == 'false'){echo "selected";} ?> value="false">False</option>
+								</select>
+						</li>
+						<li>
+							<span class="leftSpacingserverNames" > CheckUpdate: </span>
+								<select name="autoCheckUpdate">
+			  						<option <?php if($autoCheckUpdate == 'true'){echo "selected";} ?> value="true">Auto</option>
+			  						<option <?php if($autoCheckUpdate == 'false'){echo "selected";} ?> value="false">Manual</option>
+								</select>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -120,13 +179,15 @@ for($i = 0; $i < $newestVersionCount; $i++)
 							foreach($config['watchList'] as $key => $item): $i++; ?>
 						<li id="rowNumber<?php echo $i; ?>" >
 							<span class="leftSpacingserverNames" > Name: </span>
-			 				<input style="width: 300px;" type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
+			 				<input class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
 			 				<?php
-			 				foreach($item as $key2 => $item2): ?>
-			 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?> </span>
-			 				<input style="width: 300px;"  type='text' name='watchListItem<?php echo $i; ?>' value='<?php echo $item2; ?>'>
+			 				$j = 0;
+			 				foreach($item as $key2 => $item2): $j++; ?>
+			 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span>
+			 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
 			 				<?php endforeach; ?>
 			 				<br>
+			 				<span class="leftSpacingserverNames" ></span>
 							<a class="link underlineLink" onclick="deleteRowFunction(<?php echo $i; ?>, true)">Remove</a>
 						</li>
 						<br>
@@ -155,11 +216,18 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	<script type="text/javascript"> 
 var countOfWatchList = <?php echo $i; ?>;
 var countOfAddedFiles = 0;
+var numberOfSubRows = <?php echo $j; ?>;
 function addRowFunction()
 {
 
 	countOfWatchList++;
-	document.getElementById('newRowLocationForWatchList').innerHTML += "<li id='rowNumber"+countOfWatchList+"'>Name: <input type='text'  name='watchListKey" + countOfWatchList + "' > <input type='text' name='watchListItem" + countOfWatchList + "' ><br> <a style='cursor: pointer;' onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a></li>";
+	var documentUpdateText = "<li id='rowNumber"+countOfWatchList+"'><span class='leftSpacingserverNames' > Name: </span> <input class='inputWidth300' type='text'  name='watchListKey" + countOfWatchList + "' >";
+	for(var i = 0; i < numberOfSubRows; i++)
+	{
+		documentUpdateText += "<br> <span class='leftSpacingserverNames' > ______: </span>  <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + numberOfSubRows + "' >"
+	}
+	documentUpdateText += "<br> <span class='leftSpacingserverNames' ></span> <a class='link underlineLink' onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a></li>";
+	document.getElementById('newRowLocationForWatchList').innerHTML += documentUpdateText;
 	document.getElementById('numberOfRows').value = countOfWatchList;
 	countOfAddedFiles++;
 }
@@ -188,7 +256,7 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 				documentUpdateText += "<input ";
 				documentUpdateText += "type='text' name='watchListKey"+updateItoIMinusOne+"' value='"+previousElementNumIdentifierForKey[0].value+"'> ";
 				documentUpdateText += "<input type='text' name='watchListItem"+updateItoIMinusOne+"' value='"+previousElementNumIdentifierForItem[0].value+"'>";
-				documentUpdateText += '<br> <a style="cursor: pointer;" onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove</a>';
+				documentUpdateText += '<br> <span class="leftSpacingserverNames" ></span> <a class="link underlineLink" onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove</a>';
 				documentUpdateText += '</li>';
 				document.getElementById(elementToUpdate).outerHTML = documentUpdateText;
 			}
