@@ -45,13 +45,13 @@ else
 if($enableDevBranchDownload == "true")
 {
   file_put_contents("../../../update/downloads/versionCheck/versionCheck.zip", 
-  file_get_contents("https://github.com/mreishman/Log-Hog/archive/versionCheckDev.zip")
+  file_get_contents("https://github.com/mreishman/gitStatus/archive/versionCheckDev.zip")
   );
 }
 else
 {
   file_put_contents("../../../update/downloads/versionCheck/versionCheck.zip", 
-  file_get_contents("https://github.com/mreishman/Log-Hog/archive/versionCheck.zip")
+  file_get_contents("https://github.com/mreishman/gitStatus/archive/versionCheck.zip")
   );
 }
 
