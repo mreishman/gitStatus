@@ -12,10 +12,14 @@ $config = array(
 	'expSettingsAvail'	=> 'true',
 	'watchList'		=> array(
 		'mreishmandev'		=> array(
-		'mreishmandev.lan.goedekers.com'	        => '/var/www/html/'
+		'WebsiteBase'	        	=> 'mreishmandev.lan.goedekers.com',
+		'Folder'	        		=> '/var/www/html/',
+		'Website'					=> 'mreishmandev.lan.goedekers.com'
 	),
 		'mreishmanBlog'		=> array(
-		'mreishmandev.lan.goedekers.com'	        => '/var/www/html/blog/'
+		'WebsiteBase'	        	=> 'mreishmandev.lan.goedekers.com',
+		'Folder'	       		 	=> '/var/www/html/blog/',
+		'Website'	      		  	=> 'mreishmandev.lan.goedekers.com/blog'
 	)
 	)
 );

@@ -180,9 +180,8 @@ for($i = 0; $i < $newestVersionCount; $i++)
 			echo "','";
 				foreach($item as $key2 => $item2)
 			{
-				echo $key2;
-				echo "','";
 				echo $item2;
+				echo "','";
 			}
 			echo "']);";
 		}

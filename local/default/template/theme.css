@@ -24,6 +24,9 @@ body{
 .link{
 	cursor: pointer;
 }
+.underlineLink{
+	text-decoration: underline;
+}
 .firstBoxDev{
 	width: 300px;
 	height: 150px;
@@ -75,4 +78,12 @@ body{
 }
 #menu{
 	padding-left: 5px;
+}
+.settingsUl
+{
+	list-style: none;
+}
+.leftSpacingserverNames{
+	width: 100px;
+	display: inline-block;
 }

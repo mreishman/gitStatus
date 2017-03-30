@@ -101,14 +101,48 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		<div class="firstBoxDev">
 			<div class="innerFirstDevBox"  >
 				<div class="devBoxTitle">
-					<b>About</b>
+					<b>Settings</b> <button>Save Changes</button>
 				</div>
 				<div class="devBoxContent">
-					gitStatus
-					<br><br>
-					A Simple Git Status Monitor
-					<br><br>
-					Version <?php echo $configStatic['version']; ?>
+					
+				</div>
+			</div>
+		</div>
+		<div class="firstBoxDev">
+			<div class="innerFirstDevBox" style="width: 500px;" >
+				<div class="devBoxTitle">
+					<b>Watch List</b> <button>Save Changes</button>
+				</div>
+				<div class="devBoxContent">
+					<ul class="settingsUl">
+						<?php 
+							$i = 0;
+							foreach($config['watchList'] as $key => $item): $i++; ?>
+						<li id="rowNumber<?php echo $i; ?>" >
+							<span class="leftSpacingserverNames" > Name: </span>
+			 				<input style="width: 300px;" type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
+			 				<?php
+			 				foreach($item as $key2 => $item2): ?>
+			 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?> </span>
+			 				<input style="width: 300px;"  type='text' name='watchListItem<?php echo $i; ?>' value='<?php echo $item2; ?>'>
+			 				<?php endforeach; ?>
+			 				<br>
+							<a class="link underlineLink" onclick="deleteRowFunction(<?php echo $i; ?>, true)">Remove</a>
+						</li>
+						<br>
+						<?php endforeach; ?>
+						<div id="newRowLocationForWatchList">
+						</div>
+						</ul>
+						<ul class="settingsUl">
+							<li>
+								<a class="link underlineLink"  onclick="addRowFunction()">Add New Server</a>
+							</li>
+						</ul>
+						</div>
+						<div id="hidden" style="display: none">
+							<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
+						</div>
 				</div>
 			</div>
 		</div>
@@ -117,4 +151,59 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftSettings").style.backgroundColor  = "#ffffff";
 	</script>
+
+	<script type="text/javascript"> 
+var countOfWatchList = <?php echo $i; ?>;
+var countOfAddedFiles = 0;
+function addRowFunction()
+{
+
+	countOfWatchList++;
+	document.getElementById('newRowLocationForWatchList').innerHTML += "<li id='rowNumber"+countOfWatchList+"'>Name: <input type='text'  name='watchListKey" + countOfWatchList + "' > <input type='text' name='watchListItem" + countOfWatchList + "' ><br> <a style='cursor: pointer;' onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a></li>";
+	document.getElementById('numberOfRows').value = countOfWatchList;
+	countOfAddedFiles++;
+}
+
+function deleteRowFunction(currentRow, decreaseCountWatchListNum)
+{
+	var elementToFind = "rowNumber" + currentRow;
+	document.getElementById(elementToFind).outerHTML = "";
+	if(decreaseCountWatchListNum)
+	{
+		newValue = document.getElementById('numberOfRows').value;
+		if(currentRow < newValue)
+		{
+			//this wasn't the last folder deleted, update others
+			for(var i = currentRow + 1; i <= newValue; i++)
+			{
+				var updateItoIMinusOne = i - 1;
+				var elementToUpdate = "rowNumber" + i;
+				var documentUpdateText = "<li id='rowNumber"+updateItoIMinusOne+"' >Name: ";
+				var watchListKeyIdFind = "watchListKey"+i;
+				var watchListItemIdFind = "watchListItem"+i;
+				var previousElementNumIdentifierForKey  = document.getElementsByName(watchListKeyIdFind);
+				var previousElementNumIdentifierForItem  = document.getElementsByName(watchListItemIdFind);
+				var nameForId = "fileNotFoundImage" + i;
+				var elementByIdPreCheck = document.getElementById(nameForId);
+				documentUpdateText += "<input ";
+				documentUpdateText += "type='text' name='watchListKey"+updateItoIMinusOne+"' value='"+previousElementNumIdentifierForKey[0].value+"'> ";
+				documentUpdateText += "<input type='text' name='watchListItem"+updateItoIMinusOne+"' value='"+previousElementNumIdentifierForItem[0].value+"'>";
+				documentUpdateText += '<br> <a style="cursor: pointer;" onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove</a>';
+				documentUpdateText += '</li>';
+				document.getElementById(elementToUpdate).outerHTML = documentUpdateText;
+			}
+		}
+		newValue--;
+		if(countOfAddedFiles > 0)
+		{
+			countOfAddedFiles--;
+			countOfWatchList--;
+		}
+		document.getElementById('numberOfRows').value = newValue;
+	}
+
+}	
+
+</script>
+
 </body>
