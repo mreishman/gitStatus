@@ -109,7 +109,7 @@ else
 ?>
 <!doctype html>
 <head>
-	<title>Git Status | About</title>
+	<title>Git Status | Settings</title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
 	<link rel="icon" type="image/png" href="core/img/favicon.png" />
 	<script src="core/js/jquery.js"></script>
@@ -178,35 +178,35 @@ else
 					<div class="devBoxContent">
 						<ul class="settingsUl">
 							<?php 
-								$i = 0;
-								$numCount = 0;
-								$arrayOfKeys = array();
-								foreach($config['watchList'] as $key => $item): $i++; ?>
-							<li id="rowNumber<?php echo $i; ?>" >
-								<span class="leftSpacingserverNames" > Name: </span>
-				 				<input class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
-				 				<?php
-				 				$j = 0;
-				 				foreach($item as $key2 => $item2): $j++; ?>
-				 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span>
-				 				<?php
-				 				if(!in_array($key2, $arrayOfKeys))
-				 				{
-				 					array_push($arrayOfKeys, $key2);
-				 				}	
-				 				?>
-				 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
-				 				<?php endforeach; 
-				 				if($numCount < $j)
-				 				{
-				 					$numCount = $j;
-				 				}
-				 				?>
-				 				<br>
-				 				<span class="leftSpacingserverNames" ></span>
-								<a class="link underlineLink" onclick="deleteRowFunction(<?php echo $i; ?>, true)">Remove</a>
-							</li>
-							<br>
+							$i = 0;
+							$numCount = 0;
+							$arrayOfKeys = array();
+							foreach($config['watchList'] as $key => $item): $i++; ?>
+								<li id="rowNumber<?php echo $i; ?>" >
+									<span class="leftSpacingserverNames" > Name: </span>
+					 				<input class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
+					 				<?php
+					 				$j = 0;
+					 				foreach($item as $key2 => $item2): $j++; ?>
+						 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span><input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
+						 				<?php
+							 				if(!in_array($key2, $arrayOfKeys))
+							 				{
+							 					array_push($arrayOfKeys, $key2);
+							 				}	
+						 				?>
+						 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
+					 				<?php endforeach; 
+					 				if($numCount < $j)
+					 				{
+					 					$numCount = $j;
+					 				}
+					 				?>
+					 				<br> <input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'> 
+					 				<span class="leftSpacingserverNames" ></span>
+									<a class="link underlineLink" onclick="deleteRowFunction(<?php echo $i; ?>, true)">Remove</a>
+								</li>
+								<br>
 							<?php endforeach; ?>
 							<div id="newRowLocationForWatchList">
 							</div>
@@ -243,9 +243,10 @@ function addRowFunction()
 	var documentUpdateText = "<li id='rowNumber"+countOfWatchList+"'><span class='leftSpacingserverNames' > Name: </span> <input class='inputWidth300' type='text'  name='watchListKey" + countOfWatchList + "' >";
 	for(var i = 0; i < numberOfSubRows; i++)
 	{
-		documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>  <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >"
+		documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span> <input style='display: none;' type='text' name='watchListItem"+countOfWatchList+"-"+(i+1)+"-Name' value="+arrayOfKeysNonEnc[i]+">   <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >"
 	}
-	documentUpdateText += "<br> <span class='leftSpacingserverNames' ></span> <a class='link underlineLink' onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a></li>";
+	documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+countOfWatchList+'-0" value="'+numberOfSubRows+'"> '
+	documentUpdateText += " <span class='leftSpacingserverNames' ></span> <a class='link underlineLink' onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a></li>";
 	document.getElementById('newRowLocationForWatchList').innerHTML += documentUpdateText;
 	document.getElementById('numberOfRows').value = countOfWatchList;
 	countOfAddedFiles++;
@@ -276,9 +277,10 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 				{
 					var watchListItemIdFind = "watchListItem"+i+"-"+(j+1);
 					var previousElementNumIdentifierForItem  = document.getElementsByName(watchListItemIdFind);
-					documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[j]+": </span>  <input class='inputWidth300' type='text' name='watchListItem"+updateItoIMinusOne+"-"+(j+1)+"' value='"+previousElementNumIdentifierForItem[0].value+"'>";
+					documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[j]+": </span> <input style='display: none;' type='text' name='watchListItem"+updateItoIMinusOne+"-"+(j+1)+"-Name' value="+arrayOfKeysNonEnc[j]+">  <input class='inputWidth300' type='text' name='watchListItem"+updateItoIMinusOne+"-"+(j+1)+"' value='"+previousElementNumIdentifierForItem[0].value+"'>";
 				}
-				documentUpdateText += '<br> <span class="leftSpacingserverNames" ></span> <a class="link underlineLink" onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove</a>';
+				documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+updateItoIMinusOne+'-0" value="'+numberOfSubRows+'"> ';
+				documentUpdateText += '<span class="leftSpacingserverNames" ></span> <a class="link underlineLink" onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove</a>';
 				documentUpdateText += '</li>';
 				document.getElementById(elementToUpdate).outerHTML = documentUpdateText;
 			}

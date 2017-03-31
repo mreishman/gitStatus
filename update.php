@@ -75,7 +75,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 ?>
 <!doctype html>
 <head>
-	<title>Git Status | About</title>
+	<title>Git Status | Update</title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
 	<link rel="icon" type="image/png" href="core/img/favicon.png" />
 	<script src="core/js/jquery.js"></script>

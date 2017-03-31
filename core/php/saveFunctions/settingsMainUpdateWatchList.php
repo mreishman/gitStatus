@@ -17,7 +17,17 @@ require_once('../loadVars.php');
 	$arrayWatchList = "";
 	for($i = 1; $i <= $_POST['numberOfRows']; $i++ )
 	{
-		$arrayWatchList .= "'".$_POST['watchListKey'.$i]."' => '".$_POST['watchListItem'.$i]."'";
+		$arrayWatchList .= "'".$_POST['watchListKey'.$i]."' => array("; // '".$_POST['watchListItem'.$i]."'";
+		for($j = 0; $j < $_POST['watchListItem'.$i."-0"]; $j++)
+		{
+			$jP = $j+1;
+			$arrayWatchList .= "'".$_POST['watchListItem'.$i."-".$jP."-Name"]."' =>  '".$_POST['watchListItem'.$i."-".$jP]."'";
+			if($j != ($_POST['watchListItem'.$i."-0"]-1))
+			{
+				$arrayWatchList .= ",";
+			}
+		}
+		$arrayWatchList .= ")";
 		if($i != $_POST['numberOfRows'])
 		{
 			$arrayWatchList .= ",";
