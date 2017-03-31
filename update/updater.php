@@ -233,7 +233,7 @@ $versionCheck = '"'.$configStatic['version'].'"';
 	<?php 
 	if($newestVersionCheck == $versionCheck): ?>
 	<div id="menu" style="margin-right: auto; margin-left: auto;">
-		<a class="link underlineLink" onclick="window.location.href = '../settings/update.php'">Back to gitStatus</a>
+		<a class="link underlineLink" onclick="window.location.href = '../update.php'">Back to gitStatus</a>
 	</div>
 	<?php endif; ?>
 </div>
