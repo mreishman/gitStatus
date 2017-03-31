@@ -106,6 +106,8 @@ for($i = 0; $i < $newestVersionCount; $i++)
 				<div class="devBoxContent">
 					Current Version <?php echo $configStatic['version']; ?>
 					<br><br>
+					Last Check for updates -  <?php echo $configStatic['lastCheck'];?>
+					<br><br>
 					<form id="settingsCheckForUpdate" action="core/php/update/settingsCheckForUpdate.php" method="post">
 					<button>Check for Update</button>
 					</form>
@@ -215,16 +217,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					<b>Changelog</b>
 				</div>
 				<div class="devBoxContent">
-					<ul>
-						<li>
-						Version 1.0
-							<ul>
-								<li>
-									Initial Upload
-								</li>
-							</ul>
-						</li>
-					</ul>
+					<?php readfile('core/html/changelog.html') ?>
 				</div>
 			</div>
 		</div>

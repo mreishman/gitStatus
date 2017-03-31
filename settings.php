@@ -140,17 +140,17 @@ else
 					</div>
 					<div class="devBoxContent">
 						<ul class="settingsUl">
-							<li>
+							<li style="display: none;">
 								<span class="leftSpacingserverNames" > pollingRate: </span> <input style="width: 52px;" type="text" name="pollingRate" value="<?php echo $pollingRate;?>" > Minutes
 							</li>
-							<li>
+							<li style="display: none;">
 								<span class="leftSpacingserverNames" > pausePoll: </span>
 									<select name="pausePoll">
 				  						<option <?php if($pausePoll == 'true'){echo "selected";} ?> value="true">True</option>
 				  						<option <?php if($pausePoll == 'false'){echo "selected";} ?> value="false">False</option>
 									</select>
 							</li>
-							<li>
+							<li style="display: none;">
 								<span class="leftSpacingserverNames" > autoPause: </span>
 									<select name="pauseOnNotFocus">
 				  						<option <?php if($pauseOnNotFocus == 'true'){echo "selected";} ?> value="true">True</option>
