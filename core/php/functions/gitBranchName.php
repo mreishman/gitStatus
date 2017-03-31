@@ -12,7 +12,8 @@ $response = array(
 	'idName'	=> $keyNoSpace,
 	'date'		=> $date,
 	'time'		=> $time,
-	'stats'		=> $branchStats
+	'stats'		=> $branchStats,
+	'otherFunctions'	=> ''
  );
 echo json_encode($response);
 ?>

@@ -14,7 +14,6 @@ function poll(all = -1)
 			  dataType: 'json',
 			  data: data,
 			  type: 'POST',
-			  jsonpCallback: 'MyJSONPCallback', // specify the callback name if you're hard-coding it
 			  success: function(data){
 			    // we make a successful JSONP call!
 			    var dataStats = data['stats'].split(",");
@@ -44,13 +43,20 @@ function poll(all = -1)
 			  dataType: 'json',
 			  data: data,
 			  type: 'POST',
-			  jsonpCallback: 'MyJSONPCallback', // specify the callback name if you're hard-coding it
 			  success: function(data){
 			    // we make a successful JSONP call!
+			    var dataStats = data['stats'].split(",");
 			    var dataBranchForFile = '<span id="'+data['idName']+'";">'+data['branch']+'</span>';
 			    var dataBranchForFileUpdateTime = '<span id="'+data['idName']+'Update";">'+data['time']+'</span>';
+			    var dataBranchForFileStats = '<span id="'+data['idName']+'Stats";">';
+			    for(var j = 0; j < dataStats.length; j++)
+			    {
+			    	dataBranchForFileStats += dataStats[j];
+			    	dataBranchForFileStats += "<br><br>";
+			    }
 			    document.getElementById(data['idName']).outerHTML = dataBranchForFile;
 			    document.getElementById(data['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
+			    document.getElementById(data['idName']+'Stats').outerHTML = dataBranchForFileStats;
 			  }
 			});
 	}
@@ -58,7 +64,6 @@ function poll(all = -1)
 
 function refreshAction(refreshImage, all = -1)
 {
-	console.log(all);
 	clearTimeout(refreshActionVar);
 	document.getElementById(refreshImage).src="core/img/refresh-animated.gif";
 	refreshing = true;

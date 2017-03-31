@@ -179,6 +179,8 @@ else
 						<ul class="settingsUl">
 							<?php 
 								$i = 0;
+								$numCount = 0;
+								$arrayOfKeys = array();
 								foreach($config['watchList'] as $key => $item): $i++; ?>
 							<li id="rowNumber<?php echo $i; ?>" >
 								<span class="leftSpacingserverNames" > Name: </span>
@@ -187,8 +189,19 @@ else
 				 				$j = 0;
 				 				foreach($item as $key2 => $item2): $j++; ?>
 				 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span>
+				 				<?php
+				 				if(!in_array($key2, $arrayOfKeys))
+				 				{
+				 					array_push($arrayOfKeys, $key2);
+				 				}	
+				 				?>
 				 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
-				 				<?php endforeach; ?>
+				 				<?php endforeach; 
+				 				if($numCount < $j)
+				 				{
+				 					$numCount = $j;
+				 				}
+				 				?>
 				 				<br>
 				 				<span class="leftSpacingserverNames" ></span>
 								<a class="link underlineLink" onclick="deleteRowFunction(<?php echo $i; ?>, true)">Remove</a>
@@ -220,7 +233,9 @@ else
 	<script type="text/javascript"> 
 var countOfWatchList = <?php echo $i; ?>;
 var countOfAddedFiles = 0;
-var numberOfSubRows = <?php echo $j; ?>;
+var numberOfSubRows = <?php echo $numCount; ?>;
+var arrayOfKeysJsonEncoded = '<?php echo json_encode($arrayOfKeys); ?>';
+var arrayOfKeysNonEnc = JSON.parse(arrayOfKeysJsonEncoded);
 function addRowFunction()
 {
 
@@ -228,7 +243,7 @@ function addRowFunction()
 	var documentUpdateText = "<li id='rowNumber"+countOfWatchList+"'><span class='leftSpacingserverNames' > Name: </span> <input class='inputWidth300' type='text'  name='watchListKey" + countOfWatchList + "' >";
 	for(var i = 0; i < numberOfSubRows; i++)
 	{
-		documentUpdateText += "<br> <span class='leftSpacingserverNames' > ______: </span>  <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + numberOfSubRows + "' >"
+		documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>  <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >"
 	}
 	documentUpdateText += "<br> <span class='leftSpacingserverNames' ></span> <a class='link underlineLink' onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a></li>";
 	document.getElementById('newRowLocationForWatchList').innerHTML += documentUpdateText;
@@ -250,16 +265,19 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 			{
 				var updateItoIMinusOne = i - 1;
 				var elementToUpdate = "rowNumber" + i;
-				var documentUpdateText = "<li id='rowNumber"+updateItoIMinusOne+"' >Name: ";
+				var documentUpdateText = "<li id='rowNumber"+updateItoIMinusOne+"' ><span class='leftSpacingserverNames' > Name: </span> ";
 				var watchListKeyIdFind = "watchListKey"+i;
-				var watchListItemIdFind = "watchListItem"+i;
+				
 				var previousElementNumIdentifierForKey  = document.getElementsByName(watchListKeyIdFind);
-				var previousElementNumIdentifierForItem  = document.getElementsByName(watchListItemIdFind);
-				var nameForId = "fileNotFoundImage" + i;
-				var elementByIdPreCheck = document.getElementById(nameForId);
-				documentUpdateText += "<input ";
+				
+				documentUpdateText += "<input class='inputWidth300' ";
 				documentUpdateText += "type='text' name='watchListKey"+updateItoIMinusOne+"' value='"+previousElementNumIdentifierForKey[0].value+"'> ";
-				documentUpdateText += "<input type='text' name='watchListItem"+updateItoIMinusOne+"' value='"+previousElementNumIdentifierForItem[0].value+"'>";
+				for(var j = 0; j < numberOfSubRows; j++)
+				{
+					var watchListItemIdFind = "watchListItem"+i+"-"+(j+1);
+					var previousElementNumIdentifierForItem  = document.getElementsByName(watchListItemIdFind);
+					documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[j]+": </span>  <input class='inputWidth300' type='text' name='watchListItem"+updateItoIMinusOne+"-"+(j+1)+"' value='"+previousElementNumIdentifierForItem[0].value+"'>";
+				}
 				documentUpdateText += '<br> <span class="leftSpacingserverNames" ></span> <a class="link underlineLink" onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove</a>';
 				documentUpdateText += '</li>';
 				document.getElementById(elementToUpdate).outerHTML = documentUpdateText;
