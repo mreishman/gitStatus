@@ -207,8 +207,8 @@ $versionCheck = '"'.$configStatic['version'].'"';
 	<link rel="icon" type="image/png" href="../core/img/favicon.png" />
 	<script src="../core/js/jquery.js"></script>
 </head>
-<body>
-</body>
+<body style="color: white;" >
+
 
 <div id="main">
 	<div class="settingsHeader" style="text-align: center;" >
@@ -233,7 +233,7 @@ $versionCheck = '"'.$configStatic['version'].'"';
 	<?php 
 	if($newestVersionCheck == $versionCheck): ?>
 	<div id="menu" style="margin-right: auto; margin-left: auto;">
-		<a onclick="window.location.href = '../settings/update.php'">Back to Log-Hog</a>
+		<a class="link underlineLink" onclick="window.location.href = '../settings/update.php'">Back to gitStatus</a>
 	</div>
 	<?php endif; ?>
 </div>
@@ -249,7 +249,6 @@ $versionCheck = '"'.$configStatic['version'].'"';
 	<input type="text" name="requiredVars" value="">
 <?php endif; ?>	
 </form>
-<script src="../core/js/settings.js"></script>
 <?php if(!$noUpdateNeeded): ?>
 	<script type="text/javascript"> 
 		var headerForUpdate = document.getElementById('headerForUpdate');
@@ -269,3 +268,4 @@ if($newestVersionCheck == $versionCheck)
 }
 ?>
 
+</body>
