@@ -35,7 +35,7 @@ function poll(all = -1)
 	}
 	else
 	{
-		var urlForSend = 'https://'+arrayOfFiles[all][1]+'/status/core/php/functions/gitBranchName.php?format=json'
+		var urlForSend = 'http://'+arrayOfFiles[all][1]+'/status/core/php/functions/gitBranchName.php?format=json'
 			var name = "branchNameDevBox1"+arrayOfFiles[all][0];
 			var data = {location: arrayOfFiles[all][2], name: name};
 			$.ajax({
