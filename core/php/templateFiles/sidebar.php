@@ -1,9 +1,18 @@
 	<div id="sidebar" <?php if(isset($_COOKIE['toggleMenuSideBarGitStatus'])) 
 		{
-	    	if($_COOKIE['toggleMenuSideBarGitStatus'] == 'open')
-	    	{
-	    		echo "style='width: 100px;'";
-	    	}
+	    	$open = false;
+			if(isset($_COOKIE['toggleMenuSideBarGitStatus'])) 
+			{
+			    if($_COOKIE['toggleMenuSideBarGitStatus'] == 'open')
+			    {
+			    	echo "style='width: 100px;'";
+			    	$open = true;
+			    }
+			}
+			if($open == false && $levelOfUpdate != 0)
+			{
+				echo "style='width: 100px;'";
+			}
 		}
 	?>
 	>
@@ -15,7 +24,14 @@
 		    }
 		    else
 		    {
-		    	echo 'style="display: none;"';
+		    	if($open == false && $levelOfUpdate != 0)
+				{
+					echo "style='width: block;'";
+				}
+				else
+				{
+		    		echo 'style="display: none;"';
+		    	}
 		    }
 		}
 		else
@@ -35,6 +51,7 @@
 				</li>
 				<li id="menuBarLeftUpdate" onclick="window.location.href = 'update.php';" >
 				Update
+				<?php  if($levelOfUpdate == 1){echo '<img src="core/img/yellowWarning.png" height="10px">';} ?> <?php if($levelOfUpdate == 2 || $levelOfUpdate == 3){echo '<img src="core/img/redWarning.png" height="10px">';} ?>
 				</li>
 			</ul>
 
@@ -42,12 +59,19 @@
 	</div>
 
 	<div id="sidebarBG" 
-	<?php if(isset($_COOKIE['toggleMenuSideBarGitStatus'])) 
-{
-    if($_COOKIE['toggleMenuSideBarGitStatus'] == 'open')
-    {
-    	echo "style='width: 100px;'";
-    }
-}
+	<?php
+	$open = false;
+	if(isset($_COOKIE['toggleMenuSideBarGitStatus'])) 
+	{
+	    if($_COOKIE['toggleMenuSideBarGitStatus'] == 'open')
+	    {
+	    	echo "style='width: 100px;'";
+	    	$open = true;
+	    }
+	}
+	if($open == false && $levelOfUpdate != 0)
+	{
+		echo "style='width: 100px;'";
+	}
 ?>  >
 	</div>
