@@ -9,8 +9,8 @@ if(file_exists('../local/layout.php'))
 }
 require_once($baseUrl.'conf/config.php');
 require_once('../core/php/configStatic.php');
-require_once('../core/php/updateProgressFile.php');
-require_once('../core/php/settingsInstallUpdate.php'); 
+require_once('../core/php/update/updateProgressFile.php');
+require_once('../core/php/update/settingsInstallUpdate.php'); 
 
 $noUpdateNeeded = true;
 $versionToUpdate = "";
@@ -189,10 +189,10 @@ if($configStatic['newestVersion'] != $configStatic['version'])
 	}
 
 
-	updateProgressFile($updateStatus, "../core/php/", "updateProgressFileNext.php", $updateAction);
-	updateProgressFile($updateStatus, "../core/php/", "updateProgressFile.php", $updateAction);
+	updateProgressFile($updateStatus, "../core/php/update/", "updateProgressFileNext.php", $updateAction);
+	updateProgressFile($updateStatus, "../core/php/update/", "updateProgressFile.php", $updateAction);
 }
-require_once('../core/php/updateProgressFileNext.php');
+require_once('../core/php/update/updateProgressFileNext.php');
 $newestVersionCheck = '"'.$configStatic['newestVersion'].'"';
 $versionCheck = '"'.$configStatic['version'].'"';
 ?>
@@ -223,11 +223,11 @@ $versionCheck = '"'.$configStatic['version'].'"';
 			<?php 
 			if( $newestVersionCheck != $versionCheck)
 			{
-				require_once('../core/php/updateProgressLogHead.php');
+				require_once('../core/php/update/updateProgressLogHead.php');
 			}
 			?>
 			<p style="border-bottom: 1px solid white;"></p>
-			<?php require_once('../core/php/updateProgressLog.php'); ?>
+			<?php require_once('../core/php/update/updateProgressLog.php'); ?>
 		</div>
 	</div>
 	<?php 
@@ -237,7 +237,7 @@ $versionCheck = '"'.$configStatic['version'].'"';
 	</div>
 	<?php endif; ?>
 </div>
-<form id="formForAction" method="post" action="../core/php/updateActionFile.php" style="display: none;">
+<form id="formForAction" method="post" action="../core/php/update/updateActionFile.php" style="display: none;">
 <?php if(!empty($updateAction)): ?>
 	<input type="text" name="actionVar" value="<?php echo $updateAction ;?>">
 <?php else: ?>
@@ -265,7 +265,7 @@ $versionCheck = '"'.$configStatic['version'].'"';
 <?php 
 if($newestVersionCheck == $versionCheck)
 {
-	file_put_contents("../core/php/updateProgressLog.php", "<p> Loading update file list. </p>");
+	file_put_contents("../core/php/update/updateProgressLog.php", "<p> Loading update file list. </p>");
 }
 ?>
 

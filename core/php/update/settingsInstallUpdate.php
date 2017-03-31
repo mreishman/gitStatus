@@ -3,6 +3,12 @@
 
 function updateMainProgressLogFile($dotsTime)
 {
+	$varToIndexDir = "";
+	$countOfSlash = 0;
+	while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
+	{
+	  $varToIndexDir .= "../";        
+	}
 
 	require_once('../configStatic.php');
 	require_once('../update/updateProgressFileNext.php');
@@ -140,22 +146,35 @@ function updateProgressFile($status, $pathToFile, $typeOfProgress, $action)
 
 function downloadFile($file)
 {
-	require_once('../configStatic.php');
+	$varToIndexDir = "";
+	$countOfSlash = 0;
+	while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
+	{
+	  $varToIndexDir .= "../";        
+	}
+
+	require_once($varToIndexDir.'/core/php/configStatic.php');
 
 	$arrayForFile = $configStatic['versionList'];
 	$arrayForFile = $arrayForFile[$file];
-	file_put_contents("../../../update/downloads/updateFiles/updateFiles.zip", 
-	file_get_contents("https://github.com/mreishman/Log-Hog/archive/".$arrayForFile['branchName'].".zip")
+	file_put_contents($varToIndexDir."update/downloads/updateFiles/updateFiles.zip", 
+	file_get_contents("https://github.com/mreishman/gitStatus/archive/".$arrayForFile['branchName'].".zip")
 	);
 }
 
 function unzipFile()
 {
 
+	$varToIndexDir = "";
+	$countOfSlash = 0;
+	while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
+	{
+	  $varToIndexDir .= "../";        
+	}
 
-	mkdir("../../../update/downloads/updateFiles/extracted/");
+	mkdir($varToIndexDir."update/downloads/updateFiles/extracted/");
 	$zip = new ZipArchive;
-	$path = "../../../update/downloads/updateFiles/updateFiles.zip";
+	$path = $varToIndexDir."update/downloads/updateFiles/updateFiles.zip";
 	$res = $zip->open($path);
 	$arrayOfExtensions = array('.php','.js','.css','.html','.png','.jpg','.jpeg');
 	if ($res === TRUE) {
@@ -164,7 +183,7 @@ function unzipFile()
 	        $fileinfo = pathinfo($filename);
 	        if (strposa($fileinfo['basename'], $arrayOfExtensions, 1)) 
 	        {
-	          copy("zip://".$path."#".$filename, "../../../update/downloads/updateFiles/extracted/".$fileinfo['basename']);
+	          copy("zip://".$path."#".$filename, $varToIndexDir."update/downloads/updateFiles/extracted/".$fileinfo['basename']);
 	        }
 	    }                   
 	    $zip->close();  
@@ -181,25 +200,47 @@ function strposa($haystack, $needle, $offset=0) {
 
 function removeZipFile()
 {
-	unlink("../../../update/downloads/updateFiles/updateFiles.zip");
+	$varToIndexDir = "";
+	$countOfSlash = 0;
+	while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
+	{
+	  $varToIndexDir .= "../";        
+	}
+
+	unlink($varToIndexDir."update/downloads/updateFiles/updateFiles.zip");
 }
 
 
 function removeUnZippedFiles()
 {
-	$files = glob("../../../update/downloads/updateFiles/extracted/*"); // get all file names
+	$varToIndexDir = "";
+	$countOfSlash = 0;
+	while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
+	{
+	  $varToIndexDir .= "../";        
+	}
+
+	$files = glob($varToIndexDir."update/downloads/updateFiles/extracted/*"); // get all file names
 	foreach($files as $file){ // iterate files
 	  if(is_file($file))
 	    unlink($file); // delete file
 	}
 
-	rmdir("../../../update/downloads/updateFiles/extracted/");
+	rmdir($varToIndexDir."update/downloads/updateFiles/extracted/");
 
 }
 
 function handOffToUpdate()
 {
-	require_once('../../../update/downloads/updateFiles/extracted/updateScript.php');
+	$varToIndexDir = "";
+	$countOfSlash = 0;
+	while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
+	{
+	  $varToIndexDir .= "../";        
+	}
+
+
+	require_once($varToIndexDir.'update/downloads/updateFiles/extracted/updateScript.php');
 }
 
 function finishedUpdate()
