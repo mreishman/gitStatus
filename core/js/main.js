@@ -62,10 +62,19 @@ function poll(all = -1)
 	}
 }
 
-function refreshAction(refreshImage, all = -1)
+function refreshAction(refreshImage, all = -1, status = 'outer')
 {
 	clearTimeout(refreshActionVar);
-	document.getElementById(refreshImage).src="core/img/refresh-animated.gif";
+	if(status == "inner")
+	{
+		document.getElementById(refreshImage).src="core/img/refresh-animated-2.gif";
+	}
+	else
+	{
+		//outer default
+		document.getElementById(refreshImage).src="core/img/refresh-animated.gif";
+	}
+	
 	refreshing = true;
 	if(pausePoll)
 	{
@@ -92,12 +101,21 @@ function refreshAction(refreshImage, all = -1)
 			poll(all);	
 		}
 	}
-	refreshActionVar = setTimeout(function(){endRefreshAction(refreshImage)}, 1500);
+	refreshActionVar = setTimeout(function(){endRefreshAction(refreshImage, status)}, 1500);
 }
 
-function endRefreshAction(refreshImage)
+function endRefreshAction(refreshImage, status)
 {
-	document.getElementById(refreshImage).src="core/img/Refresh.png"; 
+	if(status == "inner")
+	{
+		document.getElementById(refreshImage).src="core/img/Refresh2.png"; 
+	}
+	else
+	{
+		//outer default
+		document.getElementById(refreshImage).src="core/img/Refresh.png"; 
+	}
+	
 	refreshing = false;
 	if(pausePoll)
 	{
