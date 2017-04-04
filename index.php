@@ -153,6 +153,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 						else {
 						    $exists = true;
 						    $link = $file;
+						    break;
 						}
 					}
 					if($exists):?>
