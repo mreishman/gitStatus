@@ -142,7 +142,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 						);
 					foreach ($fileArray as $key => $value) {
 						$file = $key;
-						if(substr($string, -1) != '/')
+						if(substr($file, -1) != '/')
 						{
 							$file .= "/";
 						}
