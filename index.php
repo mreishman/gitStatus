@@ -130,7 +130,36 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					<b><?php echo $key; ?></b>
 					<div onclick="refreshAction('refreshImage<?php echo $key; ?>','<?php echo $h;?>','inner');" style="display: inline-block; cursor: pointer; height: 17px; width: 17px; ">
 						<img id="refreshImage<?php echo $key; ?>" class="menuImage" src="core/img/Refresh2.png" height="17px">
-					</div> 
+					</div>
+					<?php
+					$exists = false;
+					$link = "";
+					$fileArray = array(
+						$value['Website']	=>	'Log-Hog',
+						$value['Website']	=>	'loghog',
+						$value['WebsiteBase']	=>	'Log-Hog',
+						$value['WebsiteBase']	=>	'loghog'
+						);
+					foreach ($fileArray as $key => $value) {
+						$file = $key;
+						if(substr($string, -1) != '/')
+						{
+							$file .= "/";
+						}
+						$file .= $value."/index.php";
+						$file_headers = @get_headers($file);
+						if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {   
+						}
+						else {
+						    $exists = true;
+						    $link = $file;
+						}
+					}
+					if($exists):?>
+					<div style="display: inline-block; cursor: pointer;" >
+						<a style="color: black;" href="https://<?php echo $link; ?>">Log-Hog</a>
+					</div>
+					<?php endif;?> 
 				</div>
 				<div class="devBoxContent">
 					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>";">
