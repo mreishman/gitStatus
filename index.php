@@ -125,11 +125,11 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	$h++;	
 	$keyNoSpace = preg_replace('/\s+/', '_', $key); ?>
 		<div class="firstBoxDev">
-			<div class="innerFirstDevBox"  >
+			<div class="innerFirstDevBox" id="innerFirstDevBoxbranchNameDevBox1<?php echo $keyNoSpace; ?>" >
 				<div class="devBoxTitle">
 					<b><?php echo $key; ?></b>
-					<div onclick="refreshAction('refreshImage<?php echo $key; ?>','<?php echo $h;?>','inner');" style="display: inline-block; cursor: pointer; height: 17px; width: 17px; ">
-						<img id="refreshImage<?php echo $key; ?>" class="menuImage" src="core/img/Refresh2.png" height="17px">
+					<div onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" style="display: inline-block; cursor: pointer; height: 17px; width: 17px; ">
+						<img id="refreshImage<?php echo $keyNoSpace; ?>" class="menuImage" src="core/img/Refresh2.png" height="17px">
 					</div>
 					<?php
 					$exists = false;

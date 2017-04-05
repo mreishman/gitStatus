@@ -53,6 +53,17 @@ function pollSuccess(dataInner)
     document.getElementById(dataInner['idName']).outerHTML = dataBranchForFile;
     document.getElementById(dataInner['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
     document.getElementById(dataInner['idName']+'Stats').outerHTML = dataBranchForFileStats;
+    var nameForBackground = "innerFirstDevBox"+dataInner['idName'];
+    console.log(nameForBackground);
+    filterBGColor(dataInner['branch'], nameForBackground);
+}
+
+function filterBGColor(filterName, idName)
+{
+	if(filterName == "master")
+	{
+		document.getElementById(idName).style.backgroundColor = "lightGreen";
+	}
 }
 
 function refreshAction(refreshImage, all = -1, status = 'outer')
