@@ -136,8 +136,8 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					$link = "";
 					$fileArrayOuter = array(
 						'fileArray' => array(
-						$value['WebsiteBase']	=>	'Log-Hog',
-						$value['Website']	=>	'Log-Hog'
+						$value['Website']	=>	'Log-Hog',
+						$value['WebsiteBase']	=>	'Log-Hog'
 						),
 						'fileArray2' => array(
 						$value['Website']	=>	'loghog',
@@ -162,7 +162,6 @@ for($i = 0; $i < $newestVersionCount; $i++)
 								}
 								else 
 								{
-									echo "   True   ";
 								    $exists = true;
 								    $link = $file;
 								}
