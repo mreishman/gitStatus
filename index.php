@@ -134,26 +134,39 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					<?php
 					$exists = false;
 					$link = "";
-					$fileArray = array(
-						$value['Website']	=>	'Log-Hog',
-						$value['Website']	=>	'loghog',
+					$fileArrayOuter = array(
+						'fileArray' => array(
 						$value['WebsiteBase']	=>	'Log-Hog',
-						$value['WebsiteBase']	=>	'loghog'
-						);
-					foreach ($fileArray as $key => $value) {
-						$file = $key;
-						if(substr($file, -1) != '/')
+						$value['Website']	=>	'Log-Hog'
+						),
+						'fileArray2' => array(
+						$value['Website']	=>	'loghog',
+						$value['WebsiteBase']	=>	'loghog',
+						)
+					);
+					
+					foreach ($fileArrayOuter as $key => $value) 
+					{
+						foreach ($value as $key2 => $value2) 
 						{
-							$file .= "/";
-						}
-						$file .= $value."/index.php";
-						$file_headers = @get_headers($file);
-						if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {   
-						}
-						else {
-						    $exists = true;
-						    $link = $file;
-						    break;
+							if(!$exists)
+							{
+								$file = $key2;
+								if(substr($file, -1) != '/')
+								{
+									$file .= "/";
+								}
+								$file .= $value2."/index.php";
+								$file_headers = @get_headers($file);
+								if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {   
+								}
+								else 
+								{
+									echo "   True   ";
+								    $exists = true;
+								    $link = $file;
+								}
+							}
 						}
 					}
 					if($exists):?>
