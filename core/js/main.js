@@ -60,9 +60,15 @@ function pollSuccess(dataInner)
 
 function filterBGColor(filterName, idName)
 {
+	var newBG = false;
 	if(filterName == "master")
 	{
 		document.getElementById(idName).style.backgroundColor = "lightGreen";
+		newBG = true;
+	}
+	if(!newBG)
+	{
+		document.getElementById(idName).style.backgroundColor = "#aaaaaa";
 	}
 }
 
