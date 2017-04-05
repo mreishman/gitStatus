@@ -15,20 +15,7 @@ function poll(all = -1)
 			  data: data,
 			  type: 'POST',
 			  success: function(data){
-			    // we make a successful JSONP call!
-			    var dataStats = data['stats'].split(",");
-			    var dataBranchForFile = '<span id="'+data['idName']+'";">'+data['branch']+'</span>';
-			    var dataBranchForFileUpdateTime = '<span id="'+data['idName']+'Update";">'+data['time']+'</span>';
-			    var dataBranchForFileStats = '<span id="'+data['idName']+'Stats";">';
-			    for(var j = 0; j < dataStats.length; j++)
-			    {
-			    	dataBranchForFileStats += dataStats[j];
-			    	dataBranchForFileStats += "<br><br>";
-			    }
-			    dataBranchForFileStats +='</span>';
-			    document.getElementById(data['idName']).outerHTML = dataBranchForFile;
-			    document.getElementById(data['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
-			    document.getElementById(data['idName']+'Stats').outerHTML = dataBranchForFileStats;
+			  	pollSuccess(data);
 			  }
 			});
 		}
@@ -44,22 +31,28 @@ function poll(all = -1)
 			  data: data,
 			  type: 'POST',
 			  success: function(data){
-			    // we make a successful JSONP call!
-			    var dataStats = data['stats'].split(",");
-			    var dataBranchForFile = '<span id="'+data['idName']+'";">'+data['branch']+'</span>';
-			    var dataBranchForFileUpdateTime = '<span id="'+data['idName']+'Update";">'+data['time']+'</span>';
-			    var dataBranchForFileStats = '<span id="'+data['idName']+'Stats";">';
-			    for(var j = 0; j < dataStats.length; j++)
-			    {
-			    	dataBranchForFileStats += dataStats[j];
-			    	dataBranchForFileStats += "<br><br>";
-			    }
-			    document.getElementById(data['idName']).outerHTML = dataBranchForFile;
-			    document.getElementById(data['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
-			    document.getElementById(data['idName']+'Stats').outerHTML = dataBranchForFileStats;
+			  	pollSuccess(data);
 			  }
 			});
 	}
+}
+
+function pollSuccess(dataInner)
+{
+	// we make a successful JSONP call!
+    var dataStats = dataInner['stats'].split(",");
+    var dataBranchForFile = '<span id="'+dataInner['idName']+'";">'+dataInner['branch']+'</span>';
+    var dataBranchForFileUpdateTime = '<span id="'+dataInner['idName']+'Update";">'+dataInner['time']+'</span>';
+    var dataBranchForFileStats = '<span id="'+dataInner['idName']+'Stats";">';
+    for(var j = 0; j < dataStats.length; j++)
+    {
+    	dataBranchForFileStats += dataStats[j];
+    	dataBranchForFileStats += "<br><br>";
+    }
+    dataBranchForFileStats +='</span>';
+    document.getElementById(dataInner['idName']).outerHTML = dataBranchForFile;
+    document.getElementById(dataInner['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
+    document.getElementById(dataInner['idName']+'Stats').outerHTML = dataBranchForFileStats;
 }
 
 function refreshAction(refreshImage, all = -1, status = 'outer')
