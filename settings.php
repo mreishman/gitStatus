@@ -233,6 +233,8 @@ else
 	<script type="text/javascript"> 
 var countOfWatchList = <?php echo $i; ?>;
 var countOfAddedFiles = 0;
+var countOfClicks = 0;
+var locationInsert = "newRowLocationForWatchList";
 var numberOfSubRows = <?php echo $numCount; ?>;
 var arrayOfKeysJsonEncoded = '<?php echo json_encode($arrayOfKeys); ?>';
 var arrayOfKeysNonEnc = JSON.parse(arrayOfKeysJsonEncoded);
@@ -240,16 +242,18 @@ function addRowFunction()
 {
 
 	countOfWatchList++;
+	countOfClicks++;
 	var documentUpdateText = "<li id='rowNumber"+countOfWatchList+"'><span class='leftSpacingserverNames' > Name: </span> <input class='inputWidth300' type='text'  name='watchListKey" + countOfWatchList + "' >";
 	for(var i = 0; i < numberOfSubRows; i++)
 	{
 		documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span> <input style='display: none;' type='text' name='watchListItem"+countOfWatchList+"-"+(i+1)+"-Name' value="+arrayOfKeysNonEnc[i]+">   <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >"
 	}
 	documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+countOfWatchList+'-0" value="'+numberOfSubRows+'"> '
-	documentUpdateText += " <span class='leftSpacingserverNames' ></span> <a class='link underlineLink' onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a></li>";
-	document.getElementById('newRowLocationForWatchList').innerHTML += documentUpdateText;
+	documentUpdateText += " <span class='leftSpacingserverNames' ></span> <a class='link underlineLink' onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a></li><div id='newRowLocationForWatchList"+countOfClicks+"'></div>";
+	document.getElementById(locationInsert).outerHTML += documentUpdateText;
 	document.getElementById('numberOfRows').value = countOfWatchList;
 	countOfAddedFiles++;
+	locationInsert = "newRowLocationForWatchList"+countOfClicks;
 }
 
 function deleteRowFunction(currentRow, decreaseCountWatchListNum)
