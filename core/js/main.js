@@ -39,43 +39,54 @@ function poll(all = -1)
 			var name = "branchNameDevBox1"+arrayOfFiles[i][0];
 			name = name.replace(/\s/g, '_');
 			var data = {location: arrayOfFiles[i][2], name: name};
-			$.ajax({
-			  url: urlForSend,
-			  dataType: 'json',
-			  data: data,
-			  type: 'POST',
-			  success: function(data){
-			  	pollSuccess(data);
-			  },
-			  error: function(data){
-			  	pollFailure(data, name);
-			  }
+			(function(_data){
+
+				$.ajax({
+				url: urlForSend,
+				dataType: 'json',
+				global: false,
+				data: data,
+				type: 'POST',
+				success: function(data){
+					pollSuccess(data);
+				},
+				error: function(data){
+					pollFailure(data, _data);
+				}
 			});
+
+				}(data));
 		}
 	}
 	else
 	{
 		var urlForSend = 'http://'+arrayOfFiles[all][1]+'/status/core/php/functions/gitBranchName.php?format=json'
-			var name = "branchNameDevBox1"+arrayOfFiles[all][0];
-			var data = {location: arrayOfFiles[all][2], name: name};
-			$.ajax({
-			  url: urlForSend,
-			  dataType: 'json',
-			  data: data,
-			  type: 'POST',
-			  success: function(data){
-			  	pollSuccess(data);
-			  },
-			  error: function(data){
-			  	pollFailure(data, name);
-			  }
+		var name = "branchNameDevBox1"+arrayOfFiles[all][0];
+		name = name.replace(/\s/g, '_');
+		var data = {location: arrayOfFiles[all][2], name: name};
+			(function(_data){
+
+				$.ajax({
+				url: urlForSend,
+				dataType: 'json',
+				global: false,
+				data: data,
+				type: 'POST',
+				success: function(data){
+					pollSuccess(data);
+				},
+				error: function(data){
+					pollFailure(data, _data);
+				}
 			});
+
+				}(data));
 	}
 }
 
-function pollFailure(dataInner, name)
+function pollFailure(dataInner, dataInnerPass)
 {
-	var noSpaceName = name.replace(/\s/g, '');
+	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
     var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
     var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
     var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">Could not connect to server</span>';
