@@ -1,3 +1,32 @@
+for (var i = 0; i < numberOfLogs; i++)
+{
+	checkLogHog(i);
+}
+
+
+function checkLogHog(all)
+{
+
+	var urlForSend = '/status/core/php/functions/logHog.php?format=json'
+	var websiteBase = arrayOfFiles[all][1];
+	var website = arrayOfFiles[all][3];
+	var name = "branchNameDevBox1"+arrayOfFiles[i][0];
+	name = name.replace(/\s/g, '_');
+	var data = {location: arrayOfFiles[all][2], websiteBase: websiteBase, website: website, name: name};
+	$.ajax({
+	  url: urlForSend,
+	  dataType: 'json',
+	  data: data,
+	  type: 'POST',
+	  success: function(data){
+	  	if(data['link'] != "null")
+	  	{
+	  		document.getElementById(name+"LogHogOuter").style.display = "inline-block";
+	  		document.getElementById(name+"LogHogInner").href = data['link'];
+	  	}
+	  },
+	});
+}
 
 function poll(all = -1)
 {
@@ -87,7 +116,7 @@ function filterBGColor(filterName, idName)
 	}
 	if(filterName == "error")
 	{
-		document.getElementById(idName).style.backgroundColor = "darkRed";
+		document.getElementById(idName).style.backgroundColor = "#C33";
 		newBG = true;
 	}
 	if(!newBG)

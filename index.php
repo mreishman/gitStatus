@@ -131,60 +131,22 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					<div onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" style="display: inline-block; cursor: pointer; height: 17px; width: 17px; ">
 						<img id="refreshImage<?php echo $keyNoSpace; ?>" class="menuImage" src="core/img/Refresh2.png" height="17px">
 					</div>
-					<?php
-					$exists = false;
-					$link = "";
-					$fileArrayOuter = array(
-						'fileArray' => array(
-						$value['Website']	=>	'Log-Hog',
-						$value['WebsiteBase']	=>	'Log-Hog'
-						),
-						'fileArray2' => array(
-						$value['Website']	=>	'loghog',
-						$value['WebsiteBase']	=>	'loghog',
-						)
-					);
-					
-					foreach ($fileArrayOuter as $key => $value) 
-					{
-						foreach ($value as $key2 => $value2) 
-						{
-							if(!$exists)
-							{
-								$file = $key2;
-								if(substr($file, -1) != '/')
-								{
-									$file .= "/";
-								}
-								$file .= $value2."/index.php";
-								$file_headers = @get_headers($file);
-								if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {   
-								}
-								else 
-								{
-								    $exists = true;
-								    $link = $file;
-								}
-							}
-						}
-					}
-					if($exists):?>
-					<div style="display: inline-block; cursor: pointer;" >
-						<a style="color: black;" href="https://<?php echo $link; ?>">Log-Hog</a>
+					<div id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogOuter" style="display: none; cursor: pointer;" >
+						<a id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogInner" style="color: black;" href="#">Log-Hog</a>
 					</div>
-					<?php endif;?> 
+
 				</div>
 				<div class="devBoxContent">
-					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>";">
+					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>">
 						--Pending--
 					</span></b>
 					<br><br>
 					<b>Last Updated:</b>
-					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update";">
+					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update">
 						--Pending--
 					</span>
 					<br><br>
-					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats";">
+					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">
 						--Pending--
 					</span>
 				</div>
@@ -228,6 +190,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 				echo "var autoCheckUpdate = ".$defaultConfig['autoCheckUpdate'].";";
 			}
 		echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
+		echo "var numberOfLogs = '".$h."';";
 		?>
 
 		var pausePoll = false;
