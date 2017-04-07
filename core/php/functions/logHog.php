@@ -34,6 +34,7 @@ foreach ($fileArrayOuter as $key => $value)
 			{
 			    $exists = true;
 			    $link = $file;
+			    $link = "https://".$link;
 			}
 		}
 	}
