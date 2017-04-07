@@ -8,6 +8,7 @@ function poll(all = -1)
 		{
 			var urlForSend = 'http://'+arrayOfFiles[i][1]+'/status/core/php/functions/gitBranchName.php?format=json'
 			var name = "branchNameDevBox1"+arrayOfFiles[i][0];
+			name = name.replace(/\s/g, '_');
 			var data = {location: arrayOfFiles[i][2], name: name};
 			$.ajax({
 			  url: urlForSend,
@@ -16,6 +17,9 @@ function poll(all = -1)
 			  type: 'POST',
 			  success: function(data){
 			  	pollSuccess(data);
+			  },
+			  error: function(data){
+			  	pollFailure(data, name);
 			  }
 			});
 		}
@@ -32,9 +36,25 @@ function poll(all = -1)
 			  type: 'POST',
 			  success: function(data){
 			  	pollSuccess(data);
+			  },
+			  error: function(data){
+			  	pollFailure(data, name);
 			  }
 			});
 	}
+}
+
+function pollFailure(dataInner, name)
+{
+	var noSpaceName = name.replace(/\s/g, '');
+    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
+    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
+    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">Could not connect to server</span>';
+    document.getElementById(noSpaceName).outerHTML = dataBranchForFile;
+    document.getElementById(noSpaceName+'Update').outerHTML = dataBranchForFileUpdateTime;
+    document.getElementById(noSpaceName+'Stats').outerHTML = dataBranchForFileStats;
+    var nameForBackground = "innerFirstDevBox"+noSpaceName;
+    filterBGColor('error', nameForBackground);
 }
 
 function pollSuccess(dataInner)
@@ -54,7 +74,6 @@ function pollSuccess(dataInner)
     document.getElementById(dataInner['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
     document.getElementById(dataInner['idName']+'Stats').outerHTML = dataBranchForFileStats;
     var nameForBackground = "innerFirstDevBox"+dataInner['idName'];
-    console.log(nameForBackground);
     filterBGColor(dataInner['branch'], nameForBackground);
 }
 
@@ -64,6 +83,11 @@ function filterBGColor(filterName, idName)
 	if(filterName == "master")
 	{
 		document.getElementById(idName).style.backgroundColor = "lightGreen";
+		newBG = true;
+	}
+	if(filterName == "error")
+	{
+		document.getElementById(idName).style.backgroundColor = "darkRed";
 		newBG = true;
 	}
 	if(!newBG)
