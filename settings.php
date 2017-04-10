@@ -301,5 +301,5 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 }	
 
 </script>
-
+<?php require_once('core/php/templateFiles/allPages.php') ?>
 </body>

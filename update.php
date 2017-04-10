@@ -226,4 +226,5 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftUpdate").style.backgroundColor  = "#ffffff";
 	</script>
+	<?php require_once('core/php/templateFiles/allPages.php') ?>
 </body>
