@@ -1,7 +1,7 @@
 
 	<?php
 		$config = array(
-			'pollingRate' => 500,
+			'pollingRate' => 1,
 			'pausePoll' => 'false',
 			'pauseOnNotFocus' => 'true',
 			'autoCheckUpdate' => 'true',

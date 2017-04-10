@@ -28,6 +28,15 @@ function checkLogHog(all)
 	});
 }
 
+function pollTimed()
+{
+	if(!pausePollFile)
+	{
+		poll();
+	}
+}
+
+
 function poll(all = -1)
 {
 	if(all == '-1')
@@ -203,8 +212,8 @@ function endRefreshAction(refreshImage, status)
 
 
 poll();
-pollingRate = pollingRate * 60000;
-setInterval(poll, pollingRate);
+pollingRate = pollingRate * 60000; 
+setInterval(pollTimed, pollingRate);
 
 if (autoCheckUpdate == true)
 {
@@ -227,3 +236,33 @@ if (autoCheckUpdate == true)
 		window.location.href = "core/php/update/settingsCheckForUpdate.php";
 	}
 }
+
+if(pausePollFromFile)
+{
+	pausePollFile = true;
+	document.getElementById('pauseImage').src="core/img/Play.png";
+}
+
+function pausePollAction()
+{
+	if(pausePollFile)
+	{
+		userPaused = false;
+		pausePollFile = false;
+		document.getElementById('pauseImage').src="core/img/Pause.png";
+	}
+	else
+	{
+		userPaused = true;
+		pausePollFunction();
+	}
+}
+
+function pausePollFunction()
+{
+	pausePollFile = true;
+	document.getElementById('pauseImage').src="core/img/Play.png";
+	document.title = "Log Hog | Paused";
+}
+
+

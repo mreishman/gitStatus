@@ -115,6 +115,9 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		        <span class="icon-bar"></span>
 		    </a>
 			</div>
+			<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
+				<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
+			</div>
 			<div onclick="refreshAction('refreshImage');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
 				<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
 			</div>
@@ -194,6 +197,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		?>
 
 		var pausePoll = false;
+		var pausePollFile = false;
 		var refreshActionVar;
 		var refreshPauseActionVar;
 		var userPaused = false;
