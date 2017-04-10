@@ -140,25 +140,25 @@ else
 					</div>
 					<div class="devBoxContent">
 						<ul class="settingsUl">
-							<li style="display: none;">
-								<span class="leftSpacingserverNames" > pollingRate: </span> <input style="width: 52px;" type="text" name="pollingRate" value="<?php echo $pollingRate;?>" > Minutes
+							<li>
+								<span class="leftSpacingserverNames" > Polling Rate: </span> <input style="width: 52px;" type="text" name="pollingRate" value="<?php echo $pollingRate;?>" > Minutes
 							</li>
 							<li style="display: none;">
-								<span class="leftSpacingserverNames" > pausePoll: </span>
+								<span class="leftSpacingserverNames" > Pause Poll: </span>
 									<select name="pausePoll">
 				  						<option <?php if($pausePoll == 'true'){echo "selected";} ?> value="true">True</option>
 				  						<option <?php if($pausePoll == 'false'){echo "selected";} ?> value="false">False</option>
 									</select>
 							</li>
 							<li style="display: none;">
-								<span class="leftSpacingserverNames" > autoPause: </span>
+								<span class="leftSpacingserverNames" > Auto Pause: </span>
 									<select name="pauseOnNotFocus">
 				  						<option <?php if($pauseOnNotFocus == 'true'){echo "selected";} ?> value="true">True</option>
 				  						<option <?php if($pauseOnNotFocus == 'false'){echo "selected";} ?> value="false">False</option>
 									</select>
 							</li>
 							<li>
-								<span class="leftSpacingserverNames" > CheckUpdate: </span>
+								<span class="leftSpacingserverNames" > Check Update: </span>
 									<select name="autoCheckUpdate">
 				  						<option <?php if($autoCheckUpdate == 'true'){echo "selected";} ?> value="true">Auto</option>
 				  						<option <?php if($autoCheckUpdate == 'false'){echo "selected";} ?> value="false">Manual</option>

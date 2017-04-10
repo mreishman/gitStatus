@@ -203,7 +203,8 @@ function endRefreshAction(refreshImage, status)
 
 
 poll();
-
+pollingRate = pollingRate * 60000;
+setInterval(poll, pollingRate);
 
 if (autoCheckUpdate == true)
 {
