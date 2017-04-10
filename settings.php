@@ -143,7 +143,7 @@ else
 							<li>
 								<span class="leftSpacingserverNames" > Polling Rate: </span> <input style="width: 52px;" type="text" name="pollingRate" value="<?php echo $pollingRate;?>" > Minutes
 							</li>
-							<li style="display: none;">
+							<li>
 								<span class="leftSpacingserverNames" > Pause Poll: </span>
 									<select name="pausePoll">
 				  						<option <?php if($pausePoll == 'true'){echo "selected";} ?> value="true">True</option>
