@@ -87,9 +87,7 @@ require_once('core/php/loadVars.php'); ?>
 <body>
 	
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
-		
-	<div id="main">
-		<div id="menu">
+	<div id="menu">
 			<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
 			<a class="show-sidebar" id="show">
 		    	<span class="icon-bar"></span>
@@ -97,7 +95,9 @@ require_once('core/php/loadVars.php'); ?>
 		        <span class="icon-bar"></span>
 		    </a>
 			</div>
-		</div>
+		</div>	
+	<div id="main">
+		
 		<div class="firstBoxDev">
 			<form id="settingsMainVars" action="core/php/saveFunctions/settingsMainUpdateVars.php" method="post">
 				<div class="innerFirstDevBox"  >
