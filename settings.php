@@ -72,41 +72,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	}
 }
 
-
-if(array_key_exists('pollingRate', $config))
-{
-	$pollingRate = $config['pollingRate'];
-}
-else
-{
-	$pollingRate = $defaultConfig['pollingRate'];
-} 
-if(array_key_exists('pausePoll', $config))
-{
-	$pausePoll = $config['pausePoll'];
-}
-else
-{
-	$pausePoll = $defaultConfig['pausePoll'];
-}
-if(array_key_exists('pauseOnNotFocus', $config))
-{
-	$pauseOnNotFocus = $config['pauseOnNotFocus'];
-}
-else
-{
-	$pauseOnNotFocus = $defaultConfig['pauseOnNotFocus'];
-}
-if(array_key_exists('autoCheckUpdate', $config))
-{
-	$autoCheckUpdate = $config['autoCheckUpdate'];
-}
-else
-{
-	$autoCheckUpdate = $defaultConfig['autoCheckUpdate'];
-}
-
-?>
+require_once('core/php/loadVars.php'); ?>
 <!doctype html>
 <head>
 	<title>Git Status | Settings</title>
@@ -210,16 +176,35 @@ else
 							<?php endforeach; ?>
 							<div id="newRowLocationForWatchList">
 							</div>
-							</ul>
-							<ul class="settingsUl">
-								<li>
-									<a class="link underlineLink"  onclick="addRowFunction()">Add New Server</a>
-								</li>
-							</ul>
-							</div>
-							<div id="hidden" style="display: none">
-								<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
-							</div>
+						</ul>
+						<ul class="settingsUl">
+							<li>
+								<a class="link underlineLink"  onclick="addRowFunction()">Add New Server</a>
+							</li>
+						</ul>
+					</div>
+					<div id="hidden" style="display: none">
+						<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="firstBoxDev">
+			<form id="settingsDevBoxVars" action="core/php/saveFunctions/settingsSave.php" method="post">
+				<div class="innerFirstDevBox"  >
+					<div class="devBoxTitle">
+						<b>Dev Box Settings</b> <button>Save Changes</button>
+					</div>
+					<div class="devBoxContent">
+						<ul class="settingsUl">
+							<li>
+								<span class="leftSpacingserverNames" >Dev Branches:</span>
+									<select name="enableDevBranchDownload">
+				  						<option <?php if($enableDevBranchDownload == 'true'){echo "selected";} ?> value="true">True</option>
+				  						<option <?php if($enableDevBranchDownload == 'false'){echo "selected";} ?> value="false">False</option>
+									</select>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</form>
