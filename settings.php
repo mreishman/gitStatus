@@ -190,7 +190,7 @@ require_once('core/php/loadVars.php'); ?>
 			</form>
 		</div>
 		<div class="firstBoxDev">
-			<form id="settingsDevBoxVars" action="core/php/saveFunctions/settingsSave.php" method="post">
+			<form id="settingsDevBoxVars" action="core/php/saveFunctions/settingsDevBranch.php" method="post">
 				<div class="innerFirstDevBox"  >
 					<div class="devBoxTitle">
 						<b>Dev Box Settings</b> <button>Save Changes</button>

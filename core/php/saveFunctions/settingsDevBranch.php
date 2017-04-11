@@ -13,22 +13,6 @@ require_once($baseUrl.'conf/config.php');
 require_once('../../../core/conf/config.php'); 	
 require_once('../loadVars.php');
 
-
-
-
-	$arrayWatchList = "";
-	$numberOfRows = count($watchList);
-	$i = 0;
-	foreach ($watchList as $key => $value) 
-	{
-		$i++;
-		$arrayWatchList .= "'".$key."' => '".$value."'";
-		if($i != $numberOfRows)
-		{
-			$arrayWatchList .= ",";
-		}
-	}
-
 	$fileName = ''.$baseUrl.'conf/config.php';
 
 	$newInfoForConfig = "
