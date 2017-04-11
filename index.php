@@ -105,23 +105,23 @@ for($i = 0; $i < $newestVersionCount; $i++)
     echo "<div style=' position: absolute; display: inline-table; width: 100%; background: red; text-align: center;  height: 34px;' >Please switch to http</div>";	
 	}
 	?>
-	
-	<div id="main">
-		<div id="menu">
-			<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
-			<a class="show-sidebar" id="show">
-		    	<span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		    </a>
-			</div>
-			<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-				<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
-			</div>
-			<div onclick="refreshAction('refreshImage');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-				<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
-			</div>
+	<div id="menu">
+		<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
+		<a class="show-sidebar" id="show">
+	    	<span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	    </a>
 		</div>
+		<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
+			<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
+		</div>
+		<div onclick="refreshAction('refreshImage');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
+			<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
+		</div>
+	</div>
+	<div id="main">
+		
 	<?php 
 	$h = -1;
 	foreach ($config['watchList'] as $key => $value): 

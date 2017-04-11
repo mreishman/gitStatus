@@ -72,6 +72,7 @@ body{
 #main{
 	display: inline-table;
 	position: absolute;
+	top: 40px;
 }
 .menuBarLeft{
 	list-style-type: none;
@@ -84,6 +85,13 @@ body{
 }
 #menu{
 	padding-left: 5px;
+	width: 100%;
+	position: fixed;
+	top: 0px;
+	height: 40px;
+	background-color: #222222;
+	border-bottom: 1px solid white;
+	z-index: 10;
 }
 .settingsUl
 {
@@ -95,4 +103,8 @@ body{
 }
 .inputWidth300{
 	width: 300px;
+}
+.paddingTopForLeftMenu{
+	height: 40px;
+	box-shadow: 0px 10px 5px #888888;
 }

@@ -39,6 +39,8 @@
 			echo 'style="display: none;"';
 		}
 		?>>
+		<div class="paddingTopForLeftMenu">
+		</div>
 			<ul class="menuBarLeft" >
 				<li id="menuBarLeftMain" onclick="window.location.href = 'index.php';" >
 				Main
