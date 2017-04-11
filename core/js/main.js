@@ -1,3 +1,41 @@
+for (var i = 0; i < numberOfLogs; i++)
+{
+	checkLogHog(i);
+}
+
+
+function checkLogHog(all)
+{
+
+	var urlForSend = '/status/core/php/functions/logHog.php?format=json'
+	var websiteBase = arrayOfFiles[all][1];
+	var website = arrayOfFiles[all][3];
+	var name = "branchNameDevBox1"+arrayOfFiles[i][0];
+	name = name.replace(/\s/g, '_');
+	var data = {location: arrayOfFiles[all][2], websiteBase: websiteBase, website: website, name: name};
+	$.ajax({
+	  url: urlForSend,
+	  dataType: 'json',
+	  data: data,
+	  type: 'POST',
+	  success: function(data){
+	  	if(data['link'] != "null")
+	  	{
+	  		document.getElementById(name+"LogHogOuter").style.display = "inline-block";
+	  		document.getElementById(name+"LogHogInner").href = data['link'];
+	  	}
+	  },
+	});
+}
+
+function pollTimed()
+{
+	if(!pausePollFile)
+	{
+		poll();
+	}
+}
+
 
 function poll(all = -1)
 {
@@ -8,57 +46,102 @@ function poll(all = -1)
 		{
 			var urlForSend = 'http://'+arrayOfFiles[i][1]+'/status/core/php/functions/gitBranchName.php?format=json'
 			var name = "branchNameDevBox1"+arrayOfFiles[i][0];
+			name = name.replace(/\s/g, '_');
 			var data = {location: arrayOfFiles[i][2], name: name};
-			$.ajax({
-			  url: urlForSend,
-			  dataType: 'json',
-			  data: data,
-			  type: 'POST',
-			  success: function(data){
-			    // we make a successful JSONP call!
-			    var dataStats = data['stats'].split(",");
-			    var dataBranchForFile = '<span id="'+data['idName']+'";">'+data['branch']+'</span>';
-			    var dataBranchForFileUpdateTime = '<span id="'+data['idName']+'Update";">'+data['time']+'</span>';
-			    var dataBranchForFileStats = '<span id="'+data['idName']+'Stats";">';
-			    for(var j = 0; j < dataStats.length; j++)
-			    {
-			    	dataBranchForFileStats += dataStats[j];
-			    	dataBranchForFileStats += "<br><br>";
-			    }
-			    dataBranchForFileStats +='</span>';
-			    document.getElementById(data['idName']).outerHTML = dataBranchForFile;
-			    document.getElementById(data['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
-			    document.getElementById(data['idName']+'Stats').outerHTML = dataBranchForFileStats;
-			  }
+			(function(_data){
+
+				$.ajax({
+				url: urlForSend,
+				dataType: 'json',
+				global: false,
+				data: data,
+				type: 'POST',
+				success: function(data){
+					pollSuccess(data);
+				},
+				error: function(data){
+					pollFailure(data, _data);
+				}
 			});
+
+				}(data));
 		}
 	}
 	else
 	{
 		var urlForSend = 'http://'+arrayOfFiles[all][1]+'/status/core/php/functions/gitBranchName.php?format=json'
-			var name = "branchNameDevBox1"+arrayOfFiles[all][0];
-			var data = {location: arrayOfFiles[all][2], name: name};
-			$.ajax({
-			  url: urlForSend,
-			  dataType: 'json',
-			  data: data,
-			  type: 'POST',
-			  success: function(data){
-			    // we make a successful JSONP call!
-			    var dataStats = data['stats'].split(",");
-			    var dataBranchForFile = '<span id="'+data['idName']+'";">'+data['branch']+'</span>';
-			    var dataBranchForFileUpdateTime = '<span id="'+data['idName']+'Update";">'+data['time']+'</span>';
-			    var dataBranchForFileStats = '<span id="'+data['idName']+'Stats";">';
-			    for(var j = 0; j < dataStats.length; j++)
-			    {
-			    	dataBranchForFileStats += dataStats[j];
-			    	dataBranchForFileStats += "<br><br>";
-			    }
-			    document.getElementById(data['idName']).outerHTML = dataBranchForFile;
-			    document.getElementById(data['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
-			    document.getElementById(data['idName']+'Stats').outerHTML = dataBranchForFileStats;
-			  }
+		var name = "branchNameDevBox1"+arrayOfFiles[all][0];
+		name = name.replace(/\s/g, '_');
+		var data = {location: arrayOfFiles[all][2], name: name};
+			(function(_data){
+
+				$.ajax({
+				url: urlForSend,
+				dataType: 'json',
+				global: false,
+				data: data,
+				type: 'POST',
+				success: function(data){
+					pollSuccess(data);
+				},
+				error: function(data){
+					pollFailure(data, _data);
+				}
 			});
+
+				}(data));
+	}
+}
+
+function pollFailure(dataInner, dataInnerPass)
+{
+	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
+    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
+    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
+    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">Could not connect to server</span>';
+    document.getElementById(noSpaceName).outerHTML = dataBranchForFile;
+    document.getElementById(noSpaceName+'Update').outerHTML = dataBranchForFileUpdateTime;
+    document.getElementById(noSpaceName+'Stats').outerHTML = dataBranchForFileStats;
+    var nameForBackground = "innerFirstDevBox"+noSpaceName;
+    filterBGColor('error', nameForBackground);
+}
+
+function pollSuccess(dataInner)
+{
+	// we make a successful JSONP call!
+    var dataStats = dataInner['stats'].split(",");
+    var dataBranchForFile = '<span id="'+dataInner['idName']+'";">'+dataInner['branch']+'</span>';
+    var dataBranchForFileUpdateTime = '<span id="'+dataInner['idName']+'Update";">'+dataInner['time']+'</span>';
+    var dataBranchForFileStats = '<span id="'+dataInner['idName']+'Stats";">';
+    for(var j = 0; j < dataStats.length; j++)
+    {
+    	dataBranchForFileStats += dataStats[j];
+    	dataBranchForFileStats += "<br><br>";
+    }
+    dataBranchForFileStats +='</span>';
+    document.getElementById(dataInner['idName']).outerHTML = dataBranchForFile;
+    document.getElementById(dataInner['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
+    document.getElementById(dataInner['idName']+'Stats').outerHTML = dataBranchForFileStats;
+    var nameForBackground = "innerFirstDevBox"+dataInner['idName'];
+    filterBGColor(dataInner['branch'], nameForBackground);
+}
+
+function filterBGColor(filterName, idName)
+{
+	var newBG = false;
+	if(filterName == "master")
+	{
+		document.getElementById(idName).style.backgroundColor = "lightGreen";
+		newBG = true;
+	}
+	if(filterName == "error")
+	{
+		document.getElementById(idName).style.backgroundColor = "#C33";
+		newBG = true;
+	}
+	if(!newBG)
+	{
+		document.getElementById(idName).style.backgroundColor = "#aaaaaa";
 	}
 }
 
@@ -129,7 +212,8 @@ function endRefreshAction(refreshImage, status)
 
 
 poll();
-
+pollingRate = pollingRate * 60000; 
+setInterval(pollTimed, pollingRate);
 
 if (autoCheckUpdate == true)
 {
@@ -152,3 +236,33 @@ if (autoCheckUpdate == true)
 		window.location.href = "core/php/update/settingsCheckForUpdate.php";
 	}
 }
+
+if(pausePollFromFile)
+{
+	pausePollFile = true;
+	document.getElementById('pauseImage').src="core/img/Play.png";
+}
+
+function pausePollAction()
+{
+	if(pausePollFile)
+	{
+		userPaused = false;
+		pausePollFile = false;
+		document.getElementById('pauseImage').src="core/img/Pause.png";
+	}
+	else
+	{
+		userPaused = true;
+		pausePollFunction();
+	}
+}
+
+function pausePollFunction()
+{
+	pausePollFile = true;
+	document.getElementById('pauseImage').src="core/img/Play.png";
+	document.title = "Log Hog | Paused";
+}
+
+

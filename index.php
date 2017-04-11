@@ -105,44 +105,51 @@ for($i = 0; $i < $newestVersionCount; $i++)
     echo "<div style=' position: absolute; display: inline-table; width: 100%; background: red; text-align: center;  height: 34px;' >Please switch to http</div>";	
 	}
 	?>
-	
-	<div id="main">
-		<div id="menu">
-			<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
-			<a class="show-sidebar" id="show">
-		    	<span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		    </a>
-			</div>
-			<div onclick="refreshAction('refreshImage');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-				<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
-			</div>
+	<div id="menu">
+		<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
+		<a class="show-sidebar" id="show">
+	    	<span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	    </a>
 		</div>
+		<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
+			<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
+		</div>
+		<div onclick="refreshAction('refreshImage');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
+			<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
+		</div>
+	</div>
+	<div id="main">
+		
 	<?php 
 	$h = -1;
 	foreach ($config['watchList'] as $key => $value): 
 	$h++;	
 	$keyNoSpace = preg_replace('/\s+/', '_', $key); ?>
 		<div class="firstBoxDev">
-			<div class="innerFirstDevBox"  >
+			<div class="innerFirstDevBox" id="innerFirstDevBoxbranchNameDevBox1<?php echo $keyNoSpace; ?>" >
 				<div class="devBoxTitle">
-					<b><?php echo $key; ?></b>
-					<div onclick="refreshAction('refreshImage<?php echo $key; ?>','<?php echo $h;?>','inner');" style="display: inline-block; cursor: pointer; height: 17px; width: 17px; ">
-						<img id="refreshImage<?php echo $key; ?>" class="menuImage" src="core/img/Refresh2.png" height="17px">
-					</div> 
+					<a style="color: black;" href="https://<?php echo $value['Website']; ?>"><b><?php echo $key; ?></b></a>
+					<div onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" style="display: inline-block; cursor: pointer; height: 17px; width: 17px; ">
+						<img id="refreshImage<?php echo $keyNoSpace; ?>" class="menuImage" src="core/img/Refresh2.png" height="17px">
+					</div>
+					<div id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogOuter" style="display: none; cursor: pointer;" >
+						<a id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogInner" style="color: black;" href="#">Log-Hog</a>
+					</div>
+
 				</div>
 				<div class="devBoxContent">
-					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>";">
+					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>">
 						--Pending--
 					</span></b>
 					<br><br>
 					<b>Last Updated:</b>
-					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update";">
+					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update">
 						--Pending--
 					</span>
 					<br><br>
-					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats";">
+					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">
 						--Pending--
 					</span>
 				</div>
@@ -186,9 +193,11 @@ for($i = 0; $i < $newestVersionCount; $i++)
 				echo "var autoCheckUpdate = ".$defaultConfig['autoCheckUpdate'].";";
 			}
 		echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
+		echo "var numberOfLogs = '".$h."';";
 		?>
 
 		var pausePoll = false;
+		var pausePollFile = false;
 		var refreshActionVar;
 		var refreshPauseActionVar;
 		var userPaused = false;
@@ -215,4 +224,5 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftMain").style.backgroundColor  = "#ffffff";
 	</script>
+	<?php require_once('core/php/templateFiles/allPages.php') ?>
 </body>

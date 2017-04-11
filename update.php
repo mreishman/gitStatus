@@ -87,9 +87,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 <body>
 	
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
-		
-	<div id="main">
-		<div id="menu">
+	<div id="menu">
 			<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
 			<a class="show-sidebar" id="show">
 		    	<span class="icon-bar"></span>
@@ -97,7 +95,9 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		        <span class="icon-bar"></span>
 		    </a>
 			</div>
-		</div>
+		</div>	
+	<div id="main">
+		
 		<div class="firstBoxDev">
 			<div class="innerFirstDevBox"  >
 				<div class="devBoxTitle">
@@ -136,7 +136,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		</div>
 		<?php if($levelOfUpdate != 0): ?>
 		<div class="firstBoxDev">
-			<div class="innerFirstDevBox"  >
+			<div class="innerFirstDevBox" style="width: 600px; max-height: 500px;"  >
 				<div class="devBoxTitle">
 				Update - Release Notes
 				</div>
@@ -212,7 +212,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		</div>
 		<?php endif; ?>
 		<div class="firstBoxDev">
-			<div class="innerFirstDevBox"  >
+			<div class="innerFirstDevBox" style=" width: 600px; max-height: 500px;"  >
 				<div class="devBoxTitle">
 					<b>Changelog</b>
 				</div>
@@ -226,4 +226,5 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftUpdate").style.backgroundColor  = "#ffffff";
 	</script>
+	<?php require_once('core/php/templateFiles/allPages.php') ?>
 </body>

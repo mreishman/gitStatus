@@ -15,12 +15,15 @@ function getCookie(cname) {
 }
 
 function toggleMenuSideBar() {
+	var widthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	if(document.getElementById("sidebar").style.width == '100px')
 	{
 		document.getElementById("sidebar").style.width = "0px";
 		document.getElementById("sidebarBG").style.width = "0px";
 		document.getElementById("sidebarMenu").style.display = "none";
 		document.cookie = "toggleMenuSideBarGitStatus=closed";
+		var windowWidthText = widthWindow+"px";
+		document.getElementById("main").style.width = windowWidthText;
 	}
 	else
 	{
@@ -28,6 +31,8 @@ function toggleMenuSideBar() {
 		document.getElementById("sidebarBG").style.width = "100px";
 		document.getElementById("sidebarMenu").style.display = "block";
 		document.cookie = "toggleMenuSideBarGitStatus=open";
+		var windowWidthText = (widthWindow - 102)+"px";
+		document.getElementById("main").style.width = windowWidthText;	
 	}
 }
 

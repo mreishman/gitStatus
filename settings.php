@@ -72,41 +72,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	}
 }
 
-
-if(array_key_exists('pollingRate', $config))
-{
-	$pollingRate = $config['pollingRate'];
-}
-else
-{
-	$pollingRate = $defaultConfig['pollingRate'];
-} 
-if(array_key_exists('pausePoll', $config))
-{
-	$pausePoll = $config['pausePoll'];
-}
-else
-{
-	$pausePoll = $defaultConfig['pausePoll'];
-}
-if(array_key_exists('pauseOnNotFocus', $config))
-{
-	$pauseOnNotFocus = $config['pauseOnNotFocus'];
-}
-else
-{
-	$pauseOnNotFocus = $defaultConfig['pauseOnNotFocus'];
-}
-if(array_key_exists('autoCheckUpdate', $config))
-{
-	$autoCheckUpdate = $config['autoCheckUpdate'];
-}
-else
-{
-	$autoCheckUpdate = $defaultConfig['autoCheckUpdate'];
-}
-
-?>
+require_once('core/php/loadVars.php'); ?>
 <!doctype html>
 <head>
 	<title>Git Status | Settings</title>
@@ -121,9 +87,7 @@ else
 <body>
 	
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
-		
-	<div id="main">
-		<div id="menu">
+	<div id="menu">
 			<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
 			<a class="show-sidebar" id="show">
 		    	<span class="icon-bar"></span>
@@ -131,7 +95,9 @@ else
 		        <span class="icon-bar"></span>
 		    </a>
 			</div>
-		</div>
+		</div>	
+	<div id="main">
+		
 		<div class="firstBoxDev">
 			<form id="settingsMainVars" action="core/php/saveFunctions/settingsMainUpdateVars.php" method="post">
 				<div class="innerFirstDevBox"  >
@@ -140,25 +106,25 @@ else
 					</div>
 					<div class="devBoxContent">
 						<ul class="settingsUl">
-							<li style="display: none;">
-								<span class="leftSpacingserverNames" > pollingRate: </span> <input style="width: 52px;" type="text" name="pollingRate" value="<?php echo $pollingRate;?>" > Minutes
+							<li>
+								<span class="leftSpacingserverNames" > Polling Rate: </span> <input style="width: 52px;" type="text" name="pollingRate" value="<?php echo $pollingRate;?>" > Minutes
 							</li>
-							<li style="display: none;">
-								<span class="leftSpacingserverNames" > pausePoll: </span>
+							<li>
+								<span class="leftSpacingserverNames" > Pause Poll: </span>
 									<select name="pausePoll">
 				  						<option <?php if($pausePoll == 'true'){echo "selected";} ?> value="true">True</option>
 				  						<option <?php if($pausePoll == 'false'){echo "selected";} ?> value="false">False</option>
 									</select>
 							</li>
 							<li style="display: none;">
-								<span class="leftSpacingserverNames" > autoPause: </span>
+								<span class="leftSpacingserverNames" > Auto Pause: </span>
 									<select name="pauseOnNotFocus">
 				  						<option <?php if($pauseOnNotFocus == 'true'){echo "selected";} ?> value="true">True</option>
 				  						<option <?php if($pauseOnNotFocus == 'false'){echo "selected";} ?> value="false">False</option>
 									</select>
 							</li>
 							<li>
-								<span class="leftSpacingserverNames" > CheckUpdate: </span>
+								<span class="leftSpacingserverNames" > Check Update: </span>
 									<select name="autoCheckUpdate">
 				  						<option <?php if($autoCheckUpdate == 'true'){echo "selected";} ?> value="true">Auto</option>
 				  						<option <?php if($autoCheckUpdate == 'false'){echo "selected";} ?> value="false">Manual</option>
@@ -210,16 +176,35 @@ else
 							<?php endforeach; ?>
 							<div id="newRowLocationForWatchList">
 							</div>
-							</ul>
-							<ul class="settingsUl">
-								<li>
-									<a class="link underlineLink"  onclick="addRowFunction()">Add New Server</a>
-								</li>
-							</ul>
-							</div>
-							<div id="hidden" style="display: none">
-								<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
-							</div>
+						</ul>
+						<ul class="settingsUl">
+							<li>
+								<a class="link underlineLink"  onclick="addRowFunction()">Add New Server</a>
+							</li>
+						</ul>
+					</div>
+					<div id="hidden" style="display: none">
+						<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="firstBoxDev">
+			<form id="settingsDevBoxVars" action="core/php/saveFunctions/settingsDevBranch.php" method="post">
+				<div class="innerFirstDevBox"  >
+					<div class="devBoxTitle">
+						<b>Dev Box Settings</b> <button>Save Changes</button>
+					</div>
+					<div class="devBoxContent">
+						<ul class="settingsUl">
+							<li>
+								<span class="leftSpacingserverNames" >Dev Branches:</span>
+									<select name="enableDevBranchDownload">
+				  						<option <?php if($enableDevBranchDownload == 'true'){echo "selected";} ?> value="true">True</option>
+				  						<option <?php if($enableDevBranchDownload == 'false'){echo "selected";} ?> value="false">False</option>
+									</select>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</form>
@@ -233,6 +218,8 @@ else
 	<script type="text/javascript"> 
 var countOfWatchList = <?php echo $i; ?>;
 var countOfAddedFiles = 0;
+var countOfClicks = 0;
+var locationInsert = "newRowLocationForWatchList";
 var numberOfSubRows = <?php echo $numCount; ?>;
 var arrayOfKeysJsonEncoded = '<?php echo json_encode($arrayOfKeys); ?>';
 var arrayOfKeysNonEnc = JSON.parse(arrayOfKeysJsonEncoded);
@@ -240,16 +227,18 @@ function addRowFunction()
 {
 
 	countOfWatchList++;
+	countOfClicks++;
 	var documentUpdateText = "<li id='rowNumber"+countOfWatchList+"'><span class='leftSpacingserverNames' > Name: </span> <input class='inputWidth300' type='text'  name='watchListKey" + countOfWatchList + "' >";
 	for(var i = 0; i < numberOfSubRows; i++)
 	{
 		documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span> <input style='display: none;' type='text' name='watchListItem"+countOfWatchList+"-"+(i+1)+"-Name' value="+arrayOfKeysNonEnc[i]+">   <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >"
 	}
 	documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+countOfWatchList+'-0" value="'+numberOfSubRows+'"> '
-	documentUpdateText += " <span class='leftSpacingserverNames' ></span> <a class='link underlineLink' onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a></li>";
-	document.getElementById('newRowLocationForWatchList').innerHTML += documentUpdateText;
+	documentUpdateText += " <span class='leftSpacingserverNames' ></span> <a class='link underlineLink' onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a></li><div id='newRowLocationForWatchList"+countOfClicks+"'></div>";
+	document.getElementById(locationInsert).outerHTML += documentUpdateText;
 	document.getElementById('numberOfRows').value = countOfWatchList;
 	countOfAddedFiles++;
+	locationInsert = "newRowLocationForWatchList"+countOfClicks;
 }
 
 function deleteRowFunction(currentRow, decreaseCountWatchListNum)
@@ -297,5 +286,5 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 }	
 
 </script>
-
+<?php require_once('core/php/templateFiles/allPages.php') ?>
 </body>
