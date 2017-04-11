@@ -1,0 +1,110 @@
+body{
+	background-color: #222222;
+	margin: 0px;
+}
+.nav-toggle {
+	display: inline-block;
+	background-color: transparent;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	height: 30px;
+}
+.icon-bar {
+	display: block;
+	width: 22px;
+	height: 2px;
+	border-radius: 1px;
+	background-color: #ffffff;
+	margin-top: 4px;
+}
+.show-sidebar {
+	display: block;
+	margin-top: 8px;
+}
+.link{
+	cursor: pointer;
+}
+.underlineLink{
+	text-decoration: underline;
+}
+.firstBoxDev{
+	width: 300px;
+	height: 150px;
+	background-color: #aaaaaa;
+	display: inline-table;
+	margin: 20px;
+	border: 1px solid white;
+}
+.innerFirstDevBox{
+	width: 300px;
+}
+.devBoxTitle{
+	background-color: #DDDDDD;
+	padding: 2px;
+	padding-left: 10px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid white;
+	box-shadow: 0px 5px 2px #888888;
+}
+.devBoxContent{
+	word-wrap: break-word;
+	padding: 10px;
+	color: #000000;
+	max-height: 500px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+#sidebar{
+	background-color: #aaaaaa;
+	width: 0px;
+	display: inline-table;
+	border-right: 3px solid white;
+	position: fixed;
+	height: 100%;
+}
+#sidebarBG{
+	background-color: #aaaaaa;
+	width: 0px;
+	height: 1px;
+	display: inline-table;
+	border-right: 3px solid white;
+}
+#main{
+	display: inline-table;
+	position: absolute;
+	top: 40px;
+}
+.menuBarLeft{
+	list-style-type: none;
+	padding: 0px;
+}
+.menuBarLeft li{
+	line-height: 200%;
+	padding-left: 10px;
+	cursor: pointer;
+}
+#menu{
+	padding-left: 5px;
+	width: 100%;
+	position: fixed;
+	top: 0px;
+	height: 40px;
+	background-color: #222222;
+	border-bottom: 1px solid white;
+	z-index: 10;
+}
+.settingsUl
+{
+	list-style: none;
+}
+.leftSpacingserverNames{
+	width: 100px;
+	display: inline-block;
+}
+.inputWidth300{
+	width: 300px;
+}
+.paddingTopForLeftMenu{
+	height: 40px;
+	box-shadow: 0px 10px 5px #888888;
+}
