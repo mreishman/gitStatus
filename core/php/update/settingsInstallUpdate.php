@@ -176,7 +176,7 @@ function unzipFile()
 	$zip = new ZipArchive;
 	$path = $varToIndexDir."update/downloads/updateFiles/updateFiles.zip";
 	$res = $zip->open($path);
-	$arrayOfExtensions = array('.php','.js','.css','.html','.png','.jpg','.jpeg');
+	$arrayOfExtensions = array('.php','.js','.css','.html','.png','.jpg','.jpeg','.gif');
 	if ($res === TRUE) {
 	  for($i = 0; $i < $zip->numFiles; $i++) {
 	        $filename = $zip->getNameIndex($i);
