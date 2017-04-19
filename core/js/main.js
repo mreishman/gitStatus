@@ -133,18 +133,21 @@ function pollSuccess(dataInner, dataInnerPass)
 	  		{
 	  			var j = 1;
 		  		var num = "";
-		  		while(!isNaN(dataBranchForFileStats[i+j]))
+		  		if(dataBranchForFileStats[i+j] != " " && (!isNaN(dataBranchForFileStats[i+j])))
 		  		{
-		  			num += dataBranchForFileStats[i+j];
-		  			j++;
-		  		}
-		  		if(num != "")
-		  		{
-		  			var link = '<a href="#'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
-		  			dataBranchForFile += " "+link;
-			  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
-			  		len = dataBranchForFileStats.length;
-			  		i = i + link.length;
+		  			while(!isNaN(dataBranchForFileStats[i+j]))
+			  		{
+			  			num += dataBranchForFileStats[i+j];
+			  			j++;
+			  		}
+			  		if(!isNaN(num));
+			  		{
+			  			var link = '<a href="#'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
+			  			dataBranchForFile += " "+link;
+				  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
+				  		len = dataBranchForFileStats.length;
+				  		i = i + link.length;
+			  		}
 		  		}
 	  		}
 	  	}
