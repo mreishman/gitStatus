@@ -111,7 +111,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	// we make a successful JSONP call!
 	var dataStats = dataInner['stats'].replace("','", "'"+'&#44;'+"'");
     var dataStats = dataStats.split(", <");
-    var dataBranchForFile = '<span id="'+dataInner['idName']+'";">'+dataInner['branch']+'</span>';
+    var dataBranchForFile = '<span id="'+dataInner['idName']+'";">'+dataInner['branch'];
     var dataBranchForFileUpdateTime = '<span id="'+dataInner['idName']+'Update";">'+dataInner['time']+'</span>';
     var dataBranchForFileStats = '<span id="'+dataInner['idName']+'Stats";">';
     for(var j = 0; j < dataStats.length; j++)
@@ -141,6 +141,7 @@ function pollSuccess(dataInner, dataInnerPass)
 		  		if(num != "")
 		  		{
 		  			var link = '<a href="#'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
+		  			dataBranchForFile += " "+link;
 			  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
 			  		len = dataBranchForFileStats.length;
 			  		i = i + link.length;
@@ -149,6 +150,9 @@ function pollSuccess(dataInner, dataInnerPass)
 	  	}
 	  }
 	}
+
+	dataBranchForFile += '</span>'
+
     document.getElementById(dataInner['idName']).outerHTML = dataBranchForFile;
     document.getElementById(dataInner['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
     document.getElementById(dataInner['idName']+'Stats').outerHTML = dataBranchForFileStats;
