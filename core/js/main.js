@@ -116,7 +116,10 @@ function pollSuccess(dataInner, dataInnerPass)
     var dataBranchForFileStats = '<span id="'+dataInner['idName']+'Stats";">';
     for(var j = 0; j < dataStats.length; j++)
     {
-    	dataBranchForFileStats += "<";
+    	if(j != 0)
+    	{
+    		dataBranchForFileStats += "<";
+    	}
     	dataBranchForFileStats += dataStats[j];
     	dataBranchForFileStats += "<br><br>";
     }
