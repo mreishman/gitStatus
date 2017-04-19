@@ -47,7 +47,7 @@ function poll(all = -1)
 			var urlForSend = 'http://'+arrayOfFiles[i][1]+'/status/core/php/functions/gitBranchName.php?format=json'
 			var name = "branchNameDevBox1"+arrayOfFiles[i][0];
 			name = name.replace(/\s/g, '_');
-			var data = {location: arrayOfFiles[i][2], name: name};
+			var data = {location: arrayOfFiles[i][2], name: name, githubRepo: arrayOfFiles[i][4]};
 			(function(_data){
 
 				$.ajax({
@@ -72,7 +72,7 @@ function poll(all = -1)
 		var urlForSend = 'http://'+arrayOfFiles[all][1]+'/status/core/php/functions/gitBranchName.php?format=json'
 		var name = "branchNameDevBox1"+arrayOfFiles[all][0];
 		name = name.replace(/\s/g, '_');
-		var data = {location: arrayOfFiles[all][2], name: name};
+		var data = {location: arrayOfFiles[all][2], name: name, githubRepo: arrayOfFiles[i][4]};
 			(function(_data){
 
 				$.ajax({
@@ -142,11 +142,14 @@ function pollSuccess(dataInner, dataInnerPass)
 			  		}
 			  		if(!isNaN(num));
 			  		{
-			  			var link = '<a href="#'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
-			  			dataBranchForFile += " "+link;
-				  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
-				  		len = dataBranchForFileStats.length;
-				  		i = i + link.length;
+			  			if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+			  			{
+			  				var link = '<a href="https://github.com/'+dataInnerPass["githubRepo"]+'/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
+				  			dataBranchForFile += " "+link;
+					  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
+					  		len = dataBranchForFileStats.length;
+					  		i = i + link.length;
+			  			}
 			  		}
 		  		}
 	  		}
