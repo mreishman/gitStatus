@@ -57,7 +57,7 @@ function poll(all = -1)
 				data: data,
 				type: 'POST',
 				success: function(data){
-					pollSuccess(data);
+					pollSuccess(data, _data);
 				},
 				error: function(data){
 					pollFailure(data, _data);
@@ -82,7 +82,7 @@ function poll(all = -1)
 				data: data,
 				type: 'POST',
 				success: function(data){
-					pollSuccess(data);
+					pollSuccess(data, _data);
 				},
 				error: function(data){
 					pollFailure(data, _data);
@@ -106,7 +106,7 @@ function pollFailure(dataInner, dataInnerPass)
     filterBGColor('error', nameForBackground);
 }
 
-function pollSuccess(dataInner)
+function pollSuccess(dataInner, dataInnerPass)
 {
 	// we make a successful JSONP call!
 	var dataStats = dataInner['stats'].replace("','", "'"+'&#44;'+"'");
@@ -121,6 +121,31 @@ function pollSuccess(dataInner)
     	dataBranchForFileStats += "<br><br>";
     }
     dataBranchForFileStats +='</span>';
+    for (var i = 0, len = dataBranchForFileStats.length; i < len; i++) {
+	  if(dataBranchForFileStats[i] == "#")
+	  {
+	  	if(!isNaN(dataBranchForFileStats[i+1]))
+	  	{
+	  		if(dataBranchForFileStats[i-1] != "&")
+	  		{
+	  			var j = 1;
+		  		var num = "";
+		  		while(!isNaN(dataBranchForFileStats[i+j]))
+		  		{
+		  			num += dataBranchForFileStats[i+j];
+		  			j++;
+		  		}
+		  		if(num != "")
+		  		{
+		  			var link = '<a href="#'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
+			  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
+			  		len = dataBranchForFileStats.length;
+			  		i = i + link.length;
+		  		}
+	  		}
+	  	}
+	  }
+	}
     document.getElementById(dataInner['idName']).outerHTML = dataBranchForFile;
     document.getElementById(dataInner['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
     document.getElementById(dataInner['idName']+'Stats').outerHTML = dataBranchForFileStats;
