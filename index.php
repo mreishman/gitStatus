@@ -106,18 +106,30 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	}
 	?>
 	<div id="menu">
-		<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
-		<a class="show-sidebar" id="show">
-	    	<span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	    </a>
+		<div class="menuSections" >
+			<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
+			<a class="show-sidebar" id="show">
+		    	<span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		    </a>
+			</div>
+			<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
+				<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
+			</div>
+			<div onclick="refreshAction('refreshImage');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
+				<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
+			</div>
 		</div>
-		<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-			<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
-		</div>
-		<div onclick="refreshAction('refreshImage');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-			<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
+		<div class="menuSections" >
+			<div class="buttonSelectorOuter" >
+				<div>
+					<!-- Standard View -->
+				</div>
+				<div>
+					<!-- Expanded View -->
+				</div>
+			</div>
 		</div>
 	</div>
 	<div id="main">

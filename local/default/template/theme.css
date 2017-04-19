@@ -96,6 +96,10 @@ body{
 	border-bottom: 1px solid white;
 	z-index: 10;
 }
+.menuSections{
+	width: 33%;
+	display: inline-block;
+}
 .settingsUl
 {
 	list-style: none;
@@ -110,4 +114,8 @@ body{
 .paddingTopForLeftMenu{
 	height: 40px;
 	box-shadow: 0px 10px 5px #888888;
+}
+.buttonSelectorOuter{
+	border: 1px solid white;
+	border-radius: 7px;
 }
