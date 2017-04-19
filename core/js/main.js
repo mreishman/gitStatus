@@ -110,12 +110,13 @@ function pollSuccess(dataInner)
 {
 	// we make a successful JSONP call!
 	var dataStats = dataInner['stats'].replace("','", "'"+'&#44;'+"'");
-    var dataStats = dataStats.split(",");
+    var dataStats = dataStats.split(", <");
     var dataBranchForFile = '<span id="'+dataInner['idName']+'";">'+dataInner['branch']+'</span>';
     var dataBranchForFileUpdateTime = '<span id="'+dataInner['idName']+'Update";">'+dataInner['time']+'</span>';
     var dataBranchForFileStats = '<span id="'+dataInner['idName']+'Stats";">';
     for(var j = 0; j < dataStats.length; j++)
     {
+    	dataBranchForFileStats += "<";
     	dataBranchForFileStats += dataStats[j];
     	dataBranchForFileStats += "<br><br>";
     }
