@@ -135,7 +135,7 @@ function pollSuccess(dataInner, dataInnerPass)
 		  		var num = "";
 		  		if(dataBranchForFileStats[i+j] != " " && (!isNaN(dataBranchForFileStats[i+j])))
 		  		{
-		  			while(!isNaN(dataBranchForFileStats[i+j]))
+		  			while((!isNaN(dataBranchForFileStats[i+j])) && dataBranchForFileStats[i+j] != " ")
 			  		{
 			  			num += dataBranchForFileStats[i+j];
 			  			j++;
