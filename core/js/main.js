@@ -72,7 +72,7 @@ function poll(all = -1)
 		var urlForSend = 'http://'+arrayOfFiles[all][1]+'/status/core/php/functions/gitBranchName.php?format=json'
 		var name = "branchNameDevBox1"+arrayOfFiles[all][0];
 		name = name.replace(/\s/g, '_');
-		var data = {location: arrayOfFiles[all][2], name: name, githubRepo: arrayOfFiles[i][4]};
+		var data = {location: arrayOfFiles[all][2], name: name, githubRepo: arrayOfFiles[all][4]};
 			(function(_data){
 
 				$.ajax({
