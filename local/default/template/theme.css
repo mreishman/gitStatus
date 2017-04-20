@@ -126,3 +126,22 @@ body{
 	background-color: #444444;
 	box-shadow: 0px 5px 10px;
 }
+.buttonSlectorInnerBoxesAll{
+	width: 50%;
+	height: 100%;
+	float: left;
+	text-align: center;
+}
+.buttonSlectorInnerBoxes{
+	color: white;
+	cursor: pointer;
+}
+.buttonSlectorInnerBoxes:hover{
+	color: black;
+	background-color: #CCCCCC;
+}
+.buttonSlectorInnerBoxesSelected{
+	color: black;
+	background-color: white;
+	cursor: default;
+}

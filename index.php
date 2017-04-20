@@ -123,11 +123,11 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		</div>
 		<div class="menuSections" >
 			<div class="buttonSelectorOuter" >
-				<div>
-					<!-- Standard View -->
+				<div class="buttonSlectorInnerBoxesSelected buttonSlectorInnerBoxesAll" style="border-radius: 5px 0px 0px 5px;" >
+					Standard
 				</div>
-				<div>
-					<!-- Expanded View -->
+				<div class="buttonSlectorInnerBoxes buttonSlectorInnerBoxesAll" style="border-radius: 0px 5px 5px 0px">
+					Expanded
 				</div>
 			</div>
 		</div>
