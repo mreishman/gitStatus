@@ -111,7 +111,18 @@ function pollSuccess(dataInner, dataInnerPass)
 	// we make a successful JSONP call!
 	var dataStats = dataInner['stats'].replace("','", "'"+'&#44;'+"'");
     var dataStats = dataStats.split(", <");
-    var dataBranchForFile = '<span id="'+dataInner['idName']+'";">'+dataInner['branch'];
+    var dataBranchForFile = '<span id="'+dataInner['idName']+'";">';
+    if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+    {
+    	dataBranchForFile += '<a style="color: black;" href="https://github.com/'+dataInnerPass["githubRepo"]+'/tree/'+dataInner['branch']+'">';
+    }
+    dataBranchForFile += dataInner['branch'];
+    if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+    {
+    	dataBranchForFile += '</a>';
+    }
+
+    
     var dataBranchForFileUpdateTime = '<span id="'+dataInner['idName']+'Update";">'+dataInner['time']+'</span>';
     var dataBranchForFileStats = '<span id="'+dataInner['idName']+'Stats";">';
     for(var j = 0; j < dataStats.length; j++)
