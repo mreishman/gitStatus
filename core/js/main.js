@@ -144,7 +144,7 @@ function pollSuccess(dataInner, dataInnerPass)
 			  		{
 			  			if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
 			  			{
-			  				var link = '<a href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
+			  				var link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
 				  			dataBranchForFile += " "+link;
 					  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
 					  		len = dataBranchForFileStats.length;
