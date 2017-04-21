@@ -316,4 +316,58 @@ function pausePollFunction()
 	document.title = "Log Hog | Paused";
 }
 
+function switchToStandardView() 
+		{
+			if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
+			{
+				if($('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
+				{
+					removeAllButtonSelectorClasses('standardViewButtonMainSection');
 
+					$('#standardViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
+					$('#standardViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
+
+					$('.devBoxContentSecondaryExpanded').addClass('devBoxContentSecondary');
+					$('.devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
+				}
+			}
+		}
+
+		function switchToExpandedView() 
+		{
+			if($('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
+			{
+				if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
+				{
+					removeAllButtonSelectorClasses('expandedViewButtonMainSection');
+
+					$('#expandedViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
+					$('#expandedViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
+
+					$('.devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
+					$('.devBoxContentSecondary').removeClass('devBoxContentSecondary');
+				}
+			}
+		}
+
+		function removeAllButtonSelectorClasses(ignore)
+		{
+			if(ignore != 'standardViewButtonMainSection')
+			{
+				if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
+				{
+					$('#standardViewButtonMainSection').removeClass('buttonSlectorInnerBoxesSelected');
+					$('#standardViewButtonMainSection').addClass('buttonSlectorInnerBoxes');
+				}
+			}
+
+			if(ignore != 'expandedViewButtonMainSection')
+			{
+				if($('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
+				{
+					$('#expandedViewButtonMainSection').removeClass('buttonSlectorInnerBoxesSelected');
+					$('#expandedViewButtonMainSection').addClass('buttonSlectorInnerBoxes');
+
+				}
+			}
+		}

@@ -123,10 +123,10 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		</div>
 		<div class="menuSections" >
 			<div class="buttonSelectorOuter" >
-				<div class="buttonSlectorInnerBoxesSelected buttonSlectorInnerBoxesAll" style="border-radius: 5px 0px 0px 5px;" >
+				<div onclick="switchToStandardView();" id="standardViewButtonMainSection" class="buttonSlectorInnerBoxesSelected buttonSlectorInnerBoxesAll" style="border-radius: 5px 0px 0px 5px;" >
 					Standard
 				</div>
-				<div class="buttonSlectorInnerBoxes buttonSlectorInnerBoxesAll" style="border-radius: 0px 5px 5px 0px">
+				<div onclick="switchToExpandedView();" id="expandedViewButtonMainSection" class="buttonSlectorInnerBoxes buttonSlectorInnerBoxesAll" style="border-radius: 0px 5px 5px 0px">
 					Expanded
 				</div>
 			</div>
@@ -155,6 +155,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>">
 						--Pending--
 					</span></b>
+					<div class="devBoxContentSecondary">
 					<br><br>
 					<b>Last Updated:</b>
 					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update">
@@ -164,6 +165,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">
 						--Pending--
 					</span>
+					</div>
 				</div>
 			</div>
 		</div>
