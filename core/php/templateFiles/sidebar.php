@@ -5,20 +5,20 @@
 			{
 			    if($_COOKIE['toggleMenuSideBarGitStatus'] == 'open')
 			    {
-			    	echo "style='width: 100px;'";
+			    	echo "style='width: 100px;' class='sidebarIsVisible'";
 			    	$open = true;
 			    }
 			}
 			if($open == false && $levelOfUpdate != 0)
 			{
-				echo "style='width: 100px;'";
+				echo "style='width: 100px;' class='sidebarIsVisible'";
 			}
 		}
 	?>
 	>
 		<div id="sidebarMenu"  <?php if(isset($_COOKIE['toggleMenuSideBarGitStatus'])) 
 		{
-    		if($_COOKIE['toggleMenuSideBarGitStatus'] == 'open')
+    		if($open == true)
 		    {
 		    	echo "style='width: block;'";
 		    }
@@ -62,15 +62,11 @@
 
 	<div id="sidebarBG" 
 	<?php
-	$open = false;
-	if(isset($_COOKIE['toggleMenuSideBarGitStatus'])) 
-	{
-	    if($_COOKIE['toggleMenuSideBarGitStatus'] == 'open')
-	    {
-	    	echo "style='width: 100px;'";
-	    	$open = true;
-	    }
-	}
+    if($open == true)
+    {
+    	echo "style='width: 100px;'";
+    	$open = true;
+    }
 	if($open == false && $levelOfUpdate != 0)
 	{
 		echo "style='width: 100px;'";

@@ -24,6 +24,7 @@ function toggleMenuSideBar() {
 		document.cookie = "toggleMenuSideBarGitStatus=closed";
 		var windowWidthText = widthWindow+"px";
 		document.getElementById("main").style.width = windowWidthText;
+		$('#sidebar').removeClass('sidebarIsVisible');
 	}
 	else
 	{
@@ -33,6 +34,7 @@ function toggleMenuSideBar() {
 		document.cookie = "toggleMenuSideBarGitStatus=open";
 		var windowWidthText = (widthWindow - 102)+"px";
 		document.getElementById("main").style.width = windowWidthText;	
+		$('#sidebar').addClass('sidebarIsVisible');
 	}
 }
 
