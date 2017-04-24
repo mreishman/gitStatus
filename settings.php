@@ -143,6 +143,23 @@ require_once('core/php/loadVars.php'); ?>
 					</div>
 					<div class="devBoxContent">
 						<ul class="settingsUl">
+
+							<li><h2>Example:</h2></li>
+
+							<span class="leftSpacingserverNames" > Name:</span> <input disabled="true" class='inputWidth300' type='text' value='Name you want to call website'> 
+							<br>
+							<span class="leftSpacingserverNames" > WebsiteBase:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'> 
+							<br>
+							<span class="leftSpacingserverNames" > Folder:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of github repo on server'> 
+							<br>
+							<span class="leftSpacingserverNames" > Website:</span> <input disabled="true" class='inputWidth300' type='text' value='Specific directory of website'> 
+							<br>
+							<span class="leftSpacingserverNames" > githubRepo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'> 
+							<br>
+
+
+
+							<li><h2>Your Watch List: </h2></li>
 							<?php 
 							$i = 0;
 							$numCount = 0;
