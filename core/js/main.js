@@ -317,57 +317,89 @@ function pausePollFunction()
 }
 
 function switchToStandardView() 
+{
+	if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
+	{
+		if($('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
 		{
-			if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
-			{
-				if($('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
-				{
-					removeAllButtonSelectorClasses('standardViewButtonMainSection');
+			removeAllButtonSelectorClasses('standardViewButtonMainSection');
 
-					$('#standardViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
-					$('#standardViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
+			$('#standardViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
+			$('#standardViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
 
-					$('.devBoxContentSecondaryExpanded').addClass('devBoxContentSecondary');
-					$('.devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
-				}
-			}
+			$('.devBoxContentSecondaryExpanded').addClass('devBoxContentSecondary');
+			$('.devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
 		}
+	}
+}
 
-		function switchToExpandedView() 
+function switchToExpandedView() 
+{
+	if($('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
+	{
+		if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
 		{
-			if($('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
-			{
-				if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
-				{
-					removeAllButtonSelectorClasses('expandedViewButtonMainSection');
+			removeAllButtonSelectorClasses('expandedViewButtonMainSection');
 
-					$('#expandedViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
-					$('#expandedViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
+			$('#expandedViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
+			$('#expandedViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
 
-					$('.devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
-					$('.devBoxContentSecondary').removeClass('devBoxContentSecondary');
-				}
-			}
+			$('.devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
+			$('.devBoxContentSecondary').removeClass('devBoxContentSecondary');
 		}
+	}
+}
 
-		function removeAllButtonSelectorClasses(ignore)
+function removeAllButtonSelectorClasses(ignore)
+{
+	if(ignore != 'standardViewButtonMainSection')
+	{
+		if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
 		{
-			if(ignore != 'standardViewButtonMainSection')
-			{
-				if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
-				{
-					$('#standardViewButtonMainSection').removeClass('buttonSlectorInnerBoxesSelected');
-					$('#standardViewButtonMainSection').addClass('buttonSlectorInnerBoxes');
-				}
-			}
-
-			if(ignore != 'expandedViewButtonMainSection')
-			{
-				if($('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
-				{
-					$('#expandedViewButtonMainSection').removeClass('buttonSlectorInnerBoxesSelected');
-					$('#expandedViewButtonMainSection').addClass('buttonSlectorInnerBoxes');
-
-				}
-			}
+			$('#standardViewButtonMainSection').removeClass('buttonSlectorInnerBoxesSelected');
+			$('#standardViewButtonMainSection').addClass('buttonSlectorInnerBoxes');
 		}
+	}
+
+	if(ignore != 'expandedViewButtonMainSection')
+	{
+		if($('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
+		{
+			$('#expandedViewButtonMainSection').removeClass('buttonSlectorInnerBoxesSelected');
+			$('#expandedViewButtonMainSection').addClass('buttonSlectorInnerBoxes');
+
+		}
+	}
+}
+
+function calcuateWidth()
+{
+	var innerWidthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+	if(document.getElementById("sidebar").style.width == '100px')
+	{
+		innerWidthWindow -= 103;
+	}
+	if(document.getElementById("sidebar").style.width == '100px')
+	{
+		document.getElementById("main").style.left = "103px";
+	}
+	else
+	{
+		document.getElementById("main").style.left = "0px";
+	}
+	var innerWidthWindowCalc = innerWidthWindow;
+	var numOfWindows = 0;
+	var elementWidth = 342;
+	while(innerWidthWindowCalc > elementWidth)
+	{
+		numOfWindows++;
+		innerWidthWindowCalc -= elementWidth;
+	}
+	var windowWidthText = ((elementWidth * numOfWindows)+40)+"px";
+	document.getElementById("main").style.width = windowWidthText;
+	var remainingWidth = innerWidthWindow - ((elementWidth * numOfWindows)+40);
+	remainingWidth = remainingWidth / 2;
+	var windowWidthText = remainingWidth+"px";
+	document.getElementById("main").style.marginLeft = windowWidthText;
+	document.getElementById("main").style.paddingRight = windowWidthText;
+}
