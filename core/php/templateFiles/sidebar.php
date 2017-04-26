@@ -1,4 +1,6 @@
-	<div id="sidebar" <?php if(isset($_COOKIE['toggleMenuSideBarGitStatus'])) 
+	<div id="sidebar" <?php
+	$open = false;
+	if(isset($_COOKIE['toggleMenuSideBarGitStatus'])) 
 		{
 	    	$open = false;
 			if(isset($_COOKIE['toggleMenuSideBarGitStatus'])) 
