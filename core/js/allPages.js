@@ -14,8 +14,10 @@ function getCookie(cname) {
     return "";
 }
 
+var widthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+var heightWindow = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
 function toggleMenuSideBar() {
-	var widthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	if(document.getElementById("sidebar").style.width == '100px')
 	{
 		document.getElementById("sidebar").style.width = "0px";
@@ -25,6 +27,7 @@ function toggleMenuSideBar() {
 		var windowWidthText = widthWindow+"px";
 		document.getElementById("main").style.width = windowWidthText;
 		$('#sidebar').removeClass('sidebarIsVisible');
+		document.getElementById("main").style.left = "0px";
 	}
 	else
 	{
@@ -35,6 +38,19 @@ function toggleMenuSideBar() {
 		var windowWidthText = (widthWindow - 102)+"px";
 		document.getElementById("main").style.width = windowWidthText;	
 		$('#sidebar').addClass('sidebarIsVisible');
+		document.getElementById("main").style.left = "100px";
 	}
 }
+
+
+if(document.getElementById("sidebar").style.width == '100px')
+{
+	document.getElementById("main").style.left = "100px";
+}
+else
+{
+	document.getElementById("main").style.left = "0px";
+}
+var heightVar = (heightWindow-40)+"px";
+document.getElementById("main").style.height = heightVar;
 
