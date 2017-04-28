@@ -48,8 +48,11 @@ calcuateWidth();
 function resizeFunction()
 {
 	calcuateWidth();
+	var heightWindow = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+	var heightVar = (heightWindow-40)+"px";
+	document.getElementById("main").style.height = heightVar;
 }
 
 $(window).resize(function(){
-    calcuateWidth();
+    resizeFunction();
 });
