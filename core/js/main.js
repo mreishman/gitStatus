@@ -388,16 +388,18 @@ function calcuateWidth()
 		document.getElementById("main").style.left = "0px";
 	}
 	var innerWidthWindowCalc = innerWidthWindow;
+	var innerWidthWindowCalcAdd = 0;
 	var numOfWindows = 0;
 	var elementWidth = 342;
 	while(innerWidthWindowCalc > elementWidth)
 	{
+		innerWidthWindowCalcAdd += elementWidth;
 		numOfWindows++;
 		innerWidthWindowCalc -= elementWidth;
 	}
-	var windowWidthText = ((elementWidth * numOfWindows)+40)+"px";
+	var windowWidthText = ((innerWidthWindowCalcAdd)+40)+"px";
 	document.getElementById("main").style.width = windowWidthText;
-	var remainingWidth = innerWidthWindow - ((elementWidth * numOfWindows)+40);
+	var remainingWidth = innerWidthWindow - ((innerWidthWindowCalcAdd)+40);
 	remainingWidth = remainingWidth / 2;
 	var windowWidthText = remainingWidth+"px";
 	document.getElementById("main").style.marginLeft = windowWidthText;

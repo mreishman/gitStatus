@@ -44,3 +44,12 @@ var heightVar = (heightWindow-40)+"px";
 document.getElementById("main").style.height = heightVar;
 
 calcuateWidth();
+
+function resizeFunction()
+{
+	calcuateWidth();
+}
+
+$(window).resize(function(){
+    calcuateWidth();
+});

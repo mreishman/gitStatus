@@ -81,7 +81,8 @@ body{
 	position: fixed;
 	top: 40px;
 	left: 100px;
-	overflow: auto;
+	overflow: -moz-scrollbars-vertical; 
+    overflow-y: scroll;
 }
 .menuBarLeft{
 	list-style-type: none;
