@@ -109,72 +109,92 @@ function pollFailure(dataInner, dataInnerPass)
 function pollSuccess(dataInner, dataInnerPass)
 {
 	// we make a successful JSONP call!
-	var dataStats = dataInner['stats'].replace("','", "'"+'&#44;'+"'");
-    var dataStats = dataStats.split(", <");
-    var dataBranchForFile = '<span id="'+dataInner['idName']+'";">';
-    if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
-    {
-    	dataBranchForFile += '<a style="color: black;" href="https://github.com/'+dataInnerPass["githubRepo"]+'/tree/'+dataInner['branch']+'">';
-    }
-    dataBranchForFile += dataInner['branch'];
-    if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
-    {
-    	dataBranchForFile += '</a>';
-    }
+	if(dataInner['branch'])
+	{
+		var dataStats = dataInner['stats'].replace("','", "'"+'&#44;'+"'");
+	    var dataStats = dataStats.split(", <");
+	    var dataBranchForFile = '<span id="'+dataInner['idName']+'";">';
+	    if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+	    {
+	    	dataBranchForFile += '<a style="color: black;" href="https://github.com/'+dataInnerPass["githubRepo"]+'/tree/'+dataInner['branch']+'">';
+	    }
+	    dataBranchForFile += dataInner['branch'];
+	    if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+	    {
+	    	dataBranchForFile += '</a>';
+	    }
 
-    
-    var dataBranchForFileUpdateTime = '<span id="'+dataInner['idName']+'Update";">'+dataInner['time']+'</span>';
-    var dataBranchForFileStats = '<span id="'+dataInner['idName']+'Stats";">';
-    for(var j = 0; j < dataStats.length; j++)
-    {
-    	if(j != 0)
-    	{
-    		dataBranchForFileStats += "<";
-    	}
-    	dataBranchForFileStats += dataStats[j];
-    	dataBranchForFileStats += "<br><br>";
-    }
-    dataBranchForFileStats +='</span>';
-    for (var i = 0, len = dataBranchForFileStats.length; i < len; i++) {
-	  if(dataBranchForFileStats[i] == "#")
-	  {
-	  	if(!isNaN(dataBranchForFileStats[i+1]))
-	  	{
-	  		if(dataBranchForFileStats[i-1] != "&")
-	  		{
-	  			var j = 1;
-		  		var num = "";
-		  		if(dataBranchForFileStats[i+j] != " " && (!isNaN(dataBranchForFileStats[i+j])))
+	    
+	    var dataBranchForFileUpdateTime = '<span id="'+dataInner['idName']+'Update";">'+dataInner['time']+'</span>';
+	    var dataBranchForFileStats = '<span id="'+dataInner['idName']+'Stats";">';
+	    for(var j = 0; j < dataStats.length; j++)
+	    {
+	    	if(j != 0)
+	    	{
+	    		dataBranchForFileStats += "<";
+	    	}
+	    	dataBranchForFileStats += dataStats[j];
+	    	dataBranchForFileStats += "<br><br>";
+	    }
+	    dataBranchForFileStats +='</span>';
+	    for (var i = 0, len = dataBranchForFileStats.length; i < len; i++) {
+		  if(dataBranchForFileStats[i] == "#")
+		  {
+		  	if(!isNaN(dataBranchForFileStats[i+1]))
+		  	{
+		  		if(dataBranchForFileStats[i-1] != "&")
 		  		{
-		  			while((!isNaN(dataBranchForFileStats[i+j])) && dataBranchForFileStats[i+j] != " ")
+		  			var j = 1;
+			  		var num = "";
+			  		if(dataBranchForFileStats[i+j] != " " && (!isNaN(dataBranchForFileStats[i+j])))
 			  		{
-			  			num += dataBranchForFileStats[i+j];
-			  			j++;
-			  		}
-			  		if(!isNaN(num));
-			  		{
-			  			if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
-			  			{
-			  				var link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
-				  			dataBranchForFile += " "+link;
-					  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
-					  		len = dataBranchForFileStats.length;
-					  		i = i + link.length;
-			  			}
+			  			while((!isNaN(dataBranchForFileStats[i+j])) && dataBranchForFileStats[i+j] != " ")
+				  		{
+				  			num += dataBranchForFileStats[i+j];
+				  			j++;
+				  		}
+				  		if(!isNaN(num));
+				  		{
+				  			if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+				  			{
+				  				var link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
+					  			dataBranchForFile += " "+link;
+						  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
+						  		len = dataBranchForFileStats.length;
+						  		i = i + link.length;
+				  			}
+				  		}
 			  		}
 		  		}
-	  		}
-	  	}
-	  }
+		  	}
+		  }
+		}
+
+		dataBranchForFile += '</span>'
+
+	    document.getElementById(dataInner['idName']).outerHTML = dataBranchForFile;
+	    document.getElementById(dataInner['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
+	    document.getElementById(dataInner['idName']+'Stats').outerHTML = dataBranchForFileStats;
+	    var nameForBackground = "innerFirstDevBox"+dataInner['idName'];
+	    filterBGColor(dataInner['branch'], nameForBackground);
 	}
+	else
+	{
+		//assume no data was recieved
 
-	dataBranchForFile += '</span>'
 
-    document.getElementById(dataInner['idName']).outerHTML = dataBranchForFile;
-    document.getElementById(dataInner['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
-    document.getElementById(dataInner['idName']+'Stats').outerHTML = dataBranchForFileStats;
-    var nameForBackground = "innerFirstDevBox"+dataInner['idName'];
-    filterBGColor(dataInner['branch'], nameForBackground);
+	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
+    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
+    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
+    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">No Data Recieved from server. Probably could not execute command</span>';
+    document.getElementById(noSpaceName).outerHTML = dataBranchForFile;
+    document.getElementById(noSpaceName+'Update').outerHTML = dataBranchForFileUpdateTime;
+    document.getElementById(noSpaceName+'Stats').outerHTML = dataBranchForFileStats;
+    var nameForBackground = "innerFirstDevBox"+noSpaceName;
+    filterBGColor('error', nameForBackground);
+
+
+	}
 }
 
 function filterBGColor(filterName, idName)
