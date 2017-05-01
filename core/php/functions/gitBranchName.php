@@ -1,8 +1,10 @@
 <?php header('Access-Control-Allow-Origin: *'); 
-$function = "git --git-dir=".$_POST['location'].".git rev-parse --abbrev-ref HEAD";
+if(strlen(escapeshellarg($_POST['location'])) < 500)
+{
+$function = "git --git-dir=".escapeshellarg($_POST['location']).".git rev-parse --abbrev-ref HEAD";
 $branchName = trim(shell_exec($function));
 $keyNoSpace = preg_replace('/\s+/', '_', $_POST['name']);
-$function = "git --git-dir=".$_POST['location'].".git log --stat -1 --pretty=\"<b>Author Name:</b> %an, <b>Author Date:</b> %ad, <b>Committer Name:</b> %cn, <b>Committer Date:</b> %cd, <b>Commit:</b> %s}\"";
+$function = "git --git-dir=".escapeshellarg($_POST['location']).".git log --stat -1 --pretty=\"<b>Author Name:</b> %an, <b>Author Date:</b> %ad, <b>Committer Name:</b> %cn, <b>Committer Date:</b> %cd, <b>Commit:</b> %s}\"";
 $branchStats = trim(shell_exec($function));
 $branchStats = substr($branchStats, 0, strpos($branchStats, "}"));
 $date = date('j m Y');
@@ -15,5 +17,13 @@ $response = array(
 	'stats'		=> $branchStats,
 	'otherFunctions'	=> ''
  );
+}
+else
+{
+	$response = array(
+	'branch' 	=> 'Location var is too long.',
+	'otherFunctions'	=> ''
+ );
+}
 echo json_encode($response);
 ?>
