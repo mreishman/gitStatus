@@ -130,6 +130,13 @@ require_once('core/php/loadVars.php'); ?>
 				  						<option <?php if($autoCheckUpdate == 'false'){echo "selected";} ?> value="false">Manual</option>
 									</select>
 							</li>
+							<li>
+								<span class="leftSpacingserverNames" > Default View: </span>
+									<select name="defaultViewBranch">
+				  						<option <?php if($defaultViewBranch == 'true'){echo "selected";} ?> value="Standard">Standard</option>
+				  						<option <?php if($defaultViewBranch == 'false'){echo "selected";} ?> value="Expanded">Expanded</option>
+									</select>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -220,6 +227,27 @@ require_once('core/php/loadVars.php'); ?>
 				  						<option <?php if($enableDevBranchDownload == 'true'){echo "selected";} ?> value="true">True</option>
 				  						<option <?php if($enableDevBranchDownload == 'false'){echo "selected";} ?> value="false">False</option>
 									</select>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="firstBoxDev">
+			<form id="settingsIssueSearchVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
+				<div class="innerFirstDevBox"  >
+					<div class="devBoxTitle">
+						<b>Link Search</b> <button>Save Changes</button>
+					</div>
+					<div class="devBoxContent">
+						<ul class="settingsUl">
+							<li>
+								Look for Issues in branch name 
+								<br><br>
+							</li>
+							<li>
+								<input type="checkbox" name="lookForStartsWithNum" value="true">  Starts With Numbers  <br><br>
+								<input type="checkbox" name="lookForEndsWithNum" value="true"> Ends With Numbers <br><br>
 							</li>
 						</ul>
 					</div>

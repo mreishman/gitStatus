@@ -116,6 +116,20 @@ else
 {
 	$enableDevBranchDownload = $defaultConfig['enableDevBranchDownload'];
 }
+if(isset($_POST['defaultViewBranch']))
+{
+	$defaultViewBranch = $_POST['defaultViewBranch'];
+}
+elseif(array_key_exists('defaultViewBranch', $config))
+{
+	$defaultViewBranch = $config['defaultViewBranch'];
+}
+else
+{
+	$defaultViewBranch = $defaultConfig['defaultViewBranch'];
+}
+
+
 
 $arrayWatchList = "";
 

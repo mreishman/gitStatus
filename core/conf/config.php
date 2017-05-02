@@ -9,5 +9,6 @@ $defaultConfig = array(
 	'developmentTabEnabled' => 'false',
 	'enableDevBranchDownload' => 'false',
 	'enableSystemPrefShellOrPhp'	=> 'false',
-	'expSettingsAvail'	=> 'true'
+	'expSettingsAvail'	=> 'true',
+	'defaultViewBranch'	=> 'Standard'
 );

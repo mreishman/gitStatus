@@ -25,6 +25,7 @@ require_once('../loadVars.php');
 			'autoCheckUpdate' => '".$autoCheckUpdate."',
 			'developmentTabEnabled' => '".$developmentTabEnabled."',
 			'enableDevBranchDownload' => '".$enableDevBranchDownload."',
+			'defaultViewBranch'	=> '".$defaultViewBranch."',
 			'watchList' => array(
 			".$arrayWatchList.")
 		);
