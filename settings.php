@@ -99,7 +99,7 @@ require_once('core/php/loadVars.php'); ?>
 	<div id="main">
 		
 		<div class="firstBoxDev">
-			<form id="settingsMainVars" action="core/php/saveFunctions/settingsMainUpdateVars.php" method="post">
+			<form id="settingsMainVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 				<div class="innerFirstDevBox"  >
 					<div class="devBoxTitle">
 						<b>Settings</b> <button>Save Changes</button>
@@ -136,7 +136,7 @@ require_once('core/php/loadVars.php'); ?>
 			</form>
 		</div>
 		<div class="firstBoxDev">
-			<form id="settingsMainWatch" action="core/php/saveFunctions/settingsMainUpdateWatchList.php" method="post">
+			<form id="settingsMainWatch" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 				<div class="innerFirstDevBox" style="width: 500px;" >
 					<div class="devBoxTitle">
 						<b>Watch List</b> <button>Save Changes</button>
@@ -207,7 +207,7 @@ require_once('core/php/loadVars.php'); ?>
 			</form>
 		</div>
 		<div class="firstBoxDev">
-			<form id="settingsDevBoxVars" action="core/php/saveFunctions/settingsDevBranch.php" method="post">
+			<form id="settingsDevBoxVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 				<div class="innerFirstDevBox"  >
 					<div class="devBoxTitle">
 						<b>Dev Box Settings</b> <button>Save Changes</button>
