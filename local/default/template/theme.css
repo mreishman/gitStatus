@@ -115,6 +115,9 @@ body{
 {
 	list-style: none;
 }
+.settingsUl li{
+	line-height: 200%;
+}
 .leftSpacingserverNames{
 	width: 100px;
 	display: inline-block;

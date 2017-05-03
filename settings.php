@@ -243,11 +243,14 @@ require_once('core/php/loadVars.php'); ?>
 						<ul class="settingsUl">
 							<li>
 								Look for Issues in branch name 
-								<br><br>
+								
 							</li>
 							<li>
-								<input type="checkbox" name="lookForStartsWithNum" value="true">  Starts With Numbers  <br><br>
-								<input type="checkbox" name="lookForEndsWithNum" value="true"> Ends With Numbers <br><br>
+								<input type="checkbox" name="lookForStartsWithNum" value="true">  Starts With Numbers  <br>
+								<input type="checkbox" name="lookForEndsWithNum" value="true"> Ends With Numbers <br>
+							</li>
+							<li>
+								Add New Watch Condition
 							</li>
 						</ul>
 					</div>
@@ -288,6 +291,10 @@ require_once('core/php/loadVars.php'); ?>
 			elementWidth = 342;
 		}
 		else if (numOfWindows == 3)
+		{
+			elementWidth = 342;
+		}
+		else if (numOfWindows == 4)
 		{
 			//change if adding more windows to settings.php
 			elementWidth = 9000000;
