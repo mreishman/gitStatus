@@ -84,7 +84,23 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		break;
 	}
 }
-require_once('core/php/loadVars.php'); ?>
+require_once('core/php/loadVars.php');
+
+if($defaultViewBranchCookie == 'true')
+{
+	if(isset($_COOKIE['defaultViewBranchCookie']))
+	{
+		$defaultViewBranch = $_COOKIE['defaultViewBranchCookie'];
+	}
+}
+else
+{
+	if(isset($_COOKIE['defaultViewBranchCookie']))
+	{
+		unset($_COOKIE['defaultViewBranchCookie']);
+	}
+}
+?>
 <!doctype html>
 <head>
 	<title>Git Status | Index</title>
@@ -122,10 +138,10 @@ require_once('core/php/loadVars.php'); ?>
 		</div>
 		<div class="menuSections" >
 			<div class="buttonSelectorOuter" >
-				<div onclick="switchToStandardView();" id="standardViewButtonMainSection" class="buttonSlectorInnerBoxesSelected buttonSlectorInnerBoxesAll" style="border-radius: 5px 0px 0px 5px;" >
+				<div onclick="switchToStandardView();" id="standardViewButtonMainSection" class="<?php if($defaultViewBranch == 'Standard'){echo 'buttonSlectorInnerBoxesSelected';}else{echo'buttonSlectorInnerBoxes';}?> buttonSlectorInnerBoxesAll" style="border-radius: 5px 0px 0px 5px;" >
 					Standard
 				</div>
-				<div onclick="switchToExpandedView();" id="expandedViewButtonMainSection" class="buttonSlectorInnerBoxes buttonSlectorInnerBoxesAll" style="border-radius: 0px 5px 5px 0px">
+				<div onclick="switchToExpandedView();" id="expandedViewButtonMainSection" class="<?php if($defaultViewBranch == 'Expanded'){echo 'buttonSlectorInnerBoxesSelected';}else{echo'buttonSlectorInnerBoxes';}?> buttonSlectorInnerBoxesAll" style="border-radius: 0px 5px 5px 0px">
 					Expanded
 				</div>
 			</div>
@@ -180,6 +196,7 @@ require_once('core/php/loadVars.php'); ?>
 			echo "var autoCheckUpdate = ".$autoCheckUpdate.";";
 			echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
 			echo "var numberOfLogs = '".$h."';";
+			echo "var defaultViewBranchCookie = '".$defaultViewBranchCookie."'";
 		?>
 
 		var pausePoll = false;

@@ -342,6 +342,10 @@ function switchToStandardView()
 	{
 		if($('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
 		{
+			if(defaultViewBranchCookie = "true")
+			{
+				document.cookie = "defaultViewBranchCookie=Standard";
+			}
 			removeAllButtonSelectorClasses('standardViewButtonMainSection');
 
 			$('#standardViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
@@ -359,6 +363,10 @@ function switchToExpandedView()
 	{
 		if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
 		{
+			if(defaultViewBranchCookie = "true")
+			{
+				document.cookie = "defaultViewBranchCookie=Expanded";
+			}
 			removeAllButtonSelectorClasses('expandedViewButtonMainSection');
 
 			$('#expandedViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
