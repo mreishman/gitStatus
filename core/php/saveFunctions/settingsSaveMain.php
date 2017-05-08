@@ -26,6 +26,7 @@ require_once('../loadVars.php');
 			'developmentTabEnabled' => '".$developmentTabEnabled."',
 			'enableDevBranchDownload' => '".$enableDevBranchDownload."',
 			'defaultViewBranch'	=> '".$defaultViewBranch."',
+			'defaultViewBranchCookie'	=> '".$defaultViewBranchCookie."',
 			'watchList' => array(
 			".$arrayWatchList.")
 		);

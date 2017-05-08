@@ -128,6 +128,19 @@ else
 {
 	$defaultViewBranch = $defaultConfig['defaultViewBranch'];
 }
+if(isset($_POST['defaultViewBranchCookie']))
+{
+	$defaultViewBranchCookie = $_POST['defaultViewBranchCookie'];
+}
+elseif(array_key_exists('defaultViewBranchCookie', $config))
+{
+	$defaultViewBranchCookie = $config['defaultViewBranchCookie'];
+}
+else
+{
+	$defaultViewBranchCookie = $defaultConfig['defaultViewBranchCookie'];
+}
+
 
 
 

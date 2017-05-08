@@ -137,6 +137,16 @@ require_once('core/php/loadVars.php'); ?>
 				  						<option <?php if($defaultViewBranch == 'Expanded'){echo "selected";} ?> value="Expanded">Expanded</option>
 									</select>
 							</li>
+							<li>
+								<span class="leftSpacingserverNames" > DV Cookie: </span>
+
+								<select name="defaultViewBranchCookie">
+				  						<option <?php if($defaultViewBranchCookie == 'true'){echo "selected";} ?> value="true">True</option>
+				  						<option <?php if($defaultViewBranchCookie == 'false'){echo "selected";} ?> value="false">False</option>
+									</select>
+								<p class="description" >Set default view by cookie, overrides above</p>
+								
+							</li>
 						</ul>
 					</div>
 				</div>

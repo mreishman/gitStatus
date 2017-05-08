@@ -173,40 +173,13 @@ require_once('core/php/loadVars.php'); ?>
 
 	<script>
 		<?php
-			if(array_key_exists('pollingRate', $config))
-			{
-				echo "var pollingRate = ".$config['pollingRate'].";";
-			}
-			else
-			{
-				echo "var pollingRate = ".$defaultConfig['pollingRate'].";";
-			} 
-			if(array_key_exists('pausePoll', $config))
-			{
-				echo "var pausePollFromFile = ".$config['pausePoll'].";";
-			}
-			else
-			{
-				echo "var pausePollFromFile = ".$defaultConfig['pausePoll'].";";
-			}
-			if(array_key_exists('pauseOnNotFocus', $config))
-			{
-				echo "var pausePollOnNotFocus = ".$config['pauseOnNotFocus'].";";
-			}
-			else
-			{
-				echo "var pausePollOnNotFocus = ".$defaultConfig['pauseOnNotFocus'].";";
-			}
-			if(array_key_exists('autoCheckUpdate', $config))
-			{
-				echo "var autoCheckUpdate = ".$config['autoCheckUpdate'].";";
-			}
-			else
-			{
-				echo "var autoCheckUpdate = ".$defaultConfig['autoCheckUpdate'].";";
-			}
-		echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
-		echo "var numberOfLogs = '".$h."';";
+
+			echo "var pollingRate = ".$pollingRate.";";
+			echo "var pausePollFromFile = ".$pausePoll.";";
+			echo "var pausePollOnNotFocus = ".$pauseOnNotFocus.";";
+			echo "var autoCheckUpdate = ".$autoCheckUpdate.";";
+			echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
+			echo "var numberOfLogs = '".$h."';";
 		?>
 
 		var pausePoll = false;

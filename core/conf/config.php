@@ -10,5 +10,6 @@ $defaultConfig = array(
 	'enableDevBranchDownload' => 'false',
 	'enableSystemPrefShellOrPhp'	=> 'false',
 	'expSettingsAvail'	=> 'true',
-	'defaultViewBranch'	=> 'Standard'
+	'defaultViewBranch'	=> 'Standard',
+	'defaultViewBranchCookie'	=> 'false'
 );
