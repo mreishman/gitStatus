@@ -84,8 +84,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		break;
 	}
 }
-
-?>
+require_once('core/php/loadVars.php'); ?>
 <!doctype html>
 <head>
 	<title>Git Status | Index</title>
@@ -155,7 +154,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>">
 						--Pending--
 					</span></b>
-					<div class="devBoxContentSecondary">
+					<div class="<?php if($defaultViewBranch == 'Standard'){echo 'devBoxContentSecondary';}else{echo'devBoxContentSecondaryExpanded';}?>">
 					<br><br>
 					<b>Last Updated:</b>
 					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update">

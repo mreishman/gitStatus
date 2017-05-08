@@ -133,8 +133,8 @@ require_once('core/php/loadVars.php'); ?>
 							<li>
 								<span class="leftSpacingserverNames" > Default View: </span>
 									<select name="defaultViewBranch">
-				  						<option <?php if($defaultViewBranch == 'true'){echo "selected";} ?> value="Standard">Standard</option>
-				  						<option <?php if($defaultViewBranch == 'false'){echo "selected";} ?> value="Expanded">Expanded</option>
+				  						<option <?php if($defaultViewBranch == 'Standard'){echo "selected";} ?> value="Standard">Standard</option>
+				  						<option <?php if($defaultViewBranch == 'Expanded'){echo "selected";} ?> value="Expanded">Expanded</option>
 									</select>
 							</li>
 						</ul>
@@ -235,23 +235,23 @@ require_once('core/php/loadVars.php'); ?>
 		</div>
 		<div class="firstBoxDev">
 			<form id="settingsIssueSearchVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
-				<div class="innerFirstDevBox"  >
+				<div class="innerFirstDevBox" style="width: 500px;" >
 					<div class="devBoxTitle">
 						<b>Link Search</b> <button>Save Changes</button>
 					</div>
 					<div class="devBoxContent">
 						<ul class="settingsUl">
 							<li>
-								Look for Issues in branch name 
+								<h2>Look for Issues in branch name </h2>
 								
 							</li>
 							<li>
 								<input type="checkbox" name="lookForStartsWithNum" value="true">  Starts With Numbers  <br>
 								<input type="checkbox" name="lookForEndsWithNum" value="true"> Ends With Numbers <br>
 							</li>
-							<li>
-								Add New Watch Condition
-							</li>
+							<!-- <li>
+								<a class="link underlineLink" >Add New Watch Condition</a>
+							</li> -->
 						</ul>
 					</div>
 				</div>
