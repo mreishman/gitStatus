@@ -216,46 +216,51 @@ function filterBGColor(filterName, idName)
 	}
 }
 
+var refreshing = false;
+
 function refreshAction(refreshImage, all = -1, status = 'outer')
 {
-	clearTimeout(refreshActionVar);
-	if(status == "inner")
+	if(refreshing == false)
 	{
-		document.getElementById(refreshImage).src="core/img/refresh-animated-2.gif";
-	}
-	else
-	{
-		//outer default
-		document.getElementById(refreshImage).src="core/img/refresh-animated.gif";
-	}
-	
-	refreshing = true;
-	if(pausePoll)
-	{
-		clearTimeout(refreshPauseActionVar);
-		pausePoll = false;
-		if(all == '-1')
+		clearTimeout(refreshActionVar);
+		if(status == "inner")
 		{
-			poll();
+			document.getElementById(refreshImage).src="core/img/refresh-animated-2.gif";
 		}
 		else
 		{
-			poll(all);	
+			//outer default
+			document.getElementById(refreshImage).src="core/img/refresh-animated.gif";
 		}
-		refreshPauseActionVar = setTimeout(function(){pausePoll = true;}, 1000);
-	}
-	else
-	{
-		if(all == '-1')
+		
+		refreshing = true;
+		if(pausePoll)
 		{
-			poll();
+			clearTimeout(refreshPauseActionVar);
+			pausePoll = false;
+			if(all == '-1')
+			{
+				poll();
+			}
+			else
+			{
+				poll(all);	
+			}
+			refreshPauseActionVar = setTimeout(function(){pausePoll = true;}, 1000);
 		}
 		else
 		{
-			poll(all);	
+			if(all == '-1')
+			{
+				poll();
+			}
+			else
+			{
+				poll(all);	
+			}
 		}
+		refreshActionVar = setTimeout(function(){endRefreshAction(refreshImage, status)}, 1500);
 	}
-	refreshActionVar = setTimeout(function(){endRefreshAction(refreshImage, status)}, 1500);
 }
 
 function endRefreshAction(refreshImage, status)
