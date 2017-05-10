@@ -123,8 +123,8 @@ function pollSuccess(dataInner, dataInnerPass)
 	    {
 	    	dataBranchForFile += '</a>';
 	    }
-
-	    
+	    var link = "";
+	    var linksFromCommitMessage = [];
 	    var dataBranchForFileUpdateTime = '<span id="'+dataInner['idName']+'Update";">'+dataInner['time']+'</span>';
 	    var dataBranchForFileStats = '<span id="'+dataInner['idName']+'Stats";">';
 	    for(var j = 0; j < dataStats.length; j++)
@@ -157,8 +157,9 @@ function pollSuccess(dataInner, dataInnerPass)
 				  		{
 				  			if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
 				  			{
-				  				var link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
+				  				link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
 					  			dataBranchForFile += " "+link;
+					  			linksFromCommitMessage.push(num.toString());
 						  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
 						  		len = dataBranchForFileStats.length;
 						  		i = i + link.length;
@@ -170,7 +171,54 @@ function pollSuccess(dataInner, dataInnerPass)
 		  }
 		}
 
-		dataBranchForFile += '</span>'
+		
+		
+		//loop through filters, if match -> get number, add to title if != link
+
+		
+		//num for start
+		var numForStart = "";
+		var countForStartLoop = 0;
+		var branchName = dataInner['branch'];
+		//console.log(dataInner['branch']);
+		while(!isNaN(branchName.charAt(countForStartLoop)))
+		{
+			//starts with number
+			numForStart += branchName.charAt(countForStartLoop);
+			countForStartLoop++;
+		}
+
+		if(numForStart != "" && (linksFromCommitMessage.indexOf(numForStart) == -1))
+		{
+			if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+			{
+				link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForStart+'">'+dataBranchForFileStats[i]+numForStart+'</a>';
+				dataBranchForFile += " "+link;
+		}
+
+		/*
+		//num for end
+		var numForEnd = "";
+		var countForEndLoop = branchName.substr(branchName.length - 1);
+		while(!isNaN(branchName.charAt(countForEndLoop)))
+		{
+			numForEnd += branchName.charAt(countForEndLoop);
+			countForEndLoop--;
+		}
+
+		if(numForEnd != "" && (linksFromCommitMessage.indexOf(numForEnd) > -1) && numForEnd != numForStart)
+		{
+			link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForEnd+'">'+dataBranchForFileStats[i]+numForEnd+'</a>';
+			dataBranchForFile += " "+link;
+		}
+
+		//other
+		*/
+
+
+
+		dataBranchForFile += '</span>';
+
 
 	    document.getElementById(dataInner['idName']).outerHTML = dataBranchForFile;
 	    document.getElementById(dataInner['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;

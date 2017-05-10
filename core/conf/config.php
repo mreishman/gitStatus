@@ -11,5 +11,10 @@ $defaultConfig = array(
 	'enableSystemPrefShellOrPhp'	=> 'false',
 	'expSettingsAvail'	=> 'true',
 	'defaultViewBranch'	=> 'Standard',
-	'defaultViewBranchCookie'	=> 'false'
+	'defaultViewBranchCookie'	=> 'false',
+	'checkForIssueInBranchNameFilters'	=> array(
+				'Issue','issue','Issue_','issue_','Issue-','issue-','revert-'
+				),
+			'checkForIssueStartsWithNum'	=> 'true',
+			'checkForIssueEndsWithNum'	=> 'true'
 );

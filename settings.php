@@ -256,8 +256,8 @@ require_once('core/php/loadVars.php'); ?>
 								
 							</li>
 							<li>
-								<input type="checkbox" name="lookForStartsWithNum" value="true">  Starts With Numbers  <br>
-								<input type="checkbox" name="lookForEndsWithNum" value="true"> Ends With Numbers <br>
+								<input type="checkbox" name="checkForIssueStartsWithNum" <?php if($checkForIssueStartsWithNum == 'true'){echo "checked";} ?> value="true">  Starts With Numbers  <br>
+								<input type="checkbox" name="checkForIssueEndsWithNum" <?php if($checkForIssueEndsWithNum == 'true'){echo "checked";} ?> value="true"> Ends With Numbers <br>
 							</li>
 							<!-- <li>
 								<a class="link underlineLink" >Add New Watch Condition</a>

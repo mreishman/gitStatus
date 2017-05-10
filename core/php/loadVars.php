@@ -140,6 +140,30 @@ else
 {
 	$defaultViewBranchCookie = $defaultConfig['defaultViewBranchCookie'];
 }
+if(isset($_POST['checkForIssueStartsWithNum']))
+{
+	$checkForIssueStartsWithNum = $_POST['checkForIssueStartsWithNum'];
+}
+elseif(array_key_exists('checkForIssueStartsWithNum', $config))
+{
+	$checkForIssueStartsWithNum = $config['checkForIssueStartsWithNum'];
+}
+else
+{
+	$checkForIssueStartsWithNum = $defaultConfig['checkForIssueStartsWithNum'];
+}
+if(isset($_POST['checkForIssueEndsWithNum']))
+{
+	$checkForIssueEndsWithNum = $_POST['checkForIssueEndsWithNum'];
+}
+elseif(array_key_exists('checkForIssueEndsWithNum', $config))
+{
+	$checkForIssueEndsWithNum = $config['checkForIssueEndsWithNum'];
+}
+else
+{
+	$checkForIssueEndsWithNum = $defaultConfig['checkForIssueEndsWithNum'];
+}
 
 
 
