@@ -194,6 +194,7 @@ function pollSuccess(dataInner, dataInnerPass)
 			{
 				link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForStart+'">'+dataBranchForFileStats[i]+numForStart+'</a>';
 				dataBranchForFile += " "+link;
+			}
 		}
 
 		/*
