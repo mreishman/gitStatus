@@ -197,27 +197,30 @@ function pollSuccess(dataInner, dataInnerPass)
 			}
 		}
 
-		/*
+		
 		//num for end
 		var numForEnd = "";
-		var countForEndLoop = branchName.substr(branchName.length - 1);
+		var countForEndLoop = branchName.length - 1;
+		
 		while(!isNaN(branchName.charAt(countForEndLoop)))
 		{
 			numForEnd += branchName.charAt(countForEndLoop);
 			countForEndLoop--;
 		}
+		numForEnd = reverseString(numForEnd);
 
-		if(numForEnd != "" && (linksFromCommitMessage.indexOf(numForEnd) > -1) && numForEnd != numForStart)
+		if(numForEnd != "" && (linksFromCommitMessage.indexOf(numForEnd) == -1) && numForEnd != numForStart)
 		{
-			link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForEnd+'">'+dataBranchForFileStats[i]+numForEnd+'</a>';
-			dataBranchForFile += " "+link;
+			if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+			{
+				link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForEnd+'">#'+numForEnd+'</a>';
+				dataBranchForFile += " "+link;
+			}
 		}
 
 		//other
-		*/
-
-
-
+		
+		
 		dataBranchForFile += '</span>';
 
 
@@ -245,6 +248,12 @@ function pollSuccess(dataInner, dataInnerPass)
 
 	}
 }
+
+function reverseString(str)
+{
+    return str.split("").reverse().join("");
+}
+
 
 function filterBGColor(filterName, idName)
 {
