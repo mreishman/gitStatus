@@ -192,7 +192,7 @@ function pollSuccess(dataInner, dataInnerPass)
 		{
 			if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
 			{
-				link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForStart+'">'+dataBranchForFileStats[i]+numForStart+'</a>';
+				link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForStart+'">#'+numForStart+'</a>';
 				dataBranchForFile += " "+link;
 			}
 		}
