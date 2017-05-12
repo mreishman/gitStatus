@@ -27,6 +27,9 @@ require_once('../loadVars.php');
 			'enableDevBranchDownload' => '".$enableDevBranchDownload."',
 			'defaultViewBranch'	=> '".$defaultViewBranch."',
 			'defaultViewBranchCookie'	=> '".$defaultViewBranchCookie."',
+			'checkForIssueStartsWithNum'	=> '".$checkForIssueStartsWithNum."',
+			'checkForIssueEndsWithNum'	=> '".$checkForIssueEndsWithNum."',
+			'checkForIssueCustom'	=> '".$checkForIssueCustom."',
 			'watchList' => array(
 			".$arrayWatchList.")
 		);

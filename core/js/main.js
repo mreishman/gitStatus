@@ -177,73 +177,81 @@ function pollSuccess(dataInner, dataInnerPass)
 
 		
 		//num for start
-		var numForStart = "";
-		var countForStartLoop = 0;
-		var branchName = dataInner['branch'];
-		//console.log(dataInner['branch']);
-		while(!isNaN(branchName.charAt(countForStartLoop)) && countForStartLoop != (branchName.length))
+		if(checkForIssueStartsWithNum == "true")
 		{
-			//starts with number
-			numForStart += branchName.charAt(countForStartLoop);
-			countForStartLoop++;
-		}
-
-		if(numForStart != "" && (linksFromCommitMessage.indexOf(numForStart) == -1))
-		{
-			if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+			var numForStart = "";
+			var countForStartLoop = 0;
+			var branchName = dataInner['branch'];
+			//console.log(dataInner['branch']);
+			while(!isNaN(branchName.charAt(countForStartLoop)) && countForStartLoop != (branchName.length))
 			{
-				link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForStart+'">#'+numForStart+'</a>';
-				dataBranchForFile += " "+link;
+				//starts with number
+				numForStart += branchName.charAt(countForStartLoop);
+				countForStartLoop++;
+			}
+
+			if(numForStart != "" && (linksFromCommitMessage.indexOf(numForStart) == -1))
+			{
+				if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+				{
+					link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForStart+'">#'+numForStart+'</a>';
+					dataBranchForFile += " "+link;
+				}
 			}
 		}
 
 		
 		//num for end
-		var numForEnd = "";
-		var countForEndLoop = branchName.length - 1;
-		
-		while(!isNaN(branchName.charAt(countForEndLoop)) && countForEndLoop != 0)
+		if(checkForIssueEndsWithNum == "true")
 		{
-			numForEnd += branchName.charAt(countForEndLoop);
-			countForEndLoop--;
-		}
-		numForEnd = reverseString(numForEnd);
-
-		if(numForEnd != "" && (linksFromCommitMessage.indexOf(numForEnd) == -1) && numForEnd != numForStart)
-		{
-			if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+			var numForEnd = "";
+			var countForEndLoop = branchName.length - 1;
+			
+			while(!isNaN(branchName.charAt(countForEndLoop)) && countForEndLoop != 0)
 			{
-				link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForEnd+'">#'+numForEnd+'</a>';
-				dataBranchForFile += " "+link;
+				numForEnd += branchName.charAt(countForEndLoop);
+				countForEndLoop--;
+			}
+			numForEnd = reverseString(numForEnd);
+
+			if(numForEnd != "" && (linksFromCommitMessage.indexOf(numForEnd) == -1) && numForEnd != numForStart)
+			{
+				if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+				{
+					link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForEnd+'">#'+numForEnd+'</a>';
+					dataBranchForFile += " "+link;
+				}
 			}
 		}
 
 		//other
-		var arrayOfFilters = ["Issue","issue","Issue_","issue_","Issue-","issue-","revert-"];
-		var arrayOfFiltersLength =  arrayOfFilters.length;
-		for(var i = 0; i < arrayOfFiltersLength; i++)
+		if(checkForIssueCustom == "true")
 		{
-			if(branchName.includes(arrayOfFilters[i]))
+			var arrayOfFilters = ["Issue","issue","Issue_","issue_","Issue-","issue-","revert-"];
+			var arrayOfFiltersLength =  arrayOfFilters.length;
+			for(var i = 0; i < arrayOfFiltersLength; i++)
 			{
-				var numForcalc = (branchName.indexOf(arrayOfFilters[i]) + arrayOfFilters[i].length);
-				var numForLinkIssue = "";
-				while(!isNaN(branchName.charAt(numForcalc)) && numForcalc != (branchName.length))
+				if(branchName.includes(arrayOfFilters[i]))
 				{
-					numForLinkIssue += branchName.charAt(numForcalc);
-					numForcalc++;
-				}
-
-				if(numForLinkIssue != "" && (linksFromCommitMessage.indexOf(numForLinkIssue) == -1) && numForLinkIssue != numForStart && numForLinkIssue != numForEnd)
-				{
-					if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+					var numForcalc = (branchName.indexOf(arrayOfFilters[i]) + arrayOfFilters[i].length);
+					var numForLinkIssue = "";
+					while(!isNaN(branchName.charAt(numForcalc)) && numForcalc != (branchName.length))
 					{
-						link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForLinkIssue+'">#'+numForLinkIssue+'</a>';
-						dataBranchForFile += " "+link;
+						numForLinkIssue += branchName.charAt(numForcalc);
+						numForcalc++;
+					}
+
+					if(numForLinkIssue != "" && (linksFromCommitMessage.indexOf(numForLinkIssue) == -1) && numForLinkIssue != numForStart && numForLinkIssue != numForEnd)
+					{
+						if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+						{
+							link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForLinkIssue+'">#'+numForLinkIssue+'</a>';
+							dataBranchForFile += " "+link;
+						}
 					}
 				}
 			}
 		}
-
 		dataBranchForFile += '</span>';
 
 

@@ -164,7 +164,18 @@ else
 {
 	$checkForIssueEndsWithNum = $defaultConfig['checkForIssueEndsWithNum'];
 }
-
+if(isset($_POST['checkForIssueCustom']))
+{
+	$checkForIssueCustom = $_POST['checkForIssueCustom'];
+}
+elseif(array_key_exists('checkForIssueCustom', $config))
+{
+	$checkForIssueCustom = $config['checkForIssueCustom'];
+}
+else
+{
+	$checkForIssueCustom = $defaultConfig['checkForIssueCustom'];
+}
 
 
 

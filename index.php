@@ -196,7 +196,10 @@ else
 			echo "var autoCheckUpdate = ".$autoCheckUpdate.";";
 			echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
 			echo "var numberOfLogs = '".$h."';";
-			echo "var defaultViewBranchCookie = '".$defaultViewBranchCookie."'";
+			echo "var defaultViewBranchCookie = '".$defaultViewBranchCookie."';";
+			echo "var checkForIssueStartsWithNum = '".$checkForIssueStartsWithNum."';";
+			echo "var checkForIssueEndsWithNum = '".$checkForIssueEndsWithNum."';";
+			echo "var checkForIssueCustom = '".$checkForIssueCustom."';";
 		?>
 
 		var pausePoll = false;
