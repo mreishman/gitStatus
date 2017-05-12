@@ -137,38 +137,42 @@ function pollSuccess(dataInner, dataInnerPass)
 	    	dataBranchForFileStats += "<br><br>";
 	    }
 	    dataBranchForFileStats +='</span>';
-	    for (var i = 0, len = dataBranchForFileStats.length; i < len; i++) {
-		  if(dataBranchForFileStats[i] == "#")
-		  {
-		  	if(!isNaN(dataBranchForFileStats[i+1]))
-		  	{
-		  		if(dataBranchForFileStats[i-1] != "&")
-		  		{
-		  			var j = 1;
-			  		var num = "";
-			  		if(dataBranchForFileStats[i+j] != " " && (!isNaN(dataBranchForFileStats[i+j])))
+	    if(checkForIssueInCommit == "true")
+	    {
+		    for (var i = 0, len = dataBranchForFileStats.length; i < len; i++) 
+		    {
+			  if(dataBranchForFileStats[i] == "#")
+			  {
+			  	if(!isNaN(dataBranchForFileStats[i+1]))
+			  	{
+			  		if(dataBranchForFileStats[i-1] != "&")
 			  		{
-			  			while((!isNaN(dataBranchForFileStats[i+j])) && dataBranchForFileStats[i+j] != " ")
+			  			var j = 1;
+				  		var num = "";
+				  		if(dataBranchForFileStats[i+j] != " " && (!isNaN(dataBranchForFileStats[i+j])))
 				  		{
-				  			num += dataBranchForFileStats[i+j];
-				  			j++;
-				  		}
-				  		if(!isNaN(num));
-				  		{
-				  			if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
-				  			{
-				  				link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
-					  			dataBranchForFile += " "+link;
-					  			linksFromCommitMessage.push(num.toString());
-						  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
-						  		len = dataBranchForFileStats.length;
-						  		i = i + link.length;
-				  			}
+				  			while((!isNaN(dataBranchForFileStats[i+j])) && dataBranchForFileStats[i+j] != " ")
+					  		{
+					  			num += dataBranchForFileStats[i+j];
+					  			j++;
+					  		}
+					  		if(!isNaN(num));
+					  		{
+					  			if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+					  			{
+					  				link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
+						  			dataBranchForFile += " "+link;
+						  			linksFromCommitMessage.push(num.toString());
+							  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
+							  		len = dataBranchForFileStats.length;
+							  		i = i + link.length;
+					  			}
+					  		}
 				  		}
 			  		}
-		  		}
-		  	}
-		  }
+			  	}
+			  }
+			}
 		}
 
 		

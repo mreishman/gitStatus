@@ -200,6 +200,7 @@ else
 			echo "var checkForIssueStartsWithNum = '".$checkForIssueStartsWithNum."';";
 			echo "var checkForIssueEndsWithNum = '".$checkForIssueEndsWithNum."';";
 			echo "var checkForIssueCustom = '".$checkForIssueCustom."';";
+			echo "var checkForIssueInCommit = '".$checkForIssueInCommit."';";
 		?>
 
 		var pausePoll = false;

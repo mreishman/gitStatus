@@ -176,7 +176,18 @@ else
 {
 	$checkForIssueCustom = $defaultConfig['checkForIssueCustom'];
 }
-
+if(isset($_POST['checkForIssueInCommit']))
+{
+	$checkForIssueInCommit = $_POST['checkForIssueInCommit'];
+}
+elseif(array_key_exists('checkForIssueInCommit', $config))
+{
+	$checkForIssueInCommit = $config['checkForIssueInCommit'];
+}
+else
+{
+	$checkForIssueInCommit = $defaultConfig['checkForIssueInCommit'];
+}
 
 
 $arrayWatchList = "";
