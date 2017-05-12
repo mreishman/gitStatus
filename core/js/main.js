@@ -181,7 +181,7 @@ function pollSuccess(dataInner, dataInnerPass)
 		var countForStartLoop = 0;
 		var branchName = dataInner['branch'];
 		//console.log(dataInner['branch']);
-		while(!isNaN(branchName.charAt(countForStartLoop)))
+		while(!isNaN(branchName.charAt(countForStartLoop)) && countForStartLoop != (branchName.length))
 		{
 			//starts with number
 			numForStart += branchName.charAt(countForStartLoop);
@@ -202,7 +202,7 @@ function pollSuccess(dataInner, dataInnerPass)
 		var numForEnd = "";
 		var countForEndLoop = branchName.length - 1;
 		
-		while(!isNaN(branchName.charAt(countForEndLoop)))
+		while(!isNaN(branchName.charAt(countForEndLoop)) && countForEndLoop != 0)
 		{
 			numForEnd += branchName.charAt(countForEndLoop);
 			countForEndLoop--;
@@ -219,8 +219,31 @@ function pollSuccess(dataInner, dataInnerPass)
 		}
 
 		//other
-		
-		
+		var arrayOfFilters = ["Issue","issue","Issue_","issue_","Issue-","issue-","revert-"];
+		var arrayOfFiltersLength =  arrayOfFilters.length;
+		for(var i = 0; i < arrayOfFiltersLength; i++)
+		{
+			if(branchName.includes(arrayOfFilters[i]))
+			{
+				var numForcalc = (branchName.indexOf(arrayOfFilters[i]) + arrayOfFilters[i].length);
+				var numForLinkIssue = "";
+				while(!isNaN(branchName.charAt(numForcalc)) && numForcalc != (branchName.length))
+				{
+					numForLinkIssue += branchName.charAt(numForcalc);
+					numForcalc++;
+				}
+
+				if(numForLinkIssue != "" && (linksFromCommitMessage.indexOf(numForLinkIssue) == -1) && numForLinkIssue != numForStart && numForLinkIssue != numForEnd)
+				{
+					if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+					{
+						link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForLinkIssue+'">#'+numForLinkIssue+'</a>';
+						dataBranchForFile += " "+link;
+					}
+				}
+			}
+		}
+
 		dataBranchForFile += '</span>';
 
 
