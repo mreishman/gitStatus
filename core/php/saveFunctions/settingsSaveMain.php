@@ -30,7 +30,7 @@ require_once('../loadVars.php');
 			'checkForIssueStartsWithNum'	=> '".$checkForIssueStartsWithNum."',
 			'checkForIssueEndsWithNum'	=> '".$checkForIssueEndsWithNum."',
 			'checkForIssueCustom'	=> '".$checkForIssueCustom."',
-			'checkForIssueInCommit => '".$checkForIssueInCommit."',
+			'checkForIssueInCommit' => '".$checkForIssueInCommit."',
 			'watchList' => array(
 			".$arrayWatchList.")
 		);

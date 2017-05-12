@@ -15,6 +15,8 @@ $defaultConfig = array(
 	'checkForIssueInBranchNameFilters'	=> array(
 				'Issue','issue','Issue_','issue_','Issue-','issue-','revert-'
 				),
-			'checkForIssueStartsWithNum'	=> 'true',
-			'checkForIssueEndsWithNum'	=> 'true'
+	'checkForIssueStartsWithNum'	=> 'true',
+	'checkForIssueEndsWithNum'	=> 'true',
+	'checkForIssueCustom'	=> 'true',
+	'checkForIssueInCommit'	=> 'true',
 );
