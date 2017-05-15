@@ -136,7 +136,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		</div>
 		<?php if($levelOfUpdate != 0): ?>
 		<div class="firstBoxDev">
-			<div class="innerFirstDevBox" style="width: 600px; max-height: 500px;"  >
+			<div class="innerFirstDevBox" style="width: 600px;"  >
 				<div class="devBoxTitle">
 				Update - Release Notes
 				</div>
@@ -212,7 +212,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		</div>
 		<?php endif; ?>
 		<div class="firstBoxDev">
-			<div class="innerFirstDevBox" style=" width: 600px; max-height: 500px;"  >
+			<div class="innerFirstDevBox" style=" width: 600px;"  >
 				<div class="devBoxTitle">
 					<b>Changelog</b>
 				</div>
