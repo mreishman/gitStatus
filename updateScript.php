@@ -16,9 +16,17 @@ while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
   $varToIndexDir .= "../";        
 }
   
-if($currentFile == "core_img_loading.gif")
+if($currentFile == "about.php")
 {
-   rename($varToIndexDir.$indexToExtracted."core_img_loading.jpg", $varToIndexDir.$indexToExtracted."core_img_loading.gif");
+   mkdir($varToIndexDir."/core/php/upgradeScripts/", 0777);
+}
+	
+if($currentFile == "local_default_template_theme.css")
+{
+   unlink($varToIndexDir."core/php/saveFunctions/settingsdevAdvancedSave.php");
+   unlink($varToIndexDir."core/php/saveFunctions/settingsDevBranch.php");
+   unlink($varToIndexDir."core/php/saveFunctions/settingsMainUpdateVars.php");
+   unlink($varToIndexDir."core/php/saveFunctions/settingsMainUpdateWatchList.php");
 }
   
 //update innerUpgradeStatus file
@@ -65,6 +73,10 @@ $writtenTextTofile = "<?php
 
 file_put_contents($varToIndexDir.$indexToExtracted."innerUpgradeStatus.php", $writtenTextTofile);  
 
+if($currentFile == "index.php")
+{
+   require_once($varToIndexDir."core/php/upgradeScripts/upgrade_1.1-1.2.php");
+}
   
 }
 else
