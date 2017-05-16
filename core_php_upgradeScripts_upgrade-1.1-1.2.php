@@ -71,6 +71,6 @@ require_once('../loadVars.php');
 
 	file_put_contents($fileName, $newInfoForConfig);
 
-	header('Location: https://' . $_SERVER['SERVER_NAME'] . 'status/update/updater.php');
+	header('Location: https://' . $_SERVER['SERVER_NAME'] . '/status/update/updater.php');
 	exit();
 ?>
