@@ -14,7 +14,7 @@ require_once('../../../core/conf/config.php');
 require_once('../loadVars.php');
 
 	$fileName = ''.$baseUrl.'conf/config.php';
-
+	$arrayWatchList = "";
 
 	$numberOfRows = count($watchList);
 	$i = 0;
@@ -25,10 +25,9 @@ require_once('../loadVars.php');
 		$numberOfRows2 = count($value);
 		$arrayWatchList .= "'".$key."' => array(";
 		$githubRepoPresent = false;
-		foreach ($value as $key2 => $value2) {
-
-			//
-			if($key2 = "githubRepo")
+		foreach ($value as $key2 => $value2)
+		{
+			if($key2 == "githubRepo")
 			{
 				$githubRepoPresent = true;
 			}
@@ -72,6 +71,6 @@ require_once('../loadVars.php');
 
 	file_put_contents($fileName, $newInfoForConfig);
 
-	header('Location: ' . $_SERVER['SERVER_NAME'] . 'status/update/updater.php');
+	header('Location: https://' . $_SERVER['SERVER_NAME'] . '/status/update/updater.php');
 	exit();
 ?>
