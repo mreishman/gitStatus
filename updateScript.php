@@ -75,7 +75,7 @@ file_put_contents($varToIndexDir.$indexToExtracted."innerUpgradeStatus.php", $wr
 
 if($currentFile == "index.php")
 {
-   require_once($varToIndexDir."core/php/upgradeScripts/upgrade_1.1-1.2.php");
+   require_once($varToIndexDir."core/php/upgradeScripts/upgrade-1.1-1.2.php");
 }
   
 }
