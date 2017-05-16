@@ -84,7 +84,22 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		break;
 	}
 }
+require_once('core/php/loadVars.php');
 
+if($defaultViewBranchCookie == 'true')
+{
+	if(isset($_COOKIE['defaultViewBranchCookie']))
+	{
+		$defaultViewBranch = $_COOKIE['defaultViewBranchCookie'];
+	}
+}
+else
+{
+	if(isset($_COOKIE['defaultViewBranchCookie']))
+	{
+		unset($_COOKIE['defaultViewBranchCookie']);
+	}
+}
 ?>
 <!doctype html>
 <head>
@@ -106,18 +121,30 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	}
 	?>
 	<div id="menu">
-		<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
-		<a class="show-sidebar" id="show">
-	    	<span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	    </a>
+		<div class="menuSections" >
+			<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
+			<a class="show-sidebar" id="show">
+		    	<span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		    </a>
+			</div>
+			<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
+				<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
+			</div>
+			<div onclick="refreshAction('refreshImage');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
+				<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
+			</div>
 		</div>
-		<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-			<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
-		</div>
-		<div onclick="refreshAction('refreshImage');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-			<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
+		<div class="menuSections" >
+			<div class="buttonSelectorOuter" >
+				<div onclick="switchToStandardView();" id="standardViewButtonMainSection" class="<?php if($defaultViewBranch == 'Standard'){echo 'buttonSlectorInnerBoxesSelected';}else{echo'buttonSlectorInnerBoxes';}?> buttonSlectorInnerBoxesAll" style="border-radius: 5px 0px 0px 5px;" >
+					Standard
+				</div>
+				<div onclick="switchToExpandedView();" id="expandedViewButtonMainSection" class="<?php if($defaultViewBranch == 'Expanded'){echo 'buttonSlectorInnerBoxesSelected';}else{echo'buttonSlectorInnerBoxes';}?> buttonSlectorInnerBoxesAll" style="border-radius: 0px 5px 5px 0px">
+					Expanded
+				</div>
+			</div>
 		</div>
 	</div>
 	<div id="main">
@@ -143,6 +170,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>">
 						--Pending--
 					</span></b>
+					<div class="<?php if($defaultViewBranch == 'Standard'){echo 'devBoxContentSecondary';}else{echo'devBoxContentSecondaryExpanded';}?>">
 					<br><br>
 					<b>Last Updated:</b>
 					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update">
@@ -152,6 +180,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">
 						--Pending--
 					</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -160,40 +189,18 @@ for($i = 0; $i < $newestVersionCount; $i++)
 
 	<script>
 		<?php
-			if(array_key_exists('pollingRate', $config))
-			{
-				echo "var pollingRate = ".$config['pollingRate'].";";
-			}
-			else
-			{
-				echo "var pollingRate = ".$defaultConfig['pollingRate'].";";
-			} 
-			if(array_key_exists('pausePoll', $config))
-			{
-				echo "var pausePollFromFile = ".$config['pausePoll'].";";
-			}
-			else
-			{
-				echo "var pausePollFromFile = ".$defaultConfig['pausePoll'].";";
-			}
-			if(array_key_exists('pauseOnNotFocus', $config))
-			{
-				echo "var pausePollOnNotFocus = ".$config['pauseOnNotFocus'].";";
-			}
-			else
-			{
-				echo "var pausePollOnNotFocus = ".$defaultConfig['pauseOnNotFocus'].";";
-			}
-			if(array_key_exists('autoCheckUpdate', $config))
-			{
-				echo "var autoCheckUpdate = ".$config['autoCheckUpdate'].";";
-			}
-			else
-			{
-				echo "var autoCheckUpdate = ".$defaultConfig['autoCheckUpdate'].";";
-			}
-		echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
-		echo "var numberOfLogs = '".$h."';";
+
+			echo "var pollingRate = ".$pollingRate.";";
+			echo "var pausePollFromFile = ".$pausePoll.";";
+			echo "var pausePollOnNotFocus = ".$pauseOnNotFocus.";";
+			echo "var autoCheckUpdate = ".$autoCheckUpdate.";";
+			echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
+			echo "var numberOfLogs = '".$h."';";
+			echo "var defaultViewBranchCookie = '".$defaultViewBranchCookie."';";
+			echo "var checkForIssueStartsWithNum = '".$checkForIssueStartsWithNum."';";
+			echo "var checkForIssueEndsWithNum = '".$checkForIssueEndsWithNum."';";
+			echo "var checkForIssueCustom = '".$checkForIssueCustom."';";
+			echo "var checkForIssueInCommit = '".$checkForIssueInCommit."';";
 		?>
 
 		var pausePoll = false;

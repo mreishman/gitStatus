@@ -9,5 +9,14 @@ $defaultConfig = array(
 	'developmentTabEnabled' => 'false',
 	'enableDevBranchDownload' => 'false',
 	'enableSystemPrefShellOrPhp'	=> 'false',
-	'expSettingsAvail'	=> 'true'
+	'expSettingsAvail'	=> 'true',
+	'defaultViewBranch'	=> 'Standard',
+	'defaultViewBranchCookie'	=> 'false',
+	'checkForIssueInBranchNameFilters'	=> array(
+				'Issue','issue','Issue_','issue_','Issue-','issue-','revert-'
+				),
+	'checkForIssueStartsWithNum'	=> 'true',
+	'checkForIssueEndsWithNum'	=> 'true',
+	'checkForIssueCustom'	=> 'true',
+	'checkForIssueInCommit'	=> 'true',
 );

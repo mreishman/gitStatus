@@ -99,7 +99,7 @@ require_once('core/php/loadVars.php'); ?>
 	<div id="main">
 		
 		<div class="firstBoxDev">
-			<form id="settingsMainVars" action="core/php/saveFunctions/settingsMainUpdateVars.php" method="post">
+			<form id="settingsMainVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 				<div class="innerFirstDevBox"  >
 					<div class="devBoxTitle">
 						<b>Settings</b> <button>Save Changes</button>
@@ -130,19 +130,53 @@ require_once('core/php/loadVars.php'); ?>
 				  						<option <?php if($autoCheckUpdate == 'false'){echo "selected";} ?> value="false">Manual</option>
 									</select>
 							</li>
+							<li>
+								<span class="leftSpacingserverNames" > Default View: </span>
+									<select name="defaultViewBranch">
+				  						<option <?php if($defaultViewBranch == 'Standard'){echo "selected";} ?> value="Standard">Standard</option>
+				  						<option <?php if($defaultViewBranch == 'Expanded'){echo "selected";} ?> value="Expanded">Expanded</option>
+									</select>
+							</li>
+							<li>
+								<span class="leftSpacingserverNames" > DV Cookie: </span>
+
+								<select name="defaultViewBranchCookie">
+				  						<option <?php if($defaultViewBranchCookie == 'true'){echo "selected";} ?> value="true">True</option>
+				  						<option <?php if($defaultViewBranchCookie == 'false'){echo "selected";} ?> value="false">False</option>
+									</select>
+								<p class="description" >Set default view by cookie, overrides above</p>
+								
+							</li>
 						</ul>
 					</div>
 				</div>
 			</form>
 		</div>
 		<div class="firstBoxDev">
-			<form id="settingsMainWatch" action="core/php/saveFunctions/settingsMainUpdateWatchList.php" method="post">
+			<form id="settingsMainWatch" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 				<div class="innerFirstDevBox" style="width: 500px;" >
 					<div class="devBoxTitle">
 						<b>Watch List</b> <button>Save Changes</button>
 					</div>
 					<div class="devBoxContent">
 						<ul class="settingsUl">
+
+							<li><h2>Example:</h2></li>
+
+							<span class="leftSpacingserverNames" > Name:</span> <input disabled="true" class='inputWidth300' type='text' value='Name you want to call website'> 
+							<br>
+							<span class="leftSpacingserverNames" > WebsiteBase:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'> 
+							<br>
+							<span class="leftSpacingserverNames" > Folder:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of github repo on server'> 
+							<br>
+							<span class="leftSpacingserverNames" > Website:</span> <input disabled="true" class='inputWidth300' type='text' value='Specific directory of website'> 
+							<br>
+							<span class="leftSpacingserverNames" > githubRepo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'> 
+							<br>
+
+
+
+							<li><h2>Your Watch List: </h2></li>
 							<?php 
 							$i = 0;
 							$numCount = 0;
@@ -190,7 +224,7 @@ require_once('core/php/loadVars.php'); ?>
 			</form>
 		</div>
 		<div class="firstBoxDev">
-			<form id="settingsDevBoxVars" action="core/php/saveFunctions/settingsDevBranch.php" method="post">
+			<form id="settingsDevBoxVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 				<div class="innerFirstDevBox"  >
 					<div class="devBoxTitle">
 						<b>Dev Box Settings</b> <button>Save Changes</button>
@@ -209,7 +243,92 @@ require_once('core/php/loadVars.php'); ?>
 				</div>
 			</form>
 		</div>
+		<div class="firstBoxDev">
+			<form id="settingsIssueSearchVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
+				<div class="innerFirstDevBox" style="width: 500px;" >
+					<div class="devBoxTitle">
+						<b>Link Search</b> <button>Save Changes</button>
+					</div>
+					<div class="devBoxContent">
+						<ul class="settingsUl">
+							<li>
+								<h2>Look for Issues in branch name </h2>
+								
+							</li>
+							<li>
+								<input type="checkbox" name="checkForIssueStartsWithNum" <?php if($checkForIssueStartsWithNum == 'true'){echo "checked";} ?> value="true">  Starts With Numbers  <br>
+								<input type="checkbox" name="checkForIssueEndsWithNum" <?php if($checkForIssueEndsWithNum == 'true'){echo "checked";} ?> value="true"> Ends With Numbers <br>
+								<input type="checkbox" name="checkForIssueCustom" <?php if($checkForIssueCustom == 'true'){echo "checked";} ?> value="true">  Custom [Issue / Issue_ / Issue-] <br>
+							</li>
+							<!-- <li>
+								<a class="link underlineLink" >Add New Watch Condition</a>
+							</li> -->
+							<li>
+								<h2>Look for Issues in commit </h2>
+								
+							</li>
+							<li>
+								<input type="checkbox" name="checkForIssueInCommit" <?php if($checkForIssueInCommit == 'true'){echo "checked";} ?> value="true">  Look for #____  <br>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</form>
+		</div>
 	<div>
+	<script type="text/javascript">
+		function calcuateWidth()
+{
+	var innerWidthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+	if(document.getElementById("sidebar").style.width == '100px')
+	{
+		innerWidthWindow -= 103;
+	}
+	if(document.getElementById("sidebar").style.width == '100px')
+	{
+		document.getElementById("main").style.left = "103px";
+	}
+	else
+	{
+		document.getElementById("main").style.left = "0px";
+	}
+	var innerWidthWindowCalc = innerWidthWindow;
+	var innerWidthWindowCalcAdd = 0;
+	var numOfWindows = 0;
+	var elementWidth = 342;
+	while(innerWidthWindowCalc > elementWidth)
+	{
+		innerWidthWindowCalcAdd += elementWidth;
+		numOfWindows++;
+		if(numOfWindows == 1)
+		{
+			elementWidth = 542;
+		}
+		else if (numOfWindows == 2)
+		{
+			elementWidth = 342;
+		}
+		else if (numOfWindows == 3)
+		{
+			elementWidth = 342;
+		}
+		else if (numOfWindows == 4)
+		{
+			//change if adding more windows to settings.php
+			elementWidth = 9000000;
+		}
+		innerWidthWindowCalc -= elementWidth;
+	}
+	var windowWidthText = ((innerWidthWindowCalcAdd)+40)+"px";
+	document.getElementById("main").style.width = windowWidthText;
+	var remainingWidth = innerWidthWindow - ((innerWidthWindowCalcAdd)+40);
+	remainingWidth = remainingWidth / 2;
+	var windowWidthText = remainingWidth+"px";
+	document.getElementById("main").style.marginLeft = windowWidthText;
+	document.getElementById("main").style.paddingRight = windowWidthText;
+}
+
+	</script>
 	<script src="core/js/allPages.js"></script>
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftSettings").style.backgroundColor  = "#ffffff";
@@ -284,6 +403,7 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 	}
 
 }	
+
 
 </script>
 <?php require_once('core/php/templateFiles/allPages.php') ?>
