@@ -27,7 +27,7 @@ require_once('../loadVars.php');
 		$githubRepoPresent = false;
 		foreach ($value as $key2 => $value2)
 		{
-			if($key2 == "githubRepo")
+			if($key2 == "groupInfo")
 			{
 				$githubRepoPresent = true;
 			}
@@ -41,7 +41,7 @@ require_once('../loadVars.php');
 		}
 		if(!$githubRepoPresent)
 		{
-			$arrayWatchList .= ",'githubRepo' =>  ''";
+			$arrayWatchList .= ",'groupInfo' =>  ''";
 		}
 		$arrayWatchList .= ")";
 		if($i != $numberOfRows)
