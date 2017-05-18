@@ -171,7 +171,7 @@ body{
 	height: 25px;
 	width: 100px;
 	color: white;
-	border-radius: 0px 0px 25px 2px;
+	border-radius: 0px 0px 15px 15px;
 	border: 1px solid white;
 	text-align: center;
 	cursor: pointer;

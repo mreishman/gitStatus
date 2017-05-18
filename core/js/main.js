@@ -531,3 +531,22 @@ function calcuateWidth()
 	document.getElementById("main").style.marginLeft = windowWidthText;
 	document.getElementById("main").style.paddingRight = windowWidthText;
 }
+
+function showOrHideGroups(groupName)
+{
+	//show / hide groups
+	if(groupName != "All")
+	{
+		$('.firstBoxDev').hide();
+		$('.'+groupName).show();
+	}
+	else
+	{
+		$('.firstBoxDev').show();
+	}
+	//change tab to selected / unselected
+
+	//unselect all
+	$('.groupTab').removeClass('groupTabSelected');
+	$('#Group'+groupName).addClass('groupTabSelected');
+}

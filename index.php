@@ -149,7 +149,7 @@ else
 	</div>
 	<div id="main">
 		<div id="groupInfo">
-			<div class="groupTab groupTabSelected" id="allGroup">
+			<div class="groupTab groupTabSelected" id="GroupAll" onclick="showOrHideGroups('All');" >
 				All
 			</div>
 		<?php
@@ -167,7 +167,7 @@ else
 			sort($arrayOfGroups);
 			foreach ($arrayOfGroups as $key => $value):
 			?>
-			<div class="groupTab" id="allGroup">
+			<div class="groupTab" id="Group<?php echo $value?>" onclick="showOrHideGroups('<?php echo $value?>');" >
 							<?php echo $value; ?>
 						</div>
 			<?php
@@ -179,7 +179,7 @@ else
 	foreach ($config['watchList'] as $key => $value): 
 	$h++;	
 	$keyNoSpace = preg_replace('/\s+/', '_', $key); ?>
-		<div class="firstBoxDev">
+		<div class="firstBoxDev <?php echo $value['groupInfo']; ?> ">
 			<div class="innerFirstDevBox" id="innerFirstDevBoxbranchNameDevBox1<?php echo $keyNoSpace; ?>" >
 				<div class="devBoxTitle">
 					<a style="color: black;" href="https://<?php echo $value['Website']; ?>"><b><?php echo $key; ?></b></a>
