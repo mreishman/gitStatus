@@ -148,7 +148,32 @@ else
 		</div>
 	</div>
 	<div id="main">
-		
+		<div id="groupInfo">
+			<div class="groupTab groupTabSelected" id="allGroup">
+				All
+			</div>
+		<?php
+			$arrayOfGroups = array();
+			foreach ($config['watchList'] as $key => $value)
+			{
+				if(isset($value['groupInfo']))
+				{
+					if(!in_array($value['groupInfo'], $arrayOfGroups))
+					{
+						array_push($arrayOfGroups, $value['groupInfo']);
+					}
+				}
+			} 
+			sort($arrayOfGroups);
+			foreach ($arrayOfGroups as $key => $value):
+			?>
+			<div class="groupTab" id="allGroup">
+							<?php echo $value; ?>
+						</div>
+			<?php
+			endforeach;
+		?>
+		</div>
 	<?php 
 	$h = -1;
 	foreach ($config['watchList'] as $key => $value): 
