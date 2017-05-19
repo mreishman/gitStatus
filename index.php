@@ -135,6 +135,7 @@ else
 			<div onclick="refreshAction('refreshImage');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
 				<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
 			</div>
+			<a href="#" class="back-to-top" style="color:#000000;">Back to Top</a>
 		</div>
 		<div class="menuSections" >
 			<div class="buttonSelectorOuter" >
