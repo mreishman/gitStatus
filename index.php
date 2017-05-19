@@ -150,8 +150,10 @@ else
 	</div>
 	<div id="main">
 		<div id="groupInfo">
-			<div class="groupTab groupTabSelected" id="GroupAll" onclick="showOrHideGroups('All');" >
-				All
+			<div class="groupTabShadow" >
+				<div class="groupTab groupTabSelected" id="GroupAll" onclick="showOrHideGroups('All');" >
+					All
+				</div>
 			</div>
 		<?php
 			$arrayOfGroups = array();
@@ -168,12 +170,16 @@ else
 			sort($arrayOfGroups);
 			foreach ($arrayOfGroups as $key => $value):
 			?>
-			<div class="groupTab" id="Group<?php echo $value?>" onclick="showOrHideGroups('<?php echo $value?>');" >
-							<?php echo $value; ?>
-						</div>
+			<div class="groupTabShadow">
+				<div class="groupTab" id="Group<?php echo $value?>" onclick="showOrHideGroups('<?php echo $value?>');" >
+					<?php echo $value; ?>
+				</div>
+			</div>
 			<?php
 			endforeach;
 		?>
+		</div>
+		<div id="groupInfoPlaceholder" >
 		</div>
 	<?php 
 	$h = -1;
