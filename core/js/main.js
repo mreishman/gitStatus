@@ -550,3 +550,21 @@ function showOrHideGroups(groupName)
 	$('.groupTab').removeClass('groupTabSelected');
 	$('#Group'+groupName).addClass('groupTabSelected');
 }
+
+function dropdownShow(nameOfElem) {
+    if(document.getElementById("dropdown-"+nameOfElem).style.display == 'block')
+    {
+    	$('.dropdown-content').hide();
+    }
+    else
+    {
+    	$('.dropdown-content').hide();
+    	document.getElementById("dropdown-"+nameOfElem).style.display = 'block';
+    }
+}
+
+window.onclick = function(event) {
+	if (!event.target.matches('.expandMenu')) {
+		$('.dropdown-content').hide();
+	}
+}
