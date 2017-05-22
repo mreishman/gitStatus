@@ -95,6 +95,9 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		        <span class="icon-bar"></span>
 		    </a>
 			</div>
+			<div style="display: inline-block;" >
+				<a href="#" class="back-to-top" style="color:#000000;">Back to Top</a>
+			</div>
 		</div>	
 	<div id="main">
 		
