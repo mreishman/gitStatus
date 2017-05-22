@@ -231,18 +231,18 @@ body{
     color: white !important;
     background-color: #777777;
 }
-.show{
-	display: block;
-}
 .back-to-top {
     text-decoration: none;
     color: #000000;
     background-color: rgba(235, 235, 235, 1);
     font-size: 16px;
-    height: 40px;
-    display: none;
+    height: 30px;
+    display: none; 
+    position: absolute;
+    left: 120px;
+    top: 0px;
+    padding-top: 10px;
 }
-
 .back-to-top:hover {    
     background-color: rgba(135, 135, 135, 1);
 }
