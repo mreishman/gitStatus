@@ -112,12 +112,12 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					Last Check for updates -  <?php echo $configStatic['lastCheck'];?>
 					<br><br>
 					<form id="settingsCheckForUpdate" action="core/php/update/settingsCheckForUpdate.php" method="post">
-					<button>Check for Update</button>
+					<button onclick="displayLoadingPopup();" >Check for Update</button>
 					</form>
 					
 					<form id="settingsCheckForUpdate" action="update/updater.php" method="post">
 					<?php
-					if($levelOfUpdate != 0){echo '<br><br><button>Install '.$configStatic["newestVersion"].' Update</button>';}
+					if($levelOfUpdate != 0){echo '<br><br><button onclick="displayLoadingPopup();">Install '.$configStatic["newestVersion"].' Update</button>';}
 					?>
 					</form>
 					
@@ -287,4 +287,5 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		document.getElementById("menuBarLeftUpdate").style.backgroundColor  = "#ffffff";
 	</script>
 	<?php require_once('core/php/templateFiles/allPages.php') ?>
+	<?php readfile('core/html/popup.html') ?>
 </body>

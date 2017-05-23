@@ -568,3 +568,4 @@ window.onclick = function(event) {
 		$('.dropdown-content').hide();
 	}
 }
+

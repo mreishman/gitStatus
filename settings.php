@@ -105,7 +105,7 @@ require_once('core/php/loadVars.php'); ?>
 			<form id="settingsMainVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 				<div class="innerFirstDevBox"  >
 					<div class="devBoxTitle">
-						<b>Settings</b> <button>Save Changes</button>
+						<b>Settings</b> <button onclick="displayLoadingPopup();" >Save Changes</button>
 					</div>
 					<div class="devBoxContent">
 						<ul class="settingsUl">
@@ -159,7 +159,7 @@ require_once('core/php/loadVars.php'); ?>
 			<form id="settingsMainWatch" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 				<div class="innerFirstDevBox" style="width: 500px;" >
 					<div class="devBoxTitle">
-						<b>Watch List</b> <button>Save Changes</button>
+						<b>Watch List</b> <button onclick="displayLoadingPopup();" >Save Changes</button>
 					</div>
 					<div class="devBoxContent">
 						<ul class="settingsUl">
@@ -230,7 +230,7 @@ require_once('core/php/loadVars.php'); ?>
 			<form id="settingsDevBoxVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 				<div class="innerFirstDevBox"  >
 					<div class="devBoxTitle">
-						<b>Dev Box Settings</b> <button>Save Changes</button>
+						<b>Dev Box Settings</b> <button onclick="displayLoadingPopup();" >Save Changes</button>
 					</div>
 					<div class="devBoxContent">
 						<ul class="settingsUl">
@@ -250,7 +250,7 @@ require_once('core/php/loadVars.php'); ?>
 			<form id="settingsIssueSearchVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 				<div class="innerFirstDevBox" style="width: 500px;" >
 					<div class="devBoxTitle">
-						<b>Link Search</b> <button>Save Changes</button>
+						<b>Link Search</b> <button onclick="displayLoadingPopup();" >Save Changes</button>
 					</div>
 					<div class="devBoxContent">
 						<ul class="settingsUl">
@@ -410,4 +410,5 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 
 </script>
 <?php require_once('core/php/templateFiles/allPages.php') ?>
+<?php readfile('core/html/popup.html') ?>
 </body>
