@@ -207,16 +207,19 @@ else
 				</div>
 				<div class="devBoxContent">
 					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>">
-						<img style="width: 20px;" src="core/img/loading.gif"> --Pending--
+						<img style="width: 20px;" src="core/img/loading.gif"> Loading...
 					</span></b>
 					<div class="<?php if($defaultViewBranch == 'Standard'){echo 'devBoxContentSecondary';}else{echo'devBoxContentSecondaryExpanded';}?>">
-					<br><br>
-					<b>Last Updated:</b>
-					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update">
-						--Pending--
+					<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>UpdateOuter">
+						<br><br>
+						<b>Last Updated:</b>
+						<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update">
+							--Pending--
+						</span>
+						<br>
 					</span>
-					<br><br>
-					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">
+					<br>
+					<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">
 						--Pending--
 					</span>
 					</div>

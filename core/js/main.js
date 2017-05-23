@@ -98,7 +98,9 @@ function pollFailure(dataInner, dataInnerPass)
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
     var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
     var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
+    document.getElementById(noSpaceName+'UpdateOuter').style.display = "none";
     var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">Could not connect to server</span>';
+    document.getElementById(noSpaceName+'Stats').style.display = "block";
     document.getElementById(noSpaceName).outerHTML = dataBranchForFile;
     document.getElementById(noSpaceName+'Update').outerHTML = dataBranchForFileUpdateTime;
     document.getElementById(noSpaceName+'Stats').outerHTML = dataBranchForFileStats;
@@ -126,6 +128,8 @@ function pollSuccess(dataInner, dataInnerPass)
 	    var link = "";
 	    var linksFromCommitMessage = [];
 	    var dataBranchForFileUpdateTime = '<span id="'+dataInner['idName']+'Update";">'+dataInner['time']+'</span>';
+	    document.getElementById(dataInner['idName']+'UpdateOuter').style.display = "block";
+	    document.getElementById(dataInner['idName']+'Stats').style.display = "block";
 	    var dataBranchForFileStats = '<span id="'+dataInner['idName']+'Stats";">';
 	    for(var j = 0; j < dataStats.length; j++)
 	    {
