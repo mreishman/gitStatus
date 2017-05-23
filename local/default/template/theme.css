@@ -242,6 +242,8 @@ body{
     left: 120px;
     top: 0px;
     padding-top: 10px;
+    padding-right: 8px;
+    padding-left: 8px;
 }
 .back-to-top:hover {    
     background-color: rgba(135, 135, 135, 1);
