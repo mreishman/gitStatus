@@ -278,7 +278,16 @@ require_once('core/php/loadVars.php'); ?>
 				</div>
 			</form>
 		</div>
-	<div>
+	<div class="firstBoxDev">
+		<form id="settingsColorBG" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
+			<div class="innerFirstDevBox"  >
+				<div class="devBoxTitle">
+					<b>Dev Box Color Settings</b> <button onclick="displayLoadingPopup();" >Save Changes</button>
+				</div>
+				
+			</div>
+		</form>
+	</div>
 	<script type="text/javascript">
 		function calcuateWidth()
 {
@@ -313,9 +322,13 @@ require_once('core/php/loadVars.php'); ?>
 		}
 		else if (numOfWindows == 3)
 		{
-			elementWidth = 342;
+			elementWidth = 542;
 		}
 		else if (numOfWindows == 4)
+		{
+			elementWidth = 342;
+		}
+		else if (numOfWindows == 5)
 		{
 			//change if adding more windows to settings.php
 			elementWidth = 9000000;
