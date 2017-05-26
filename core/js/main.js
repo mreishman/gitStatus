@@ -47,7 +47,7 @@ function poll(all = -1)
 			var urlForSend = 'http://'+arrayOfFiles[i][1]+'/status/core/php/functions/gitBranchName.php?format=json'
 			var name = "branchNameDevBox1"+arrayOfFiles[i][0];
 			name = name.replace(/\s/g, '_');
-			var data = {location: arrayOfFiles[i][2], name: name, githubRepo: arrayOfFiles[i][4]};
+			var data = {location: arrayOfFiles[i][2], name: name, githubRepo: arrayOfFiles[i][4], urlForSend: urlForSend};
 			(function(_data){
 
 				$.ajax({
@@ -60,7 +60,7 @@ function poll(all = -1)
 					pollSuccess(data, _data);
 				},
 				error: function(data){
-					pollFailure(data, _data);
+					tryHTTPSForPollRequest(data, _data);
 				}
 			});
 
@@ -72,7 +72,7 @@ function poll(all = -1)
 		var urlForSend = 'http://'+arrayOfFiles[all][1]+'/status/core/php/functions/gitBranchName.php?format=json'
 		var name = "branchNameDevBox1"+arrayOfFiles[all][0];
 		name = name.replace(/\s/g, '_');
-		var data = {location: arrayOfFiles[all][2], name: name, githubRepo: arrayOfFiles[all][4]};
+		var data = {location: arrayOfFiles[all][2], name: name, githubRepo: arrayOfFiles[all][4], urlForSend: urlForSend};
 			(function(_data){
 
 				$.ajax({
@@ -85,13 +85,41 @@ function poll(all = -1)
 					pollSuccess(data, _data);
 				},
 				error: function(data){
-					pollFailure(data, _data);
+					tryHTTPSForPollRequest(data, _data);
 				}
 			});
 
 				}(data));
 	}
 }
+
+
+function tryHTTPSForPollRequest(data, _data)
+{
+	var urlForSend = _data.urlForSend;
+	urlForSend = urlForSend.replace("http","https");
+	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo};
+	
+		(function(_data){
+
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data: data,
+			type: 'POST',
+			success: function(data){
+				pollSuccess(data, _data);
+			},
+			error: function(data){
+				pollFailure(data, _data);
+			}
+		});
+
+			}(data));
+			
+}
+
 
 function pollFailure(dataInner, dataInnerPass)
 {

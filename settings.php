@@ -284,6 +284,21 @@ require_once('core/php/loadVars.php'); ?>
 				<div class="devBoxTitle">
 					<b>Dev Box Color Settings</b> <button onclick="displayLoadingPopup();" >Save Changes</button>
 				</div>
+				<div class="devBoxContent">
+						<ul class="settingsUl">
+							<li>
+								<h2>Color background based on name of branch </h2>
+							</li>
+							<?php foreach ($errorAndColorArray as $key => $value): ?>
+								<li>
+								<div class="colorSelectorDiv" style="background-color: <?php echo $value ?>">
+									 <div class="inner-triangle" ></div> 
+								</div>
+								<?php echo $key?>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+				</div>
 				
 			</div>
 		</form>
