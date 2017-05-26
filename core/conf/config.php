@@ -14,7 +14,8 @@ $defaultConfig = array(
 	'defaultViewBranchCookie'	=> 'false',
 	'errorAndColorArray'	=> array(
 		'error'	=> '#C33',
-		'master'	=> 'lightGreen'
+		'master'	=> 'lightGreen',
+		'revert-'	=> 'orange'
 		),
 	'checkForIssueInBranchNameFilters'	=> array(
 				'Issue','issue','Issue_','issue_','Issue-','issue-','revert-'

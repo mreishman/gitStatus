@@ -329,11 +329,24 @@ function filterBGColor(filterName, idName)
 	for(var property in errorAndColorArray)
 	{
 		if (errorAndColorArray.hasOwnProperty(property)) {
-			if(filterName == property && newBG != true)
+			if(filterName != "error")
 			{
-				document.getElementById(idName).style.backgroundColor = errorAndColorArray[property];
-				newBG = true;
+
+				if(filterName.includes(property) && newBG != true)
+				{
+					document.getElementById(idName).style.backgroundColor = errorAndColorArray[property];
+					newBG = true;
+				}
 			}
+			else
+			{
+				if(filterName.includes(property) && newBG != true)
+				{
+					document.getElementById(idName).style.backgroundColor = errorAndColorArray[property];
+					newBG = true;
+				}
+			}
+			
 		}
 	}
 	if(!newBG)
