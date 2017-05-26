@@ -12,6 +12,10 @@ $defaultConfig = array(
 	'expSettingsAvail'	=> 'true',
 	'defaultViewBranch'	=> 'Standard',
 	'defaultViewBranchCookie'	=> 'false',
+	'errorAndColorArray'	=> array(
+		'error'	=> '#C33',
+		'master'	=> 'lightGreen'
+		),
 	'checkForIssueInBranchNameFilters'	=> array(
 				'Issue','issue','Issue_','issue_','Issue-','issue-','revert-'
 				),

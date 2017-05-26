@@ -188,6 +188,19 @@ else
 {
 	$checkForIssueInCommit = $defaultConfig['checkForIssueInCommit'];
 }
+if(isset($_POST['errorAndColorArray']))
+{
+	$errorAndColorArray = $_POST['errorAndColorArray'];
+}
+elseif(array_key_exists('errorAndColorArray', $config))
+{
+	$errorAndColorArray = $config['errorAndColorArray'];
+}
+else
+{
+	$errorAndColorArray = $defaultConfig['errorAndColorArray'];
+}
+
 
 
 $arrayWatchList = "";

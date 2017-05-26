@@ -297,15 +297,16 @@ function reverseString(str)
 function filterBGColor(filterName, idName)
 {
 	var newBG = false;
-	if(filterName == "master")
+
+	for(var property in errorAndColorArray)
 	{
-		document.getElementById(idName).style.backgroundColor = "lightGreen";
-		newBG = true;
-	}
-	if(filterName == "error")
-	{
-		document.getElementById(idName).style.backgroundColor = "#C33";
-		newBG = true;
+		if (errorAndColorArray.hasOwnProperty(property)) {
+			if(filterName == property && newBG != true)
+			{
+				document.getElementById(idName).style.backgroundColor = errorAndColorArray[property];
+				newBG = true;
+			}
+		}
 	}
 	if(!newBG)
 	{

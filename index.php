@@ -245,6 +245,7 @@ else
 			echo "var checkForIssueInCommit = '".$checkForIssueInCommit."';";
 		?>
 
+		var errorAndColorArray = JSON.parse('<?php echo json_encode($errorAndColorArray); ?>');
 		var pausePoll = false;
 		var pausePollFile = false;
 		var refreshActionVar;
