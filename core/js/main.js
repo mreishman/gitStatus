@@ -331,18 +331,28 @@ function filterBGColor(filterName, idName)
 		if (errorAndColorArray.hasOwnProperty(property)) {
 			if(filterName != "error")
 			{
-
-				if(filterName.includes(property) && newBG != true)
+				if(errorAndColorArray[property].type == "includes")
 				{
-					document.getElementById(idName).style.backgroundColor = errorAndColorArray[property];
-					newBG = true;
+					if(filterName.includes(property) && newBG != true)
+					{
+						document.getElementById(idName).style.backgroundColor = errorAndColorArray[property].color;
+						newBG = true;
+					}
+				}
+				else
+				{
+					if(filterName == property)
+					{
+						document.getElementById(idName).style.backgroundColor = errorAndColorArray[property].color;
+						newBG = true;
+					}
 				}
 			}
 			else
 			{
 				if(filterName.includes(property) && newBG != true)
 				{
-					document.getElementById(idName).style.backgroundColor = errorAndColorArray[property];
+					document.getElementById(idName).style.backgroundColor = errorAndColorArray[property].color;
 					newBG = true;
 				}
 			}

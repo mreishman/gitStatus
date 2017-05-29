@@ -13,9 +13,18 @@ $defaultConfig = array(
 	'defaultViewBranch'	=> 'Standard',
 	'defaultViewBranchCookie'	=> 'false',
 	'errorAndColorArray'	=> array(
-		'error'	=> '#C33',
-		'master'	=> 'lightGreen',
-		'revert-'	=> 'orange'
+		'error'	=> array(
+			'color'	=> '#C33',
+			'type'	=> 'default'
+			),
+		'master'	=> array(
+			'color'	=> 'lightGreen',
+			'type'	=> 'default'
+			),
+		'revert-'	=> array(
+			'color'	=> 'orange',
+			'type'	=> 'includes'
+			)
 		),
 	'checkForIssueInBranchNameFilters'	=> array(
 				'Issue','issue','Issue_','issue_','Issue-','issue-','revert-'

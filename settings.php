@@ -291,10 +291,16 @@ require_once('core/php/loadVars.php'); ?>
 							</li>
 							<?php foreach ($errorAndColorArray as $key => $value): ?>
 								<li>
-								<div class="colorSelectorDiv" style="background-color: <?php echo $value ?>">
+								<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
 									 <div class="inner-triangle" ></div> 
 								</div>
+								&nbsp;
 								<?php echo $key?>
+								&nbsp;
+								<select>
+									<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
+									<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
+								</select>
 								</li>
 							<?php endforeach; ?>
 						</ul>
