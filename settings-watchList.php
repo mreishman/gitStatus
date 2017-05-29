@@ -101,150 +101,81 @@ require_once('core/php/loadVars.php'); ?>
 		</div>	
 	<div id="main">
 		
+		
 		<div class="firstBoxDev">
-			<form id="settingsMainVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
-				<div class="innerFirstDevBox"  >
+			<form id="settingsMainWatch" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
+				<div id="widthForWatchListSection" class="innerFirstDevBox" style="width: 500px;" >
 					<div class="devBoxTitle">
-						<b>Settings</b> <button onclick="displayLoadingPopup();" >Save Changes</button>
+						<b>Watch List</b> <button onclick="displayLoadingPopup();" >Save Changes</button>
 					</div>
 					<div class="devBoxContent">
 						<ul class="settingsUl">
-							<li>
-								<span class="leftSpacingserverNames" > Polling Rate: </span> <input style="width: 52px;" type="text" name="pollingRate" value="<?php echo $pollingRate;?>" > Minutes
-							</li>
-							<li>
-								<span class="leftSpacingserverNames" > Pause Poll: </span>
-									<select name="pausePoll">
-				  						<option <?php if($pausePoll == 'true'){echo "selected";} ?> value="true">True</option>
-				  						<option <?php if($pausePoll == 'false'){echo "selected";} ?> value="false">False</option>
-									</select>
-							</li>
-							<li style="display: none;">
-								<span class="leftSpacingserverNames" > Auto Pause: </span>
-									<select name="pauseOnNotFocus">
-				  						<option <?php if($pauseOnNotFocus == 'true'){echo "selected";} ?> value="true">True</option>
-				  						<option <?php if($pauseOnNotFocus == 'false'){echo "selected";} ?> value="false">False</option>
-									</select>
-							</li>
-							<li>
-								<span class="leftSpacingserverNames" > Check Update: </span>
-									<select name="autoCheckUpdate">
-				  						<option <?php if($autoCheckUpdate == 'true'){echo "selected";} ?> value="true">Auto</option>
-				  						<option <?php if($autoCheckUpdate == 'false'){echo "selected";} ?> value="false">Manual</option>
-									</select>
-							</li>
-							<li>
-								<span class="leftSpacingserverNames" > Default View: </span>
-									<select name="defaultViewBranch">
-				  						<option <?php if($defaultViewBranch == 'Standard'){echo "selected";} ?> value="Standard">Standard</option>
-				  						<option <?php if($defaultViewBranch == 'Expanded'){echo "selected";} ?> value="Expanded">Expanded</option>
-									</select>
-							</li>
-							<li>
-								<span class="leftSpacingserverNames" > DV Cookie: </span>
 
-								<select name="defaultViewBranchCookie">
-				  						<option <?php if($defaultViewBranchCookie == 'true'){echo "selected";} ?> value="true">True</option>
-				  						<option <?php if($defaultViewBranchCookie == 'false'){echo "selected";} ?> value="false">False</option>
-									</select>
-								<p class="description" >Set default view by cookie, overrides above</p>
-								
-							</li>
-						</ul>
-					</div>
-				</div>
-			</form>
-		</div>
-		<div class="firstBoxDev">
-			<form id="settingsDevBoxVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
-				<div class="innerFirstDevBox"  >
-					<div class="devBoxTitle">
-						<b>Dev Box Settings</b> <button onclick="displayLoadingPopup();" >Save Changes</button>
-					</div>
-					<div class="devBoxContent">
-						<ul class="settingsUl">
-							<li>
-								<span class="leftSpacingserverNames" >Dev Branches:</span>
-									<select name="enableDevBranchDownload">
-				  						<option <?php if($enableDevBranchDownload == 'true'){echo "selected";} ?> value="true">True</option>
-				  						<option <?php if($enableDevBranchDownload == 'false'){echo "selected";} ?> value="false">False</option>
-									</select>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</form>
-		</div>
-		<div class="firstBoxDev">
-			<form id="settingsIssueSearchVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
-				<div class="innerFirstDevBox" style="width: 500px;" >
-					<div class="devBoxTitle">
-						<b>Link Search</b> <button onclick="displayLoadingPopup();" >Save Changes</button>
-					</div>
-					<div class="devBoxContent">
-						<ul class="settingsUl">
-							<li>
-								<h2>Look for Issues in branch name </h2>
-								
-							</li>
-							<li>
-								<input type="checkbox" name="checkForIssueStartsWithNum" <?php if($checkForIssueStartsWithNum == 'true'){echo "checked";} ?> value="true">  Starts With Numbers  <br>
-								<input type="checkbox" name="checkForIssueEndsWithNum" <?php if($checkForIssueEndsWithNum == 'true'){echo "checked";} ?> value="true"> Ends With Numbers <br>
-								<input type="checkbox" name="checkForIssueCustom" <?php if($checkForIssueCustom == 'true'){echo "checked";} ?> value="true">  Custom [Issue / Issue_ / Issue-] <br>
-							</li>
-							<!-- <li>
-								<a class="link underlineLink" >Add New Watch Condition</a>
-							</li> -->
-							<li>
-								<h2>Look for Issues in commit </h2>
-								
-							</li>
-							<li>
-								<input type="checkbox" name="checkForIssueInCommit" <?php if($checkForIssueInCommit == 'true'){echo "checked";} ?> value="true">  Look for #____  <br>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</form>
-		</div>
-		<div class="firstBoxDev">
-			<form id="settingsColorBG" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
-				<div class="innerFirstDevBox"  >
-					<div class="devBoxTitle">
-						<b>Dev Box Color Settings</b> <button onclick="displayLoadingPopup();" >Save Changes</button>
-					</div>
-					<div class="devBoxContent">
-							<ul class="settingsUl">
-								<li>
-									<h2>Color background based on:
-									<select>
-										<option value="branchName">Name Of Branch</option>
-										<option value="authorName">Author Name</option>
-										<option value="committerName">Committer Name</option>
-									</select></h2>
+							<li><h2>Example:</h2></li>
+
+							<span class="leftSpacingserverNames" > Name:</span> <input disabled="true" class='inputWidth300' type='text' value='Name you want to call website'> 
+							<br>
+							<span class="leftSpacingserverNames" > WebsiteBase:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'> 
+							<br>
+							<span class="leftSpacingserverNames" > Folder:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of github repo on server'> 
+							<br>
+							<span class="leftSpacingserverNames" > Website:</span> <input disabled="true" class='inputWidth300' type='text' value='Specific directory of website'> 
+							<br>
+							<span class="leftSpacingserverNames" > githubRepo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'> 
+							<br>
+
+
+
+							<li><h2>Your Watch List: </h2></li>
+							<?php 
+							$i = 0;
+							$numCount = 0;
+							$arrayOfKeys = array();
+							foreach($config['watchList'] as $key => $item): $i++; ?>
+							<div class="watchFolderGroups" >
+								<li id="rowNumber<?php echo $i; ?>" >
+									<span class="leftSpacingserverNames" > Name: </span>
+					 				<input class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
+					 				<?php
+					 				$j = 0;
+					 				foreach($item as $key2 => $item2): $j++; ?>
+						 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span><input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
+						 				<?php
+							 				if(!in_array($key2, $arrayOfKeys))
+							 				{
+							 					array_push($arrayOfKeys, $key2);
+							 				}	
+						 				?>
+						 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
+					 				<?php endforeach; 
+					 				if($numCount < $j)
+					 				{
+					 					$numCount = $j;
+					 				}
+					 				?>
+					 				<br> <input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'> 
+					 				<span class="leftSpacingserverNames" ></span>
+									<a class="link underlineLink" onclick="deleteRowFunction(<?php echo $i; ?>, true)">Remove</a>
 								</li>
-								<span id="colorBasedOnNameOfBranch" >
-								<?php foreach ($errorAndColorArray as $key => $value): ?>
-									<li>
-									<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
-										 <div class="inner-triangle" ></div> 
-									</div>
-									&nbsp;
-									<?php echo $key?>
-									&nbsp;
-									<select>
-										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
-										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
-									</select>
-									</li>
-								<?php endforeach; ?>
-								</span>
-							</ul>
+							</div>
+							<?php endforeach; ?>
+							<div id="newRowLocationForWatchList">
+							</div>
+						</ul>
+						<ul class="settingsUl">
+							<li>
+								<a class="link underlineLink"  onclick="addRowFunction()">Add New Server</a>
+							</li>
+						</ul>
 					</div>
-					
+					<div id="hidden" style="display: none">
+						<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
+					</div>
 				</div>
 			</form>
 		</div>
+		
+		
 	</div>
 	<script type="text/javascript">
 		function calcuateWidth()
@@ -270,27 +201,7 @@ require_once('core/php/loadVars.php'); ?>
 	{
 		innerWidthWindowCalcAdd += elementWidth;
 		numOfWindows++;
-		if(numOfWindows == 1)
-		{
-			elementWidth = 542;
-		}
-		else if (numOfWindows == 2)
-		{
-			elementWidth = 342;
-		}
-		else if (numOfWindows == 3)
-		{
-			elementWidth = 542;
-		}
-		else if (numOfWindows == 4)
-		{
-			elementWidth = 342;
-		}
-		else if (numOfWindows == 5)
-		{
-			//change if adding more windows to settings.php
-			elementWidth = 9000000;
-		}
+		
 		innerWidthWindowCalc -= elementWidth;
 	}
 	var windowWidthText = ((innerWidthWindowCalcAdd)+40)+"px";
@@ -300,12 +211,13 @@ require_once('core/php/loadVars.php'); ?>
 	var windowWidthText = remainingWidth+"px";
 	document.getElementById("main").style.marginLeft = windowWidthText;
 	document.getElementById("main").style.paddingRight = windowWidthText;
+	document.getElementById("widthForWatchListSection").style.width = ((innerWidthWindowCalcAdd))+"px";
 }
 
 	</script>
 	<script src="core/js/allPages.js"></script>
 	<script type="text/javascript">
-		document.getElementById("menuBarLeftSettings").style.backgroundColor  = "#ffffff";
+		document.getElementById("menuBarLeftSettingsWatchList").style.backgroundColor  = "#ffffff";
 	</script>
 
 	<script type="text/javascript"> 
