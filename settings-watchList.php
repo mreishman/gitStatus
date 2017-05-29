@@ -194,7 +194,7 @@ require_once('core/php/loadVars.php'); ?>
 	var innerWidthWindowCalc = innerWidthWindow;
 	var innerWidthWindowCalcAdd = 0;
 	var numOfWindows = 0;
-	var elementWidth = 342;
+	var elementWidth = 420;
 	while(innerWidthWindowCalc > elementWidth)
 	{
 		innerWidthWindowCalcAdd += elementWidth;
