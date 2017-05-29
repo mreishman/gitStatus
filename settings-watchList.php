@@ -112,7 +112,7 @@ require_once('core/php/loadVars.php'); ?>
 						<ul class="settingsUl">
 
 							<li><h2>Example:</h2></li>
-
+							<li class="watchFolderGroups">
 							<span class="leftSpacingserverNames" > Name:</span> <input disabled="true" class='inputWidth300' type='text' value='Name you want to call website'> 
 							<br>
 							<span class="leftSpacingserverNames" > WebsiteBase:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'> 
@@ -123,7 +123,7 @@ require_once('core/php/loadVars.php'); ?>
 							<br>
 							<span class="leftSpacingserverNames" > githubRepo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'> 
 							<br>
-
+							</li>
 
 
 							<li><h2>Your Watch List: </h2></li>
