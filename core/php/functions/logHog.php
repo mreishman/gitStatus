@@ -4,6 +4,7 @@ $websiteBase = $_POST['websiteBase'];
 $name = $_POST['name'];
 $exists = false;
 $link = "null";
+$file_headers_send = "";
 $fileArrayOuter = array(
 	'fileArray' => array(
 	$website	=>	'Log-Hog',
@@ -28,10 +29,13 @@ foreach ($fileArrayOuter as $key => $value)
 			}
 			$file .= $value2."/index.php";
 			$file_headers = @get_headers($file);
-			if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {   
+			if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') 
+			{   
+
 			}
 			else 
 			{
+				$file_headers_send = $file_headers;
 			    $exists = true;
 			    $link = $file;
 			    $link = "https://".$link;
@@ -41,7 +45,8 @@ foreach ($fileArrayOuter as $key => $value)
 }
 $response = array(
 	'link' 	=> $link,
-	'name'	=> $name
+	'name'	=> $name,
+	'file_headers'	=> $file_headers_send
  );
 echo json_encode($response);
 ?>

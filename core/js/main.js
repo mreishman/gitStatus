@@ -21,8 +21,8 @@ function checkLogHog(all)
 	  success: function(data){
 	  	if(data['link'] != "null")
 	  	{
-	  		document.getElementById(name+"LogHogOuter").style.display = "inline-block";
-	  		document.getElementById(name+"LogHogInner").href = data['link'];
+	  		document.getElementById(data['name']+"LogHogOuter").style.display = "inline-block";
+	  		document.getElementById(data['name']+"LogHogInner").href = data['link'];
 	  	}
 	  },
 	});
