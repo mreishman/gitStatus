@@ -287,8 +287,14 @@ require_once('core/php/loadVars.php'); ?>
 				<div class="devBoxContent">
 						<ul class="settingsUl">
 							<li>
-								<h2>Color background based on name of branch </h2>
+								<h2>Color background based on:
+								<select>
+									<option value="branchName">Name Of Branch</option>
+									<option value="authorName">Author Name</option>
+									<option value="committerName">Committer Name</option>
+								</select></h2>
 							</li>
+							<span id="colorBasedOnNameOfBranch" >
 							<?php foreach ($errorAndColorArray as $key => $value): ?>
 								<li>
 								<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
@@ -303,6 +309,7 @@ require_once('core/php/loadVars.php'); ?>
 								</select>
 								</li>
 							<?php endforeach; ?>
+							</span>
 						</ul>
 				</div>
 				

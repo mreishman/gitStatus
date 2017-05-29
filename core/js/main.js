@@ -328,27 +328,9 @@ function filterBGColor(filterName, idName)
 
 	for(var property in errorAndColorArray)
 	{
-		if (errorAndColorArray.hasOwnProperty(property)) {
-			if(filterName != "error")
-			{
-				if(errorAndColorArray[property].type == "includes")
-				{
-					if(filterName.includes(property) && newBG != true)
-					{
-						document.getElementById(idName).style.backgroundColor = errorAndColorArray[property].color;
-						newBG = true;
-					}
-				}
-				else
-				{
-					if(filterName == property)
-					{
-						document.getElementById(idName).style.backgroundColor = errorAndColorArray[property].color;
-						newBG = true;
-					}
-				}
-			}
-			else
+		if (errorAndColorArray.hasOwnProperty(property)) 
+		{
+			if(errorAndColorArray[property].type == "includes")
 			{
 				if(filterName.includes(property) && newBG != true)
 				{
@@ -356,7 +338,14 @@ function filterBGColor(filterName, idName)
 					newBG = true;
 				}
 			}
-			
+			else
+			{
+				if(filterName == property)
+				{
+					document.getElementById(idName).style.backgroundColor = errorAndColorArray[property].color;
+					newBG = true;
+				}
+			}
 		}
 	}
 	if(!newBG)
