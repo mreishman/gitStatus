@@ -132,32 +132,30 @@ require_once('core/php/loadVars.php'); ?>
 							$numCount = 0;
 							$arrayOfKeys = array();
 							foreach($config['watchList'] as $key => $item): $i++; ?>
-							<div class="watchFolderGroups" >
-								<li id="rowNumber<?php echo $i; ?>" >
-									<span class="leftSpacingserverNames" > Name: </span>
-					 				<input class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
+							<li class="watchFolderGroups" id="rowNumber<?php echo $i; ?>" >
+								<span class="leftSpacingserverNames" > Name: </span>
+				 				<input class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
+				 				<?php
+				 				$j = 0;
+				 				foreach($item as $key2 => $item2): $j++; ?>
+					 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span><input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
 					 				<?php
-					 				$j = 0;
-					 				foreach($item as $key2 => $item2): $j++; ?>
-						 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span><input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
-						 				<?php
-							 				if(!in_array($key2, $arrayOfKeys))
-							 				{
-							 					array_push($arrayOfKeys, $key2);
-							 				}	
-						 				?>
-						 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
-					 				<?php endforeach; 
-					 				if($numCount < $j)
-					 				{
-					 					$numCount = $j;
-					 				}
+						 				if(!in_array($key2, $arrayOfKeys))
+						 				{
+						 					array_push($arrayOfKeys, $key2);
+						 				}	
 					 				?>
-					 				<br> <input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'> 
-					 				<span class="leftSpacingserverNames" ></span>
-									<a class="link underlineLink" onclick="deleteRowFunction(<?php echo $i; ?>, true)">Remove</a>
-								</li>
-							</div>
+					 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
+				 				<?php endforeach; 
+				 				if($numCount < $j)
+				 				{
+				 					$numCount = $j;
+				 				}
+				 				?>
+				 				<br> <input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'> 
+				 				<span class="leftSpacingserverNames" ></span>
+								<a class="link underlineLink" onclick="deleteRowFunction(<?php echo $i; ?>, true)">Remove</a>
+							</li>
 							<?php endforeach; ?>
 							<div id="newRowLocationForWatchList">
 							</div>
