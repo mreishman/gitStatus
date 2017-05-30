@@ -200,7 +200,42 @@ else
 {
 	$errorAndColorArray = $defaultConfig['errorAndColorArray'];
 }
-
+if(isset($_POST['errorAndColorAuthorArray']))
+{
+	$errorAndColorAuthorArray = $_POST['errorAndColorAuthorArray'];
+}
+elseif(array_key_exists('errorAndColorAuthorArray', $config))
+{
+	$errorAndColorAuthorArray = $config['errorAndColorAuthorArray'];
+}
+else
+{
+	$errorAndColorAuthorArray = $defaultConfig['errorAndColorAuthorArray'];
+}
+if(isset($_POST['errorAndColorComitteeArray']))
+{
+	$errorAndColorComitteeArray = $_POST['errorAndColorComitteeArray'];
+}
+elseif(array_key_exists('errorAndColorComitteeArray', $config))
+{
+	$errorAndColorComitteeArray = $config['errorAndColorComitteeArray'];
+}
+else
+{
+	$errorAndColorComitteeArray = $defaultConfig['errorAndColorComitteeArray'];
+}
+if(isset($_POST['branchColorFilter']))
+{
+	$branchColorFilter = $_POST['branchColorFilter'];
+}
+elseif(array_key_exists('branchColorFilter', $config))
+{
+	$branchColorFilter = $config['branchColorFilter'];
+}
+else
+{
+	$branchColorFilter = $defaultConfig['branchColorFilter'];
+}
 
 
 $arrayWatchList = "";

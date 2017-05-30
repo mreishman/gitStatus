@@ -123,6 +123,8 @@ require_once('core/php/loadVars.php'); ?>
 							<br>
 							<span class="leftSpacingserverNames" > githubRepo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'> 
 							<br>
+							<span class="leftSpacingserverNames" > groupInfo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of group'> 
+							<br>
 							</li>
 
 

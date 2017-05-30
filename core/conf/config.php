@@ -26,6 +26,35 @@ $defaultConfig = array(
 			'type'	=> 'includes'
 			)
 		),
+	'errorAndColorAuthorArray'	=> array(
+		'error'	=> array(
+			'color'	=> '#C33',
+			'type'	=> 'default'
+			),
+		'dave'	=> array(
+			'color'	=> 'lightGreen',
+			'type'	=> 'default'
+			),
+		'matt'	=> array(
+			'color'	=> 'orange',
+			'type'	=> 'includes'
+			)
+		),
+	'errorAndColorComitteeArray'	=> array(
+		'error'	=> array(
+			'color'	=> '#C33',
+			'type'	=> 'default'
+			),
+		'dave'	=> array(
+			'color'	=> 'lightGreen',
+			'type'	=> 'default'
+			),
+		'matt'	=> array(
+			'color'	=> 'orange',
+			'type'	=> 'includes'
+			)
+		),
+	'branchColorFilter'	=> 'branchName',
 	'checkForIssueInBranchNameFilters'	=> array(
 				'Issue','issue','Issue_','issue_','Issue-','issue-','revert-'
 				),

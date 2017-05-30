@@ -217,14 +217,46 @@ require_once('core/php/loadVars.php'); ?>
 							<ul class="settingsUl">
 								<li>
 									<h2>Color background based on:
-									<select>
-										<option value="branchName">Name Of Branch</option>
-										<option value="authorName">Author Name</option>
-										<option value="committerName">Committer Name</option>
+									<select id="branchColorTypeSelector">
+										<option <?php if ($branchColorFilter == "branchName"){echo "selected";}?> value="branchName">Name Of Branch</option>
+										<option <?php if ($branchColorFilter == "authorName"){echo "selected";}?> value="authorName">Author Name</option>
+										<option <?php if ($branchColorFilter == "committerName"){echo "selected";}?> value="committerName">Committer Name</option>
 									</select></h2>
 								</li>
-								<span id="colorBasedOnNameOfBranch" >
+								<span <?php if ($branchColorFilter != "branchName"){echo "style='display: none;'";}?> id="colorBasedOnNameOfBranch" >
 								<?php foreach ($errorAndColorArray as $key => $value): ?>
+									<li>
+									<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
+										 <div class="inner-triangle" ></div> 
+									</div>
+									&nbsp;
+									<?php echo $key?>
+									&nbsp;
+									<select>
+										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
+										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
+									</select>
+									</li>
+								<?php endforeach; ?>
+								</span>
+								<span <?php if ($branchColorFilter != "authorName"){echo "style='display: none;'";}?> id="colorBasedOnAuthorName" >
+								<?php foreach ($errorAndColorAuthorArray as $key => $value): ?>
+									<li>
+									<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
+										 <div class="inner-triangle" ></div> 
+									</div>
+									&nbsp;
+									<?php echo $key?>
+									&nbsp;
+									<select>
+										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
+										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
+									</select>
+									</li>
+								<?php endforeach; ?>
+								</span>
+								<span  <?php if ($branchColorFilter != "committerName"){echo "style='display: none;'";}?> id="colorBasedOnComitteeName" >
+								<?php foreach ($errorAndColorComitteeArray as $key => $value): ?>
 									<li>
 									<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
 										 <div class="inner-triangle" ></div> 
@@ -306,6 +338,7 @@ require_once('core/php/loadVars.php'); ?>
 	<script src="core/js/allPages.js"></script>
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftSettings").style.backgroundColor  = "#ffffff";
+		
 	</script>
 
 	<script type="text/javascript"> 
@@ -322,6 +355,32 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 
 }	
 
+function switchToNewFilterBranchColor()
+{
+	var valueForPopup = document.getElementById('branchColorTypeSelector').value;
+	document.getElementById('colorBasedOnNameOfBranch').style.display = 'none';
+	document.getElementById('colorBasedOnAuthorName').style.display = 'none';
+	document.getElementById('colorBasedOnComitteeName').style.display = 'none';
+	if(valueForPopup == 'branchName')
+	{
+		document.getElementById('colorBasedOnNameOfBranch').style.display = 'block';
+	}
+	else if (valueForPopup == 'authorName')
+	{
+		document.getElementById('colorBasedOnAuthorName').style.display = 'block';
+	}
+	else
+	{
+		document.getElementById('colorBasedOnComitteeName').style.display = 'block';
+	}
+}
+
+
+
+
+
+
+document.getElementById("branchColorTypeSelector").addEventListener("change", switchToNewFilterBranchColor, false);
 
 </script>
 <?php require_once('core/php/templateFiles/allPages.php') ?>

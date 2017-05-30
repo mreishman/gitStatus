@@ -21,6 +21,7 @@ function checkLogHog(all)
 	  success: function(data){
 	  	if(data['link'] != "null")
 	  	{
+	  		//console.log(data['link'] + "   |   "+data['name'] + "   |   "+data['file_headers']);
 	  		document.getElementById(data['name']+"LogHogOuter").style.display = "inline-block";
 	  		document.getElementById(data['name']+"LogHogInner").href = data['link'];
 	  	}
