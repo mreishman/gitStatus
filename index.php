@@ -244,7 +244,7 @@ else
 			echo "var checkForIssueCustom = '".$checkForIssueCustom."';";
 			echo "var checkForIssueInCommit = '".$checkForIssueInCommit."';";
 		?>
-
+		var branchColorFilter = '<?php echo $branchColorFilter;?>';
 		var errorAndColorArray = JSON.parse('<?php echo json_encode($errorAndColorArray); ?>');
 		var pausePoll = false;
 		var pausePollFile = false;

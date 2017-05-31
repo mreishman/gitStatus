@@ -296,7 +296,21 @@ function pollSuccess(dataInner, dataInnerPass)
 	    document.getElementById(dataInner['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
 	    document.getElementById(dataInner['idName']+'Stats').outerHTML = dataBranchForFileStats;
 	    var nameForBackground = "innerFirstDevBox"+dataInner['idName'];
-	    filterBGColor(dataInner['branch'], nameForBackground);
+	    var dataToFilterBy = dataInner['branch']; 
+	    if(branchColorFilter == "authorName")
+	    {
+	    	dataToFilterByArray = dataBranchForFileStats.split("<br>");
+	    	dataToFilterByArray = dataToFilterByArray[0].split("</b>");
+	    	dataToFilterBy = $.trim(dataToFilterByArray[1]); 
+
+	    }
+	    else if(branchColorFilter == "committerName")
+	    {
+	    	dataToFilterByArray = dataBranchForFileStats.split("<br>");
+	    	dataToFilterByArray = dataToFilterByArray[0].split("</b>");
+	    	dataToFilterBy = $.trim(dataToFilterByArray[1]); 
+	    }
+	    filterBGColor(dataToFilterBy, nameForBackground);
 	}
 	else
 	{

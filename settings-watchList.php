@@ -159,7 +159,7 @@ require_once('core/php/loadVars.php'); ?>
 								<a class="link underlineLink" onclick="deleteRowFunction(<?php echo $i; ?>, true)">Remove</a>
 							</li>
 							<?php endforeach; ?>
-							<div id="newRowLocationForWatchList">
+							<div style="display: inline-block;" id="newRowLocationForWatchList">
 							</div>
 						</ul>
 						<ul class="settingsUl">
@@ -233,13 +233,13 @@ function addRowFunction()
 
 	countOfWatchList++;
 	countOfClicks++;
-	var documentUpdateText = "<li id='rowNumber"+countOfWatchList+"'><span class='leftSpacingserverNames' > Name: </span> <input class='inputWidth300' type='text'  name='watchListKey" + countOfWatchList + "' >";
+	var documentUpdateText = "<li class='watchFolderGroups' id='rowNumber"+countOfWatchList+"'><span class='leftSpacingserverNames' > Name: </span> <input class='inputWidth300' type='text'  name='watchListKey" + countOfWatchList + "' >";
 	for(var i = 0; i < numberOfSubRows; i++)
 	{
 		documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span> <input style='display: none;' type='text' name='watchListItem"+countOfWatchList+"-"+(i+1)+"-Name' value="+arrayOfKeysNonEnc[i]+">   <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >"
 	}
 	documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+countOfWatchList+'-0" value="'+numberOfSubRows+'"> '
-	documentUpdateText += " <span class='leftSpacingserverNames' ></span> <a class='link underlineLink' onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a></li><div id='newRowLocationForWatchList"+countOfClicks+"'></div>";
+	documentUpdateText += " <span class='leftSpacingserverNames' ></span> <a class='link underlineLink' onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a></li><div style='display:inline-block;' id='newRowLocationForWatchList"+countOfClicks+"'></div>";
 	document.getElementById(locationInsert).outerHTML += documentUpdateText;
 	document.getElementById('numberOfRows').value = countOfWatchList;
 	countOfAddedFiles++;
@@ -260,7 +260,7 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 			{
 				var updateItoIMinusOne = i - 1;
 				var elementToUpdate = "rowNumber" + i;
-				var documentUpdateText = "<li id='rowNumber"+updateItoIMinusOne+"' ><span class='leftSpacingserverNames' > Name: </span> ";
+				var documentUpdateText = "<li class='watchFolderGroups' id='rowNumber"+updateItoIMinusOne+"' ><span class='leftSpacingserverNames' > Name: </span> ";
 				var watchListKeyIdFind = "watchListKey"+i;
 				
 				var previousElementNumIdentifierForKey  = document.getElementsByName(watchListKeyIdFind);
