@@ -350,52 +350,45 @@ require_once('core/php/loadVars.php'); ?>
 
 function addRowFunction()
 {
-	var valueForPopup = document.getElementById('branchColorTypeSelector').value;
-	if(valueForPopup == 'branchName')
-	{
-		//newRowLocationForFilterBranch
-	}
-	else if (valueForPopup == 'authorName')
-	{
-		//newRowLocationForFilterAuthor
-	}
-	else
-	{
-		//newRowLocationForFilterComittee
-	}
+	var filterType = whichTypeOfFilterIsSelected();
 
 }
 
 function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 {
 
+	var filterType = whichTypeOfFilterIsSelected();
+
+}
+
+function whichTypeOfFilterIsSelected()
+{
 	var valueForPopup = document.getElementById('branchColorTypeSelector').value;
 	if(valueForPopup == 'branchName')
 	{
-		//newRowLocationForFilterBranch
+		return 'newRowLocationForFilterBranch';
 	}
 	else if (valueForPopup == 'authorName')
 	{
-		//newRowLocationForFilterAuthor
+		return 'newRowLocationForFilterAuthor';
 	}
 	else
 	{
-		//newRowLocationForFilterComittee
+		return 'newRowLocationForFilterComittee';
 	}
-
 }	
 
 function switchToNewFilterBranchColor()
 {
-	var valueForPopup = document.getElementById('branchColorTypeSelector').value;
+	var filterType = whichTypeOfFilterIsSelected();
 	document.getElementById('colorBasedOnNameOfBranch').style.display = 'none';
 	document.getElementById('colorBasedOnAuthorName').style.display = 'none';
 	document.getElementById('colorBasedOnComitteeName').style.display = 'none';
-	if(valueForPopup == 'branchName')
+	if(filterType == 'newRowLocationForFilterBranch')
 	{
 		document.getElementById('colorBasedOnNameOfBranch').style.display = 'block';
 	}
-	else if (valueForPopup == 'authorName')
+	else if (filterType == 'newRowLocationForFilterAuthor')
 	{
 		document.getElementById('colorBasedOnAuthorName').style.display = 'block';
 	}
