@@ -209,7 +209,7 @@ require_once('core/php/loadVars.php'); ?>
 		</div>
 		<div class="firstBoxDev">
 			<form id="settingsColorBG" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
-				<div class="innerFirstDevBox"  >
+				<div class="innerFirstDevBox" style="width: 500px;" >
 					<div class="devBoxTitle">
 						<b>Dev Box Color Settings</b> <button onclick="displayLoadingPopup();" >Save Changes</button>
 					</div>
@@ -230,7 +230,7 @@ require_once('core/php/loadVars.php'); ?>
 										 <div class="inner-triangle" ></div> 
 									</div>
 									&nbsp;
-									<?php echo $key?>
+									<input type="text" value="<?php echo $key?>" name="">
 									&nbsp;
 									<select>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
@@ -238,6 +238,7 @@ require_once('core/php/loadVars.php'); ?>
 									</select>
 									</li>
 								<?php endforeach; ?>
+									<div style="display: inline-block;" id="newRowLocationForFilterBranch"></div>
 								</span>
 								<span <?php if ($branchColorFilter != "authorName"){echo "style='display: none;'";}?> id="colorBasedOnAuthorName" >
 								<?php foreach ($errorAndColorAuthorArray as $key => $value): ?>
@@ -246,7 +247,7 @@ require_once('core/php/loadVars.php'); ?>
 										 <div class="inner-triangle" ></div> 
 									</div>
 									&nbsp;
-									<?php echo $key?>
+									<input type="text" value="<?php echo $key?>" name="" >
 									&nbsp;
 									<select>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
@@ -254,6 +255,7 @@ require_once('core/php/loadVars.php'); ?>
 									</select>
 									</li>
 								<?php endforeach; ?>
+									<div style="display: inline-block;" id="newRowLocationForFilterAuthor"></div>
 								</span>
 								<span  <?php if ($branchColorFilter != "committerName"){echo "style='display: none;'";}?> id="colorBasedOnComitteeName" >
 								<?php foreach ($errorAndColorComitteeArray as $key => $value): ?>
@@ -262,7 +264,7 @@ require_once('core/php/loadVars.php'); ?>
 										 <div class="inner-triangle" ></div> 
 									</div>
 									&nbsp;
-									<?php echo $key?>
+									<input type="text" value="<?php echo $key?>" name="">
 									&nbsp;
 									<select>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
@@ -270,10 +272,13 @@ require_once('core/php/loadVars.php'); ?>
 									</select>
 									</li>
 								<?php endforeach; ?>
+									<div style="display: inline-block;" id="newRowLocationForFilterComittee"></div>
 								</span>
+								<li>
+									<a class="link underlineLink"  onclick="addRowFunction()">Add New Filter</a>
+								</li>
 							</ul>
 					</div>
-					
 				</div>
 			</form>
 		</div>
@@ -316,7 +321,7 @@ require_once('core/php/loadVars.php'); ?>
 		}
 		else if (numOfWindows == 4)
 		{
-			elementWidth = 342;
+			elementWidth = 500;
 		}
 		else if (numOfWindows == 5)
 		{
@@ -345,13 +350,38 @@ require_once('core/php/loadVars.php'); ?>
 
 function addRowFunction()
 {
+	var valueForPopup = document.getElementById('branchColorTypeSelector').value;
+	if(valueForPopup == 'branchName')
+	{
+		//newRowLocationForFilterBranch
+	}
+	else if (valueForPopup == 'authorName')
+	{
+		//newRowLocationForFilterAuthor
+	}
+	else
+	{
+		//newRowLocationForFilterComittee
+	}
 
-	
 }
 
 function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 {
 
+	var valueForPopup = document.getElementById('branchColorTypeSelector').value;
+	if(valueForPopup == 'branchName')
+	{
+		//newRowLocationForFilterBranch
+	}
+	else if (valueForPopup == 'authorName')
+	{
+		//newRowLocationForFilterAuthor
+	}
+	else
+	{
+		//newRowLocationForFilterComittee
+	}
 
 }	
 

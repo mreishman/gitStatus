@@ -159,8 +159,7 @@ require_once('core/php/loadVars.php'); ?>
 								<a class="link underlineLink" onclick="deleteRowFunction(<?php echo $i; ?>, true)">Remove</a>
 							</li>
 							<?php endforeach; ?>
-							<div style="display: inline-block;" id="newRowLocationForWatchList">
-							</div>
+							<div style="display: inline-block;" id="newRowLocationForWatchList"></div>
 						</ul>
 						<ul class="settingsUl">
 							<li>
