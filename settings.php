@@ -247,7 +247,7 @@ require_once('core/php/loadVars.php'); ?>
 										 <div class="inner-triangle" ></div> 
 									</div>
 									&nbsp;
-									<input type="text" value="<?php echo $key?>" name="" >
+									<input type="text" value="<?php echo $key?>" name="">
 									&nbsp;
 									<select>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
@@ -369,12 +369,11 @@ function addRowFunction()
 		counter = countOfClicksFilterComittee;
 		countOfClicksFilterComittee++;
 	}
-
+	documentUpdateText += '<div style="display: inline-block;" id="'+filterType+(1+counter)+'"></div>';
 	if(counter != 0)
 	{
 		filterType += counter;
 	}
-
 	document.getElementById(filterType).outerHTML += documentUpdateText;
 
 }
