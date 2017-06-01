@@ -238,7 +238,7 @@ require_once('core/php/loadVars.php'); ?>
 									</select>
 									</li>
 								<?php endforeach; ?>
-									<div style="display: inline-block;" id="newRowLocationForFilterBranch"></div>
+									<div style="display: none;" id="newRowLocationForFilterBranch"></div>
 								</span>
 								<span <?php if ($branchColorFilter != "authorName"){echo "style='display: none;'";}?> id="colorBasedOnAuthorName" >
 								<?php foreach ($errorAndColorAuthorArray as $key => $value): ?>
@@ -255,7 +255,7 @@ require_once('core/php/loadVars.php'); ?>
 									</select>
 									</li>
 								<?php endforeach; ?>
-									<div style="display: inline-block;" id="newRowLocationForFilterAuthor"></div>
+									<div style="display: none;" id="newRowLocationForFilterAuthor"></div>
 								</span>
 								<span  <?php if ($branchColorFilter != "committerName"){echo "style='display: none;'";}?> id="colorBasedOnComitteeName" >
 								<?php foreach ($errorAndColorComitteeArray as $key => $value): ?>
@@ -272,7 +272,7 @@ require_once('core/php/loadVars.php'); ?>
 									</select>
 									</li>
 								<?php endforeach; ?>
-									<div style="display: inline-block;" id="newRowLocationForFilterComittee"></div>
+									<div style="display: none;" id="newRowLocationForFilterComittee"></div>
 								</span>
 								<li>
 									<a class="link underlineLink"  onclick="addRowFunction()">Add New Filter</a>
@@ -353,7 +353,7 @@ function addRowFunction()
 {
 	var filterType = whichTypeOfFilterIsSelected();
 	var counter = 0;
-	documentUpdateText = '<li><div class="colorSelectorDiv" style="background-color: black"><div class="inner-triangle" ></div></div>&nbsp;<input type="text" value="" name="" >&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select></li>';
+	documentUpdateText = '<li><div class="colorSelectorDiv" style="background-color: black"><div class="inner-triangle" ></div></div>&nbsp;&nbsp;<input type="text" value="" name="" >&nbsp;&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select></li>';
 	if(filterType == 'newRowLocationForFilterBranch')
 	{
 		counter = countOfClicksFilterBranch;
@@ -369,7 +369,7 @@ function addRowFunction()
 		counter = countOfClicksFilterComittee;
 		countOfClicksFilterComittee++;
 	}
-	documentUpdateText += '<div style="display: inline-block;" id="'+filterType+(1+counter)+'"></div>';
+	documentUpdateText += '<div style="display: none;" id="'+filterType+(1+counter)+'"></div>';
 	if(counter != 0)
 	{
 		filterType += counter;
