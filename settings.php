@@ -342,21 +342,45 @@ require_once('core/php/loadVars.php'); ?>
 	</script>
 	<script src="core/js/allPages.js"></script>
 	<script type="text/javascript">
-		document.getElementById("menuBarLeftSettings").style.backgroundColor  = "#ffffff";
-		
-	</script>
 
-	<script type="text/javascript"> 
+document.getElementById("menuBarLeftSettings").style.backgroundColor  = "#ffffff";
+
+var countOfClicksFilterBranch = 0;
+var countOfClicksFilterAuthor = 0;
+var countOfClicksFilterComittee = 0;		
 
 function addRowFunction()
 {
 	var filterType = whichTypeOfFilterIsSelected();
+	var counter = 0;
+	documentUpdateText = '<li><div class="colorSelectorDiv" style="background-color: black"><div class="inner-triangle" ></div></div>&nbsp;<input type="text" value="" name="" >&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select></li>';
+	if(filterType == 'newRowLocationForFilterBranch')
+	{
+		counter = countOfClicksFilterBranch;
+		countOfClicksFilterBranch++;
+	}
+	else if (filterType == 'newRowLocationForFilterAuthor')
+	{
+		counter = countOfClicksFilterAuthor;
+		countOfClicksFilterAuthor++;
+	}
+	else
+	{
+		counter = countOfClicksFilterComittee;
+		countOfClicksFilterComittee++;
+	}
+
+	if(counter != 0)
+	{
+		filterType += counter;
+	}
+
+	document.getElementById(filterType).outerHTML += documentUpdateText;
 
 }
 
 function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 {
-
 	var filterType = whichTypeOfFilterIsSelected();
 
 }
@@ -397,11 +421,6 @@ function switchToNewFilterBranchColor()
 		document.getElementById('colorBasedOnComitteeName').style.display = 'block';
 	}
 }
-
-
-
-
-
 
 document.getElementById("branchColorTypeSelector").addEventListener("change", switchToNewFilterBranchColor, false);
 
