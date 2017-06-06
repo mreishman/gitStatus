@@ -299,6 +299,7 @@ require_once('core/php/loadVars.php'); ?>
 
 	var counfOfFiltersForbranchName = <?php echo $counfOfFiltersForbranchName; ?>;
 	var counfOfFiltersForAuthorName = <?php echo $counfOfFiltersForAuthorName; ?>;
+	var counfOfFiltersForComitteeName = <?php echo $counfOfFiltersForComitteeName; ?>;
 
 	function calcuateWidth()
 	{
@@ -369,22 +370,28 @@ function addRowFunction()
 {
 	var filterType = whichTypeOfFilterIsSelected();
 	var counter = 0;
-	documentUpdateText = '<li><div class="colorSelectorDiv" style="background-color: black"><div class="inner-triangle" ></div></div>&nbsp;&nbsp;<input type="text" value="" name="" >&nbsp;&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select></li>';
+	var highestRowCount = 0;
+	documentUpdateText = '<li ';
 	if(filterType == 'newRowLocationForFilterBranch')
 	{
 		counter = countOfClicksFilterBranch;
 		countOfClicksFilterBranch++;
+		highestRowCount = counfOfFiltersForbranchName;
 	}
 	else if (filterType == 'newRowLocationForFilterAuthor')
 	{
 		counter = countOfClicksFilterAuthor;
 		countOfClicksFilterAuthor++;
+		highestRowCount = counfOfFiltersForAuthorName;
 	}
 	else
 	{
 		counter = countOfClicksFilterComittee;
 		countOfClicksFilterComittee++;
+		highestRowCount = counfOfFiltersForComitteeName;
 	}
+	documentUpdateText += "id='"+filterType+""+(counfOfFiltersForbranchName+counter+1)+"'";
+	documentUpdateText += '><div class="colorSelectorDiv" style="background-color: black"><div class="inner-triangle" ></div></div>&nbsp;&nbsp;<input type="text" value="" name="" >&nbsp;&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select><a class="link underlineLink"  onclick="deleteRowFunction('+(1+counter+highestRowCount)+', true)">Remove Filter</a></li>';
 	documentUpdateText += '<div style="display: none;" id="'+filterType+(1+counter)+'"></div>';
 	if(counter != 0)
 	{
@@ -397,7 +404,25 @@ function addRowFunction()
 function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 {
 	var filterType = whichTypeOfFilterIsSelected();
-	var filterType = filterType+currentRow;
+	var elementToFind = filterType+currentRow;
+	document.getElementById(elementToFind).outerHTML = "";
+	if(decreaseCountWatchListNum)
+	{
+		var countOfHeighestNum = 0;
+		while (document.getElementById(filterType+countOfHeighestNum))
+		{
+			countOfHeighestNum++;
+		}
+		countOfHeighestNum--;
+		if(currentRow < countOfHeighestNum)
+		{
+			//this wasn't the last folder deleted, update others
+			for(var i = currentRow + 1; i <= countOfHeighestNum; i++)
+			{
+
+			}
+		}
+	}
 }
 
 function whichTypeOfFilterIsSelected()
