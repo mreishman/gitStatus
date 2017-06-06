@@ -224,8 +224,11 @@ require_once('core/php/loadVars.php'); ?>
 									</select></h2>
 								</li>
 								<span <?php if ($branchColorFilter != "branchName"){echo "style='display: none;'";}?> id="colorBasedOnNameOfBranch" >
-								<?php foreach ($errorAndColorArray as $key => $value): ?>
-									<li>
+								<?php 
+								$counfOfFiltersForbranchName = 0;
+								foreach ($errorAndColorArray as $key => $value):
+								$counfOfFiltersForbranchName++; ?>
+									<li id="newRowLocationForFilterBranch<?php echo $counfOfFiltersForbranchName;?>">
 									<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
 										 <div class="inner-triangle" ></div> 
 									</div>
@@ -236,13 +239,17 @@ require_once('core/php/loadVars.php'); ?>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
 										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
 									</select>
+									<a class="link underlineLink"  onclick="deleteRowFunction(<?php echo $counfOfFiltersForbranchName;?>, true)">Remove Filter</a>
 									</li>
 								<?php endforeach; ?>
 									<div style="display: none;" id="newRowLocationForFilterBranch"></div>
 								</span>
 								<span <?php if ($branchColorFilter != "authorName"){echo "style='display: none;'";}?> id="colorBasedOnAuthorName" >
-								<?php foreach ($errorAndColorAuthorArray as $key => $value): ?>
-									<li>
+								<?php
+								$counfOfFiltersForAuthorName = 0;
+								foreach ($errorAndColorAuthorArray as $key => $value): 
+									$counfOfFiltersForAuthorName++; ?>
+									<li id="newRowLocationForFilterAuthor<?php echo $counfOfFiltersForAuthorName;?>">
 									<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
 										 <div class="inner-triangle" ></div> 
 									</div>
@@ -253,13 +260,17 @@ require_once('core/php/loadVars.php'); ?>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
 										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
 									</select>
+									<a class="link underlineLink"  onclick="deleteRowFunction(<?php echo $counfOfFiltersForAuthorName;?>, true)">Remove Filter</a>
 									</li>
 								<?php endforeach; ?>
 									<div style="display: none;" id="newRowLocationForFilterAuthor"></div>
 								</span>
 								<span  <?php if ($branchColorFilter != "committerName"){echo "style='display: none;'";}?> id="colorBasedOnComitteeName" >
-								<?php foreach ($errorAndColorComitteeArray as $key => $value): ?>
-									<li>
+								<?php
+								$counfOfFiltersForComitteeName = 0;
+								foreach ($errorAndColorComitteeArray as $key => $value): 
+									$counfOfFiltersForComitteeName++; ?>
+									<li id="newRowLocationForFilterComittee<?php echo $counfOfFiltersForComitteeName;?>">
 									<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
 										 <div class="inner-triangle" ></div> 
 									</div>
@@ -270,6 +281,7 @@ require_once('core/php/loadVars.php'); ?>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
 										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
 									</select>
+									<a class="link underlineLink"  onclick="deleteRowFunction(<?php echo $counfOfFiltersForComitteeName;?>, true)">Remove Filter</a>
 									</li>
 								<?php endforeach; ?>
 									<div style="display: none;" id="newRowLocationForFilterComittee"></div>
@@ -284,8 +296,12 @@ require_once('core/php/loadVars.php'); ?>
 		</div>
 	</div>
 	<script type="text/javascript">
-		function calcuateWidth()
-{
+
+	var counfOfFiltersForbranchName = <?php echo $counfOfFiltersForbranchName; ?>;
+	var counfOfFiltersForAuthorName = <?php echo $counfOfFiltersForAuthorName; ?>;
+
+	function calcuateWidth()
+	{
 	var innerWidthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	if(document.getElementById("sidebar").style.width == '100px')
 	{
@@ -381,7 +397,7 @@ function addRowFunction()
 function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 {
 	var filterType = whichTypeOfFilterIsSelected();
-
+	var filterType = filterType+currentRow;
 }
 
 function whichTypeOfFilterIsSelected()
