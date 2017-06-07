@@ -230,7 +230,7 @@ require_once('core/php/loadVars.php'); ?>
 								foreach ($errorAndColorArray as $key => $value):
 								$counfOfFiltersForbranchName++; ?>
 									<li id="newRowLocationForFilterBranch<?php echo $counfOfFiltersForbranchName;?>">
-									<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
+									<div class="colorSelectorDiv">
 										 <div class="inner-triangle" ></div> 
 										 <button class="backgroundButtonForColor jscolor{valueElement: 'newRowLocationForFilterBranchColor<?php echo $counfOfFiltersForbranchName;?>'}"></button>
 									</div>
@@ -254,10 +254,11 @@ require_once('core/php/loadVars.php'); ?>
 								foreach ($errorAndColorAuthorArray as $key => $value): 
 									$counfOfFiltersForAuthorName++; ?>
 									<li id="newRowLocationForFilterAuthor<?php echo $counfOfFiltersForAuthorName;?>">
-									<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
+									<div class="colorSelectorDiv">
 										 <div class="inner-triangle" ></div> 
+										 <button class="backgroundButtonForColor jscolor{valueElement: 'newRowLocationForFilterAuthorColor<?php echo $counfOfFiltersForAuthorName;?>'}"></button>
 									</div>
-									<input style="display: none;" type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterAuthorColor<?php echo $counfOfFiltersForAuthorName;?>">
+									<input id="newRowLocationForFilterAuthorColor<?php echo $counfOfFiltersForAuthorName;?>" style="display: none;" type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterAuthorColor<?php echo $counfOfFiltersForAuthorName;?>">
 									&nbsp;
 									<input type="text" value="<?php echo $key?>" name="newRowLocationForFilterAuthorName<?php echo $counfOfFiltersForAuthorName;?>">
 									&nbsp;
@@ -276,10 +277,11 @@ require_once('core/php/loadVars.php'); ?>
 								foreach ($errorAndColorComitteeArray as $key => $value): 
 									$counfOfFiltersForComitteeName++; ?>
 									<li id="newRowLocationForFilterComittee<?php echo $counfOfFiltersForComitteeName;?>">
-									<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
+									<div class="colorSelectorDiv">
 										 <div class="inner-triangle" ></div> 
+										 <button class="backgroundButtonForColor jscolor{valueElement: 'newRowLocationForFilterComitteeColor<?php echo $counfOfFiltersForComitteeName;?>'}"></button>
 									</div>
-									<input style="display: none;" type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterComitteeColor<?php echo $counfOfFiltersForComitteeName;?>">
+									<input id="newRowLocationForFilterComitteeColor<?php echo $counfOfFiltersForComitteeName;?>" style="display: none;" type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterComitteeColor<?php echo $counfOfFiltersForComitteeName;?>">
 									&nbsp;
 									<input type="text" value="<?php echo $key?>" name="newRowLocationForFilterComitteeName<?php echo $counfOfFiltersForComitteeName;?>">
 									&nbsp;
