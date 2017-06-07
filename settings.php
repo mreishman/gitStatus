@@ -232,8 +232,9 @@ require_once('core/php/loadVars.php'); ?>
 									<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
 										 <div class="inner-triangle" ></div> 
 									</div>
+									<input style="display: none;" type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterBranchColor<?php echo $counfOfFiltersForbranchName;?>">
 									&nbsp;
-									<input type="text" value="<?php echo $key?>" name="newRowLocationForFilterBranchName<?php echo $counfOfFiltersForComitteeName;?>">
+									<input type="text" value="<?php echo $key?>" name="newRowLocationForFilterBranchName<?php echo $counfOfFiltersForbranchName;?>">
 									&nbsp;
 									<select>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
@@ -242,7 +243,7 @@ require_once('core/php/loadVars.php'); ?>
 									<a class="link underlineLink"  onclick="deleteRowFunction(<?php echo $counfOfFiltersForbranchName;?>, true)">Remove Filter</a>
 									</li>
 								<?php endforeach; ?>
-									<div style="display: none;" id="newRowLocationForFilterBranch"></div>
+									<div style="display: none;" id="newRowLocationForFilterBranchNew"></div>
 								</span>
 								<span <?php if ($branchColorFilter != "authorName"){echo "style='display: none;'";}?> id="colorBasedOnAuthorName" >
 								<?php
@@ -253,8 +254,9 @@ require_once('core/php/loadVars.php'); ?>
 									<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
 										 <div class="inner-triangle" ></div> 
 									</div>
+									<input type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterAuthorColor<?php echo $counfOfFiltersForAuthorName;?>">
 									&nbsp;
-									<input type="text" value="<?php echo $key?>" name="newRowLocationForFilterAuthorName<?php echo $counfOfFiltersForComitteeName;?>">
+									<input style="display: none;" type="text" value="<?php echo $key?>" name="newRowLocationForFilterAuthorName<?php echo $counfOfFiltersForAuthorName;?>">
 									&nbsp;
 									<select>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
@@ -263,7 +265,7 @@ require_once('core/php/loadVars.php'); ?>
 									<a class="link underlineLink"  onclick="deleteRowFunction(<?php echo $counfOfFiltersForAuthorName;?>, true)">Remove Filter</a>
 									</li>
 								<?php endforeach; ?>
-									<div style="display: none;" id="newRowLocationForFilterAuthor"></div>
+									<div style="display: none;" id="newRowLocationForFilterAuthorNew"></div>
 								</span>
 								<span  <?php if ($branchColorFilter != "committerName"){echo "style='display: none;'";}?> id="colorBasedOnComitteeName" >
 								<?php
@@ -274,6 +276,7 @@ require_once('core/php/loadVars.php'); ?>
 									<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
 										 <div class="inner-triangle" ></div> 
 									</div>
+									<input style="display: none;" type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterComitteeColor<?php echo $counfOfFiltersForComitteeName;?>">
 									&nbsp;
 									<input type="text" value="<?php echo $key?>" name="newRowLocationForFilterComitteeName<?php echo $counfOfFiltersForComitteeName;?>">
 									&nbsp;
@@ -284,7 +287,7 @@ require_once('core/php/loadVars.php'); ?>
 									<a class="link underlineLink"  onclick="deleteRowFunction(<?php echo $counfOfFiltersForComitteeName;?>, true)">Remove Filter</a>
 									</li>
 								<?php endforeach; ?>
-									<div style="display: none;" id="newRowLocationForFilterComittee"></div>
+									<div style="display: none;" id="newRowLocationForFilterComitteeNew"></div>
 								</span>
 								<li>
 									<a class="link underlineLink"  onclick="addRowFunction()">Add New Filter</a>
@@ -391,8 +394,11 @@ function addRowFunction()
 		highestRowCount = counfOfFiltersForComitteeName;
 	}
 	documentUpdateText += "id='"+filterType+""+(highestRowCount+counter+1)+"'";
-	documentUpdateText += '><div class="colorSelectorDiv" style="background-color: black"><div class="inner-triangle" ></div></div>&nbsp;&nbsp;<input type="text" value="" name="'+filterType+"Name"+(1+counter)+'" >&nbsp;&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select><a class="link underlineLink"  onclick="deleteRowFunction('+(1+counter)+', true)">Remove Filter</a></li>';
-	documentUpdateText += '<div style="display: none;" id="'+filterType+(1+counter)+'"></div>';
+	documentUpdateText += '><div class="colorSelectorDiv" style="background-color: black"><div class="inner-triangle" ></div></div>';
+	documentUpdateText += '&nbsp;<input style="display: none;" type="text" value="black"  name="'+filterType+'Color'+(counter+1)+'">'
+	documentUpdateText += '&nbsp;&nbsp;<input type="text" value="" name="'+filterType+"Name"+(1+counter)+'" >&nbsp;&nbsp;&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select>&nbsp;<a class="link underlineLink"  onclick="deleteRowFunction('+(1+counter)+', true)">Remove Filter</a></li>';
+	documentUpdateText += '<div style="display: none;" id="'+filterType+'New'+(1+counter)+'"></div>';
+	filterType += "New";
 	if(counter != 0)
 	{
 		filterType += counter;
