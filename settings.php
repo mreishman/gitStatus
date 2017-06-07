@@ -233,7 +233,7 @@ require_once('core/php/loadVars.php'); ?>
 										 <div class="inner-triangle" ></div> 
 									</div>
 									&nbsp;
-									<input type="text" value="<?php echo $key?>" name="">
+									<input type="text" value="<?php echo $key?>" name="newRowLocationForFilterBranchName<?php echo $counfOfFiltersForComitteeName;?>">
 									&nbsp;
 									<select>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
@@ -254,7 +254,7 @@ require_once('core/php/loadVars.php'); ?>
 										 <div class="inner-triangle" ></div> 
 									</div>
 									&nbsp;
-									<input type="text" value="<?php echo $key?>" name="">
+									<input type="text" value="<?php echo $key?>" name="newRowLocationForFilterAuthorName<?php echo $counfOfFiltersForComitteeName;?>">
 									&nbsp;
 									<select>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
@@ -275,7 +275,7 @@ require_once('core/php/loadVars.php'); ?>
 										 <div class="inner-triangle" ></div> 
 									</div>
 									&nbsp;
-									<input type="text" value="<?php echo $key?>" name="">
+									<input type="text" value="<?php echo $key?>" name="newRowLocationForFilterComitteeName<?php echo $counfOfFiltersForComitteeName;?>">
 									&nbsp;
 									<select>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
@@ -390,8 +390,8 @@ function addRowFunction()
 		countOfClicksFilterComittee++;
 		highestRowCount = counfOfFiltersForComitteeName;
 	}
-	documentUpdateText += "id='"+filterType+""+(counfOfFiltersForbranchName+counter+1)+"'";
-	documentUpdateText += '><div class="colorSelectorDiv" style="background-color: black"><div class="inner-triangle" ></div></div>&nbsp;&nbsp;<input type="text" value="" name="" >&nbsp;&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select><a class="link underlineLink"  onclick="deleteRowFunction('+(1+counter+highestRowCount)+', true)">Remove Filter</a></li>';
+	documentUpdateText += "id='"+filterType+""+(highestRowCount+counter+1)+"'";
+	documentUpdateText += '><div class="colorSelectorDiv" style="background-color: black"><div class="inner-triangle" ></div></div>&nbsp;&nbsp;<input type="text" value="" name="'+filterType+"Name"+(1+counter)+'" >&nbsp;&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select><a class="link underlineLink"  onclick="deleteRowFunction('+(1+counter)+', true)">Remove Filter</a></li>';
 	documentUpdateText += '<div style="display: none;" id="'+filterType+(1+counter)+'"></div>';
 	if(counter != 0)
 	{
@@ -419,6 +419,8 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 			//this wasn't the last folder deleted, update others
 			for(var i = currentRow + 1; i <= countOfHeighestNum; i++)
 			{
+				var updateItoIMinusOne = i - 1;
+				var elementToUpdate = filterType + i;
 
 			}
 		}
