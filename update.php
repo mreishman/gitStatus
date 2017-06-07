@@ -112,12 +112,12 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					Last Check for updates -  <?php echo $configStatic['lastCheck'];?>
 					<br><br>
 					<form id="settingsCheckForUpdate" action="core/php/update/settingsCheckForUpdate.php" method="post">
-					<button onclick="displayLoadingPopup();" >Check for Update</button>
+					<button class="buttonButton" onclick="displayLoadingPopup();" >Check for Update</button>
 					</form>
 					
 					<form id="settingsCheckForUpdate" action="update/updater.php" method="post">
 					<?php
-					if($levelOfUpdate != 0){echo '<br><br><button onclick="displayLoadingPopup();">Install '.$configStatic["newestVersion"].' Update</button>';}
+					if($levelOfUpdate != 0){echo '<br><br><button class="buttonButton" onclick="displayLoadingPopup();">Install '.$configStatic["newestVersion"].' Update</button>';}
 					?>
 					</form>
 					

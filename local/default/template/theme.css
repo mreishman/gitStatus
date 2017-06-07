@@ -288,3 +288,13 @@ body{
 	top: -9px;
 	border: none;
 }
+
+.buttonButton{
+	background-color: #ccc;
+	cursor: pointer;
+}
+
+.buttonButton:hover{
+	background-color: #888;
+	color: white;
+}
