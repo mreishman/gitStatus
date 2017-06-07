@@ -83,6 +83,7 @@ require_once('core/php/loadVars.php'); ?>
 	<script src="core/js/visibility.fallback.js"></script>
 	<script src="core/js/visibility.js"></script>
 	<script src="core/js/visibility.timers.js"></script>
+	<script src="core/js/jscolor.js"></script>
 </head>
 <body>
 	
@@ -231,8 +232,10 @@ require_once('core/php/loadVars.php'); ?>
 									<li id="newRowLocationForFilterBranch<?php echo $counfOfFiltersForbranchName;?>">
 									<div class="colorSelectorDiv" style="background-color: <?php echo $value['color'] ?>">
 										 <div class="inner-triangle" ></div> 
+										 <button class="backgroundButtonForColor jscolor{valueElement: 'newRowLocationForFilterBranchColor<?php echo $counfOfFiltersForbranchName;?>'}"></button>
 									</div>
-									<input style="display: none;" type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterBranchColor<?php echo $counfOfFiltersForbranchName;?>">
+
+									<input id="newRowLocationForFilterBranchColor<?php echo $counfOfFiltersForbranchName;?>" style="display: none;" type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterBranchColor<?php echo $counfOfFiltersForbranchName;?>">
 									&nbsp;
 									<input type="text" value="<?php echo $key?>" name="newRowLocationForFilterBranchName<?php echo $counfOfFiltersForbranchName;?>">
 									&nbsp;

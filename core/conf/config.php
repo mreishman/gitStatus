@@ -18,11 +18,11 @@ $defaultConfig = array(
 			'type'	=> 'default'
 			),
 		'master'	=> array(
-			'color'	=> 'lightGreen',
+			'color'	=> '#32CD32',
 			'type'	=> 'default'
 			),
 		'revert-'	=> array(
-			'color'	=> 'orange',
+			'color'	=> '#EE7600',
 			'type'	=> 'includes'
 			)
 		),
@@ -32,11 +32,11 @@ $defaultConfig = array(
 			'type'	=> 'default'
 			),
 		'dave'	=> array(
-			'color'	=> 'lightGreen',
+			'color'	=> '#32CD32',
 			'type'	=> 'default'
 			),
 		'matt'	=> array(
-			'color'	=> 'orange',
+			'color'	=> '#EE7600',
 			'type'	=> 'includes'
 			)
 		),
@@ -46,11 +46,11 @@ $defaultConfig = array(
 			'type'	=> 'default'
 			),
 		'dave'	=> array(
-			'color'	=> 'lightGreen',
+			'color'	=> '#32CD32',
 			'type'	=> 'default'
 			),
 		'matt'	=> array(
-			'color'	=> 'orange',
+			'color'	=> '#EE7600',
 			'type'	=> 'includes'
 			)
 		),
