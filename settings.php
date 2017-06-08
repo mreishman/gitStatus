@@ -237,7 +237,7 @@ require_once('core/php/loadVars.php'); ?>
 
 									<input id="newRowLocationForFilterBranchColor<?php echo $counfOfFiltersForbranchName;?>" style="display: none;" type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterBranchColor<?php echo $counfOfFiltersForbranchName;?>">
 									&nbsp;
-									<input type="text" value="<?php echo $key?>" name="newRowLocationForFilterBranchName<?php echo $counfOfFiltersForbranchName;?>">
+									<input id="newRowLocationForFilterBranchName<?php echo $counfOfFiltersForbranchName;?>" type="text" value="<?php echo $key?>" name="newRowLocationForFilterBranchName<?php echo $counfOfFiltersForbranchName;?>">
 									&nbsp;
 									<select>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
@@ -260,7 +260,7 @@ require_once('core/php/loadVars.php'); ?>
 									</div>
 									<input id="newRowLocationForFilterAuthorColor<?php echo $counfOfFiltersForAuthorName;?>" style="display: none;" type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterAuthorColor<?php echo $counfOfFiltersForAuthorName;?>">
 									&nbsp;
-									<input type="text" value="<?php echo $key?>" name="newRowLocationForFilterAuthorName<?php echo $counfOfFiltersForAuthorName;?>">
+									<input id="newRowLocationForFilterAuthorName<?php echo $counfOfFiltersForAuthorName;?>" type="text" value="<?php echo $key?>" name="newRowLocationForFilterAuthorName<?php echo $counfOfFiltersForAuthorName;?>">
 									&nbsp;
 									<select>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
@@ -283,7 +283,7 @@ require_once('core/php/loadVars.php'); ?>
 									</div>
 									<input id="newRowLocationForFilterComitteeColor<?php echo $counfOfFiltersForComitteeName;?>" style="display: none;" type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterComitteeColor<?php echo $counfOfFiltersForComitteeName;?>">
 									&nbsp;
-									<input type="text" value="<?php echo $key?>" name="newRowLocationForFilterComitteeName<?php echo $counfOfFiltersForComitteeName;?>">
+									<input id="newRowLocationForFilterComitteeName<?php echo $counfOfFiltersForComitteeName;?>" type="text" value="<?php echo $key?>" name="newRowLocationForFilterComitteeName<?php echo $counfOfFiltersForComitteeName;?>">
 									&nbsp;
 									<select>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
@@ -417,15 +417,16 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 {
 	var filterType = whichTypeOfFilterIsSelected();
 	var elementToFind = filterType+currentRow;
-	document.getElementById(elementToFind).outerHTML = "";
 	if(decreaseCountWatchListNum)
 	{
-		var countOfHeighestNum = 0;
+		var countOfHeighestNum = 1;
+		console.log(filterType+countOfHeighestNum);
 		while (document.getElementById(filterType+countOfHeighestNum))
 		{
 			countOfHeighestNum++;
 		}
 		countOfHeighestNum--;
+		document.getElementById(elementToFind).outerHTML = "";
 		if(currentRow < countOfHeighestNum)
 		{
 			//this wasn't the last folder deleted, update others
@@ -433,9 +434,41 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 			{
 				var updateItoIMinusOne = i - 1;
 				var elementToUpdate = filterType + i;
+				documentUpdateText = '<li ';
+				if(filterType == 'newRowLocationForFilterBranch')
+				{
+					counter = countOfClicksFilterBranch;
+					highestRowCount = counfOfFiltersForbranchName;
+				}
+				else if (filterType == 'newRowLocationForFilterAuthor')
+				{
+					counter = countOfClicksFilterAuthor;
+					highestRowCount = counfOfFiltersForAuthorName;
+				}
+				else
+				{
+					counter = countOfClicksFilterComittee;
+					highestRowCount = counfOfFiltersForComitteeName;
+				}
+				documentUpdateText += "id='"+filterType+""+updateItoIMinusOne+"'";
+				documentUpdateText += '><div class="colorSelectorDiv"><div class="inner-triangle" ></div><button id='+filterType+'button'+updateItoIMinusOne+' class="backgroundButtonForColor"></button></div>';
+				documentUpdateText += '&nbsp;<input id="'+filterType+'Color'+updateItoIMinusOne+'" style="display: none;" type="text" value="';
+				documentUpdateText += document.getElementById(filterType+'Color'+i).value;
+				documentUpdateText += '"  name="'+filterType+'Color'+updateItoIMinusOne+'">'
+				documentUpdateText += '&nbsp;&nbsp;<input type="text" value="';
+				documentUpdateText += document.getElementById(filterType+'Name'+i).value;
+				documentUpdateText += '" name="'+filterType+"Name"+updateItoIMinusOne+'" >&nbsp;&nbsp;&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select>&nbsp;<a class="link underlineLink"  onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove Filter</a></li>';
+				document.getElementById(filterType+i).outerHTML = documentUpdateText;
+
+				var picker = new jscolor(document.getElementById(filterType+'button'+updateItoIMinusOne), {valueElement: filterType+'Color'+updateItoIMinusOne});
+
 
 			}
 		}
+	}
+	else
+	{
+		document.getElementById(elementToFind).outerHTML = "";
 	}
 }
 
