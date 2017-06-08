@@ -349,7 +349,7 @@ function filterBGColor(filterName, idName)
 			{
 				if(filterName.includes(property) && newBG != true)
 				{
-					document.getElementById(idName).style.backgroundColor = errorAndColorArray[property].color;
+					document.getElementById(idName).style.backgroundColor = "#"+errorAndColorArray[property].color;
 					newBG = true;
 				}
 			}
@@ -357,7 +357,7 @@ function filterBGColor(filterName, idName)
 			{
 				if(filterName == property)
 				{
-					document.getElementById(idName).style.backgroundColor = errorAndColorArray[property].color;
+					document.getElementById(idName).style.backgroundColor = "#"+errorAndColorArray[property].color;
 					newBG = true;
 				}
 			}
