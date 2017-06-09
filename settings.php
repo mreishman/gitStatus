@@ -218,7 +218,7 @@ require_once('core/php/loadVars.php'); ?>
 							<ul class="settingsUl">
 								<li>
 									<h2>Color background based on:
-									<select id="branchColorTypeSelector">
+									<select id="branchColorTypeSelector" name="branchColorFilter">
 										<option <?php if ($branchColorFilter == "branchName"){echo "selected";}?> value="branchName">Name Of Branch</option>
 										<option <?php if ($branchColorFilter == "authorName"){echo "selected";}?> value="authorName">Author Name</option>
 										<option <?php if ($branchColorFilter == "committerName"){echo "selected";}?> value="committerName">Committer Name</option>
@@ -239,7 +239,7 @@ require_once('core/php/loadVars.php'); ?>
 									&nbsp;
 									<input id="newRowLocationForFilterBranchName<?php echo $counfOfFiltersForbranchName;?>" type="text" value="<?php echo $key?>" name="newRowLocationForFilterBranchName<?php echo $counfOfFiltersForbranchName;?>">
 									&nbsp;
-									<select>
+									<select name="newRowLocationForFilterBranchSelect<?php echo $counfOfFiltersForbranchName;?>" >
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
 										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
 									</select>
@@ -262,7 +262,7 @@ require_once('core/php/loadVars.php'); ?>
 									&nbsp;
 									<input id="newRowLocationForFilterAuthorName<?php echo $counfOfFiltersForAuthorName;?>" type="text" value="<?php echo $key?>" name="newRowLocationForFilterAuthorName<?php echo $counfOfFiltersForAuthorName;?>">
 									&nbsp;
-									<select>
+									<select name="newRowLocationForFilterAuthorSelect<?php echo $counfOfFiltersForAuthorName;?>" >
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
 										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
 									</select>
@@ -285,7 +285,7 @@ require_once('core/php/loadVars.php'); ?>
 									&nbsp;
 									<input id="newRowLocationForFilterComitteeName<?php echo $counfOfFiltersForComitteeName;?>" type="text" value="<?php echo $key?>" name="newRowLocationForFilterComitteeName<?php echo $counfOfFiltersForComitteeName;?>">
 									&nbsp;
-									<select>
+									<select name="newRowLocationForFilterComitteeSelect<?php echo $counfOfFiltersForComitteeName;?>" >
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
 										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
 									</select>
