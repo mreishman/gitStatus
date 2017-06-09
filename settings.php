@@ -406,7 +406,7 @@ function addRowFunction()
 	var newFilter = filterType + "New";
 	if(counter != 0)
 	{
-		newFilter += counter;
+		newFilter += (highestRowCount+counter);
 	}
 	document.getElementById(newFilter).outerHTML += documentUpdateText;
 	var picker = new jscolor(document.getElementById(filterType+'button'+(highestRowCount+counter+1)), {valueElement: filterType+'Color'+(highestRowCount+counter+1)});
