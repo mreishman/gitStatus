@@ -340,16 +340,29 @@ function reverseString(str)
 function filterBGColor(filterName, idName)
 {
 	var newBG = false;
-
-	for(var property in errorAndColorArray)
+	var filterByThisArray = [];
+	if (branchColorFilter == "branchName")
 	{
-		if (errorAndColorArray.hasOwnProperty(property)) 
+		filterByThisArray = errorAndColorArray;
+	}
+	else if (branchColorFilter == "authorName")
+	{
+		filterByThisArray = errorAndColorAuthorArray;
+	}
+	else
+	{
+		filterByThisArray = errorAndColorComitteeArray;
+	}
+
+	for(var property in filterByThisArray)
+	{
+		if (filterByThisArray.hasOwnProperty(property)) 
 		{
-			if(errorAndColorArray[property].type == "includes")
+			if(filterByThisArray[property].type == "includes")
 			{
 				if(filterName.includes(property) && newBG != true)
 				{
-					document.getElementById(idName).style.backgroundColor = "#"+errorAndColorArray[property].color;
+					document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
 					newBG = true;
 				}
 			}
@@ -357,7 +370,7 @@ function filterBGColor(filterName, idName)
 			{
 				if(filterName == property)
 				{
-					document.getElementById(idName).style.backgroundColor = "#"+errorAndColorArray[property].color;
+					document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
 					newBG = true;
 				}
 			}

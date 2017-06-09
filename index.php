@@ -246,6 +246,8 @@ else
 		?>
 		var branchColorFilter = '<?php echo $branchColorFilter;?>';
 		var errorAndColorArray = JSON.parse('<?php echo json_encode($errorAndColorArray); ?>');
+		var errorAndColorAuthorArray = JSON.parse('<?php echo json_encode($errorAndColorAuthorArray); ?>');
+		var errorAndColorComitteeArray = JSON.parse('<?php echo json_encode($errorAndColorComitteeArray); ?>'); 
 		var pausePoll = false;
 		var pausePollFile = false;
 		var refreshActionVar;
