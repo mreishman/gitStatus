@@ -188,11 +188,7 @@ else
 {
 	$checkForIssueInCommit = $defaultConfig['checkForIssueInCommit'];
 }
-if(isset($_POST['errorAndColorArray']))
-{
-	$errorAndColorArray = $_POST['errorAndColorArray'];
-}
-elseif(array_key_exists('errorAndColorArray', $config))
+if(array_key_exists('errorAndColorArray', $config))
 {
 	$errorAndColorArray = $config['errorAndColorArray'];
 }
@@ -200,11 +196,7 @@ else
 {
 	$errorAndColorArray = $defaultConfig['errorAndColorArray'];
 }
-if(isset($_POST['errorAndColorAuthorArray']))
-{
-	$errorAndColorAuthorArray = $_POST['errorAndColorAuthorArray'];
-}
-elseif(array_key_exists('errorAndColorAuthorArray', $config))
+if(array_key_exists('errorAndColorAuthorArray', $config))
 {
 	$errorAndColorAuthorArray = $config['errorAndColorAuthorArray'];
 }
@@ -287,6 +279,50 @@ else
 			$arrayWatchList .= ",";
 		}
 	}
+}
+
+$arrayFilterAll = "";
+
+if(isset($_POST['branchColorFilter']))
+{
+	$arrayOfArrays = ['errorAndColorArray' => 'newRowLocationForFilterBranch', 'errorAndColorAuthorArray' => 'newRowLocationForFilterAuthor', 'errorAndColorComitteeArray' => 'newRowLocationForFilterComittee'];
+	foreach ($arrayOfArrays as $key => $value) 
+	{
+		$arrayFilterAll .= "'".$key."' => array(";
+		$countOfBranchColorFilterCount = 1; 
+		//Name , Color, Select
+		while (isset($_POST[$value.'Name'.$countOfBranchColorFilterCount])) 
+		{
+			$arrayFilterAll .= "'".$_POST[$value.'Name'.$countOfBranchColorFilterCount]."' => array(";
+			//logic for save
+			$arrayFilterAll .= "'color' => '".$_POST[$value.'Color'.$countOfBranchColorFilterCount]."',";
+			$arrayFilterAll .= "'type' => '".$_POST[$value.'Select'.$countOfBranchColorFilterCount]."'";
+			$arrayFilterAll .= "),";
+			$countOfBranchColorFilterCount++;
+		}
+		$arrayFilterAll .= "),";
+	}
+}
+else
+{
+	$arrayOfArrays = ['errorAndColorArray' => $errorAndColorArray, 'errorAndColorAuthorArray' => $errorAndColorAuthorArray, 'errorAndColorComitteeArray' => $errorAndColorComitteeArray];
+	foreach ($arrayOfArrays as $key => $value) 
+	{
+		$arrayFilterAll .= "'".$key."' => array(";
+		$numberOfRows = count($value);
+		foreach ($value as $key2 => $value2)
+		{
+			$arrayFilterAll .= "'".$key2."' => array(";
+			$numberOfRows2 = count($value2);
+			foreach ($value2 as $key3 => $value3) 
+			{
+				$arrayFilterAll .= "'".$key3."' =>  '".$value3."',";
+			}
+			$arrayFilterAll .= "),";
+		} 
+		$arrayFilterAll .= "),";
+	}	
+
 }
 
 ?>
