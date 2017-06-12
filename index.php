@@ -151,24 +151,29 @@ else
 		</div>
 	</div>
 	<div id="main">
-		<div id="groupInfo">
-			<div class="groupTabShadow" >
-				<div class="groupTab groupTabSelected" id="GroupAll" onclick="showOrHideGroups('All');" >
-					All
-				</div>
-			</div>
+		
 		<?php
 			$arrayOfGroups = array();
+			$showTopBarOfGroups = false;
 			foreach ($config['watchList'] as $key => $value)
 			{
-				if(isset($value['groupInfo']))
+				if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
 				{
+					$showTopBarOfGroups = true;
 					if(!in_array($value['groupInfo'], $arrayOfGroups))
 					{
 						array_push($arrayOfGroups, $value['groupInfo']);
 					}
 				}
 			} 
+			if($showTopBarOfGroups):?>
+			<div id="groupInfo">
+			<div class="groupTabShadow" >
+				<div class="groupTab groupTabSelected" id="GroupAll" onclick="showOrHideGroups('All');" >
+					All
+				</div>
+			</div>
+			<?php
 			sort($arrayOfGroups);
 			foreach ($arrayOfGroups as $key => $value):
 			?>
@@ -183,6 +188,7 @@ else
 		</div>
 		<div id="groupInfoPlaceholder" >
 		</div>
+		<?php endif; ?>
 	<?php 
 	$h = -1;
 	foreach ($config['watchList'] as $key => $value): 
