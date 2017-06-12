@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '1.2',
+	'version'		=> '1.3',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -14,6 +14,10 @@ $versionCheckArray = array(
 		'1.2'		=> array(
 			'branchName'	=> '1.2Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>Looks for issue number in commit message (#____)</li><li>Adds link to branch name on branch</li><li>Links website name to name</li><li>Looks for issue number in branch name</li></ul></li><li>Bug Fixes<ul><li>Fixed update for gif files</li><li>Checks for a comma before splitting data. Fixes random breaks in commit messages that include commas.</li><li>Adds on hover css to menubar</li></ul></li></ul>'
+		),
+		'1.3'		=> array(
+			'branchName'	=> '1.3Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>New settings page for watch list / main settings.</li><li>Tabbed groups for servers</li><li>Back to top button when scrolled down on page</li><li>Added loading popup for some pages</li><li>Customize the color of branches by either<ul><li>Branch Name</li><li>Author Name</li><li>Comittee Name</li></ul></li><li>General Style Changes</li></ul></li></ul>'
 		),
 	)
 );
