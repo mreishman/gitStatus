@@ -21,8 +21,9 @@ function checkLogHog(all)
 	  success: function(data){
 	  	if(data['link'] != "null")
 	  	{
-	  		document.getElementById(name+"LogHogOuter").style.display = "inline-block";
-	  		document.getElementById(name+"LogHogInner").href = data['link'];
+	  		//console.log(data['link'] + "   |   "+data['name'] + "   |   "+data['file_headers']);
+	  		document.getElementById(data['name']+"LogHogOuter").style.display = "inline-block";
+	  		document.getElementById(data['name']+"LogHogInner").href = data['link'];
 	  	}
 	  },
 	});
@@ -47,7 +48,7 @@ function poll(all = -1)
 			var urlForSend = 'http://'+arrayOfFiles[i][1]+'/status/core/php/functions/gitBranchName.php?format=json'
 			var name = "branchNameDevBox1"+arrayOfFiles[i][0];
 			name = name.replace(/\s/g, '_');
-			var data = {location: arrayOfFiles[i][2], name: name, githubRepo: arrayOfFiles[i][4]};
+			var data = {location: arrayOfFiles[i][2], name: name, githubRepo: arrayOfFiles[i][4], urlForSend: urlForSend};
 			(function(_data){
 
 				$.ajax({
@@ -60,7 +61,7 @@ function poll(all = -1)
 					pollSuccess(data, _data);
 				},
 				error: function(data){
-					pollFailure(data, _data);
+					tryHTTPSForPollRequest(data, _data);
 				}
 			});
 
@@ -72,7 +73,7 @@ function poll(all = -1)
 		var urlForSend = 'http://'+arrayOfFiles[all][1]+'/status/core/php/functions/gitBranchName.php?format=json'
 		var name = "branchNameDevBox1"+arrayOfFiles[all][0];
 		name = name.replace(/\s/g, '_');
-		var data = {location: arrayOfFiles[all][2], name: name, githubRepo: arrayOfFiles[all][4]};
+		var data = {location: arrayOfFiles[all][2], name: name, githubRepo: arrayOfFiles[all][4], urlForSend: urlForSend};
 			(function(_data){
 
 				$.ajax({
@@ -85,7 +86,7 @@ function poll(all = -1)
 					pollSuccess(data, _data);
 				},
 				error: function(data){
-					pollFailure(data, _data);
+					tryHTTPSForPollRequest(data, _data);
 				}
 			});
 
@@ -93,12 +94,42 @@ function poll(all = -1)
 	}
 }
 
+
+function tryHTTPSForPollRequest(data, _data)
+{
+	var urlForSend = _data.urlForSend;
+	urlForSend = urlForSend.replace("http","https");
+	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo};
+	
+		(function(_data){
+
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data: data,
+			type: 'POST',
+			success: function(data){
+				pollSuccess(data, _data);
+			},
+			error: function(data){
+				pollFailure(data, _data);
+			}
+		});
+
+			}(data));
+			
+}
+
+
 function pollFailure(dataInner, dataInnerPass)
 {
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
     var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
     var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
+    document.getElementById(noSpaceName+'UpdateOuter').style.display = "none";
     var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">Could not connect to server</span>';
+    document.getElementById(noSpaceName+'Stats').style.display = "block";
     document.getElementById(noSpaceName).outerHTML = dataBranchForFile;
     document.getElementById(noSpaceName+'Update').outerHTML = dataBranchForFileUpdateTime;
     document.getElementById(noSpaceName+'Stats').outerHTML = dataBranchForFileStats;
@@ -126,6 +157,8 @@ function pollSuccess(dataInner, dataInnerPass)
 	    var link = "";
 	    var linksFromCommitMessage = [];
 	    var dataBranchForFileUpdateTime = '<span id="'+dataInner['idName']+'Update";">'+dataInner['time']+'</span>';
+	    document.getElementById(dataInner['idName']+'UpdateOuter').style.display = "block";
+	    document.getElementById(dataInner['idName']+'Stats').style.display = "block";
 	    var dataBranchForFileStats = '<span id="'+dataInner['idName']+'Stats";">';
 	    for(var j = 0; j < dataStats.length; j++)
 	    {
@@ -263,7 +296,21 @@ function pollSuccess(dataInner, dataInnerPass)
 	    document.getElementById(dataInner['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
 	    document.getElementById(dataInner['idName']+'Stats').outerHTML = dataBranchForFileStats;
 	    var nameForBackground = "innerFirstDevBox"+dataInner['idName'];
-	    filterBGColor(dataInner['branch'], nameForBackground);
+	    var dataToFilterBy = dataInner['branch']; 
+	    if(branchColorFilter == "authorName")
+	    {
+	    	dataToFilterByArray = dataBranchForFileStats.split("<br>");
+	    	dataToFilterByArray = dataToFilterByArray[0].split("</b>");
+	    	dataToFilterBy = $.trim(dataToFilterByArray[1]); 
+
+	    }
+	    else if(branchColorFilter == "committerName")
+	    {
+	    	dataToFilterByArray = dataBranchForFileStats.split("<br>");
+	    	dataToFilterByArray = dataToFilterByArray[0].split("</b>");
+	    	dataToFilterBy = $.trim(dataToFilterByArray[1]); 
+	    }
+	    filterBGColor(dataToFilterBy, nameForBackground);
 	}
 	else
 	{
@@ -293,15 +340,41 @@ function reverseString(str)
 function filterBGColor(filterName, idName)
 {
 	var newBG = false;
-	if(filterName == "master")
+	var filterByThisArray = [];
+	if (branchColorFilter == "branchName")
 	{
-		document.getElementById(idName).style.backgroundColor = "lightGreen";
-		newBG = true;
+		filterByThisArray = errorAndColorArray;
 	}
-	if(filterName == "error")
+	else if (branchColorFilter == "authorName")
 	{
-		document.getElementById(idName).style.backgroundColor = "#C33";
-		newBG = true;
+		filterByThisArray = errorAndColorAuthorArray;
+	}
+	else
+	{
+		filterByThisArray = errorAndColorComitteeArray;
+	}
+
+	for(var property in filterByThisArray)
+	{
+		if (filterByThisArray.hasOwnProperty(property)) 
+		{
+			if(filterByThisArray[property].type == "includes")
+			{
+				if(filterName.includes(property) && newBG != true)
+				{
+					document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
+					newBG = true;
+				}
+			}
+			else
+			{
+				if(filterName == property)
+				{
+					document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
+					newBG = true;
+				}
+			}
+		}
 	}
 	if(!newBG)
 	{
@@ -531,3 +604,41 @@ function calcuateWidth()
 	document.getElementById("main").style.marginLeft = windowWidthText;
 	document.getElementById("main").style.paddingRight = windowWidthText;
 }
+
+function showOrHideGroups(groupName)
+{
+	//show / hide groups
+	if(groupName != "All")
+	{
+		$('.firstBoxDev').hide();
+		$('.'+groupName).show();
+	}
+	else
+	{
+		$('.firstBoxDev').show();
+	}
+	//change tab to selected / unselected
+
+	//unselect all
+	$('.groupTab').removeClass('groupTabSelected');
+	$('#Group'+groupName).addClass('groupTabSelected');
+}
+
+function dropdownShow(nameOfElem) {
+    if(document.getElementById("dropdown-"+nameOfElem).style.display == 'block')
+    {
+    	$('.dropdown-content').hide();
+    }
+    else
+    {
+    	$('.dropdown-content').hide();
+    	document.getElementById("dropdown-"+nameOfElem).style.display = 'block';
+    }
+}
+
+window.onclick = function(event) {
+	if (!event.target.matches('.expandMenu')) {
+		$('.dropdown-content').hide();
+	}
+}
+

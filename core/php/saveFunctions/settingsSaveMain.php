@@ -31,6 +31,8 @@ require_once('../loadVars.php');
 			'checkForIssueEndsWithNum'	=> '".$checkForIssueEndsWithNum."',
 			'checkForIssueCustom'	=> '".$checkForIssueCustom."',
 			'checkForIssueInCommit' => '".$checkForIssueInCommit."',
+			'branchColorFilter'	=> '".$branchColorFilter."',
+			".$arrayFilterAll."
 			'watchList' => array(
 			".$arrayWatchList.")
 		);

@@ -123,17 +123,20 @@ else
 	<div id="menu">
 		<div class="menuSections" >
 			<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
-			<a class="show-sidebar" id="show">
-		    	<span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		    </a>
+				<a class="show-sidebar" id="show">
+			    	<span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			    </a>
 			</div>
 			<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
 				<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
 			</div>
 			<div onclick="refreshAction('refreshImage');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
 				<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
+			</div>
+			<div style="display: inline-block;" >
+				<a href="#" class="back-to-top" style="color:#000000;">Back to Top</a>
 			</div>
 		</div>
 		<div class="menuSections" >
@@ -148,36 +151,75 @@ else
 		</div>
 	</div>
 	<div id="main">
-		
+		<div id="groupInfo">
+			<div class="groupTabShadow" >
+				<div class="groupTab groupTabSelected" id="GroupAll" onclick="showOrHideGroups('All');" >
+					All
+				</div>
+			</div>
+		<?php
+			$arrayOfGroups = array();
+			foreach ($config['watchList'] as $key => $value)
+			{
+				if(isset($value['groupInfo']))
+				{
+					if(!in_array($value['groupInfo'], $arrayOfGroups))
+					{
+						array_push($arrayOfGroups, $value['groupInfo']);
+					}
+				}
+			} 
+			sort($arrayOfGroups);
+			foreach ($arrayOfGroups as $key => $value):
+			?>
+			<div class="groupTabShadow">
+				<div class="groupTab" id="Group<?php echo $value?>" onclick="showOrHideGroups('<?php echo $value?>');" >
+					<?php echo $value; ?>
+				</div>
+			</div>
+			<?php
+			endforeach;
+		?>
+		</div>
+		<div id="groupInfoPlaceholder" >
+		</div>
 	<?php 
 	$h = -1;
 	foreach ($config['watchList'] as $key => $value): 
 	$h++;	
 	$keyNoSpace = preg_replace('/\s+/', '_', $key); ?>
-		<div class="firstBoxDev">
+		<div class="firstBoxDev <?php echo $value['groupInfo']; ?> ">
 			<div class="innerFirstDevBox" id="innerFirstDevBoxbranchNameDevBox1<?php echo $keyNoSpace; ?>" >
 				<div class="devBoxTitle">
 					<a style="color: black;" href="https://<?php echo $value['Website']; ?>"><b><?php echo $key; ?></b></a>
-					<div onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" style="display: inline-block; cursor: pointer; height: 17px; width: 17px; ">
-						<img id="refreshImage<?php echo $keyNoSpace; ?>" class="menuImage" src="core/img/Refresh2.png" height="17px">
+					
+					<div onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" style="display: inline-block; cursor: pointer; height: 25px; width: 25px; ">
+						<img style="margin-bottom: -5px;" id="refreshImage<?php echo $keyNoSpace; ?>" class="menuImage" src="core/img/Refresh2.png" height="25px">
 					</div>
-					<div id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogOuter" style="display: none; cursor: pointer;" >
-						<a id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogInner" style="color: black;" href="#">Log-Hog</a>
-					</div>
-
+					
+					<div class="expandMenu" onclick="dropdownShow('<?php echo $keyNoSpace;?>')" ></div>
+					 <div id="dropdown-<?php echo $keyNoSpace;?>" class="dropdown-content">
+					    <a style="cursor: pointer" onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" >Refresh</a>
+					    <div id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogOuter" style="display: none; cursor: pointer; width: 100%;" >
+							<a id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogInner" style="color: black;" href="#">Log-Hog</a>
+						</div>
+					  </div>
 				</div>
 				<div class="devBoxContent">
 					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>">
-						--Pending--
+						<img style="width: 20px;" src="core/img/loading.gif"> Loading...
 					</span></b>
 					<div class="<?php if($defaultViewBranch == 'Standard'){echo 'devBoxContentSecondary';}else{echo'devBoxContentSecondaryExpanded';}?>">
-					<br><br>
-					<b>Last Updated:</b>
-					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update">
-						--Pending--
+					<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>UpdateOuter">
+						<br><br>
+						<b>Last Updated:</b>
+						<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update">
+							--Pending--
+						</span>
+						<br>
 					</span>
-					<br><br>
-					<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">
+					<br>
+					<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">
 						--Pending--
 					</span>
 					</div>
@@ -202,7 +244,10 @@ else
 			echo "var checkForIssueCustom = '".$checkForIssueCustom."';";
 			echo "var checkForIssueInCommit = '".$checkForIssueInCommit."';";
 		?>
-
+		var branchColorFilter = '<?php echo $branchColorFilter;?>';
+		var errorAndColorArray = JSON.parse('<?php echo json_encode($errorAndColorArray); ?>');
+		var errorAndColorAuthorArray = JSON.parse('<?php echo json_encode($errorAndColorAuthorArray); ?>');
+		var errorAndColorComitteeArray = JSON.parse('<?php echo json_encode($errorAndColorComitteeArray); ?>'); 
 		var pausePoll = false;
 		var pausePollFile = false;
 		var refreshActionVar;

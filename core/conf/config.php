@@ -12,6 +12,49 @@ $defaultConfig = array(
 	'expSettingsAvail'	=> 'true',
 	'defaultViewBranch'	=> 'Standard',
 	'defaultViewBranchCookie'	=> 'false',
+	'errorAndColorArray'	=> array(
+		'error'	=> array(
+			'color'	=> 'C33',
+			'type'	=> 'default'
+			),
+		'master'	=> array(
+			'color'	=> '32CD32',
+			'type'	=> 'default'
+			),
+		'revert-'	=> array(
+			'color'	=> 'EE7600',
+			'type'	=> 'includes'
+			)
+		),
+	'errorAndColorAuthorArray'	=> array(
+		'error'	=> array(
+			'color'	=> 'C33',
+			'type'	=> 'default'
+			),
+		'dave'	=> array(
+			'color'	=> '32CD32',
+			'type'	=> 'default'
+			),
+		'matt'	=> array(
+			'color'	=> 'EE7600',
+			'type'	=> 'includes'
+			)
+		),
+	'errorAndColorComitteeArray'	=> array(
+		'error'	=> array(
+			'color'	=> 'C33',
+			'type'	=> 'default'
+			),
+		'dave'	=> array(
+			'color'	=> '32CD32',
+			'type'	=> 'default'
+			),
+		'matt'	=> array(
+			'color'	=> 'EE7600',
+			'type'	=> 'includes'
+			)
+		),
+	'branchColorFilter'	=> 'branchName',
 	'checkForIssueInBranchNameFilters'	=> array(
 				'Issue','issue','Issue_','issue_','Issue-','issue-','revert-'
 				),
