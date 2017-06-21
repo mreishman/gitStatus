@@ -632,7 +632,18 @@ function dropdownShow(nameOfElem) {
     else
     {
     	$('.dropdown-content').hide();
-    	document.getElementById("dropdown-"+nameOfElem).style.display = 'block';
+    	var currentElement = document.getElementById("dropdown-"+nameOfElem);
+    	currentElement.style.display = 'block';
+    	var elementLowestPosition = (currentElement.getBoundingClientRect().top+currentElement.offsetHeight);
+    	var heightWindow = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    	if(elementLowestPosition > heightWindow)
+    	{
+    		currentElement.style.marginTop = "-"+(currentElement.offsetHeight+25)+"px";
+    	}
+    	else
+    	{
+    		currentElement.style.marginTop = "0px";
+    	}
     }
 }
 
