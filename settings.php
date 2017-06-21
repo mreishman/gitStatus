@@ -243,7 +243,7 @@ require_once('core/php/loadVars.php'); ?>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
 										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
 									</select>
-									<a class="link underlineLink"  onclick="deleteRowFunction(<?php echo $counfOfFiltersForbranchName;?>, true)">Remove Filter</a>
+									<a class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $counfOfFiltersForbranchName;?>, true)">Remove Filter</a>
 									</li>
 								<?php endforeach; ?>
 									<div style="display: none;" id="newRowLocationForFilterBranchNew"></div>
@@ -266,7 +266,7 @@ require_once('core/php/loadVars.php'); ?>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
 										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
 									</select>
-									<a class="link underlineLink"  onclick="deleteRowFunction(<?php echo $counfOfFiltersForAuthorName;?>, true)">Remove Filter</a>
+									<a class="mainLinkClass"   onclick="deleteRowFunction(<?php echo $counfOfFiltersForAuthorName;?>, true)">Remove Filter</a>
 									</li>
 								<?php endforeach; ?>
 									<div style="display: none;" id="newRowLocationForFilterAuthorNew"></div>
@@ -289,13 +289,13 @@ require_once('core/php/loadVars.php'); ?>
 										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
 										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
 									</select>
-									<a class="link underlineLink"  onclick="deleteRowFunction(<?php echo $counfOfFiltersForComitteeName;?>, true)">Remove Filter</a>
+									<a class="mainLinkClass"   onclick="deleteRowFunction(<?php echo $counfOfFiltersForComitteeName;?>, true)">Remove Filter</a>
 									</li>
 								<?php endforeach; ?>
 									<div style="display: none;" id="newRowLocationForFilterComitteeNew"></div>
 								</span>
 								<li>
-									<a class="link underlineLink"  onclick="addRowFunction()">Add New Filter</a>
+									<a class="mainLinkClass"   onclick="addRowFunction()">Add New Filter</a>
 								</li>
 							</ul>
 					</div>
@@ -401,7 +401,7 @@ function addRowFunction()
 	documentUpdateText += "id='"+filterType+""+(highestRowCount+counter+1)+"'";
 	documentUpdateText += '><div class="colorSelectorDiv"><div class="inner-triangle" ></div><button id='+filterType+'button'+(highestRowCount+counter+1)+' class="backgroundButtonForColor"></button></div>';
 	documentUpdateText += '&nbsp;<input id="'+filterType+'Color'+(highestRowCount+counter+1)+'" style="display: none;" type="text" value="000"  name="'+filterType+'Color'+(highestRowCount+counter+1)+'">'
-	documentUpdateText += '&nbsp;&nbsp;<input type="text" value="" name="'+filterType+"Name"+(highestRowCount+1+counter)+'" >&nbsp;&nbsp;&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select>&nbsp;<a class="link underlineLink"  onclick="deleteRowFunction('+(highestRowCount+1+counter)+', true)">Remove Filter</a></li>';
+	documentUpdateText += '&nbsp;&nbsp;<input type="text" value="" name="'+filterType+"Name"+(highestRowCount+1+counter)+'" >&nbsp;&nbsp;&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select>&nbsp;<a class="mainLinkClass"  onclick="deleteRowFunction('+(highestRowCount+1+counter)+', true)">Remove Filter</a></li>';
 	documentUpdateText += '<div style="display: none;" id="'+filterType+'New'+(highestRowCount+1+counter)+'"></div>';
 	var newFilter = filterType + "New";
 	if(counter != 0)
@@ -457,7 +457,7 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 				documentUpdateText += '"  name="'+filterType+'Color'+updateItoIMinusOne+'">'
 				documentUpdateText += '&nbsp;&nbsp;<input type="text" value="';
 				documentUpdateText += document.getElementById(filterType+'Name'+i).value;
-				documentUpdateText += '" name="'+filterType+"Name"+updateItoIMinusOne+'" >&nbsp;&nbsp;&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select>&nbsp;<a class="link underlineLink"  onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove Filter</a></li>';
+				documentUpdateText += '" name="'+filterType+"Name"+updateItoIMinusOne+'" >&nbsp;&nbsp;&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select>&nbsp;<a class="mainLinkClass" onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove Filter</a></li>';
 				document.getElementById(filterType+i).outerHTML = documentUpdateText;
 
 				var picker = new jscolor(document.getElementById(filterType+'button'+updateItoIMinusOne), {valueElement: filterType+'Color'+updateItoIMinusOne});
