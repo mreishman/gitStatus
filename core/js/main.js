@@ -268,13 +268,14 @@ function pollSuccess(dataInner, dataInnerPass)
 			var arrayOfFiltersLength =  arrayOfFilters.length;
 			for(var i = 0; i < arrayOfFiltersLength; i++)
 			{
-				if(branchName.includes(arrayOfFilters[i]))
+				var branchNameTMP = branchName;
+				while(branchNameTMP.includes(arrayOfFilters[i]))
 				{
-					var numForcalc = (branchName.indexOf(arrayOfFilters[i]) + arrayOfFilters[i].length);
+					var numForcalc = (branchNameTMP.indexOf(arrayOfFilters[i]) + arrayOfFilters[i].length);
 					var numForLinkIssue = "";
-					while(!isNaN(branchName.charAt(numForcalc)) && numForcalc != (branchName.length))
+					while(!isNaN(branchNameTMP.charAt(numForcalc)) && numForcalc != (branchNameTMP.length))
 					{
-						numForLinkIssue += branchName.charAt(numForcalc);
+						numForLinkIssue += branchNameTMP.charAt(numForcalc);
 						numForcalc++;
 					}
 
@@ -286,6 +287,7 @@ function pollSuccess(dataInner, dataInnerPass)
 							dataBranchForFile += " "+link;
 						}
 					}
+					branchNameTMP = branchNameTMP.substring(numForcalc);
 				}
 			}
 		}
