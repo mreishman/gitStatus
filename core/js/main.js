@@ -630,6 +630,7 @@ function dropdownShow(nameOfElem) {
     if(document.getElementById("dropdown-"+nameOfElem).style.display == 'block')
     {
     	$('.dropdown-content').hide();
+    	$('.dropdown-content').css('margin-top',"0px");
     }
     else
     {
