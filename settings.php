@@ -77,8 +77,10 @@ require_once('core/php/loadVars.php'); ?>
 <head>
 	<title>Git Status | Settings</title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
+	<link rel="stylesheet" type="text/css" href="core/css/jquery-ui.css">
 	<link rel="icon" type="image/png" href="core/img/favicon.png" />
 	<script src="core/js/jquery.js"></script>
+	<script src="core/js/jquery-ui.js"></script>
 	<script src="core/js/visibility.core.js"></script>
 	<script src="core/js/visibility.fallback.js"></script>
 	<script src="core/js/visibility.js"></script>
@@ -170,6 +172,42 @@ require_once('core/php/loadVars.php'); ?>
 				  						<option <?php if($enableDevBranchDownload == 'true'){echo "selected";} ?> value="true">True</option>
 				  						<option <?php if($enableDevBranchDownload == 'false'){echo "selected";} ?> value="false">False</option>
 									</select>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="firstBoxDev">
+			<form id="settingsCustomMessage" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
+				<div class="innerFirstDevBox"  >
+					<div class="devBoxTitle">
+						<b>Custom Message</b> <button class="buttonButton" onclick="displayLoadingPopup();" >Save Changes</button>
+					</div>
+					<div class="devBoxContent">
+						<ul class="settingsUl">
+							<li>
+								<span class="leftSpacingserverNames">Set Message:</span>
+								<select name="enableDevBranchDownload">
+			  						<option <?php if($enableDevBranchDownload == 'true'){echo "selected";} ?> value="true">True</option>
+			  						<option <?php if($enableDevBranchDownload == 'false'){echo "selected";} ?> value="false">False</option>
+								</select>
+							</li>
+							<li>
+								<span class="leftSpacingserverNames">Message Text:</span>
+								<input type="text" name="messageText">
+							</li>
+							<li>
+								<span class="leftSpacingserverNames">Disable</span>
+								<select name="enableDevBranchDownload">
+			  						<option <?php if($enableDevBranchDownload == 'true'){echo "selected";} ?> value="true">True</option>
+			  						<option <?php if($enableDevBranchDownload == 'false'){echo "selected";} ?> value="false">False</option>
+								</select>
+								<p class="description" >Disable other git-status severs from getting info from this server untill specified date</p>
+							</li>
+							<li>
+								<span class="leftSpacingserverNames">Specified Date:</span>
+								<input type="text" id="datepicker">
 							</li>
 						</ul>
 					</div>
@@ -304,6 +342,9 @@ require_once('core/php/loadVars.php'); ?>
 		</div>
 	</div>
 	<script type="text/javascript">
+	$( function() {
+    	$( "#datepicker" ).datepicker();
+  	} );
 
 	var counfOfFiltersForbranchName = <?php echo $counfOfFiltersForbranchName; ?>;
 	var counfOfFiltersForAuthorName = <?php echo $counfOfFiltersForAuthorName; ?>;
