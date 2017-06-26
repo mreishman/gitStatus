@@ -1,3 +1,5 @@
 <?php
-	$setupProcess = 'finished';
-	?>
+
+$setupProcess = "preStart";
+
+?>

@@ -9,14 +9,15 @@ if(file_exists('../local/layout.php'))
 }
 
 require_once('setupProcessFile.php');
-
-if($setupProcess != "preStart")
+if(file_exists($baseUrl.'conf/config.php'))
 {
-	$url = "http://" . $_SERVER['HTTP_HOST'] . "/status/setup/director.php";
-	header('Location: ' . $url, true, 301);
-	exit();
+	if($setupProcess != "preStart")
+	{
+		$url = "http://" . $_SERVER['HTTP_HOST'] . "/status/setup/director.php";
+		header('Location: ' . $url, true, 301);
+		exit();
+	}
 }
-
 ?>
 <!DOCTYPE html>
 <html>
