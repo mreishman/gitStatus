@@ -23,6 +23,7 @@ if($setupProcess != "preStart")
 <head>
 	<title>Welcome!</title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
+	<script src="../core/js/jquery.js"></script>
 </head>
 <body>
 <div class="firstBoxDev" style="width: 90%; margin: auto; margin-right: auto; margin-left: auto; display: block; height: auto; margin-top: 15px;" >
@@ -31,7 +32,7 @@ if($setupProcess != "preStart")
 	</div>
 	
 	<p style="min-height: 200px; padding: 10px;">Please follow these steps to complete the setup process or click default to accept default settings.</p>
-	<table style="width: 100%;" ><tr><th><a onclick="defaultSettings();" class="mainLinkClass">Accept Default Settings</a></th><th><a class="mainLinkClass">Customize Settings (advised)</a></th></tr></table>
+	<table style="width: 100%;" ><tr><th><a onclick="updateStatus('finished');" class="mainLinkClass">Accept Default Settings</a></th><th><a onclick="updateStatus('step1');" class="mainLinkClass">Customize Settings (advised)</a></th></tr></table>
 	<br>
 	<br>
 </div>
@@ -48,6 +49,29 @@ if($setupProcess != "preStart")
 	{
 		//change setupProcess to page1
 		document.getElementById('defaultVarsForm').submit();
+	}
+	function updateStatus(status)
+	{
+		var urlForSend = './updateSetupStatus.php?format=json'
+		var data = {status: status };
+		$.ajax({
+				  url: urlForSend,
+				  dataType: 'json',
+				  data: data,
+				  type: 'POST',
+		success: function(data)
+		{
+			if(status == "finished")
+			{
+				defaultSettings();
+			}
+			else
+			{
+				customSettings();
+			}
+	  	},
+			});
+		return false;
 	}
 </script>
 </html>
