@@ -21,6 +21,12 @@ if(file_exists('local/layout.php'))
 	require_once('local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
+if(!file_exists($baseUrl.'conf/config.php'))
+{
+	$url = "http://" . $_SERVER['HTTP_HOST'] . "/status/setup/welcome.php";
+	header('Location: ' . $url, true, 301);
+	exit();
+}
 require_once($baseUrl.'conf/config.php'); 
 require_once('core/conf/config.php');
 require_once('core/php/configStatic.php');  
