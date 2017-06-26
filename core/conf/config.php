@@ -62,4 +62,7 @@ $defaultConfig = array(
 	'checkForIssueEndsWithNum'	=> 'true',
 	'checkForIssueCustom'	=> 'true',
 	'checkForIssueInCommit'	=> 'true',
+	'watchList' => array(
+			'Name Of Server' => array('WebsiteBase' =>  'website.com','Folder' =>  '/var/www/html/','Website' =>  'website.com')
+			)
 );
