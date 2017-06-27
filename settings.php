@@ -103,191 +103,20 @@ require_once('core/php/loadVars.php'); ?>
 			</div>
 		</div>	
 	<div id="main">
-		
 		<div class="firstBoxDev">
 			<?php require_once('core/php/templateFiles/settingsMain.php');?>
 		</div>
 		<div class="firstBoxDev">
-			<form id="settingsDevBoxVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
-				<div class="innerFirstDevBox"  >
-					<div class="devBoxTitle">
-						<b>Dev Box Settings</b> <button class="buttonButton" onclick="displayLoadingPopup();" >Save Changes</button>
-					</div>
-					<div class="devBoxContent">
-						<ul class="settingsUl">
-							<li>
-								<span class="leftSpacingserverNames" >Dev Branches:</span>
-									<select name="enableDevBranchDownload">
-				  						<option <?php if($enableDevBranchDownload == 'true'){echo "selected";} ?> value="true">True</option>
-				  						<option <?php if($enableDevBranchDownload == 'false'){echo "selected";} ?> value="false">False</option>
-									</select>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</form>
+			<?php require_once('core/php/templateFiles/devBoxSettings.php');?>
 		</div>
 		<div class="firstBoxDev">
-			<form id="settingsCustomMessage" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
-				<div class="innerFirstDevBox"  >
-					<div class="devBoxTitle">
-						<b>Custom Message</b> <button class="buttonButton" onclick="displayLoadingPopup();" >Save Changes</button>
-					</div>
-					<div class="devBoxContent">
-						<ul class="settingsUl">
-							<li>
-								<span class="leftSpacingserverNames">Set Message:</span>
-								<select name="enableDevBranchDownload">
-			  						<option <?php if($enableDevBranchDownload == 'true'){echo "selected";} ?> value="true">True</option>
-			  						<option <?php if($enableDevBranchDownload == 'false'){echo "selected";} ?> value="false">False</option>
-								</select>
-							</li>
-							<li>
-								<span class="leftSpacingserverNames">Message Text:</span>
-								<input type="text" name="messageText">
-							</li>
-							<li>
-								<span class="leftSpacingserverNames">Disable</span>
-								<select name="enableDevBranchDownload">
-			  						<option <?php if($enableDevBranchDownload == 'true'){echo "selected";} ?> value="true">True</option>
-			  						<option <?php if($enableDevBranchDownload == 'false'){echo "selected";} ?> value="false">False</option>
-								</select>
-								<p class="description" >Disable other git-status severs from getting info from this server untill specified date</p>
-							</li>
-							<li>
-								<span class="leftSpacingserverNames">Specified Date:</span>
-								<input type="text" id="datepicker">
-							</li>
-						</ul>
-					</div>
-				</div>
-			</form>
+			<?php require_once('core/php/templateFiles/customMessage.php');?>
 		</div>
 		<div class="firstBoxDev">
-			<form id="settingsIssueSearchVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
-				<div class="innerFirstDevBox" style="width: 500px;" >
-					<div class="devBoxTitle">
-						<b>Link Search</b> <button class="buttonButton" onclick="displayLoadingPopup();" >Save Changes</button>
-					</div>
-					<div class="devBoxContent">
-						<ul class="settingsUl">
-							<li>
-								<h2>Look for Issues in branch name </h2>
-								
-							</li>
-							<li>
-								<input type="checkbox" name="checkForIssueStartsWithNum" <?php if($checkForIssueStartsWithNum == 'true'){echo "checked";} ?> value="true">  Starts With Numbers  <br>
-								<input type="checkbox" name="checkForIssueEndsWithNum" <?php if($checkForIssueEndsWithNum == 'true'){echo "checked";} ?> value="true"> Ends With Numbers <br>
-								<input type="checkbox" name="checkForIssueCustom" <?php if($checkForIssueCustom == 'true'){echo "checked";} ?> value="true">  Custom [Issue / Issue_ / Issue-] <br>
-							</li>
-							<!-- <li>
-								<a class="link underlineLink" >Add New Watch Condition</a>
-							</li> -->
-							<li>
-								<h2>Look for Issues in commit </h2>
-								
-							</li>
-							<li>
-								<input type="checkbox" name="checkForIssueInCommit" <?php if($checkForIssueInCommit == 'true'){echo "checked";} ?> value="true">  Look for #____  <br>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</form>
+			<?php require_once('core/php/templateFiles/issuesSearchVars.php');?>
 		</div>
 		<div class="firstBoxDev">
-			<form id="settingsColorBG" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
-				<div class="innerFirstDevBox" style="width: 500px;" >
-					<div class="devBoxTitle">
-						<b>Dev Box Color Settings</b> <button class="buttonButton" onclick="displayLoadingPopup();" >Save Changes</button>
-					</div>
-					<div class="devBoxContent">
-							<ul class="settingsUl">
-								<li>
-									<h2>Color background based on:
-									<select id="branchColorTypeSelector" name="branchColorFilter">
-										<option <?php if ($branchColorFilter == "branchName"){echo "selected";}?> value="branchName">Name Of Branch</option>
-										<option <?php if ($branchColorFilter == "authorName"){echo "selected";}?> value="authorName">Author Name</option>
-										<option <?php if ($branchColorFilter == "committerName"){echo "selected";}?> value="committerName">Committer Name</option>
-									</select></h2>
-								</li>
-								<span <?php if ($branchColorFilter != "branchName"){echo "style='display: none;'";}?> id="colorBasedOnNameOfBranch" >
-								<?php 
-								$counfOfFiltersForbranchName = 0;
-								foreach ($errorAndColorArray as $key => $value):
-								$counfOfFiltersForbranchName++; ?>
-									<li id="newRowLocationForFilterBranch<?php echo $counfOfFiltersForbranchName;?>">
-									<div class="colorSelectorDiv">
-										 <div class="inner-triangle" ></div> 
-										 <button class="backgroundButtonForColor jscolor{valueElement: 'newRowLocationForFilterBranchColor<?php echo $counfOfFiltersForbranchName;?>'}"></button>
-									</div>
-
-									<input id="newRowLocationForFilterBranchColor<?php echo $counfOfFiltersForbranchName;?>" style="display: none;" type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterBranchColor<?php echo $counfOfFiltersForbranchName;?>">
-									&nbsp;
-									<input id="newRowLocationForFilterBranchName<?php echo $counfOfFiltersForbranchName;?>" type="text" value="<?php echo $key?>" name="newRowLocationForFilterBranchName<?php echo $counfOfFiltersForbranchName;?>">
-									&nbsp;
-									<select name="newRowLocationForFilterBranchSelect<?php echo $counfOfFiltersForbranchName;?>" >
-										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
-										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
-									</select>
-									<a class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $counfOfFiltersForbranchName;?>, true)">Remove Filter</a>
-									</li>
-								<?php endforeach; ?>
-									<div style="display: none;" id="newRowLocationForFilterBranchNew"></div>
-								</span>
-								<span <?php if ($branchColorFilter != "authorName"){echo "style='display: none;'";}?> id="colorBasedOnAuthorName" >
-								<?php
-								$counfOfFiltersForAuthorName = 0;
-								foreach ($errorAndColorAuthorArray as $key => $value): 
-									$counfOfFiltersForAuthorName++; ?>
-									<li id="newRowLocationForFilterAuthor<?php echo $counfOfFiltersForAuthorName;?>">
-									<div class="colorSelectorDiv">
-										 <div class="inner-triangle" ></div> 
-										 <button class="backgroundButtonForColor jscolor{valueElement: 'newRowLocationForFilterAuthorColor<?php echo $counfOfFiltersForAuthorName;?>'}"></button>
-									</div>
-									<input id="newRowLocationForFilterAuthorColor<?php echo $counfOfFiltersForAuthorName;?>" style="display: none;" type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterAuthorColor<?php echo $counfOfFiltersForAuthorName;?>">
-									&nbsp;
-									<input id="newRowLocationForFilterAuthorName<?php echo $counfOfFiltersForAuthorName;?>" type="text" value="<?php echo $key?>" name="newRowLocationForFilterAuthorName<?php echo $counfOfFiltersForAuthorName;?>">
-									&nbsp;
-									<select name="newRowLocationForFilterAuthorSelect<?php echo $counfOfFiltersForAuthorName;?>" >
-										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
-										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
-									</select>
-									<a class="mainLinkClass"   onclick="deleteRowFunction(<?php echo $counfOfFiltersForAuthorName;?>, true)">Remove Filter</a>
-									</li>
-								<?php endforeach; ?>
-									<div style="display: none;" id="newRowLocationForFilterAuthorNew"></div>
-								</span>
-								<span  <?php if ($branchColorFilter != "committerName"){echo "style='display: none;'";}?> id="colorBasedOnComitteeName" >
-								<?php
-								$counfOfFiltersForComitteeName = 0;
-								foreach ($errorAndColorComitteeArray as $key => $value): 
-									$counfOfFiltersForComitteeName++; ?>
-									<li id="newRowLocationForFilterComittee<?php echo $counfOfFiltersForComitteeName;?>">
-									<div class="colorSelectorDiv">
-										 <div class="inner-triangle" ></div> 
-										 <button class="backgroundButtonForColor jscolor{valueElement: 'newRowLocationForFilterComitteeColor<?php echo $counfOfFiltersForComitteeName;?>'}"></button>
-									</div>
-									<input id="newRowLocationForFilterComitteeColor<?php echo $counfOfFiltersForComitteeName;?>" style="display: none;" type="text" value="<?php echo $value['color'] ?>"  name="newRowLocationForFilterComitteeColor<?php echo $counfOfFiltersForComitteeName;?>">
-									&nbsp;
-									<input id="newRowLocationForFilterComitteeName<?php echo $counfOfFiltersForComitteeName;?>" type="text" value="<?php echo $key?>" name="newRowLocationForFilterComitteeName<?php echo $counfOfFiltersForComitteeName;?>">
-									&nbsp;
-									<select name="newRowLocationForFilterComitteeSelect<?php echo $counfOfFiltersForComitteeName;?>" >
-										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
-										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
-									</select>
-									<a class="mainLinkClass"   onclick="deleteRowFunction(<?php echo $counfOfFiltersForComitteeName;?>, true)">Remove Filter</a>
-									</li>
-								<?php endforeach; ?>
-									<div style="display: none;" id="newRowLocationForFilterComitteeNew"></div>
-								</span>
-								<li>
-									<a class="mainLinkClass"   onclick="addRowFunction()">Add New Filter</a>
-								</li>
-							</ul>
-					</div>
-				</div>
-			</form>
+			<?php require_once('core/php/templateFiles/colorBG.php');?>
 		</div>
 	</div>
 	<script type="text/javascript">
