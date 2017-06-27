@@ -48,7 +48,7 @@ require_once('../core/php/loadVars.php'); ?>
 		<?php require_once('../core/php/templateFiles/settingsMain.php');?>
 	</div>
 	<table style="width: 100%; padding-left: 20px; padding-right: 20px;" ><tr><th style="text-align: right;" >
-		<?php if($counterSteps == 1): ?>
+		<?php if($counterSteps == 2): ?>
 			<a onclick="updateStatus('finished');" class="mainLinkClass">Finish</a>
 		<?php else: ?>
 			<a onclick="updateStatus('step3');" class="mainLinkClass">Continue</a>
@@ -63,13 +63,14 @@ require_once('../core/php/loadVars.php'); ?>
 	function defaultSettings()
 	{
 		//change setupProcess to finished
-		document.getElementById('defaultVarsForm').submit();
+		location.reload();
 	}
 
 	function customSettings()
 	{
 		//change setupProcess to page1
-		document.getElementById('defaultVarsForm').submit();
+		document.getElementById('settingsMainVars').action = "../core/php/saveFunctions/settingsSaveMain.php";
+		document.getElementById('settingsMainVars').submit();
 	}
 	function updateStatus(status)
 	{
