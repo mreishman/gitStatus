@@ -43,7 +43,10 @@ $counterSteps--;
 	<div class="devBoxTitle">
 		<h1>Step 1 of <?php echo $counterSteps; ?></h1>
 	</div>
-	<?php require_once('../core/php/templateFiles/watchList.php'); ?>
+	<p style="padding: 10px;">Watch List: These are the other servers you would like to keep track of. Please enter some in the fields below:</p>
+	<div style="border: 1px solid white; margin-bottom:10px; background-color: #888">
+		<?php require_once('../core/php/templateFiles/watchList.php'); ?>
+	</div>
 	<table style="width: 100%; padding-left: 20px; padding-right: 20px;" ><tr><th style="text-align: right;" >
 		<?php if($counterSteps == 1): ?>
 			<a onclick="updateStatus('finished');" class="mainLinkClass">Finish</a>
