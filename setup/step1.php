@@ -13,7 +13,7 @@ require_once('setupProcessFile.php');
 if($setupProcess != "step1")
 {
 	$url = "http://" . $_SERVER['HTTP_HOST'] . "/status/setup/director.php";
-	header('Location: ' . $url, true, 301);
+	header('Location: ' . $url, true, 302);
 	exit();
 }
 $counterSteps = 1;
@@ -22,7 +22,7 @@ while(file_exists('step'.$counterSteps.'.php'))
 	$counterSteps++;
 }
 $counterSteps--;
-?>
+require_once('../core/php/loadVars.php'); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,6 +69,7 @@ $counterSteps--;
 	function customSettings()
 	{
 		//change setupProcess to page2
+		document.getElementById('settingsMainWatch').action = "../core/php/saveFunctions/settingsSaveMain.php";
 		document.getElementById('settingsMainWatch').submit();
 	}
 	function updateStatus(status)

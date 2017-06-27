@@ -7,13 +7,13 @@ if(file_exists('../local/layout.php'))
 	require_once('../local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
-
+require_once($baseUrl.'conf/config.php'); 
 require_once('setupProcessFile.php');
 
-if($setupProcess != "step1")
+if($setupProcess != "step2")
 {
 	$url = "http://" . $_SERVER['HTTP_HOST'] . "/status/setup/director.php";
-	header('Location: ' . $url, true, 301);
+	header('Location: ' . $url, true, 302);
 	exit();
 }
 $counterSteps = 1;
@@ -22,22 +22,38 @@ while(file_exists('step'.$counterSteps.'.php'))
 	$counterSteps++;
 }
 $counterSteps--;
-?>
+require_once('../core/php/loadVars.php'); ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Welcome!</title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
 	<script src="../core/js/jquery.js"></script>
+	<style type="text/css">
+		.innerFirstDevBox .devBoxTitle{
+			display: none;
+		}
+		#widthForWatchListSection{
+			width: 100% !important;
+		}
+	</style>
 </head>
 <body>
 <div class="firstBoxDev" style="width: 90%; margin: auto; margin-right: auto; margin-left: auto; display: block; height: auto; margin-top: 15px;" >
 	<div class="devBoxTitle">
-		<h1>Step 1 of <?php echo $counterSteps; ?></h1>
+		<h1>Step 2 of <?php echo $counterSteps; ?></h1>
 	</div>
-	
-	<p style="min-height: 200px; padding: 10px;">Please follow these steps to complete the setup process or click default to accept default settings.</p>
-	<table style="width: 100%; padding-left: 20px; padding-right: 20px;" ><tr><th style="text-align: right;" ><a onclick="updateStatus('step1');" class="mainLinkClass">Customize Settings (advised)</a></th></tr></table>
+	<p style="padding: 10px;">More Settings:</p>
+	<div style="border: 1px solid white; margin-bottom:10px; background-color: #888">
+		<?php require_once('../core/php/templateFiles/settingsMain.php');?>
+	</div>
+	<table style="width: 100%; padding-left: 20px; padding-right: 20px;" ><tr><th style="text-align: right;" >
+		<?php if($counterSteps == 1): ?>
+			<a onclick="updateStatus('finished');" class="mainLinkClass">Finish</a>
+		<?php else: ?>
+			<a onclick="updateStatus('step3');" class="mainLinkClass">Continue</a>
+		<?php endif; ?>
+	</th></tr></table>
 	<br>
 	<br>
 </div>

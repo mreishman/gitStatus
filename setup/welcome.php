@@ -14,7 +14,7 @@ if(file_exists($baseUrl.'conf/config.php'))
 	if($setupProcess != "preStart")
 	{
 		$url = "http://" . $_SERVER['HTTP_HOST'] . "/status/setup/director.php";
-		header('Location: ' . $url, true, 301);
+		header('Location: ' . $url, true, 302);
 		exit();
 	}
 }
