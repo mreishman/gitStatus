@@ -9,15 +9,19 @@ if(file_exists('../local/layout.php'))
 }
 
 require_once('setupProcessFile.php');
-if(file_exists($baseUrl.'conf/config.php'))
+
+if($setupProcess != "step1")
 {
-	if($setupProcess != "preStart")
-	{
-		$url = "http://" . $_SERVER['HTTP_HOST'] . "/status/setup/director.php";
-		header('Location: ' . $url, true, 301);
-		exit();
-	}
+	$url = "http://" . $_SERVER['HTTP_HOST'] . "/status/setup/director.php";
+	header('Location: ' . $url, true, 301);
+	exit();
 }
+$counterSteps = 1;
+while(file_exists('step'.$counterSteps.'.php'))
+{
+	$counterSteps++;
+}
+$counterSteps--;
 ?>
 <!DOCTYPE html>
 <html>
@@ -29,11 +33,11 @@ if(file_exists($baseUrl.'conf/config.php'))
 <body>
 <div class="firstBoxDev" style="width: 90%; margin: auto; margin-right: auto; margin-left: auto; display: block; height: auto; margin-top: 15px;" >
 	<div class="devBoxTitle">
-		<h1>Thank you for downloading gitStatus.</h1>
+		<h1>Step 1 of <?php echo $counterSteps; ?></h1>
 	</div>
 	
 	<p style="min-height: 200px; padding: 10px;">Please follow these steps to complete the setup process or click default to accept default settings.</p>
-	<table style="width: 100%; padding-left: 20px; padding-right: 20px;" ><tr><th style="text-align: left;"><a onclick="updateStatus('finished');" class="mainLinkClass">Accept Default Settings</a></th><th style="text-align: right;" ><a onclick="updateStatus('step1');" class="mainLinkClass">Customize Settings (advised)</a></th></tr></table>
+	<table style="width: 100%; padding-left: 20px; padding-right: 20px;" ><tr><th style="text-align: right;" ><a onclick="updateStatus('step1');" class="mainLinkClass">Customize Settings (advised)</a></th></tr></table>
 	<br>
 	<br>
 </div>

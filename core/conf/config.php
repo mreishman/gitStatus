@@ -63,6 +63,6 @@ $defaultConfig = array(
 	'checkForIssueCustom'	=> 'true',
 	'checkForIssueInCommit'	=> 'true',
 	'watchList' => array(
-			'Name Of Server' => array('WebsiteBase' =>  'website.com','Folder' =>  '/var/www/html/','Website' =>  'website.com')
+			'Example Server' => array('WebsiteBase' =>  'website.com','Folder' =>  '/var/www/html/','Website' =>  'website.com','githubRepo' => 'githubRepo', 'groupInfo'=> 'Group')
 			)
 );
