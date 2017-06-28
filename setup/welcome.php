@@ -25,6 +25,7 @@ if(file_exists($baseUrl.'conf/config.php'))
 	<title>Welcome!</title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
 	<script src="../core/js/jquery.js"></script>
+	<link rel="icon" type="image/png" href="../core/img/favicon.png" />
 </head>
 <body>
 <div class="firstBoxDev" style="width: 90%; margin: auto; margin-right: auto; margin-left: auto; display: block; height: auto; margin-top: 15px;" >

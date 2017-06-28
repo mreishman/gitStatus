@@ -38,6 +38,7 @@ require_once('../core/php/loadVars.php'); ?>
 	<title>Welcome!</title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
 	<script src="../core/js/jquery.js"></script>
+	<link rel="icon" type="image/png" href="../core/img/favicon.png" />
 	<style type="text/css">
 		.innerFirstDevBox .devBoxTitle{
 			display: none;
