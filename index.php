@@ -113,13 +113,7 @@ else
 	<script src="core/js/visibility.timers.js"></script>
 </head>
 <body>
-
-
-	<?php require_once('core/php/templateFiles/sidebar.php'); 
-	if($_SERVER['HTTPS'] == 'on'){
-    echo "<div style=' position: absolute; display: inline-table; width: 100%; background: red; text-align: center;  height: 34px;' >Please switch to http</div>";	
-	}
-	?>
+	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
 	<div id="menu">
 		<div class="menuSections" >
 			<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
