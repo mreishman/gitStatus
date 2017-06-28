@@ -7,12 +7,21 @@ if(file_exists('../local/layout.php'))
 	require_once('../local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
+
+function clean_url($url) {
+    $parts = parse_url($url);
+    return $parts['scheme'] . $parts['host'] . $parts['path'];
+}
+
+
 require_once($baseUrl.'conf/config.php'); 
 require_once('setupProcessFile.php');
 
 if($setupProcess != "step2")
 {
-	$url = "http://" . $_SERVER['HTTP_HOST'] . "/status/setup/director.php";
+	$partOfUrl = clean_url($_SERVER['REQUEST_URI']);
+	$partOfUrl = substr($partOfUrl, 0, strpos($partOfUrl, 'setup'));
+	$url = "http://" . $_SERVER['HTTP_HOST'] .$partOfUrl ."setup/director.php";
 	header('Location: ' . $url, true, 302);
 	exit();
 }
