@@ -110,8 +110,8 @@ function tryHTTPSForPollRequest(data, _data)
 			success: function(data){
 				pollSuccess(data, _data);
 			},
-			error: function(data){
-				pollFailure(data, _data);
+			error: function(jqXHR, textStatus, errorThrown){
+				pollFailure(jqXHR.status, _data);
 			}
 		});
 
@@ -128,20 +128,26 @@ function showPopupWithMessage(type, message)
 function pollFailure(dataInner, dataInnerPass)
 {
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
-	//do the following logic if first pass
+	var nameForBackground = "innerFirstDevBox"+noSpaceName;
 	document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
 	document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
 	document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
-    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
-    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
-    document.getElementById(noSpaceName+'UpdateOuter').style.display = "none";
-    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">Could not connect to server</span>';
-    document.getElementById(noSpaceName+'Stats').style.display = "block";
-    document.getElementById(noSpaceName).outerHTML = dataBranchForFile;
-    document.getElementById(noSpaceName+'Update').outerHTML = dataBranchForFileUpdateTime;
-    document.getElementById(noSpaceName+'Stats').outerHTML = dataBranchForFileStats;
-    var nameForBackground = "innerFirstDevBox"+noSpaceName;
-    filterBGColor('error', nameForBackground);
+    if(document.getElementById(noSpaceName+'Stats').innerHTML == "--Pending--")
+	{
+	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
+	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
+	    document.getElementById(noSpaceName+'UpdateOuter').style.display = "none";
+	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">Could not connect to server</span>';
+	    document.getElementById(noSpaceName+'Stats').style.display = "block";
+	    document.getElementById(noSpaceName).outerHTML = dataBranchForFile;
+	    document.getElementById(noSpaceName+'Update').outerHTML = dataBranchForFileUpdateTime;
+	    document.getElementById(noSpaceName+'Stats').outerHTML = dataBranchForFileStats;
+	    filterBGColor('error', nameForBackground, 1);
+	}
+    else
+    {
+    	filterBGColor('error', nameForBackground, 0.5);
+	}
 }
 
 function pollSuccess(dataInner, dataInnerPass)
@@ -334,7 +340,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	document.getElementById(noSpaceName).outerHTML = dataBranchForFile;
 	document.getElementById(noSpaceName+'Update').outerHTML = dataBranchForFileUpdateTime;
 	document.getElementById(noSpaceName+'Stats').outerHTML = dataBranchForFileStats;
-	filterBGColor(dataToFilterBy, nameForBackground);
+	filterBGColor(dataToFilterBy, nameForBackground, 1);
 }
 
 
@@ -345,10 +351,11 @@ function reverseString(str)
 }
 
 
-function filterBGColor(filterName, idName)
+function filterBGColor(filterName, idName, opacity)
 {
 	var newBG = false;
 	var filterByThisArray = [];
+	var defaultColor = "#aaaaaa";
 	if (branchColorFilter == "branchName")
 	{
 		filterByThisArray = errorAndColorArray;
@@ -370,7 +377,14 @@ function filterBGColor(filterName, idName)
 			{
 				if(filterName.includes(property) && newBG != true)
 				{
-					document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
+					if(opacity != 1)
+					{
+						document.getElementById(idName).style.backgroundColor = $.xcolor.opacity((filterByThisArray[property].color), defaultColor, opacity);
+					}
+					else
+					{
+						document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
+					}
 					newBG = true;
 				}
 			}
@@ -378,7 +392,14 @@ function filterBGColor(filterName, idName)
 			{
 				if(filterName == property)
 				{
-					document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
+					if(opacity != 1)
+					{
+						document.getElementById(idName).style.backgroundColor = $.xcolor.opacity((filterByThisArray[property].color), defaultColor, opacity);
+					}
+					else
+					{
+						document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
+					}
 					newBG = true;
 				}
 			}
@@ -386,7 +407,7 @@ function filterBGColor(filterName, idName)
 	}
 	if(!newBG)
 	{
-		document.getElementById(idName).style.backgroundColor = "#aaaaaa";
+		document.getElementById(idName).style.backgroundColor = defaultColor;
 	}
 }
 

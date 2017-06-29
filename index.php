@@ -122,6 +122,8 @@ else
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
 	<link rel="icon" type="image/png" href="core/img/favicon.png" />
 	<script src="core/js/jquery.js"></script>
+	<script src="core/js/jquery.xcolor.min.js"></script>
+
 	<script src="core/js/visibility.core.js"></script>
 	<script src="core/js/visibility.fallback.js"></script>
 	<script src="core/js/visibility.js"></script>
@@ -239,9 +241,7 @@ else
 						<br>
 					</span>
 					<br>
-					<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">
-						--Pending--
-					</span>
+					<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">--Pending--</span>
 					</div>
 				</div>
 			</div>
