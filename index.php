@@ -297,4 +297,5 @@ else
 		document.getElementById("menuBarLeftMain").style.backgroundColor  = "#ffffff";
 	</script>
 	<?php require_once('core/php/templateFiles/allPages.php') ?>
+	<?php readfile('core/html/popup.html') ?>
 </body>

@@ -119,6 +119,11 @@ function tryHTTPSForPollRequest(data, _data)
 			
 }
 
+function showPopupWithMessage(type, message)
+{
+	showPopup();
+	document.getElementById('popupContentInnerHTMLDiv').innerHTML = "<div class='devBoxTitle' ><b>"+type+"</b></div><br><br><div style='width:100%;text-align:center;'>"+message+"</div>";
+}
 
 function pollFailure(dataInner, dataInnerPass)
 {
@@ -126,6 +131,7 @@ function pollFailure(dataInner, dataInnerPass)
 	//do the following logic if first pass
 	document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
 	document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
+	document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
     var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
     var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
     document.getElementById(noSpaceName+'UpdateOuter').style.display = "none";
@@ -319,6 +325,7 @@ function pollSuccess(dataInner, dataInnerPass)
 		//assume no data was recieved
 		document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
 		document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
+		document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error','No Data Recieved from server. Probably could not execute command')};
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
 	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
 	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">No Data Recieved from server. Probably could not execute command</span>';
