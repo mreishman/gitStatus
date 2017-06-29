@@ -1,30 +1,18 @@
-for (var i = 0; i < numberOfLogs; i++)
+function checkLogHog(logHogI)
 {
-	checkLogHog(i);
-}
-
-
-function checkLogHog(all)
-{
-
 	var urlForSend = '/status/core/php/functions/logHog.php?format=json'
-	var websiteBase = arrayOfFiles[all][1];
-	var website = arrayOfFiles[all][3];
-	var name = "branchNameDevBox1"+arrayOfFiles[i][0];
+	var websiteBase = arrayOfFiles[logHogI][1];
+	var website = arrayOfFiles[logHogI][3];
+	var name = "branchNameDevBox1"+arrayOfFiles[logHogI][0];
 	name = name.replace(/\s/g, '_');
-	var data = {location: arrayOfFiles[all][2], websiteBase: websiteBase, website: website, name: name};
+	var data = {location: arrayOfFiles[logHogI][2], websiteBase: websiteBase, website: website, name: name};
 	$.ajax({
 	  url: urlForSend,
 	  dataType: 'json',
 	  data: data,
 	  type: 'POST',
 	  success: function(data){
-	  	if(data['link'] != "null")
-	  	{
-	  		//console.log(data['link'] + "   |   "+data['name'] + "   |   "+data['file_headers']);
-	  		document.getElementById(data['name']+"LogHogOuter").style.display = "inline-block";
-	  		document.getElementById(data['name']+"LogHogInner").href = data['link'];
-	  	}
+	  	logHogSuccess(data);
 	  },
 	});
 }
@@ -35,6 +23,16 @@ function pollTimed()
 	{
 		poll();
 	}
+}
+
+function logHogSuccess(data)
+{
+	if(data['link'] != "null")
+  	{
+  		//console.log(data['link'] + "   |   "+data['name'] + "   |   "+data['file_headers']);
+  		document.getElementById(data['name']+"LogHogOuter").style.display = "inline-block";
+  		document.getElementById(data['name']+"LogHogInner").href = data['link'];
+  	}
 }
 
 
@@ -124,8 +122,10 @@ function tryHTTPSForPollRequest(data, _data)
 
 function pollFailure(dataInner, dataInnerPass)
 {
-	//do the following logic if first pass
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
+	document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
+	//do the following logic if first pass
+	
     var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
     var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
     document.getElementById(noSpaceName+'UpdateOuter').style.display = "none";
@@ -142,9 +142,10 @@ function pollSuccess(dataInner, dataInnerPass)
 {
 	var dataToFilterBy = "error";
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
-
 	if(dataInner['branch'])
 	{
+		document.getElementById(noSpaceName+'redwWarning').style.display = "none";
+		document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
 		var dataStats = dataInner['stats'].replace("','", "'"+'&#44;'+"'");
 	    var dataStats = dataStats.split(", <");
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">';
@@ -314,6 +315,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	else
 	{
 		//assume no data was recieved
+		document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
 	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
 	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">No Data Recieved from server. Probably could not execute command</span>';
@@ -450,6 +452,10 @@ function endRefreshAction(refreshImage, status)
 
 $( document ).ready(function()
 {
+	for (var i = 0; i < numberOfLogs; i++)
+	{
+		checkLogHog(i);
+	}
 	poll();
 	pollingRate = pollingRate * 60000; 
 	setInterval(pollTimed, pollingRate);
