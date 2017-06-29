@@ -124,6 +124,7 @@ function tryHTTPSForPollRequest(data, _data)
 
 function pollFailure(dataInner, dataInnerPass)
 {
+	//do the following logic if first pass
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
     var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
     var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
@@ -140,13 +141,13 @@ function pollFailure(dataInner, dataInnerPass)
 function pollSuccess(dataInner, dataInnerPass)
 {
 	var dataToFilterBy = "error";
-	var nameForBackground = "";
-	// we make a successful JSONP call!
+	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
+
 	if(dataInner['branch'])
 	{
 		var dataStats = dataInner['stats'].replace("','", "'"+'&#44;'+"'");
 	    var dataStats = dataStats.split(", <");
-	    var dataBranchForFile = '<span id="'+dataInner['idName']+'";">';
+	    var dataBranchForFile = '<span id="'+noSpaceName+'";">';
 	    if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
 	    {
 	    	dataBranchForFile += '<a style="color: black;" href="https://github.com/'+dataInnerPass["githubRepo"]+'/tree/'+dataInner['branch']+'">';
@@ -158,10 +159,10 @@ function pollSuccess(dataInner, dataInnerPass)
 	    }
 	    var link = "";
 	    var linksFromCommitMessage = [];
-	    var dataBranchForFileUpdateTime = '<span id="'+dataInner['idName']+'Update";">'+dataInner['time']+'</span>';
-	    document.getElementById(dataInner['idName']+'UpdateOuter').style.display = "block";
-	    document.getElementById(dataInner['idName']+'Stats').style.display = "block";
-	    var dataBranchForFileStats = '<span id="'+dataInner['idName']+'Stats";">';
+	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">'+dataInner['time']+'</span>';
+	    document.getElementById(noSpaceName+'UpdateOuter').style.display = "block";
+	    document.getElementById(noSpaceName+'Stats').style.display = "block";
+	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">';
 	    for(var j = 0; j < dataStats.length; j++)
 	    {
 	    	if(j != 0)
@@ -295,11 +296,6 @@ function pollSuccess(dataInner, dataInnerPass)
 		}
 		dataBranchForFile += '</span>';
 
-
-	    document.getElementById(dataInner['idName']).outerHTML = dataBranchForFile;
-	    document.getElementById(dataInner['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
-	    document.getElementById(dataInner['idName']+'Stats').outerHTML = dataBranchForFileStats;
-	    nameForBackground = "innerFirstDevBox"+dataInner['idName'];
 	    dataToFilterBy = dataInner['branch']; 
 	    if(branchColorFilter == "authorName")
 	    {
@@ -318,15 +314,14 @@ function pollSuccess(dataInner, dataInnerPass)
 	else
 	{
 		//assume no data was recieved
-		var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
 	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
 	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">No Data Recieved from server. Probably could not execute command</span>';
-	    document.getElementById(noSpaceName).outerHTML = dataBranchForFile;
-	    document.getElementById(noSpaceName+'Update').outerHTML = dataBranchForFileUpdateTime;
-	    document.getElementById(noSpaceName+'Stats').outerHTML = dataBranchForFileStats;
-	    nameForBackground = "innerFirstDevBox"+noSpaceName;
 	}
+	var nameForBackground = "innerFirstDevBox"+noSpaceName;
+	document.getElementById(noSpaceName).outerHTML = dataBranchForFile;
+	document.getElementById(noSpaceName+'Update').outerHTML = dataBranchForFileUpdateTime;
+	document.getElementById(noSpaceName+'Stats').outerHTML = dataBranchForFileStats;
 	filterBGColor(dataToFilterBy, nameForBackground);
 }
 
