@@ -123,9 +123,9 @@ function tryHTTPSForPollRequest(data, _data)
 function pollFailure(dataInner, dataInnerPass)
 {
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
-	document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
 	//do the following logic if first pass
-	
+	document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
+	document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
     var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
     var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
     document.getElementById(noSpaceName+'UpdateOuter').style.display = "none";
@@ -145,7 +145,9 @@ function pollSuccess(dataInner, dataInnerPass)
 	if(dataInner['branch'])
 	{
 		document.getElementById(noSpaceName+'redwWarning').style.display = "none";
+		document.getElementById(noSpaceName+'errorMessageLink').style.display = "none";
 		document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
+		document.getElementById(noSpaceName+'noticeMessageLink').style.display = "none";
 		var dataStats = dataInner['stats'].replace("','", "'"+'&#44;'+"'");
 	    var dataStats = dataStats.split(", <");
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">';
@@ -316,6 +318,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	{
 		//assume no data was recieved
 		document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
+		document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
 	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
 	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">No Data Recieved from server. Probably could not execute command</span>';
