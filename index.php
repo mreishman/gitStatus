@@ -243,7 +243,7 @@ else
 			echo "var pausePollOnNotFocus = ".$pauseOnNotFocus.";";
 			echo "var autoCheckUpdate = ".$autoCheckUpdate.";";
 			echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
-			echo "var numberOfLogs = '".$h."';";
+			echo "var numberOfLogs = ".$h.";";
 			echo "var defaultViewBranchCookie = '".$defaultViewBranchCookie."';";
 			echo "var checkForIssueStartsWithNum = '".$checkForIssueStartsWithNum."';";
 			echo "var checkForIssueEndsWithNum = '".$checkForIssueEndsWithNum."';";
