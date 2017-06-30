@@ -122,7 +122,7 @@ function tryHTTPSForPollRequest(data, _data)
 function showPopupWithMessage(type, message)
 {
 	showPopup();
-	document.getElementById('popupContentInnerHTMLDiv').innerHTML = "<div class='devBoxTitle' ><b>"+type+"</b></div><br><br><div style='width:100%;text-align:center;'>"+message+"</div>";
+	document.getElementById('popupContentInnerHTMLDiv').innerHTML = "<div class='devBoxTitle' ><b>"+type+"</b></div><br><br><div style='width:100%;text-align:center;'>"+message+"<br><br><a class='buttonButton' onclick='hidePopup();'>Ok</a></div>";
 }
 
 function pollFailure(dataInner, dataInnerPass)
@@ -146,6 +146,7 @@ function pollFailure(dataInner, dataInnerPass)
 	}
     else
     {
+    	//only trigger when first error, and have opacity check current bg
     	filterBGColor('error', nameForBackground, 0.5);
 	}
 }
