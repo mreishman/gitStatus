@@ -671,6 +671,7 @@ function dropdownShow(nameOfElem) {
     	$('.dropdown-content').hide();
     	var currentElement = document.getElementById("dropdown-"+nameOfElem);
     	currentElement.style.display = 'block';
+    	currentElement.style.marginTop = "0px";
     	var elementLowestPosition = (currentElement.getBoundingClientRect().top+currentElement.offsetHeight);
     	var heightWindow = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
     	if(elementLowestPosition > heightWindow)
@@ -685,8 +686,10 @@ function dropdownShow(nameOfElem) {
 }
 
 window.onclick = function(event) {
-	if (!event.target.matches('.expandMenu')) {
+	if (!event.target.matches('.expandMenu')) 
+	{
 		$('.dropdown-content').hide();
+		$('.dropdown-content').css('margin-top',"0px");
 	}
 }
 
