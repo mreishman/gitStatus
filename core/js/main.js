@@ -678,10 +678,6 @@ function dropdownShow(nameOfElem) {
     	{
     		currentElement.style.marginTop = "-"+(currentElement.offsetHeight+25)+"px";
     	}
-    	else
-    	{
-    		currentElement.style.marginTop = "0px";
-    	}
     }
 }
 

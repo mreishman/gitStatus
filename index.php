@@ -1,18 +1,4 @@
 <?php
-if(isset($_COOKIE['httpsRedirectStatus']))
-{
-	unset($_COOKIE['httpsRedirectStatus']);
-}
-else
-{
-	if ($_SERVER['HTTPS'] == 'on') {
-		setcookie("httpsRedirectStatus", "true");
-	    $url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-	    header('Location: ' . $url, true, 301);
-	    exit();
-	}
-}
-
 $baseUrl = "core/";
 if(file_exists('local/layout.php'))
 {
