@@ -1,5 +1,3 @@
-var arrayOfWatchFilters = {};
-
 function checkLogHog(logHogI)
 {
 	var urlForSend = '/status/core/php/functions/logHog.php?format=json'
@@ -40,6 +38,7 @@ function logHogSuccess(data)
 
 function poll(all = -1)
 {
+	//save object before poll
 	if(all == '-1')
 	{
 		var arrayOfFilesLength = arrayOfFiles.length

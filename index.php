@@ -25,7 +25,7 @@ if(!file_exists($baseUrl.'conf/config.php'))
 require_once($baseUrl.'conf/config.php'); 
 require_once('core/conf/config.php');
 require_once('core/php/configStatic.php');  
-
+require_once('core/php/saveFunctions/cachedStatus.php');  
 $version = explode('.', $configStatic['version']);
 $newestVersion = explode('.', $configStatic['newestVersion']);
 
@@ -249,6 +249,10 @@ else
 			echo "var checkForIssueEndsWithNum = '".$checkForIssueEndsWithNum."';";
 			echo "var checkForIssueCustom = '".$checkForIssueCustom."';";
 			echo "var checkForIssueInCommit = '".$checkForIssueInCommit."';";
+			if(empty($cachedStatusMainObject))
+			{
+				echo "var arrayOfWatchFilters = {};";
+			}
 		?>
 		var branchColorFilter = '<?php echo $branchColorFilter;?>';
 		var errorAndColorArray = JSON.parse('<?php echo json_encode($errorAndColorArray); ?>');
