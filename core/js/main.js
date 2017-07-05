@@ -370,6 +370,9 @@ function pollSuccess(dataInner, dataInnerPass)
 		}
 		else
 		{
+			arrayOfWatchFilters[noSpaceName][0] = dataBranchForFile;
+			arrayOfWatchFilters[noSpaceName][1] = dataBranchForFileUpdateTime;
+			arrayOfWatchFilters[noSpaceName][2] = dataBranchForFileStats;
 			if(arrayOfWatchFilters[noSpaceName][3] == true)
 			{
 				//was error
