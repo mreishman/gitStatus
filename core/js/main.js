@@ -66,7 +66,7 @@ function poll(all = -1)
 
 function pollTwo(all)
 {
-	//$('.loadingSpinnerHeader').show();
+	$('.loadingSpinnerHeader').show();
 	if(all == '-1')
 	{
 		var arrayOfFilesLength = arrayOfFiles.length
@@ -185,6 +185,7 @@ function pollFailure(dataInner, dataInnerPass)
 		}
 		arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
 	}
+	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
 }
 
 function pollSuccess(dataInner, dataInnerPass)
@@ -405,6 +406,7 @@ function pollSuccess(dataInner, dataInnerPass)
 		}
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
+	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
 }
 
 function displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats)

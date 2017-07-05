@@ -211,9 +211,9 @@ else
 					<div onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" style="display: inline-block; cursor: pointer; height: 25px; width: 25px; ">
 						<img style="margin-bottom: -5px;" id="refreshImage<?php echo $keyNoSpace; ?>" class="menuImage" src="core/img/Refresh2.png" height="25px">
 					</div>
-					<img id="branchNameDevBox1<?php echo $keyNoSpace; ?>loadingSpinnerHeader" class='loadingSpinnerHeader' style="width: 25px; margin-bottom: -5px; display: none;" src="core/img/loading.gif">
 					<img id="branchNameDevBox1<?php echo $keyNoSpace; ?>yellowWarning" src="core/img/yellowWarning.png" height="15px" style="margin-bottom: 0px; display: none;">
 					<img id="branchNameDevBox1<?php echo $keyNoSpace; ?>redwWarning" src="core/img/redWarning.png" height="15px" style="margin-bottom: 0px; display: none;">
+					<img id="branchNameDevBox1<?php echo $keyNoSpace; ?>loadingSpinnerHeader" class='loadingSpinnerHeader' style="width: 25px; margin-bottom: -5px; display: none;" src="core/img/loading.gif">
 					<div class="expandMenu" onclick="dropdownShow('<?php echo $keyNoSpace;?>')" ></div>
 					 <div id="dropdown-<?php echo $keyNoSpace;?>" class="dropdown-content">
 					    <a style="cursor: pointer" onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" >Refresh</a>
