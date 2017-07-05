@@ -66,9 +66,9 @@ function poll(all = -1)
 
 function pollTwo(all)
 {
-	$('.loadingSpinnerHeader').show();
 	if(all == '-1')
 	{
+		$('.loadingSpinnerHeader').show();
 		var arrayOfFilesLength = arrayOfFiles.length
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
@@ -100,6 +100,7 @@ function pollTwo(all)
 		var urlForSend = 'http://'+arrayOfFiles[all][1]+'/status/core/php/functions/gitBranchName.php?format=json'
 		var name = "branchNameDevBox1"+arrayOfFiles[all][0];
 		name = name.replace(/\s/g, '_');
+		document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
 		var data = {location: arrayOfFiles[all][2], name: name, githubRepo: arrayOfFiles[all][4], urlForSend: urlForSend};
 			(function(_data){
 
