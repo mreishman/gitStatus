@@ -22,13 +22,13 @@ foreach ($fileArrayOuter as $key => $value)
 	{
 		if(!$exists)
 		{
-			$file = $key2;
+			$file = "https://".$key2;
 			if(substr($file, -1) != '/')
 			{
 				$file .= "/";
 			}
 			$file .= $value2."/index.php";
-			$file_headers = @get_headers($file);
+			$file_headers = get_headers($file);
 			if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') 
 			{   
 
@@ -38,7 +38,7 @@ foreach ($fileArrayOuter as $key => $value)
 				$file_headers_send = $file_headers;
 			    $exists = true;
 			    $link = $file;
-			    $link = "https://".$link;
+			    break;
 			}
 		}
 	}
