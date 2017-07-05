@@ -1,5 +1,0 @@
-
-<?php
-	$cachedStatusMainObject = array(
-	);
-?>
