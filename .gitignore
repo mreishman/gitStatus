@@ -1,3 +1,4 @@
 local/default/conf/config.php
 local/default/conf/tmp-config.php
 local/default/conf/config.php
+core/conf/cachedStatus.php
