@@ -21,4 +21,6 @@ $newInfoForConfig = "
 ?>";
 
 file_put_contents($fileName, $newInfoForConfig);
+
+echo "true";
 ?>

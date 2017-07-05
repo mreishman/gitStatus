@@ -192,7 +192,15 @@ else
 	$h = -1;
 	foreach ($config['watchList'] as $key => $value): 
 	$h++;	
-	$keyNoSpace = preg_replace('/\s+/', '_', $key); ?>
+	$keyNoSpace = preg_replace('/\s+/', '_', $key);
+	$showCachedValue = false;
+	if(!empty($cachedStatusMainObject))
+	{
+		if(isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace]))
+		{
+			$showCachedValue = true;
+		}
+	} ?>
 		<div class="firstBoxDev <?php echo $value['groupInfo']; ?> ">
 			<div class="innerFirstDevBox" id="innerFirstDevBoxbranchNameDevBox1<?php echo $keyNoSpace; ?>" >
 				<div class="devBoxTitle">
@@ -215,19 +223,31 @@ else
 				</div>
 				<div class="devBoxContent">
 					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>">
+					<?php if($showCachedValue):
+						echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][0];
+					else: ?>
 						<img style="width: 20px;" src="core/img/loading.gif"> Loading...
+					<?php endif; ?>
 					</span></b>
 					<div class="<?php if($defaultViewBranch == 'Standard'){echo 'devBoxContentSecondary';}else{echo'devBoxContentSecondaryExpanded';}?>">
 					<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>UpdateOuter">
 						<br><br>
 						<b>Last Updated:</b>
 						<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update">
+						<?php if($showCachedValue):
+							echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][1];
+						else: ?>
 							--Pending--
+						<?php endif; ?>
 						</span>
 						<br>
 					</span>
 					<br>
-					<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">--Pending--</span>
+					<?php if($showCachedValue):?>
+						<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats"><?php echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][2]; ?></span>
+					<?php else: ?>
+						<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">--Pending--</span>
+					<?php endif; ?>
 					</div>
 				</div>
 			</div>
@@ -255,7 +275,17 @@ else
 			}
 			else
 			{
-				echo "var arrayOfWatchFilters = ".$cachedStatusMainObject.";";
+				echo "var arrayOfWatchFilters = {};";
+				foreach ($cachedStatusMainObject as $key => $value) 
+				{
+					echo "arrayOfWatchFilters['".$key."'] =  new Array(";
+					foreach ($value as $key2) 
+					{
+					 	echo "'".$key2."',";
+					} 
+					echo ");";
+				}
+				
 			}
 		?>
 		var branchColorFilter = '<?php echo $branchColorFilter;?>';
