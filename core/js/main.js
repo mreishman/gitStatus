@@ -66,6 +66,7 @@ function poll(all = -1)
 
 function pollTwo(all)
 {
+	//$('.loadingSpinnerHeader').show();
 	if(all == '-1')
 	{
 		var arrayOfFilesLength = arrayOfFiles.length
@@ -172,7 +173,7 @@ function pollFailure(dataInner, dataInnerPass)
 
 	if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 	{
-		arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true);
+		arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor));
 	}
 	else
 	{
@@ -182,6 +183,7 @@ function pollFailure(dataInner, dataInnerPass)
 			arrayOfWatchFilters[noSpaceName][3] = true;
 			filterBGColor('error', nameForBackground, 0.5);
 		}
+		arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
 	}
 }
 
@@ -371,9 +373,11 @@ function pollSuccess(dataInner, dataInnerPass)
 				//was error
 				arrayOfWatchFilters[noSpaceName][3] = false;
 			}
+
 		}
 		var nameForBackground = "innerFirstDevBox"+noSpaceName;
 		filterBGColor(dataToFilterBy, nameForBackground, 1);
+		arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
 	}
 	else
 	{
@@ -387,7 +391,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	    var nameForBackground = "innerFirstDevBox"+noSpaceName;
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
-			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true);
+			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor));
 		}
 		else
 		{
@@ -397,6 +401,7 @@ function pollSuccess(dataInner, dataInnerPass)
 				arrayOfWatchFilters[noSpaceName][3] = true;
 				filterBGColor('error', nameForBackground, 0.5);
 			}
+			arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
 		}
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
