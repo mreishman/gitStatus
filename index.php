@@ -284,7 +284,14 @@ else
 					echo "arrayOfWatchFilters['".$key."'] =  new Array(";
 					foreach ($value as $key2) 
 					{
+						if($key2 !== 'false' && $key2 !== 'true')
+						{
 					 	echo "'".$key2."',";
+					 	}
+					 	else
+					 	{
+					 	echo $key2.",";
+					 	}
 					} 
 					echo ");";
 				}
