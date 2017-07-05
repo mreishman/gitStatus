@@ -38,7 +38,34 @@ function logHogSuccess(data)
 
 function poll(all = -1)
 {
-	//save object before poll
+	if(!jQuery.isEmptyObject(arrayOfWatchFilters))
+	{
+		//save object before poll
+		var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
+		var data = {arrayOfdata: arrayOfWatchFilters, all: all};
+		(function(_data){
+
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data: data,
+			type: 'POST',
+			success: function(data){
+				pollTwo(_data['all']);
+			}
+		});
+
+			}(data));
+	}
+	else
+	{
+		pollTwo(all);
+	}	
+}
+
+function pollTwo(all)
+{
 	if(all == '-1')
 	{
 		var arrayOfFilesLength = arrayOfFiles.length

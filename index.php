@@ -25,7 +25,7 @@ if(!file_exists($baseUrl.'conf/config.php'))
 require_once($baseUrl.'conf/config.php'); 
 require_once('core/conf/config.php');
 require_once('core/php/configStatic.php');  
-require_once('core/php/saveFunctions/cachedStatus.php');  
+require_once('core/conf/cachedStatus.php');  
 $version = explode('.', $configStatic['version']);
 $newestVersion = explode('.', $configStatic['newestVersion']);
 
@@ -252,6 +252,10 @@ else
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";
+			}
+			else
+			{
+				echo "var arrayOfWatchFilters = ".$cachedStatusMainObject.";";
 			}
 		?>
 		var branchColorFilter = '<?php echo $branchColorFilter;?>';
