@@ -40,6 +40,16 @@ function poll(all = -1)
 {
 	if(!jQuery.isEmptyObject(arrayOfWatchFilters))
 	{
+		if(all == '-1')
+		{
+			var arrayOfFilesLength = arrayOfFiles.length;
+			for(var i = 0; i < arrayOfFilesLength; i++)
+			{
+				var name = "branchNameDevBox1"+arrayOfFiles[i][0];
+				name = name.replace(/\s/g, '_');
+				document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
+			}
+		}
 		//save object before poll
 		var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
 		var data = {arrayOfdata: arrayOfWatchFilters, all: all};
