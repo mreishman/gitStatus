@@ -68,58 +68,42 @@ function pollTwo(all)
 {
 	if(all == '-1')
 	{
-		$('.loadingSpinnerHeader').show();
 		var arrayOfFilesLength = arrayOfFiles.length
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
-			var urlForSend = 'http://'+arrayOfFiles[i][1]+'/status/core/php/functions/gitBranchName.php?format=json'
-			var name = "branchNameDevBox1"+arrayOfFiles[i][0];
-			name = name.replace(/\s/g, '_');
-			var data = {location: arrayOfFiles[i][2], name: name, githubRepo: arrayOfFiles[i][4], urlForSend: urlForSend};
-			(function(_data){
-
-				$.ajax({
-				url: urlForSend,
-				dataType: 'json',
-				global: false,
-				data: data,
-				type: 'POST',
-				success: function(data){
-					pollSuccess(data, _data);
-				},
-				error: function(data){
-					tryHTTPSForPollRequest(data, _data);
-				}
-			});
-
-				}(data));
+			tryHTTPForPollRequest(i);
 		}
 	}
 	else
 	{
-		var urlForSend = 'http://'+arrayOfFiles[all][1]+'/status/core/php/functions/gitBranchName.php?format=json'
-		var name = "branchNameDevBox1"+arrayOfFiles[all][0];
-		name = name.replace(/\s/g, '_');
-		document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
-		var data = {location: arrayOfFiles[all][2], name: name, githubRepo: arrayOfFiles[all][4], urlForSend: urlForSend};
-			(function(_data){
-
-				$.ajax({
-				url: urlForSend,
-				dataType: 'json',
-				global: false,
-				data: data,
-				type: 'POST',
-				success: function(data){
-					pollSuccess(data, _data);
-				},
-				error: function(data){
-					tryHTTPSForPollRequest(data, _data);
-				}
-			});
-
-				}(data));
+		tryHTTPForPollRequest(all);
 	}
+}
+
+function tryHTTPForPollRequest(count)
+{
+	var urlForSend = 'http://'+arrayOfFiles[count][1]+'/status/core/php/functions/gitBranchName.php?format=json'
+	var name = "branchNameDevBox1"+arrayOfFiles[count][0];
+	name = name.replace(/\s/g, '_');
+	document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
+	var data = {location: arrayOfFiles[count][2], name: name, githubRepo: arrayOfFiles[count][4], urlForSend: urlForSend};
+		(function(_data){
+
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data: data,
+			type: 'POST',
+			success: function(data){
+				pollSuccess(data, _data);
+			},
+			error: function(data){
+				tryHTTPSForPollRequest(data, _data);
+			}
+		});
+
+			}(data));
 }
 
 

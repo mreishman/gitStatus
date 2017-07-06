@@ -238,6 +238,7 @@ else
 if(isset($_POST['messageTextEnabled']))
 {
 	$messageTextEnabled = $_POST['messageTextEnabled'];
+	$messageTextEnabled = str_replace("'", "", $messageTextEnabled);
 }
 elseif(array_key_exists('messageTextEnabled', $config))
 {
