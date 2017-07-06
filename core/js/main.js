@@ -364,7 +364,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	    }
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
-			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,false,(document.getElementById(nameForBackground).style.backgroundColor),false);
+			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,false,(document.getElementById(nameForBackground).style.backgroundColor),false,null);
 		}
 		else
 		{
@@ -388,6 +388,9 @@ function pollSuccess(dataInner, dataInnerPass)
 			{
 				document.getElementById(noSpaceName+'yellowWarning').style.display = "inline-block";
 				arrayOfWatchFilters[noSpaceName][5] = true;
+				document.getElementById(noSpaceName+'NoticeMessage').style.display = "inline-block";
+				arrayOfWatchFilters[noSpaceName][6] = dataInner['messageText'];
+				document.getElementById(noSpaceName+'NoticeMessage').innerHTML = dataInner['messageText'];
 			}
 		}
 	}

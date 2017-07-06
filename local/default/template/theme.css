@@ -323,3 +323,12 @@ body{
 	border-bottom: ridge #999;
 	border-right: ridge #999;
 }
+
+.noticeMessage{
+	background-color: white;
+	width: 100%;
+	border: 1px solid black;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px; 
+}

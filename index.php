@@ -225,6 +225,12 @@ else
 					  </div>
 				</div>
 				<div class="devBoxContent">
+
+				<span  <?php if(!$showCachedValue || ($showCachedValue && $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5] == 'false')): ?> style="display: none;"<?php else: ?> style="display: inline-block;" <?php endif; ?> class="noticeMessage" id="branchNameDevBox1<?php echo $keyNoSpace;?>NoticeMessage">
+					<?php if($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][6]) && !is_null($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][6])):
+						echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][6];
+					endif; ?>
+				</span>
 					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>">
 					<?php if($showCachedValue):
 						echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][0];
