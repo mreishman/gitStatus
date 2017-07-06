@@ -160,6 +160,7 @@ function pollFailure(dataInner, dataInnerPass)
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
 	var nameForBackground = "innerFirstDevBox"+noSpaceName;
 	document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
+	document.getElementById(noSpaceName+'redwWarning').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
 	document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
 	document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
     if(document.getElementById(noSpaceName+'Stats').innerHTML == "--Pending--")
@@ -264,58 +265,18 @@ function pollSuccess(dataInner, dataInnerPass)
 			  }
 			}
 		}
-
-		
-		
 		//loop through filters, if match -> get number, add to title if != link
-
 		
 		//num for start
 		if(checkForIssueStartsWithNum == "true")
 		{
-			var numForStart = "";
-			var countForStartLoop = 0;
-			var branchName = dataInner['branch'];
-			//console.log(dataInner['branch']);
-			while(!isNaN(branchName.charAt(countForStartLoop)) && countForStartLoop != (branchName.length))
-			{
-				//starts with number
-				numForStart += branchName.charAt(countForStartLoop);
-				countForStartLoop++;
-			}
-
-			if(numForStart != "" && (linksFromCommitMessage.indexOf(numForStart) == -1))
-			{
-				if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
-				{
-					link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForStart+'">#'+numForStart+'</a>';
-					dataBranchForFile += " "+link;
-				}
-			}
+			dataBranchForFile += checkForIssueNumStart(dataBranchForFile);
 		}
-
 		
 		//num for end
 		if(checkForIssueEndsWithNum == "true")
 		{
-			var numForEnd = "";
-			var countForEndLoop = branchName.length - 1;
-			
-			while(!isNaN(branchName.charAt(countForEndLoop)) && countForEndLoop != 0)
-			{
-				numForEnd += branchName.charAt(countForEndLoop);
-				countForEndLoop--;
-			}
-			numForEnd = reverseString(numForEnd);
-
-			if(numForEnd != "" && (linksFromCommitMessage.indexOf(numForEnd) == -1) && numForEnd != numForStart)
-			{
-				if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
-				{
-					link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForEnd+'">#'+numForEnd+'</a>';
-					dataBranchForFile += " "+link;
-				}
-			}
+			dataBranchForFile += checkForIssueNumEnd(dataBranchForFile);
 		}
 
 		//other
@@ -411,6 +372,51 @@ function pollSuccess(dataInner, dataInnerPass)
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
+}
+
+function checkForIssueNumEnd(dataBranchForFile)
+{
+	var numForEnd = "";
+	var countForEndLoop = branchName.length - 1;
+	
+	while(!isNaN(branchName.charAt(countForEndLoop)) && countForEndLoop != 0)
+	{
+		numForEnd += branchName.charAt(countForEndLoop);
+		countForEndLoop--;
+	}
+	numForEnd = reverseString(numForEnd);
+
+	if(numForEnd != "" && (linksFromCommitMessage.indexOf(numForEnd) == -1) && numForEnd != numForStart)
+	{
+		if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+		{
+			link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForEnd+'">#'+numForEnd+'</a>';
+			dataBranchForFile += " "+link;
+		}
+	}
+}
+
+function checkForIssueNumStart(dataBranchForFile)
+{
+	var numForStart = "";
+	var countForStartLoop = 0;
+	var branchName = dataInner['branch'];
+	while(!isNaN(branchName.charAt(countForStartLoop)) && countForStartLoop != (branchName.length))
+	{
+		//starts with number
+		numForStart += branchName.charAt(countForStartLoop);
+		countForStartLoop++;
+	}
+
+	if(numForStart != "" && (linksFromCommitMessage.indexOf(numForStart) == -1))
+	{
+		if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+		{
+			link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForStart+'">#'+numForStart+'</a>';
+			dataBranchForFile += " "+link;
+		}
+	}
+	return dataBranchForFile;
 }
 
 function displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats)
