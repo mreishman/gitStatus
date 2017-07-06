@@ -28,7 +28,7 @@ foreach ($fileArrayOuter as $key => $value)
 				$file .= "/";
 			}
 			$file .= $value2."/index.php";
-			$file_headers = get_headers($file);
+			$file_headers = @get_headers($file);
 			if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') 
 			{   
 

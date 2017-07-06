@@ -175,7 +175,7 @@ function pollFailure(dataInner, dataInnerPass)
 
 	if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 	{
-		arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor));
+		arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor),false);
 	}
 	else
 	{
@@ -186,6 +186,7 @@ function pollFailure(dataInner, dataInnerPass)
 			filterBGColor('error', nameForBackground, 0.5);
 		}
 		arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
+		arrayOfWatchFilters[noSpaceName][5] = false;
 	}
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
 }
@@ -194,7 +195,7 @@ function pollSuccess(dataInner, dataInnerPass)
 {
 	var dataToFilterBy = "error";
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
-	if(dataInner['branch'])
+	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
 		document.getElementById(noSpaceName+'redwWarning').style.display = "none";
 		document.getElementById(noSpaceName+'errorMessageLink').style.display = "none";
@@ -346,7 +347,7 @@ function pollSuccess(dataInner, dataInnerPass)
 			}
 		}
 		dataBranchForFile += '</span>';
-
+		var nameForBackground = "innerFirstDevBox"+noSpaceName;
 	    dataToFilterBy = dataInner['branch']; 
 	    if(branchColorFilter == "authorName")
 	    {
@@ -363,7 +364,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	    }
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
-			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,false);
+			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,false,(document.getElementById(nameForBackground).style.backgroundColor),false);
 		}
 		else
 		{
@@ -377,19 +378,33 @@ function pollSuccess(dataInner, dataInnerPass)
 			}
 
 		}
-		var nameForBackground = "innerFirstDevBox"+noSpaceName;
+		
 		filterBGColor(dataToFilterBy, nameForBackground, 1);
 		arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
+		//custom message stuff
+		(Object.values(dataInner).indexOf('messageTextEnabled') > -1)
+		{
+			if(dataInner['messageTextEnabled'] == 'true')
+			{
+				document.getElementById(noSpaceName+'yellowWarning').style.display = "inline-block";
+				arrayOfWatchFilters[noSpaceName][5] = true;
+			}
+		}
 	}
 	else
 	{
+		var errorMessage = "No Data Recieved from server. Probably could not execute command";
+		if(dataInner['branch'] == 'Location var is too long.')
+		{
+			errorMessage = "Location var is too long.";
+		}
 		//assume no data was recieved
 		document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
 		document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
-		document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error','No Data Recieved from server. Probably could not execute command')};
+		document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error',errorMessage)};
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
 	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
-	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">No Data Recieved from server. Probably could not execute command</span>';
+	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">'+errorMessage+'</span>';
 	    var nameForBackground = "innerFirstDevBox"+noSpaceName;
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
@@ -404,6 +419,7 @@ function pollSuccess(dataInner, dataInnerPass)
 				filterBGColor('error', nameForBackground, 0.5);
 			}
 			arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
+			arrayOfWatchFilters[noSpaceName][5] = false;
 		}
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
