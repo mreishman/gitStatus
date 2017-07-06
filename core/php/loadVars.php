@@ -235,6 +235,55 @@ else
 {
 	$branchColorFilter = $defaultConfig['branchColorFilter'];
 }
+if(isset($_POST['messageTextEnabled']))
+{
+	$messageTextEnabled = $_POST['messageTextEnabled'];
+}
+elseif(array_key_exists('messageTextEnabled', $config))
+{
+	$messageTextEnabled = $config['messageTextEnabled'];
+}
+else
+{
+	$messageTextEnabled = $defaultConfig['messageTextEnabled'];
+}
+if(isset($_POST['messageText']))
+{
+	$messageText = $_POST['messageText'];
+}
+elseif(array_key_exists('messageText', $config))
+{
+	$messageText = $config['messageText'];
+}
+else
+{
+	$messageText = $defaultConfig['messageText'];
+}
+if(isset($_POST['enableBlockUntilDate']))
+{
+	$enableBlockUntilDate = $_POST['enableBlockUntilDate'];
+}
+elseif(array_key_exists('enableBlockUntilDate', $config))
+{
+	$enableBlockUntilDate = $config['enableBlockUntilDate'];
+}
+else
+{
+	$enableBlockUntilDate = $defaultConfig['enableBlockUntilDate'];
+}
+if(isset($_POST['datePicker']))
+{
+	$datePicker = $_POST['datePicker'];
+}
+elseif(array_key_exists('datePicker', $config))
+{
+	$datePicker = $config['datePicker'];
+}
+else
+{
+	$datePicker = $defaultConfig['datePicker'];
+}
+
 
 
 $arrayWatchList = "";

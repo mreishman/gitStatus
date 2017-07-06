@@ -38,6 +38,10 @@ require_once('../loadVars.php');
 			'checkForIssueCustom'	=> '".$checkForIssueCustom."',
 			'checkForIssueInCommit' => '".$checkForIssueInCommit."',
 			'branchColorFilter'	=> '".$branchColorFilter."',
+			'messageTextEnabled'	=> '".$messageTextEnabled."',
+			'messageText' => '".$messageText."',
+			'enableBlockUntilDate'	=> '".$enableBlockUntilDate."',
+			'datePicker'	=> '".$datePicker."',
 			".$arrayFilterAll."
 			'watchList' => array(
 			".$arrayWatchList.")
