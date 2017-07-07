@@ -40,16 +40,6 @@ function poll(all = -1)
 {
 	if(!jQuery.isEmptyObject(arrayOfWatchFilters))
 	{
-		if(all == '-1')
-		{
-			var arrayOfFilesLength = arrayOfFiles.length;
-			for(var i = 0; i < arrayOfFilesLength; i++)
-			{
-				var name = "branchNameDevBox1"+arrayOfFiles[i][0];
-				name = name.replace(/\s/g, '_');
-				document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
-			}
-		}
 		//save object before poll
 		var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
 		var data = {arrayOfdata: arrayOfWatchFilters, all: all};
@@ -92,9 +82,43 @@ function pollTwo(all)
 
 function tryHTTPForPollRequest(count)
 {
-	var urlForSend = 'http://'+arrayOfFiles[count][1]+'/status/core/php/functions/gitBranchName.php?format=json'
 	var name = "branchNameDevBox1"+arrayOfFiles[count][0];
 	name = name.replace(/\s/g, '_');
+	var doPollLogic = true;
+	if(arrayOfWatchFilters && arrayOfWatchFilters[name])
+	{
+		if(arrayOfWatchFilters[name][7] == 'true' || arrayOfWatchFilters[name][7] == true)
+		{
+			var dateForEnd = arrayOfWatchFilters[name][8];
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth()+1; //January is 0!
+			var yyyy = today.getFullYear();
+
+			if(dd<10) {
+			    dd='0'+dd
+			} 
+
+			if(mm<10) {
+			    mm='0'+mm
+			} 
+
+			today = mm+'/'+dd+'/'+yyyy;
+			if (dateForEnd >= today)
+			{
+				doPollLogic = false;
+			} 
+		}
+	}
+	if(doPollLogic)
+	{
+		tryHttpActuallyPollLogic(count, name);
+	}
+}
+
+function tryHttpActuallyPollLogic(count, name)
+{
+	var urlForSend = 'http://'+arrayOfFiles[count][1]+'/status/core/php/functions/gitBranchName.php?format=json';
 	document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
 	var data = {location: arrayOfFiles[count][2], name: name, githubRepo: arrayOfFiles[count][4], urlForSend: urlForSend};
 		(function(_data){
@@ -113,7 +137,7 @@ function tryHTTPForPollRequest(count)
 			}
 		});
 
-			}(data));
+	}(data));
 }
 
 
@@ -157,6 +181,7 @@ function pollFailure(dataInner, dataInnerPass)
 	document.getElementById(noSpaceName+'redwWarning').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
 	document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
 	document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
+    document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
     if(document.getElementById(noSpaceName+'Stats').innerHTML == "--Pending--")
 	{
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
@@ -169,7 +194,7 @@ function pollFailure(dataInner, dataInnerPass)
 
 	if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 	{
-		arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor),false);
+		arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
 	}
 	else
 	{
@@ -189,6 +214,7 @@ function pollSuccess(dataInner, dataInnerPass)
 {
 	var dataToFilterBy = "error";
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
+	document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
 	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
 		document.getElementById(noSpaceName+'redwWarning').style.display = "none";
@@ -358,7 +384,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	    }
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
-			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,false,(document.getElementById(nameForBackground).style.backgroundColor),false,null);
+			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,false,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
 		}
 		else
 		{
@@ -399,7 +425,9 @@ function pollSuccess(dataInner, dataInnerPass)
 				arrayOfWatchFilters[noSpaceName][7] = true;
 				document.getElementById(noSpaceName+'NoticeMessage').style.display = "inline-block";
 				arrayOfWatchFilters[noSpaceName][8] = dataInner['datePicker'];
-				document.getElementById(noSpaceName+'NoticeMessage').innerHTML = "Blocking poll requests untill: "+dataInner['datePicker'];
+				document.getElementById(noSpaceName+'NoticeMessage').innerHTML += " Blocking poll requests untill: "+dataInner['datePicker'];
+				//hide refresh 
+				document.getElementById(noSpaceName+'spinnerDiv').style.display = "none";
 			}
 		}
 	}
@@ -420,7 +448,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	    var nameForBackground = "innerFirstDevBox"+noSpaceName;
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
-			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor));
+			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
 		}
 		else
 		{

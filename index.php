@@ -208,7 +208,7 @@ else
 				<div class="devBoxTitle">
 					<a style="color: black;" href="https://<?php echo $value['Website']; ?>"><b><?php echo $key; ?></b></a>
 					
-					<div onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" style="display: inline-block; cursor: pointer; height: 25px; width: 25px; ">
+					<div id="branchNameDevBox1<?php echo $keyNoSpace; ?>spinnerDiv" onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" style=" <?php if( $showCachedValue && (isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][7]) &&$cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][7] == 'true')): ?> display: none;<?php else: ?> display: inline-block; <?php endif; ?> cursor: pointer; height: 25px; width: 25px; ">
 						<img style="margin-bottom: -5px;" id="refreshImage<?php echo $keyNoSpace; ?>" class="menuImage" src="core/img/Refresh2.png" height="25px">
 					</div>
 					<img id="branchNameDevBox1<?php echo $keyNoSpace; ?>yellowWarning" src="core/img/yellowWarning.png" height="15px" style="margin-bottom: 0px; <?php if(($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5]) && $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5] == 'true') || ($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][7]) && $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][7] == 'true')): ?> display: inline-block; <?php else: ?> display: none;<?php endif; ?>">
