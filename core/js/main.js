@@ -386,6 +386,21 @@ function pollSuccess(dataInner, dataInnerPass)
 				arrayOfWatchFilters[noSpaceName][6] = dataInner['messageText'];
 				document.getElementById(noSpaceName+'NoticeMessage').innerHTML = dataInner['messageText'];
 			}
+			else
+			{
+				arrayOfWatchFilters[noSpaceName][5] = false;
+				arrayOfWatchFilters[noSpaceName][6] = null;
+				document.getElementById(noSpaceName+'NoticeMessage').innerHTML = "";
+				document.getElementById(noSpaceName+'NoticeMessage').style.display = "none";
+			}
+			if(dataInner['enableBlockUntilDate'] == 'true')
+			{
+				document.getElementById(noSpaceName+'yellowWarning').style.display = "inline-block";
+				arrayOfWatchFilters[noSpaceName][7] = true;
+				document.getElementById(noSpaceName+'NoticeMessage').style.display = "inline-block";
+				arrayOfWatchFilters[noSpaceName][8] = dataInner['datePicker'];
+				document.getElementById(noSpaceName+'NoticeMessage').innerHTML = "Blocking poll requests untill: "+dataInner['datePicker'];
+			}
 		}
 	}
 	else

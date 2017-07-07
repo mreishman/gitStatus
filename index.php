@@ -211,7 +211,7 @@ else
 					<div onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" style="display: inline-block; cursor: pointer; height: 25px; width: 25px; ">
 						<img style="margin-bottom: -5px;" id="refreshImage<?php echo $keyNoSpace; ?>" class="menuImage" src="core/img/Refresh2.png" height="25px">
 					</div>
-					<img id="branchNameDevBox1<?php echo $keyNoSpace; ?>yellowWarning" src="core/img/yellowWarning.png" height="15px" style="margin-bottom: 0px; <?php if(!$showCachedValue || ($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5]) && $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5] == 'false')): ?> display: none; <?php endif; ?>">
+					<img id="branchNameDevBox1<?php echo $keyNoSpace; ?>yellowWarning" src="core/img/yellowWarning.png" height="15px" style="margin-bottom: 0px; <?php if(($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5]) && $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5] == 'true') || ($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][7]) && $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][7] == 'true')): ?> display: inline-block; <?php else: ?> display: none;<?php endif; ?>">
 					<img id="branchNameDevBox1<?php echo $keyNoSpace; ?>redwWarning" src="core/img/redWarning.png" height="15px" style="margin-bottom: 0px; <?php if(!$showCachedValue || ($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][3]) &&$cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][3] == 'false')): ?> display: none; <?php endif; ?>">
 					<img id="branchNameDevBox1<?php echo $keyNoSpace; ?>loadingSpinnerHeader" class='loadingSpinnerHeader' style="width: 25px; margin-bottom: -5px; display: none;" src="core/img/loading.gif">
 					<div class="expandMenu" onclick="dropdownShow('<?php echo $keyNoSpace;?>')" ></div>
@@ -226,9 +226,12 @@ else
 				</div>
 				<div class="devBoxContent">
 
-				<span  <?php if(!$showCachedValue || ($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5]) &&$cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5] == 'false')): ?> style="display: none;"<?php else: ?> style="display: inline-block;" <?php endif; ?> class="noticeMessage" id="branchNameDevBox1<?php echo $keyNoSpace;?>NoticeMessage">
+				<span  <?php if( $showCachedValue && ((isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5]) &&$cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5] == 'true') || (isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][7]) &&$cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][7] == 'true'))): ?> style="display: inline-block;"<?php else: ?> style="display: none;" <?php endif; ?> class="noticeMessage" id="branchNameDevBox1<?php echo $keyNoSpace;?>NoticeMessage">
 					<?php if($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][6]) && !is_null($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][6])):
 						echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][6];
+					endif; ?>
+					<?php if($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][8]) && !is_null($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][8])):
+						echo "Blocking poll requests untill: ".$cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][8];
 					endif; ?>
 				</span>
 					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>">
