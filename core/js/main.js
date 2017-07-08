@@ -404,11 +404,26 @@ function pollSuccess(dataInner, dataInnerPass)
 		//custom message stuff
 		(Object.values(dataInner).indexOf('messageTextEnabled') > -1)
 		{
+
+			var dateForEnd = dataInner['datePicker'];
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth()+1; //January is 0!
+			var yyyy = today.getFullYear();
+
+			if(dd<10) {
+			    dd='0'+dd
+			} 
+
+			if(mm<10) {
+			    mm='0'+mm
+			} 
+
+			today = mm+'/'+dd+'/'+yyyy;
+
 			if(dataInner['messageTextEnabled'] == 'true')
 			{
-				document.getElementById(noSpaceName+'yellowWarning').style.display = "inline-block";
 				arrayOfWatchFilters[noSpaceName][5] = true;
-				document.getElementById(noSpaceName+'NoticeMessage').style.display = "inline-block";
 				arrayOfWatchFilters[noSpaceName][6] = dataInner['messageText'];
 				document.getElementById(noSpaceName+'NoticeMessage').innerHTML = dataInner['messageText'];
 			}
@@ -419,15 +434,26 @@ function pollSuccess(dataInner, dataInnerPass)
 				document.getElementById(noSpaceName+'NoticeMessage').innerHTML = "";
 				document.getElementById(noSpaceName+'NoticeMessage').style.display = "none";
 			}
-			if(dataInner['enableBlockUntilDate'] == 'true')
+			if(dataInner['enableBlockUntilDate'] == 'true' && dateForEnd >= today)
 			{
-				document.getElementById(noSpaceName+'yellowWarning').style.display = "inline-block";
 				arrayOfWatchFilters[noSpaceName][7] = true;
-				document.getElementById(noSpaceName+'NoticeMessage').style.display = "inline-block";
 				arrayOfWatchFilters[noSpaceName][8] = dataInner['datePicker'];
 				document.getElementById(noSpaceName+'NoticeMessage').innerHTML += " Blocking poll requests untill: "+dataInner['datePicker'];
-				//hide refresh 
 				document.getElementById(noSpaceName+'spinnerDiv').style.display = "none";
+			}
+			else
+			{
+				arrayOfWatchFilters[noSpaceName][7] = false;
+			}
+			if(dataInner['messageTextEnabled'] == 'true' || dataInner['enableBlockUntilDate'] == 'true')
+			{
+				document.getElementById(noSpaceName+'yellowWarning').style.display = "inline-block";
+				document.getElementById(noSpaceName+'NoticeMessage').style.display = "inline-block";
+			}
+			else
+			{
+				document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
+				document.getElementById(noSpaceName+'NoticeMessage').style.display = "none";
 			}
 		}
 	}
