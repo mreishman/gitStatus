@@ -251,7 +251,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		numOfWindows++;
 		if(numOfWindows == 1)
 		{
-			elementWidth = 642;
+			elementWidth = 342;
 		}
 		<?php if($levelOfUpdate != 0): ?>
 		else if (numOfWindows == 2)

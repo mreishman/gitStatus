@@ -22,7 +22,7 @@ foreach ($fileArrayOuter as $key => $value)
 	{
 		if(!$exists)
 		{
-			$file = $key2;
+			$file = "https://".$key2;
 			if(substr($file, -1) != '/')
 			{
 				$file .= "/";
@@ -38,7 +38,7 @@ foreach ($fileArrayOuter as $key => $value)
 				$file_headers_send = $file_headers;
 			    $exists = true;
 			    $link = $file;
-			    $link = "https://".$link;
+			    break;
 			}
 		}
 	}

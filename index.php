@@ -1,18 +1,4 @@
 <?php
-if(isset($_COOKIE['httpsRedirectStatus']))
-{
-	unset($_COOKIE['httpsRedirectStatus']);
-}
-else
-{
-	if ($_SERVER['HTTPS'] == 'on') {
-		setcookie("httpsRedirectStatus", "true");
-	    $url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-	    header('Location: ' . $url, true, 301);
-	    exit();
-	}
-}
-
 $baseUrl = "core/";
 if(file_exists('local/layout.php'))
 {
@@ -21,10 +7,31 @@ if(file_exists('local/layout.php'))
 	require_once('local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
+
+function clean_url($url) {
+    $parts = parse_url($url);
+    return $parts['path'];
+}
+
+
+if(!file_exists($baseUrl.'conf/config.php'))
+{
+	$partOfUrl = clean_url($_SERVER['REQUEST_URI']);
+	if(strpos($partOfUrl, 'index'))
+	{
+		$partOfUrl = substr($partOfUrl, 0, strpos($partOfUrl, 'index'));
+	}
+	$url = "http://" . $_SERVER['HTTP_HOST'] .$partOfUrl ."setup/welcome.php";
+	header('Location: ' . $url, true, 302);
+	exit();
+}
 require_once($baseUrl.'conf/config.php'); 
 require_once('core/conf/config.php');
-require_once('core/php/configStatic.php');  
-
+require_once('core/php/configStatic.php'); 
+if(file_exists('core/conf/cachedStatus.php'))
+{ 
+	require_once('core/conf/cachedStatus.php');  
+}
 $version = explode('.', $configStatic['version']);
 $newestVersion = explode('.', $configStatic['newestVersion']);
 
@@ -107,6 +114,8 @@ else
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
 	<link rel="icon" type="image/png" href="core/img/favicon.png" />
 	<script src="core/js/jquery.js"></script>
+	<script src="core/js/jquery.xcolor.min.js"></script>
+
 	<script src="core/js/visibility.core.js"></script>
 	<script src="core/js/visibility.fallback.js"></script>
 	<script src="core/js/visibility.js"></script>
@@ -132,6 +141,9 @@ else
 			<div style="display: inline-block;" >
 				<a href="#" class="back-to-top" style="color:#000000;">Back to Top</a>
 			</div>
+			<div style="display: inline-block;" >
+				<img id="loadingSpinnerMain" class='menuImage' height="30px" style="display: none;" src="core/img/loading.gif">
+			</div>
 		</div>
 		<div class="menuSections" >
 			<div class="buttonSelectorOuter" >
@@ -142,6 +154,9 @@ else
 					Expanded
 				</div>
 			</div>
+		</div>
+		<div class="menuSections" >
+			
 		</div>
 	</div>
 	<div id="main">
@@ -186,41 +201,74 @@ else
 	$h = -1;
 	foreach ($config['watchList'] as $key => $value): 
 	$h++;	
-	$keyNoSpace = preg_replace('/\s+/', '_', $key); ?>
+	$keyNoSpace = preg_replace('/\s+/', '_', $key);
+	$showCachedValue = false;
+	if(!empty($cachedStatusMainObject) && $cachedStatusMainObject != array())
+	{
+		if(isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace]))
+		{
+			$showCachedValue = true;
+		}
+	} ?>
 		<div class="firstBoxDev <?php echo $value['groupInfo']; ?> ">
-			<div class="innerFirstDevBox" id="innerFirstDevBoxbranchNameDevBox1<?php echo $keyNoSpace; ?>" >
+			<div class="innerFirstDevBox" id="innerFirstDevBoxbranchNameDevBox1<?php echo $keyNoSpace; ?>" 
+			<?php if($showCachedValue && isset($cachedStatusMainObject['branchNameDevBox1'.$keyNoSpace][4])){echo "style='background-color:".$cachedStatusMainObject['branchNameDevBox1'.$keyNoSpace][4]."'";}?>
+			>
 				<div class="devBoxTitle">
 					<a style="color: black;" href="https://<?php echo $value['Website']; ?>"><b><?php echo $key; ?></b></a>
 					
-					<div onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" style="display: inline-block; cursor: pointer; height: 25px; width: 25px; ">
+					<div id="branchNameDevBox1<?php echo $keyNoSpace; ?>spinnerDiv" onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" style=" <?php if( $showCachedValue && (isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][7]) &&$cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][7] == 'true')): ?> display: none;<?php else: ?> display: inline-block; <?php endif; ?> cursor: pointer; height: 25px; width: 25px; ">
 						<img style="margin-bottom: -5px;" id="refreshImage<?php echo $keyNoSpace; ?>" class="menuImage" src="core/img/Refresh2.png" height="25px">
 					</div>
-					
+					<img id="branchNameDevBox1<?php echo $keyNoSpace; ?>yellowWarning" src="core/img/yellowWarning.png" height="15px" style="margin-bottom: 0px; <?php if(($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5]) && $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5] == 'true') || ($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][7]) && $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][7] == 'true')): ?> display: inline-block; <?php else: ?> display: none;<?php endif; ?>">
+					<img id="branchNameDevBox1<?php echo $keyNoSpace; ?>redwWarning" src="core/img/redWarning.png" height="15px" style="margin-bottom: 0px; <?php if(!$showCachedValue || ($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][3]) &&$cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][3] == 'false')): ?> display: none; <?php endif; ?>">
+					<img id="branchNameDevBox1<?php echo $keyNoSpace; ?>loadingSpinnerHeader" class='loadingSpinnerHeader' style="width: 25px; margin-bottom: -5px; display: none;" src="core/img/loading.gif">
 					<div class="expandMenu" onclick="dropdownShow('<?php echo $keyNoSpace;?>')" ></div>
 					 <div id="dropdown-<?php echo $keyNoSpace;?>" class="dropdown-content">
 					    <a style="cursor: pointer" onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" >Refresh</a>
 					    <div id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogOuter" style="display: none; cursor: pointer; width: 100%;" >
 							<a id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogInner" style="color: black;" href="#">Log-Hog</a>
 						</div>
+						<a id="branchNameDevBox1<?php echo $keyNoSpace;?>errorMessageLink" style="cursor: pointer; display: none;">Error</a> 
+						<a id="branchNameDevBox1<?php echo $keyNoSpace;?>noticeMessageLink" style="cursor: pointer; display: none;">Notice</a> 
 					  </div>
 				</div>
 				<div class="devBoxContent">
+
+				<span  <?php if( $showCachedValue && ((isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5]) &&$cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][5] == 'true') || (isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][7]) &&$cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][7] == 'true'))): ?> style="display: inline-block;"<?php else: ?> style="display: none;" <?php endif; ?> class="noticeMessage" id="branchNameDevBox1<?php echo $keyNoSpace;?>NoticeMessage">
+					<?php if($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][6]) && !is_null($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][6])):
+						echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][6];
+					endif; ?>
+					<?php if($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][8]) && !is_null($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][8])):
+						echo "Blocking poll requests untill: ".$cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][8];
+					endif; ?>
+				</span>
 					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>">
+					<?php if($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][0])):
+						echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][0];
+					else: ?>
 						<img style="width: 20px;" src="core/img/loading.gif"> Loading...
+					<?php endif; ?>
 					</span></b>
 					<div class="<?php if($defaultViewBranch == 'Standard'){echo 'devBoxContentSecondary';}else{echo'devBoxContentSecondaryExpanded';}?>">
 					<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>UpdateOuter">
 						<br><br>
 						<b>Last Updated:</b>
 						<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update">
+						<?php if($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][1])):
+							echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][1];
+						else: ?>
 							--Pending--
+						<?php endif; ?>
 						</span>
 						<br>
 					</span>
 					<br>
-					<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">
-						--Pending--
-					</span>
+					<?php if($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][2])):?>
+						<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats"><?php echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][2]; ?></span>
+					<?php else: ?>
+						<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">--Pending--</span>
+					<?php endif; ?>
 					</div>
 				</div>
 			</div>
@@ -236,12 +284,37 @@ else
 			echo "var pausePollOnNotFocus = ".$pauseOnNotFocus.";";
 			echo "var autoCheckUpdate = ".$autoCheckUpdate.";";
 			echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
-			echo "var numberOfLogs = '".$h."';";
+			echo "var numberOfLogs = ".$h.";";
 			echo "var defaultViewBranchCookie = '".$defaultViewBranchCookie."';";
 			echo "var checkForIssueStartsWithNum = '".$checkForIssueStartsWithNum."';";
 			echo "var checkForIssueEndsWithNum = '".$checkForIssueEndsWithNum."';";
 			echo "var checkForIssueCustom = '".$checkForIssueCustom."';";
 			echo "var checkForIssueInCommit = '".$checkForIssueInCommit."';";
+			if(empty($cachedStatusMainObject))
+			{
+				echo "var arrayOfWatchFilters = {};";
+			}
+			else
+			{
+				echo "var arrayOfWatchFilters = {};";
+				foreach ($cachedStatusMainObject as $key => $value) 
+				{
+					echo "arrayOfWatchFilters['".$key."'] =  new Array(";
+					foreach ($value as $key2) 
+					{
+						if($key2 !== 'false' && $key2 !== 'true')
+						{
+					 	echo "'".$key2."',";
+					 	}
+					 	else
+					 	{
+					 	echo $key2.",";
+					 	}
+					} 
+					echo ");";
+				}
+				
+			}
 		?>
 		var branchColorFilter = '<?php echo $branchColorFilter;?>';
 		var errorAndColorArray = JSON.parse('<?php echo json_encode($errorAndColorArray); ?>');
@@ -276,4 +349,5 @@ else
 		document.getElementById("menuBarLeftMain").style.backgroundColor  = "#ffffff";
 	</script>
 	<?php require_once('core/php/templateFiles/allPages.php') ?>
+	<?php readfile('core/html/popup.html') ?>
 </body>

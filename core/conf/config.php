@@ -2,7 +2,7 @@
 
 $defaultConfig = array(
 	'sliceSize'		=> 500,
-	'pollingRate'	=> 500,
+	'pollingRate'	=> 1,
 	'pausePoll'		=> 'false',
 	'pauseOnNotFocus' => 'true',
 	'autoCheckUpdate' => 'true',
@@ -62,4 +62,12 @@ $defaultConfig = array(
 	'checkForIssueEndsWithNum'	=> 'true',
 	'checkForIssueCustom'	=> 'true',
 	'checkForIssueInCommit'	=> 'true',
+	'branchColorFilter'	=> '".$branchColorFilter."',
+	'messageTextEnabled'	=> 'false',
+	'messageText' => 'Example Message',
+	'enableBlockUntilDate'	=> 'false',
+	'datePicker'	=> '07/04/2017',
+	'watchList' => array(
+			'Example Server' => array('WebsiteBase' =>  'website.com','Folder' =>  '/var/www/html/','Website' =>  'website.com','githubRepo' => 'githubRepo', 'groupInfo'=> 'Group')
+			)
 );

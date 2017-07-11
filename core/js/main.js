@@ -1,30 +1,20 @@
-for (var i = 0; i < numberOfLogs; i++)
+var counterForSave = numberOfLogs+1;
+
+function checkLogHog(logHogI)
 {
-	checkLogHog(i);
-}
-
-
-function checkLogHog(all)
-{
-
 	var urlForSend = '/status/core/php/functions/logHog.php?format=json'
-	var websiteBase = arrayOfFiles[all][1];
-	var website = arrayOfFiles[all][3];
-	var name = "branchNameDevBox1"+arrayOfFiles[i][0];
+	var websiteBase = arrayOfFiles[logHogI][1];
+	var website = arrayOfFiles[logHogI][3];
+	var name = "branchNameDevBox1"+arrayOfFiles[logHogI][0];
 	name = name.replace(/\s/g, '_');
-	var data = {location: arrayOfFiles[all][2], websiteBase: websiteBase, website: website, name: name};
+	var data = {location: arrayOfFiles[logHogI][2], websiteBase: websiteBase, website: website, name: name};
 	$.ajax({
 	  url: urlForSend,
 	  dataType: 'json',
 	  data: data,
 	  type: 'POST',
 	  success: function(data){
-	  	if(data['link'] != "null")
-	  	{
-	  		//console.log(data['link'] + "   |   "+data['name'] + "   |   "+data['file_headers']);
-	  		document.getElementById(data['name']+"LogHogOuter").style.display = "inline-block";
-	  		document.getElementById(data['name']+"LogHogInner").href = data['link'];
-	  	}
+	  	logHogSuccess(data);
 	  },
 	});
 }
@@ -37,61 +27,93 @@ function pollTimed()
 	}
 }
 
+function logHogSuccess(data)
+{
+	if(data['link'] != "null" && data['link'] != null)
+  	{
+  		//console.log(data['link'] + "   |   "+data['name'] + "   |   "+data['file_headers']);
+  		document.getElementById(data['name']+"LogHogOuter").style.display = "inline-block";
+  		document.getElementById(data['name']+"LogHogInner").href = data['link'];
+  	}
+}
+
 
 function poll(all = -1)
 {
 	if(all == '-1')
 	{
+		counterForSave = numberOfLogs+1;
 		var arrayOfFilesLength = arrayOfFiles.length
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
-			var urlForSend = 'http://'+arrayOfFiles[i][1]+'/status/core/php/functions/gitBranchName.php?format=json'
-			var name = "branchNameDevBox1"+arrayOfFiles[i][0];
-			name = name.replace(/\s/g, '_');
-			var data = {location: arrayOfFiles[i][2], name: name, githubRepo: arrayOfFiles[i][4], urlForSend: urlForSend};
-			(function(_data){
-
-				$.ajax({
-				url: urlForSend,
-				dataType: 'json',
-				global: false,
-				data: data,
-				type: 'POST',
-				success: function(data){
-					pollSuccess(data, _data);
-				},
-				error: function(data){
-					tryHTTPSForPollRequest(data, _data);
-				}
-			});
-
-				}(data));
+			tryHTTPForPollRequest(i);
 		}
 	}
 	else
 	{
-		var urlForSend = 'http://'+arrayOfFiles[all][1]+'/status/core/php/functions/gitBranchName.php?format=json'
-		var name = "branchNameDevBox1"+arrayOfFiles[all][0];
-		name = name.replace(/\s/g, '_');
-		var data = {location: arrayOfFiles[all][2], name: name, githubRepo: arrayOfFiles[all][4], urlForSend: urlForSend};
-			(function(_data){
-
-				$.ajax({
-				url: urlForSend,
-				dataType: 'json',
-				global: false,
-				data: data,
-				type: 'POST',
-				success: function(data){
-					pollSuccess(data, _data);
-				},
-				error: function(data){
-					tryHTTPSForPollRequest(data, _data);
-				}
-			});
-
-				}(data));
+		counterForSave = 1;
+		tryHTTPForPollRequest(all);
 	}
+}
+
+function tryHTTPForPollRequest(count)
+{
+	var name = "branchNameDevBox1"+arrayOfFiles[count][0];
+	name = name.replace(/\s/g, '_');
+	var doPollLogic = true;
+	if(arrayOfWatchFilters && arrayOfWatchFilters[name])
+	{
+		if(arrayOfWatchFilters[name][7] == 'true' || arrayOfWatchFilters[name][7] == true)
+		{
+			var dateForEnd = arrayOfWatchFilters[name][8];
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth()+1; //January is 0!
+			var yyyy = today.getFullYear();
+
+			if(dd<10) {
+			    dd='0'+dd
+			} 
+
+			if(mm<10) {
+			    mm='0'+mm
+			} 
+
+			today = mm+'/'+dd+'/'+yyyy;
+			if (dateForEnd >= today)
+			{
+				doPollLogic = false;
+			} 
+		}
+	}
+	if(doPollLogic)
+	{
+		tryHttpActuallyPollLogic(count, name);
+	}
+}
+
+function tryHttpActuallyPollLogic(count, name)
+{
+	var urlForSend = 'http://'+arrayOfFiles[count][1]+'/status/core/php/functions/gitBranchName.php?format=json';
+	document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
+	var data = {location: arrayOfFiles[count][2], name: name, githubRepo: arrayOfFiles[count][4], urlForSend: urlForSend};
+		(function(_data){
+
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data: data,
+			type: 'POST',
+			success: function(data){
+				pollSuccess(data, _data);
+			},
+			error: function(data){
+				tryHTTPSForPollRequest(data, _data);
+			}
+		});
+
+	}(data));
 }
 
 
@@ -112,8 +134,8 @@ function tryHTTPSForPollRequest(data, _data)
 			success: function(data){
 				pollSuccess(data, _data);
 			},
-			error: function(data){
-				pollFailure(data, _data);
+			error: function(jqXHR, textStatus, errorThrown){
+				pollFailure(jqXHR.status, _data);
 			}
 		});
 
@@ -121,30 +143,92 @@ function tryHTTPSForPollRequest(data, _data)
 			
 }
 
+function showPopupWithMessage(type, message)
+{
+	showPopup();
+	document.getElementById('popupContentInnerHTMLDiv').innerHTML = "<div class='devBoxTitle' ><b>"+type+"</b></div><br><br><div style='width:100%;text-align:center;'>"+message+"<br><br><a class='buttonButton' onclick='hidePopup();'>Ok</a></div>";
+}
+
+function pollCompleteLogic()
+{
+	counterForSave--;
+	if(counterForSave < 1)
+	{
+		document.getElementById('loadingSpinnerMain').style.display = "block";
+		if(!jQuery.isEmptyObject(arrayOfWatchFilters))
+		{
+			//save object after poll
+			var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
+			var data = {arrayOfdata: arrayOfWatchFilters};
+			(function(_data){
+
+				$.ajax({
+				url: urlForSend,
+				dataType: 'json',
+				global: false,
+				data: data,
+				type: 'POST',
+				complete: function(data){
+					document.getElementById('loadingSpinnerMain').style.display = "none";
+					}
+				});
+			}(data));
+		}
+	}
+}
 
 function pollFailure(dataInner, dataInnerPass)
 {
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
-    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
-    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
-    document.getElementById(noSpaceName+'UpdateOuter').style.display = "none";
-    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">Could not connect to server</span>';
-    document.getElementById(noSpaceName+'Stats').style.display = "block";
-    document.getElementById(noSpaceName).outerHTML = dataBranchForFile;
-    document.getElementById(noSpaceName+'Update').outerHTML = dataBranchForFileUpdateTime;
-    document.getElementById(noSpaceName+'Stats').outerHTML = dataBranchForFileStats;
-    var nameForBackground = "innerFirstDevBox"+noSpaceName;
-    filterBGColor('error', nameForBackground);
+	var nameForBackground = "innerFirstDevBox"+noSpaceName;
+	document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
+	document.getElementById(noSpaceName+'redwWarning').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
+	document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
+	document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
+    document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
+    if(document.getElementById(noSpaceName+'Stats').innerHTML == "--Pending--")
+	{
+	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
+	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
+	    document.getElementById(noSpaceName+'UpdateOuter').style.display = "none";
+	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">Could not connect to server</span>';
+	    displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats)
+	    filterBGColor('error', nameForBackground, 1);
+	}
+
+	if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
+	{
+		arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
+	}
+	else
+	{
+		if(arrayOfWatchFilters[noSpaceName][3] == false)
+		{
+			//new error
+			arrayOfWatchFilters[noSpaceName][3] = true;
+			filterBGColor('error', nameForBackground, 0.5);
+		}
+		arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
+		arrayOfWatchFilters[noSpaceName][5] = false;
+	}
+	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
+	pollCompleteLogic();
 }
 
 function pollSuccess(dataInner, dataInnerPass)
 {
-	// we make a successful JSONP call!
-	if(dataInner['branch'])
+	var dataToFilterBy = "error";
+	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
+	document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
+	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
+		document.getElementById(noSpaceName+'redwWarning').style.display = "none";
+		document.getElementById(noSpaceName+'errorMessageLink').style.display = "none";
+		document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
+		document.getElementById(noSpaceName+'noticeMessageLink').style.display = "none";
 		var dataStats = dataInner['stats'].replace("','", "'"+'&#44;'+"'");
 	    var dataStats = dataStats.split(", <");
-	    var dataBranchForFile = '<span id="'+dataInner['idName']+'";">';
+	    var dataBranchForFile = '<span id="'+noSpaceName+'";">';
 	    if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
 	    {
 	    	dataBranchForFile += '<a style="color: black;" href="https://github.com/'+dataInnerPass["githubRepo"]+'/tree/'+dataInner['branch']+'">';
@@ -156,10 +240,10 @@ function pollSuccess(dataInner, dataInnerPass)
 	    }
 	    var link = "";
 	    var linksFromCommitMessage = [];
-	    var dataBranchForFileUpdateTime = '<span id="'+dataInner['idName']+'Update";">'+dataInner['time']+'</span>';
-	    document.getElementById(dataInner['idName']+'UpdateOuter').style.display = "block";
-	    document.getElementById(dataInner['idName']+'Stats').style.display = "block";
-	    var dataBranchForFileStats = '<span id="'+dataInner['idName']+'Stats";">';
+	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">'+dataInner['time']+'</span>';
+	    document.getElementById(noSpaceName+'UpdateOuter').style.display = "block";
+	    document.getElementById(noSpaceName+'Stats').style.display = "block";
+	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">';
 	    for(var j = 0; j < dataStats.length; j++)
 	    {
 	    	if(j != 0)
@@ -207,9 +291,6 @@ function pollSuccess(dataInner, dataInnerPass)
 			  }
 			}
 		}
-
-		
-		
 		//loop through filters, if match -> get number, add to title if != link
 
 		
@@ -219,7 +300,6 @@ function pollSuccess(dataInner, dataInnerPass)
 			var numForStart = "";
 			var countForStartLoop = 0;
 			var branchName = dataInner['branch'];
-			//console.log(dataInner['branch']);
 			while(!isNaN(branchName.charAt(countForStartLoop)) && countForStartLoop != (branchName.length))
 			{
 				//starts with number
@@ -268,13 +348,14 @@ function pollSuccess(dataInner, dataInnerPass)
 			var arrayOfFiltersLength =  arrayOfFilters.length;
 			for(var i = 0; i < arrayOfFiltersLength; i++)
 			{
-				if(branchName.includes(arrayOfFilters[i]))
+				var branchNameTMP = branchName;
+				while(branchNameTMP.includes(arrayOfFilters[i]))
 				{
-					var numForcalc = (branchName.indexOf(arrayOfFilters[i]) + arrayOfFilters[i].length);
+					var numForcalc = (branchNameTMP.indexOf(arrayOfFilters[i]) + arrayOfFilters[i].length);
 					var numForLinkIssue = "";
-					while(!isNaN(branchName.charAt(numForcalc)) && numForcalc != (branchName.length))
+					while(!isNaN(branchNameTMP.charAt(numForcalc)) && numForcalc != (branchNameTMP.length))
 					{
-						numForLinkIssue += branchName.charAt(numForcalc);
+						numForLinkIssue += branchNameTMP.charAt(numForcalc);
 						numForcalc++;
 					}
 
@@ -286,17 +367,13 @@ function pollSuccess(dataInner, dataInnerPass)
 							dataBranchForFile += " "+link;
 						}
 					}
+					branchNameTMP = branchNameTMP.substring(numForcalc);
 				}
 			}
 		}
 		dataBranchForFile += '</span>';
-
-
-	    document.getElementById(dataInner['idName']).outerHTML = dataBranchForFile;
-	    document.getElementById(dataInner['idName']+'Update').outerHTML = dataBranchForFileUpdateTime;
-	    document.getElementById(dataInner['idName']+'Stats').outerHTML = dataBranchForFileStats;
-	    var nameForBackground = "innerFirstDevBox"+dataInner['idName'];
-	    var dataToFilterBy = dataInner['branch']; 
+		var nameForBackground = "innerFirstDevBox"+noSpaceName;
+	    dataToFilterBy = dataInner['branch']; 
 	    if(branchColorFilter == "authorName")
 	    {
 	    	dataToFilterByArray = dataBranchForFileStats.split("<br>");
@@ -310,25 +387,123 @@ function pollSuccess(dataInner, dataInnerPass)
 	    	dataToFilterByArray = dataToFilterByArray[0].split("</b>");
 	    	dataToFilterBy = $.trim(dataToFilterByArray[1]); 
 	    }
-	    filterBGColor(dataToFilterBy, nameForBackground);
+	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
+		{
+			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,false,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
+		}
+		else
+		{
+			arrayOfWatchFilters[noSpaceName][0] = dataBranchForFile;
+			arrayOfWatchFilters[noSpaceName][1] = dataBranchForFileUpdateTime;
+			arrayOfWatchFilters[noSpaceName][2] = dataBranchForFileStats;
+			if(arrayOfWatchFilters[noSpaceName][3] == true)
+			{
+				//was error
+				arrayOfWatchFilters[noSpaceName][3] = false;
+			}
+
+		}
+		
+		filterBGColor(dataToFilterBy, nameForBackground, 1);
+		arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
+		//custom message stuff
+		(Object.values(dataInner).indexOf('messageTextEnabled') > -1)
+		{
+
+			var dateForEnd = dataInner['datePicker'];
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth()+1; //January is 0!
+			var yyyy = today.getFullYear();
+
+			if(dd<10) {
+			    dd='0'+dd
+			} 
+
+			if(mm<10) {
+			    mm='0'+mm
+			} 
+
+			today = mm+'/'+dd+'/'+yyyy;
+
+			if(dataInner['messageTextEnabled'] == 'true')
+			{
+				arrayOfWatchFilters[noSpaceName][5] = true;
+				arrayOfWatchFilters[noSpaceName][6] = dataInner['messageText'];
+				document.getElementById(noSpaceName+'NoticeMessage').innerHTML = dataInner['messageText'];
+			}
+			else
+			{
+				arrayOfWatchFilters[noSpaceName][5] = false;
+				arrayOfWatchFilters[noSpaceName][6] = null;
+				document.getElementById(noSpaceName+'NoticeMessage').innerHTML = "";
+				document.getElementById(noSpaceName+'NoticeMessage').style.display = "none";
+			}
+			if(dataInner['enableBlockUntilDate'] == 'true' && dateForEnd >= today)
+			{
+				arrayOfWatchFilters[noSpaceName][7] = true;
+				arrayOfWatchFilters[noSpaceName][8] = dataInner['datePicker'];
+				document.getElementById(noSpaceName+'NoticeMessage').innerHTML += " Blocking poll requests untill: "+dataInner['datePicker'];
+				document.getElementById(noSpaceName+'spinnerDiv').style.display = "none";
+			}
+			else
+			{
+				arrayOfWatchFilters[noSpaceName][7] = false;
+			}
+			if(dataInner['messageTextEnabled'] == 'true' || dataInner['enableBlockUntilDate'] == 'true')
+			{
+				document.getElementById(noSpaceName+'yellowWarning').style.display = "inline-block";
+				document.getElementById(noSpaceName+'NoticeMessage').style.display = "inline-block";
+			}
+			else
+			{
+				document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
+				document.getElementById(noSpaceName+'NoticeMessage').style.display = "none";
+			}
+		}
 	}
 	else
 	{
+		var errorMessage = "No Data Recieved from server. Probably could not execute command";
+		if(dataInner['branch'] == 'Location var is too long.')
+		{
+			errorMessage = "Location var is too long.";
+		}
 		//assume no data was recieved
-
-
-	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
-    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
-    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
-    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">No Data Recieved from server. Probably could not execute command</span>';
-    document.getElementById(noSpaceName).outerHTML = dataBranchForFile;
-    document.getElementById(noSpaceName+'Update').outerHTML = dataBranchForFileUpdateTime;
-    document.getElementById(noSpaceName+'Stats').outerHTML = dataBranchForFileStats;
-    var nameForBackground = "innerFirstDevBox"+noSpaceName;
-    filterBGColor('error', nameForBackground);
-
-
+		document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
+		document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
+		document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error',errorMessage)};
+	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
+	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
+	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">'+errorMessage+'</span>';
+	    var nameForBackground = "innerFirstDevBox"+noSpaceName;
+	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
+		{
+			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
+		}
+		else
+		{
+			if(arrayOfWatchFilters[noSpaceName][3] == false)
+			{
+				//new error
+				arrayOfWatchFilters[noSpaceName][3] = true;
+				filterBGColor('error', nameForBackground, 0.5);
+			}
+			arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
+			arrayOfWatchFilters[noSpaceName][5] = false;
+		}
 	}
+	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
+	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
+	pollCompleteLogic();
+}
+
+function displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats)
+{
+	document.getElementById(noSpaceName+'Stats').style.display = "block";
+	document.getElementById(noSpaceName).outerHTML = dataBranchForFile;
+	document.getElementById(noSpaceName+'Update').outerHTML = dataBranchForFileUpdateTime;
+	document.getElementById(noSpaceName+'Stats').outerHTML = dataBranchForFileStats;
 }
 
 function reverseString(str)
@@ -337,10 +512,11 @@ function reverseString(str)
 }
 
 
-function filterBGColor(filterName, idName)
+function filterBGColor(filterName, idName, opacity)
 {
 	var newBG = false;
 	var filterByThisArray = [];
+	var defaultColor = "#aaaaaa";
 	if (branchColorFilter == "branchName")
 	{
 		filterByThisArray = errorAndColorArray;
@@ -362,7 +538,14 @@ function filterBGColor(filterName, idName)
 			{
 				if(filterName.includes(property) && newBG != true)
 				{
-					document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
+					if(opacity != 1)
+					{
+						document.getElementById(idName).style.backgroundColor = $.xcolor.opacity((filterByThisArray[property].color), (document.getElementById(idName).style.backgroundColor), opacity);
+					}
+					else
+					{
+						document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
+					}
 					newBG = true;
 				}
 			}
@@ -370,7 +553,14 @@ function filterBGColor(filterName, idName)
 			{
 				if(filterName == property)
 				{
-					document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
+					if(opacity != 1)
+					{
+						document.getElementById(idName).style.backgroundColor = $.xcolor.opacity((filterByThisArray[property].color), (document.getElementById(idName).style.backgroundColor), opacity);
+					}
+					else
+					{
+						document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
+					}
 					newBG = true;
 				}
 			}
@@ -378,7 +568,7 @@ function filterBGColor(filterName, idName)
 	}
 	if(!newBG)
 	{
-		document.getElementById(idName).style.backgroundColor = "#aaaaaa";
+		document.getElementById(idName).style.backgroundColor = defaultColor;
 	}
 }
 
@@ -452,10 +642,16 @@ function endRefreshAction(refreshImage, status)
 	}
 }
 
-
-poll();
-pollingRate = pollingRate * 60000; 
-setInterval(pollTimed, pollingRate);
+$( document ).ready(function()
+{
+	for (var i = 0; i <= numberOfLogs; i++)
+	{
+		checkLogHog(i);
+	}
+	poll();
+	pollingRate = pollingRate * 60000; 
+	setInterval(pollTimed, pollingRate);
+});
 
 if (autoCheckUpdate == true)
 {
@@ -628,17 +824,28 @@ function dropdownShow(nameOfElem) {
     if(document.getElementById("dropdown-"+nameOfElem).style.display == 'block')
     {
     	$('.dropdown-content').hide();
+    	$('.dropdown-content').css('margin-top',"0px");
     }
     else
     {
     	$('.dropdown-content').hide();
-    	document.getElementById("dropdown-"+nameOfElem).style.display = 'block';
+    	var currentElement = document.getElementById("dropdown-"+nameOfElem);
+    	currentElement.style.display = 'block';
+    	currentElement.style.marginTop = "0px";
+    	var elementLowestPosition = (currentElement.getBoundingClientRect().top+currentElement.offsetHeight);
+    	var heightWindow = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    	if(elementLowestPosition > heightWindow)
+    	{
+    		currentElement.style.marginTop = "-"+(currentElement.offsetHeight+25)+"px";
+    	}
     }
 }
 
 window.onclick = function(event) {
-	if (!event.target.matches('.expandMenu')) {
+	if (!event.target.matches('.expandMenu')) 
+	{
 		$('.dropdown-content').hide();
+		$('.dropdown-content').css('margin-top',"0px");
 	}
 }
 

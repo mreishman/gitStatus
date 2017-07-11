@@ -8,8 +8,14 @@ if(file_exists('../../../local/layout.php'))
 	require_once('../../../local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
-
-require_once($baseUrl.'conf/config.php');
+if(file_exists($baseUrl.'conf/config.php'))
+{
+	require_once($baseUrl.'conf/config.php');
+}
+else
+{
+	$config = array();
+}
 require_once('../../../core/conf/config.php'); 
 require_once('../loadVars.php');
 
@@ -32,6 +38,10 @@ require_once('../loadVars.php');
 			'checkForIssueCustom'	=> '".$checkForIssueCustom."',
 			'checkForIssueInCommit' => '".$checkForIssueInCommit."',
 			'branchColorFilter'	=> '".$branchColorFilter."',
+			'messageTextEnabled'	=> '".$messageTextEnabled."',
+			'messageText' => '".$messageText."',
+			'enableBlockUntilDate'	=> '".$enableBlockUntilDate."',
+			'datePicker'	=> '".$datePicker."',
 			".$arrayFilterAll."
 			'watchList' => array(
 			".$arrayWatchList.")

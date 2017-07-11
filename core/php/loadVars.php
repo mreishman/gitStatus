@@ -20,7 +20,14 @@ if(file_exists($varToIndexDir.'local/layout.php'))
   require_once($varToIndexDir.'local/layout.php');
   $baseUrl .= $currentSelectedTheme."/";
 }
-require_once($baseUrl.'conf/config.php'); 
+if(file_exists($baseUrl.'conf/config.php'))
+{
+	require_once($baseUrl.'conf/config.php');
+}
+else
+{
+	$config = array();
+}
 require_once($varToIndexDir.'core/conf/config.php');
 
 
@@ -228,6 +235,56 @@ else
 {
 	$branchColorFilter = $defaultConfig['branchColorFilter'];
 }
+if(isset($_POST['messageTextEnabled']))
+{
+	$messageTextEnabled = $_POST['messageTextEnabled'];
+	$messageTextEnabled = str_replace("'", "", $messageTextEnabled);
+}
+elseif(array_key_exists('messageTextEnabled', $config))
+{
+	$messageTextEnabled = $config['messageTextEnabled'];
+}
+else
+{
+	$messageTextEnabled = $defaultConfig['messageTextEnabled'];
+}
+if(isset($_POST['messageText']))
+{
+	$messageText = $_POST['messageText'];
+}
+elseif(array_key_exists('messageText', $config))
+{
+	$messageText = $config['messageText'];
+}
+else
+{
+	$messageText = $defaultConfig['messageText'];
+}
+if(isset($_POST['enableBlockUntilDate']))
+{
+	$enableBlockUntilDate = $_POST['enableBlockUntilDate'];
+}
+elseif(array_key_exists('enableBlockUntilDate', $config))
+{
+	$enableBlockUntilDate = $config['enableBlockUntilDate'];
+}
+else
+{
+	$enableBlockUntilDate = $defaultConfig['enableBlockUntilDate'];
+}
+if(isset($_POST['datePicker']))
+{
+	$datePicker = $_POST['datePicker'];
+}
+elseif(array_key_exists('datePicker', $config))
+{
+	$datePicker = $config['datePicker'];
+}
+else
+{
+	$datePicker = $defaultConfig['datePicker'];
+}
+
 
 
 $arrayWatchList = "";
