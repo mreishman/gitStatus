@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '1.3',
+	'version'		=> '1.4',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -18,6 +18,10 @@ $versionCheckArray = array(
 		'1.3'		=> array(
 			'branchName'	=> '1.3Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>New settings page for watch list / main settings.</li><li>Tabbed groups for servers</li><li>Back to top button when scrolled down on page</li><li>Added loading popup for some pages</li><li>Customize the color of branches by either<ul><li>Branch Name</li><li>Author Name</li><li>Comittee Name</li></ul></li><li>General Style Changes</li></ul></li></ul>'
+		),
+		'1.4'		=> array(
+			'branchName'	=> '1.4Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>Cached server info - saves a version for offline / errors</li><li>Adds ability to add custom text for servers in the overview</li><li>Adds ability to block requests to a server untill x date</li><li>Added setup on first launch</li></ul></li><li>Bug Fixes<ul><li>Adjusts position of dropdown menu when near edges of screen</li><li>Fixed issue where only the first -revert was tagged</li><li>Adjustments to the look of buttons.</li></ul></li></ul>'
 		),
 	)
 );
