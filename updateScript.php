@@ -1,6 +1,6 @@
 <?php
   
-$arrayOfFiles = array("about.php", "core_html_changelog.html","core_img_loading.gif","core_js_allPages.js","core_js_main.js","core_php_functions_logHog.php","core_php_saveFunctions_settingsdevAdvancedSave.php","core_php_saveFunctions_settingsDevBranch.php","core_php_templateFiles_allPages.php","core_php_templateFiles_sidebar.php","index.php","local_default_template_theme.css","settings.php","update.php");
+$arrayOfFiles = array("core_conf_config.php", "core_css_jquery-ui.css","core_html_changelog.html","core_js_angular.min.js","core_js_jquery.xcolor.min.js","core_js_jquery-ui.js","core_js_main.js","core_js_watchlist.js","core_php_functions_logHog.php","core_php_functions_gitBranchName.php","core_php_loadVars.php","core_php_saveFunctions_cachedStatus.php","core_php_saveFunctions_settingsSaveMain.php","core_php_templateFiles_colorBG.php","core_php_templateFiles_customMessage.php","core_php_templateFiles_devBoxSettings.php","core_php_templateFiles_issuesSearchVars.php","core_php_templateFiles_settingsMain.php","core_php_templateFiles_watchList.php","index.php","local_default_template_theme.css","settings.php","settings-watchList.php","setup_director.php","setup_setupProcessFile.php","setup_step1.php","setup_step2.php","setup_updateSetupStatus.php","setup_welcome.php","update.php");
 
 require_once("innerUpgradeStatus.php");
 
@@ -16,9 +16,16 @@ while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
   $varToIndexDir .= "../";        
 }
   
-if($currentFile == "core_img_loading.gif")
+if($currentFile == "core_conf_config.php")
 {
-   rename($varToIndexDir.$indexToExtracted."core_img_loading.jpg", $varToIndexDir.$indexToExtracted."core_img_loading.gif");
+   	if (!file_exists($varToIndexDir.'core/css')) 
+   	{
+    		mkdir($varToIndexDir.'core/css', 0777, true);
+	}
+	if (!file_exists($varToIndexDir.'setup/')) 
+   	{
+    		mkdir($varToIndexDir.'setup/', 0777, true);
+	}
 }
   
 //update innerUpgradeStatus file
