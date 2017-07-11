@@ -154,6 +154,7 @@ function pollCompleteLogic()
 	counterForSave--;
 	if(counterForSave < 1)
 	{
+		document.getElementById('loadingSpinnerMain').style.display = "block";
 		if(!jQuery.isEmptyObject(arrayOfWatchFilters))
 		{
 			//save object after poll
@@ -168,6 +169,7 @@ function pollCompleteLogic()
 				data: data,
 				type: 'POST',
 				success: function(data){
+					document.getElementById('loadingSpinnerMain').style.display = "none";
 					}
 				});
 			}(data));

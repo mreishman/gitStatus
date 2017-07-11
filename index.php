@@ -135,6 +135,9 @@ else
 			<div style="display: inline-block;" >
 				<a href="#" class="back-to-top" style="color:#000000;">Back to Top</a>
 			</div>
+			<div style="display: inline-block;" >
+				<img id="loadingSpinnerMain" class='menuImage' height="30px" style="display: none;" src="core/img/loading.gif">
+			</div>
 		</div>
 		<div class="menuSections" >
 			<div class="buttonSelectorOuter" >
