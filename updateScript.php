@@ -6,6 +6,8 @@ require_once("innerUpgradeStatus.php");
 
 if($innerUpdateProgress['currentFile'] < sizeOf($arrayOfFiles))
 {
+	
+	sleep(30);
  
 $currentFile = $arrayOfFiles[$innerUpdateProgress['currentFile']]; 
 $indexToExtracted = "update/downloads/updateFiles/extracted/";  
