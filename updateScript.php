@@ -6,9 +6,7 @@ require_once("innerUpgradeStatus.php");
 
 if($innerUpdateProgress['currentFile'] < sizeOf($arrayOfFiles))
 {
-	
-	sleep(30);
- 
+sleep(2); 
 $currentFile = $arrayOfFiles[$innerUpdateProgress['currentFile']]; 
 $indexToExtracted = "update/downloads/updateFiles/extracted/";  
 $varToIndexDir = "";
@@ -74,7 +72,7 @@ $writtenTextTofile = "<?php
 
 file_put_contents($varToIndexDir.$indexToExtracted."innerUpgradeStatus.php", $writtenTextTofile);  
 
-  
+sleep(2);  
 }
 else
 {
