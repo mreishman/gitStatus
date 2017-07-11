@@ -28,7 +28,10 @@ if(!file_exists($baseUrl.'conf/config.php'))
 require_once($baseUrl.'conf/config.php'); 
 require_once('core/conf/config.php');
 require_once('core/php/configStatic.php');  
-require_once('core/conf/cachedStatus.php');  
+if(file_exists('core/conf/cachedStatus.php'))
+{ 
+	require_once('core/conf/cachedStatus.php');  
+}
 $version = explode('.', $configStatic['version']);
 $newestVersion = explode('.', $configStatic['newestVersion']);
 
