@@ -17,7 +17,10 @@ function clean_url($url) {
 if(!file_exists($baseUrl.'conf/config.php'))
 {
 	$partOfUrl = clean_url($_SERVER['REQUEST_URI']);
-	$partOfUrl = substr($partOfUrl, 0, strpos($partOfUrl, 'setup'));
+	if(strpos($partOfUrl, 'index'))
+	{
+		$partOfUrl = substr($partOfUrl, 0, strpos($partOfUrl, 'index'));
+	}
 	$url = "http://" . $_SERVER['HTTP_HOST'] .$partOfUrl ."setup/welcome.php";
 	header('Location: ' . $url, true, 302);
 	exit();
