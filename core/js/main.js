@@ -1,3 +1,5 @@
+var counterForSave = numberOfLogs+1;
+
 function checkLogHog(logHogI)
 {
 	var urlForSend = '/status/core/php/functions/logHog.php?format=json'
@@ -38,36 +40,9 @@ function logHogSuccess(data)
 
 function poll(all = -1)
 {
-	if(!jQuery.isEmptyObject(arrayOfWatchFilters))
-	{
-		//save object before poll
-		var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
-		var data = {arrayOfdata: arrayOfWatchFilters, all: all};
-		(function(_data){
-
-			$.ajax({
-			url: urlForSend,
-			dataType: 'json',
-			global: false,
-			data: data,
-			type: 'POST',
-			success: function(data){
-				pollTwo(_data['all']);
-			}
-		});
-
-			}(data));
-	}
-	else
-	{
-		pollTwo(all);
-	}	
-}
-
-function pollTwo(all)
-{
 	if(all == '-1')
 	{
+		counterForSave = numberOfLogs+1;
 		var arrayOfFilesLength = arrayOfFiles.length
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
@@ -76,6 +51,7 @@ function pollTwo(all)
 	}
 	else
 	{
+		counterForSave = 1;
 		tryHTTPForPollRequest(all);
 	}
 }
@@ -173,6 +149,32 @@ function showPopupWithMessage(type, message)
 	document.getElementById('popupContentInnerHTMLDiv').innerHTML = "<div class='devBoxTitle' ><b>"+type+"</b></div><br><br><div style='width:100%;text-align:center;'>"+message+"<br><br><a class='buttonButton' onclick='hidePopup();'>Ok</a></div>";
 }
 
+function pollCompleteLogic()
+{
+	counterForSave--;
+	if(counterForSave < 1)
+	{
+		if(!jQuery.isEmptyObject(arrayOfWatchFilters))
+		{
+			//save object after poll
+			var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
+			var data = {arrayOfdata: arrayOfWatchFilters, all: all};
+			(function(_data){
+
+				$.ajax({
+				url: urlForSend,
+				dataType: 'json',
+				global: false,
+				data: data,
+				type: 'POST',
+				success: function(data){
+					}
+				});
+			}(data));
+		}
+	}
+}
+
 function pollFailure(dataInner, dataInnerPass)
 {
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
@@ -208,6 +210,7 @@ function pollFailure(dataInner, dataInnerPass)
 		arrayOfWatchFilters[noSpaceName][5] = false;
 	}
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
+	pollCompleteLogic();
 }
 
 function pollSuccess(dataInner, dataInnerPass)
@@ -490,6 +493,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
+	pollCompleteLogic();
 }
 
 function displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats)
@@ -638,7 +642,7 @@ function endRefreshAction(refreshImage, status)
 
 $( document ).ready(function()
 {
-	for (var i = 0; i < numberOfLogs; i++)
+	for (var i = 0; i <= numberOfLogs; i++)
 	{
 		checkLogHog(i);
 	}
