@@ -159,7 +159,7 @@ function pollCompleteLogic()
 		{
 			//save object after poll
 			var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
-			var data = {arrayOfdata: arrayOfWatchFilters, all: all};
+			var data = {arrayOfdata: arrayOfWatchFilters};
 			(function(_data){
 
 				$.ajax({
@@ -168,7 +168,7 @@ function pollCompleteLogic()
 				global: false,
 				data: data,
 				type: 'POST',
-				success: function(data){
+				complete: function(data){
 					document.getElementById('loadingSpinnerMain').style.display = "none";
 					}
 				});
