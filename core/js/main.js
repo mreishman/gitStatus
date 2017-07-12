@@ -151,10 +151,13 @@ function showPopupWithMessage(type, message)
 
 function pollCompleteLogic()
 {
+	document.getElementById('loadingSpinnerMain').style.display = "block";
+	var loadingSpinnerText = document.getElementById('loadingSpinnerText');
+	loadingSpinnerText.innerHTML = ((counterForSave-1))
 	counterForSave--;
 	if(counterForSave < 1)
 	{
-		document.getElementById('loadingSpinnerMain').style.display = "block";
+		loadingSpinnerText.innerHTML = "Saving..."
 		if(!jQuery.isEmptyObject(arrayOfWatchFilters))
 		{
 			//save object after poll
@@ -170,6 +173,7 @@ function pollCompleteLogic()
 				type: 'POST',
 				complete: function(data){
 					document.getElementById('loadingSpinnerMain').style.display = "none";
+					loadingSpinnerText.innerHTML = ""
 					}
 				});
 			}(data));

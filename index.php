@@ -144,6 +144,7 @@ else
 			<div style="display: inline-block;" >
 				<img id="loadingSpinnerMain" class='menuImage' height="30px" style="display: none;" src="core/img/loading.gif">
 			</div>
+			<span id="loadingSpinnerText" style="color: white; display: inline-block;" ></span>
 		</div>
 		<div class="menuSections" >
 			<div class="buttonSelectorOuter" >
