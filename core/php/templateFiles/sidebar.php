@@ -61,7 +61,7 @@
 				<?php  if($levelOfUpdate == 1){echo '<img src="core/img/yellowWarning.png" height="10px">';} ?> <?php if($levelOfUpdate == 2 || $levelOfUpdate == 3){echo '<img src="core/img/redWarning.png" height="10px">';} ?>
 				</li>
 				<?php if(file_exists('../monitor/index.php')): ?>
-					<li id="monitorLink"  onclick="window.location.href =  '../status/';" >Monitor</li>
+					<li id="monitorLink"  onclick="window.location.href =  '../monitor/';" >Monitor</li>
 				<?php endif;?>
 				<?php if(file_exists('../Log-Hog/index.php')): ?>
 					<li id="Log-HogLink"  onclick="window.location.href =  '../Log-Hog/';" >Log-Hog</li>
