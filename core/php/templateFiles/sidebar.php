@@ -56,9 +56,16 @@
 				<li id="menuBarLeftSettingsWatchList" onclick="window.location.href = 'settings-watchList.php';" >
 				Watch List
 				</li>
+				<?php if($loginAuthType != 'disabled'): ?>
+					<li id="menuBarLeftSettingsLDPA" onclick="window.location.href = 'settings-auth.php';" >
+					LDPA
+					</li>
+				<?php endif; ?>
 				<li id="menuBarLeftUpdate" onclick="window.location.href = 'update.php';" >
 				Update
 				<?php  if($levelOfUpdate == 1){echo '<img src="core/img/yellowWarning.png" height="10px">';} ?> <?php if($levelOfUpdate == 2 || $levelOfUpdate == 3){echo '<img src="core/img/redWarning.png" height="10px">';} ?>
+				</li>
+				<li style="height: 5px; border-top: 1px solid white;" >
 				</li>
 				<?php if(file_exists('../monitor/index.php')): ?>
 					<li id="monitorLink"  onclick="window.location.href =  '../monitor/';" >Monitor</li>

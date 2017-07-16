@@ -12,6 +12,7 @@ $defaultConfig = array(
 	'expSettingsAvail'	=> 'true',
 	'defaultViewBranch'	=> 'Standard',
 	'defaultViewBranchCookie'	=> 'false',
+	'loginAuthType'	=> 'disabled',
 	'errorAndColorArray'	=> array(
 		'error'	=> array(
 			'color'	=> 'C33',
