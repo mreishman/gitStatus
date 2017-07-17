@@ -37,7 +37,7 @@ foreach ($defaultConfig as $key => $value)
 	{
 		$$key = $_POST[$key];
 	}
-	elseif(array_key_exists($key, $config) && $loadCustomConfigVars)
+	elseif(array_key_exists($key, $config))
 	{
 		$$key = $config[$key];
 	}

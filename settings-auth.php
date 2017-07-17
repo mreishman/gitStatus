@@ -72,6 +72,10 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	}
 }
 
+
+#tmpvars
+$ldapCacheType = 'none';
+
 require_once('core/php/loadVars.php'); ?>
 <!doctype html>
 <head>
@@ -95,7 +99,7 @@ require_once('core/php/loadVars.php'); ?>
 			</div>
 		</div>	
 	<div id="main">
-	<?php if($loginAuthType = 'LDAP'): ?>
+	<?php if($loginAuthType == 'LDAP'): ?>
 		<div class="firstBoxDev">
 			<div class="innerFirstDevBox"  >
 				<div class="devBoxTitle">
@@ -104,7 +108,7 @@ require_once('core/php/loadVars.php'); ?>
 				<div class="devBoxContent">
 					<ul class="settingsUl">
 						<li>
-							<span class="leftSpacingserverNames" >Default Domain</span>
+							<span>Default Domain</span>
 							<input type="text" name="LPADdefaultDomain" value="example.com">
 						</li>
 						<li>
@@ -229,11 +233,7 @@ require_once('core/php/loadVars.php'); ?>
 					<b>No Auth Type Selected</b> 
 				</div>
 				<div class="devBoxContent">
-					<ul class="settingsUl">
-						<li>
-						Go back to settings to select an auth type.
-						</li>
-					</ul>
+					Go back to settings to select an auth type.
 				</div>
 			</div>
 		</div>
