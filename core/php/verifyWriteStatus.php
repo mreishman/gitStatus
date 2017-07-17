@@ -6,12 +6,23 @@ function checkForUpdate($filePath)
 
 	if(!file_exists("test"))
 	{
-		header('Location: '."../templateFiles/error.php?error=550&page=".$filePath, TRUE, 302); /* Redirect browser */
-		exit();
+		if(!isset($_POST['location']))
+		{
+			header('Location: '."../templateFiles/error.php?error=550&page=".$filePath, TRUE, 302); /* Redirect browser */
+			exit();
+		}
 	}
 	if(is_dir("test"))
 	{
-		rmdir("test");
+		try 
+		{
+			rmdir("test");
+		}
+		catch (Exception $e) 
+		{
+			
+		}
+		
 	}
 }
 ?>
