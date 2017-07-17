@@ -108,20 +108,15 @@ require_once('core/php/loadVars.php'); ?>
 							<input type="text" name="LPADdefaultDomain" value="example.com">
 						</li>
 						<li>
-							<span class="leftSpacingserverNames" >Schema Format</span>
-							<input type="text" name="LPADschemaFormat" value="yml">
-						</li>
-						<li>
-							<span class="leftSpacingserverNames" >Schema Folder</span>
-							<input type="text" name="LPADschemaFolder" value="core/schema">
-						</li>
-						<li>
 							<span class="leftSpacingserverNames" >Cache Type</span>
-							<select name="lpadCacheType">
-	  						<option <?php if($lpadCacheType == 'stash'){echo "selected";} ?> value="disabled">stash</option>
-	  						<option <?php if($lpadCacheType == 'doctrine'){echo "selected";} ?> value="doctrine">doctrine</option>
-	  						<option <?php if($lpadCacheType == 'none'){echo "selected";} ?> value="none">none</option>
+							<select name="ldapCacheType">
+	  						<option <?php if($ldapCacheType == 'stash'){echo "selected";} ?> value="disabled">stash</option>
+	  						<option <?php if($ldapCacheType == 'doctrine'){echo "selected";} ?> value="doctrine">doctrine</option>
+	  						<option <?php if($ldapCacheType == 'none'){echo "selected";} ?> value="none">none</option>
 						</select>
+						</li>
+						<li>
+							<a class="buttonButton">Clear LDAP</a>
 						</li>
 						<?php 
 						# Optional: When using the LdapManager and there are multiple domains configured, the following domain
@@ -286,9 +281,26 @@ require_once('core/php/loadVars.php'); ?>
 }
 </script>
 <script type="text/javascript">
+
+var currentServerCount = 1;
+
 	function newDomainLDAP()
 	{
 
+		newHTML = "<li>Domain Name: <input type='text' name='domain_name_"+currentServerCount+"' ></li>";
+		newHTML += "<li>Username: <input type='text' name='username_"+currentServerCount+"' ></li>";
+		newHTML += "<li>Password: <input type='text' name='password_"+currentServerCount+"' ></li>";
+		newHTML += "<li>Default Naming Context: <input type='text' name='default_naming_context"+currentServerCount+"' ></li>";
+
+		currentServerCount++;
+	}
+
+	function removeDomainInLDAP()
+	{
+
+
+
+		currentServerCount--;
 	}
 </script>
 </body>
