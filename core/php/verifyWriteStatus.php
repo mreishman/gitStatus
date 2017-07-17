@@ -9,7 +9,9 @@ function checkForUpdate($filePath)
 		header('Location: '."../templateFiles/error.php?error=550&page=".$filePath, TRUE, 302); /* Redirect browser */
 		exit();
 	}
-	
-	rmdir("test");
+	if(is_dir("test"))
+	{
+		rmdir("test");
+	}
 }
 ?>
