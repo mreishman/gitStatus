@@ -36,6 +36,7 @@ if(file_exists($baseUrl.'conf/config.php'))
 	<link rel="icon" type="image/png" href="../core/img/favicon.png" />
 </head>
 <body>
+<?php readfile('../core/html/popup.html') ?>	
 <div class="firstBoxDev" style="width: 90%; margin: auto; margin-right: auto; margin-left: auto; display: block; height: auto; margin-top: 15px;" >
 	<div class="devBoxTitle">
 		<h1>Thank you for downloading gitStatus.</h1>
@@ -60,28 +61,6 @@ if(file_exists($baseUrl.'conf/config.php'))
 		//change setupProcess to page1
 		document.getElementById('defaultVarsForm').submit();
 	}
-	function updateStatus(status)
-	{
-		var urlForSend = './updateSetupStatus.php?format=json'
-		var data = {status: status };
-		$.ajax({
-				  url: urlForSend,
-				  dataType: 'json',
-				  data: data,
-				  type: 'POST',
-		success: function(data)
-		{
-			if(status == "finished")
-			{
-				defaultSettings();
-			}
-			else
-			{
-				customSettings();
-			}
-	  	},
-			});
-		return false;
-	}
 </script>
+<script src="stepsJavascript.js"></script>
 </html>
