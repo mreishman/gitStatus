@@ -251,12 +251,35 @@ $versionCheck = '"'.$configStatic['version'].'"';
 </form>
 <?php if(!$noUpdateNeeded): ?>
 	<script type="text/javascript"> 
+		var updateAction = '<?php echo $updateAction; ?>'
 		var headerForUpdate = document.getElementById('headerForUpdate');
+		var timer;
 		setInterval(function() {headerForUpdate.innerHTML = headerForUpdate.innerHTML + ' .';}, '100');
 		if("Finished Updating to " != "<?php echo $updateAction;?>" || "<?php echo $configStatic['newestVersion'] ;?>" != "<?php echo $configStatic['version']; ?>")
 		{
-		document.getElementById("formForAction").submit();
+			timer = setInterval(function(){ajaxCheck();},3000);
 		}
+
+		function ajaxCheck()
+ 		{
+ 			var urlForSend = './updateActionCheck.php?format=json'
+ 			var data = {status: updateAction };
+ 			$.ajax(
+ 			{
+ 				url: urlForSend,
+ 				dataType: 'json',
+ 				data: data,
+ 				type: 'POST',
+ 				success: function(data)
+ 				{
+ 					if(data == updateAction)
+ 					{
+ 						clearInterval(timer);
+ 						document.getElementById("formForAction").submit();
+ 					}
+ 			  	},
+ 			});
+  		}		  		}
 	</script> 
 <?php endif; ?>
 
