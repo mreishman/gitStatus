@@ -9,7 +9,7 @@
 <?php readfile('../core/html/popup.html') ?>	
 <script type="text/javascript">
 $( document ).ready(function() {
-displayLoadingPopup();
+displayLoadingPopup("../core/img/");
 var count = 0; 
 var timer = setInterval(function(){ajaxCheck();},3000);
 	function ajaxCheck()
