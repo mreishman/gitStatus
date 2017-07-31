@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '1.4',
+	'version'		=> '1.4.1',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -22,6 +22,10 @@ $versionCheckArray = array(
 		'1.4'		=> array(
 			'branchName'	=> '1.4Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>Cached server info - saves a version for offline / errors</li><li>Adds ability to add custom text for servers in the overview</li><li>Adds ability to block requests to a server untill x date</li><li>Added setup on first launch</li></ul></li><li>Bug Fixes<ul><li>Adjusts position of dropdown menu when near edges of screen</li><li>Fixed issue where only the first -revert was tagged</li><li>Adjustments to the look of buttons.</li></ul></li></ul>'
+		),
+		'1.4.1'		=> array(
+			'branchName'	=> '1.4.1Update',
+			'releaseNotes'  => '<ul><li>Fixes issues with cache saving</li><li>Fixed bug with errors on checking branch info from remove servers</li><li>Bug fixes for setup process</li><li>Bug fixes for update process</li></ul>'
 		),
 	)
 );
