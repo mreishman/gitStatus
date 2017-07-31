@@ -49,6 +49,7 @@ require_once('../core/php/loadVars.php'); ?>
 	</style>
 </head>
 <body>
+<?php readfile('../core/html/popup.html') ?>	
 <div class="firstBoxDev" style="width: 90%; margin: auto; margin-right: auto; margin-left: auto; display: block; height: auto; margin-top: 15px;" >
 	<div class="devBoxTitle">
 		<h1>Step 1 of <?php echo $counterSteps; ?></h1>
@@ -82,31 +83,8 @@ require_once('../core/php/loadVars.php'); ?>
 		document.getElementById('settingsMainWatch').action = "../core/php/saveFunctions/settingsSaveMain.php";
 		document.getElementById('settingsMainWatch').submit();
 	}
-	function updateStatus(status)
-	{
-		var urlForSend = './updateSetupStatus.php?format=json'
-		var data = {status: status };
-		$.ajax({
-				  url: urlForSend,
-				  dataType: 'json',
-				  data: data,
-				  type: 'POST',
-		success: function(data)
-		{
-			if(status == "finished")
-			{
-				defaultSettings();
-			}
-			else
-			{
-				customSettings();
-			}
-	  	},
-			});
-		return false;
-	}
 
-	var countOfWatchList = <?php echo $i; ?>;
+var countOfWatchList = <?php echo $i; ?>;
 var countOfAddedFiles = 0;
 var countOfClicks = 0;
 var locationInsert = "newRowLocationForWatchList";
@@ -117,4 +95,5 @@ var arrayOfKeysNonEnc = JSON.parse(arrayOfKeysJsonEncoded);
 
 </script>
 <script src="../core/js/watchlist.js"></script>
+<script src="stepsJavascript.js"></script>
 </html>
