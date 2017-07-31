@@ -279,7 +279,7 @@ $versionCheck = '"'.$configStatic['version'].'"';
  					}
  			  	},
  			});
-  		}		  		}
+  		}
 	</script> 
 <?php endif; ?>
 
