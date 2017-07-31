@@ -1,6 +1,6 @@
 <?php
   
-$arrayOfFiles = array("about.php", "core_html_changelog.html","core_img_loading.gif","core_js_allPages.js","core_js_main.js","core_php_functions_logHog.php","core_php_saveFunctions_settingsdevAdvancedSave.php","core_php_saveFunctions_settingsDevBranch.php","core_php_templateFiles_allPages.php","core_php_templateFiles_sidebar.php","index.php","local_default_template_theme.css","settings.php","update.php");
+$arrayOfFiles = array("core_html_changelog.html","core_php_saveFunctions_cachedStatus.php","core_php_verifyWriteStatus.php","setup_step1.php","setup_step2.php","setup_stepsJavascript.js","setup_welcome.php","update_redirectToWaitUntillUpdate.php","update_updateActionCheck.php","update_updateCheck.php","update_updater.php","core_template_theme.css");
 
 require_once("innerUpgradeStatus.php");
 
@@ -17,9 +17,12 @@ while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
   $varToIndexDir .= "../";        
 }
   
-if($currentFile == "core_img_loading.gif")
+if($currentFile == "core_html_changelog.html")
 {
-   rename($varToIndexDir.$indexToExtracted."core_img_loading.jpg", $varToIndexDir.$indexToExtracted."core_img_loading.gif");
+  	if (!file_exists($varToIndexDir.'/core/template/')) 
+   	{
+    		mkdir($varToIndexDir.'core/template/', 0777, true);
+	}
 }
   
 //update innerUpgradeStatus file
@@ -74,7 +77,8 @@ else
   
 updateProgressFile("Finished Running Update Script", "", "updateProgressFileNext.php", "");
 updateProgressFile("Finished Running Update Script", "", "updateProgressFile.php", "");  
-  
+  header( 'Location: ' .$varToIndexDir."update/redirectToWaitUntillUpdate.php");
+	  exit; 
 }
 
 
