@@ -1,0 +1,5 @@
+{
+    "require": {
+        "ldaptools/ldaptools": "^0.24.0"
+    }
+}

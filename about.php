@@ -72,7 +72,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 	}
 }
 
-?>
+require_once('core/php/loadVars.php'); ?>
 <!doctype html>
 <head>
 	<title>Git Status | About</title>
