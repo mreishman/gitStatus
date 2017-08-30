@@ -448,7 +448,7 @@ function pollSuccess(dataInner, dataInnerPass)
 			if(dataInner['monitor'] != "")
 			{
 				document.getElementById(noSpaceName+"MonitorOuter").style.display = "inline-block";
-  				document.getElementById(noSpaceName+"MonitorInner").href = "http://"+dataInner['loghog'];
+  				document.getElementById(noSpaceName+"MonitorInner").href = "http://"+dataInner['monitor'];
 			}
 		}
 	}
