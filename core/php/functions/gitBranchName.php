@@ -10,6 +10,28 @@ if(strlen(escapeshellarg($_POST['location'])) < 500)
 	$branchStats = substr($branchStats, 0, strpos($branchStats, "}"));
 	$date = date('j m Y');
 	$time = trim(shell_exec('date'));;
+	$loghog = "";
+	if(is_dir("../../../../Log-Hog"))
+	{
+		$loghog = $_POST['websiteBase']."/Log-Hog";
+	}
+	elseif(is_dir("../../../../loghog"))
+	{
+		$loghog = $_POST['websiteBase']."/loghog";
+	}
+	$monitor = "";
+	if(is_dir("../../../../monitor"))
+	{
+		$monitor = $_POST['websiteBase']."/monitor";
+	}
+	elseif(is_dir("../../../../Log-Hog/top"))
+	{
+		$monitor = $_POST['websiteBase']."/Log-Hog/top";
+	}
+	elseif(is_dir("../../../../loghog/top"))
+	{
+		$monitor = $_POST['websiteBase']."/loghog/top";
+	}
 	$response = array(
 		'branch' 	=> $branchName,
 		'idName'	=> $keyNoSpace,
@@ -20,6 +42,8 @@ if(strlen(escapeshellarg($_POST['location'])) < 500)
 		'messageText' => $messageText,
 		'enableBlockUntilDate'	=> $enableBlockUntilDate,
 		'datePicker'	=> $datePicker,
+		'loghog'		=> $loghog,
+		'monitor'		=> $monitor,
 		'otherFunctions'	=> ''
 	);
 }

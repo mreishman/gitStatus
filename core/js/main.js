@@ -1,24 +1,5 @@
 var counterForSave = numberOfLogs+1;
 
-function checkLogHog(logHogI)
-{
-	var urlForSend = '/status/core/php/functions/logHog.php?format=json'
-	var websiteBase = arrayOfFiles[logHogI][1];
-	var website = arrayOfFiles[logHogI][3];
-	var name = "branchNameDevBox1"+arrayOfFiles[logHogI][0];
-	name = name.replace(/\s/g, '_');
-	var data = {location: arrayOfFiles[logHogI][2], websiteBase: websiteBase, website: website, name: name};
-	$.ajax({
-	  url: urlForSend,
-	  dataType: 'json',
-	  data: data,
-	  type: 'POST',
-	  success: function(data){
-	  	logHogSuccess(data);
-	  },
-	});
-}
-
 function pollTimed()
 {
 	if(!pausePollFile)
@@ -26,17 +7,6 @@ function pollTimed()
 		poll();
 	}
 }
-
-function logHogSuccess(data)
-{
-	if(data['link'] != "null" && data['link'] != null)
-  	{
-  		//console.log(data['link'] + "   |   "+data['name'] + "   |   "+data['file_headers']);
-  		document.getElementById(data['name']+"LogHogOuter").style.display = "inline-block";
-  		document.getElementById(data['name']+"LogHogInner").href = data['link'];
-  	}
-}
-
 
 function poll(all = -1)
 {
@@ -96,7 +66,7 @@ function tryHttpActuallyPollLogic(count, name)
 {
 	var urlForSend = 'http://'+arrayOfFiles[count][1]+'/status/core/php/functions/gitBranchName.php?format=json';
 	document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
-	var data = {location: arrayOfFiles[count][2], name: name, githubRepo: arrayOfFiles[count][4], urlForSend: urlForSend};
+	var data = {location: arrayOfFiles[count][2], name: name, githubRepo: arrayOfFiles[count][4], urlForSend: urlForSend,websiteBase: arrayOfFiles[count][1]};
 		(function(_data){
 
 			$.ajax({
@@ -121,7 +91,7 @@ function tryHTTPSForPollRequest(data, _data)
 {
 	var urlForSend = _data.urlForSend;
 	urlForSend = urlForSend.replace("http","https");
-	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo};
+	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase};
 	
 		(function(_data){
 
@@ -465,6 +435,22 @@ function pollSuccess(dataInner, dataInnerPass)
 				document.getElementById(noSpaceName+'NoticeMessage').style.display = "none";
 			}
 		}
+
+		//Log-Hog / monitor
+		if(dataInner.hasOwnProperty("loghog"))
+		{
+			if(dataInner['loghog'] != "")
+			{
+				document.getElementById(noSpaceName+"LogHogOuter").style.display = "inline-block";
+  				document.getElementById(noSpaceName+"LogHogInner").href = "http://"+dataInner['loghog'];
+			}
+
+			if(dataInner['monitor'] != "")
+			{
+				document.getElementById(noSpaceName+"MonitorOuter").style.display = "inline-block";
+  				document.getElementById(noSpaceName+"MonitorInner").href = "http://"+dataInner['loghog'];
+			}
+		}
 	}
 	else
 	{
@@ -648,10 +634,6 @@ function endRefreshAction(refreshImage, status)
 
 $( document ).ready(function()
 {
-	for (var i = 0; i <= numberOfLogs; i++)
-	{
-		checkLogHog(i);
-	}
 	poll();
 	pollingRate = pollingRate * 60000; 
 	setInterval(pollTimed, pollingRate);
