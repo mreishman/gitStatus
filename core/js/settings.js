@@ -144,9 +144,9 @@ function clearCache()
 {
 	//ajax to php to empty cache
 	displayLoadingPopup();
-	var arrayOfWatchFilters = new Array();
 	var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
-	var data = {arrayOfdata: arrayOfWatchFilters};
+	var data = {clearArray: true};
+	console.log(data);
 	(function(_data)
 	{
 		$.ajax({
@@ -155,6 +155,10 @@ function clearCache()
 		global: false,
 		data: data,
 		type: 'POST',
+		success(data)
+		{
+			console.log(data);
+		},
 		complete: function(data)
 		{
 			verifyCacheClear();
@@ -167,7 +171,7 @@ function clearCache()
 function verifyCacheClear()
 {
 	cacheClearCount++;
-	if(cacheClearCount < 99)
+	if(cacheClearCount < 90)
 	{
 		//ajax to verify cache is cleared
 		var urlForSend = 'core/php/functions/getCache.php?format=json'
@@ -182,13 +186,14 @@ function verifyCacheClear()
 			type: 'POST',
 			success: function(data)
 			{
-				if(empty(data))
+				console.log(data);
+				if(!data)
 				{
 					cacheClearSuccess();
 				}
 				else
 				{
-					verifyCacheClear();
+					setTimeout(verifyCacheClear, 1000);
 				}
 			},
 			failure: function(data)
