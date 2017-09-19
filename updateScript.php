@@ -1,6 +1,6 @@
 <?php
   
-$arrayOfFiles = array("about.php", "core_html_changelog.html","core_img_loading.gif","core_js_allPages.js","core_js_main.js","core_php_functions_logHog.php","core_php_saveFunctions_settingsdevAdvancedSave.php","core_php_saveFunctions_settingsDevBranch.php","core_php_templateFiles_allPages.php","core_php_templateFiles_sidebar.php","index.php","local_default_template_theme.css","settings.php","update.php");
+$arrayOfFiles = array("core_conf_config.php", "core_html_changelog.html","core_js_main.js","core_js_settings.js","core_php_functions_getCache.php","core_php_loadVars.php","core_php_saveFunctions_cachedStatus.php","core_php_saveFunctions_settingsSaveMain.php","core_php_templateFiles_advancedSettings.php","core_php_templateFiles_settingsMain.php","settings.php","index.php");
 
 require_once("innerUpgradeStatus.php");
 
@@ -17,10 +17,6 @@ while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
   $varToIndexDir .= "../";        
 }
   
-if($currentFile == "core_img_loading.gif")
-{
-   rename($varToIndexDir.$indexToExtracted."core_img_loading.jpg", $varToIndexDir.$indexToExtracted."core_img_loading.gif");
-}
   
 //update innerUpgradeStatus file
 $newCount = $innerUpdateProgress['currentFile'] + 1;
