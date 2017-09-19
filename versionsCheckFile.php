@@ -27,8 +27,8 @@ $versionCheckArray = array(
 			'branchName'	=> '1.4.1Update',
 			'releaseNotes'  => '<ul><li>Fixes issues with cache saving</li><li>Fixed bug with errors on checking branch info from remove servers</li><li>Bug fixes for setup process</li><li>Bug fixes for update process</li></ul>'
 		),
-		'1.4.1'		=> array(
-			'branchName'	=> '1.4.1Update',
+		'1.4.2'		=> array(
+			'branchName'	=> '1.4.2Update',
 			'releaseNotes'  => '<ul><li>Added button to reset cache (if needed, under advanced)</li><li>Added button to enable / disable cache</li></ul>'
 		),
 	)
