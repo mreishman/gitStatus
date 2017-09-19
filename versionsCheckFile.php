@@ -29,7 +29,7 @@ $versionCheckArray = array(
 		),
 		'1.4.2'		=> array(
 			'branchName'	=> '1.4.2Update',
-			'releaseNotes'  => '<ul><li>Added button to reset cache (if needed, under advanced)</li><li>Added button to enable / disable cache</li></ul>'
+			'releaseNotes'  => '<ul><li>Added button to reset cache (if needed, under advanced)</li><li>Added button to enable / disable cache</li><li>Fixed update bug with version numbers and changelog</li></ul>'
 		),
 	)
 );
