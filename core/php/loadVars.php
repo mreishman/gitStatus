@@ -284,7 +284,18 @@ else
 {
 	$datePicker = $defaultConfig['datePicker'];
 }
-
+if(isset($_POST['cacheEnabled']))
+{
+	$cacheEnabled = $_POST['cacheEnabled'];
+}
+elseif(array_key_exists('cacheEnabled', $config))
+{
+	$cacheEnabled = $config['cacheEnabled'];
+}
+else
+{
+	$cacheEnabled = $defaultConfig['cacheEnabled'];
+}
 
 
 $arrayWatchList = "";

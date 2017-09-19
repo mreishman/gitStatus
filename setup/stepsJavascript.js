@@ -33,9 +33,9 @@ function verifyStatusChange(status)
 			type: 'POST',
 			success: function(data)
 			{
-				clearInterval(pollCheckForUpdate);
 				if(data == true)
 				{
+					clearInterval(pollCheckForUpdate);
 					if(status == "finished")
 					{
 						defaultSettings();

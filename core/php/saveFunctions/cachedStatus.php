@@ -3,7 +3,23 @@ $baseUrl = "../../../core/";
 $fileName = ''.$baseUrl.'conf/cachedStatus.php';
 
 $string = "";
+
+$boolForSave = true;
+
 if(isset($_POST['arrayOfdata']))
+{
+	$arrayOfdata = $_POST['arrayOfdata'];
+}
+elseif(isset($_POST['clearArray']))
+{
+	$arrayOfdata = array();
+}
+else
+{
+	$boolForSave = false;
+}
+
+if($boolForSave)
 {
 	foreach ($_POST['arrayOfdata'] as $key => $value) {
 		$key = str_replace("'", "", $key);

@@ -154,25 +154,28 @@ function pollCompleteLogic()
 	counterForSave--;
 	if(counterForSave < 1)
 	{
-		document.getElementById('loadingSpinnerMain').style.display = "block";
-		if(!jQuery.isEmptyObject(arrayOfWatchFilters))
+		if(cacheEnabled === "true")
 		{
-			//save object after poll
-			var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
-			var data = {arrayOfdata: arrayOfWatchFilters};
-			(function(_data){
+			document.getElementById('loadingSpinnerMain').style.display = "block";
+			if(!jQuery.isEmptyObject(arrayOfWatchFilters))
+			{
+				//save object after poll
+				var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
+				var data = {arrayOfdata: arrayOfWatchFilters};
+				(function(_data){
 
-				$.ajax({
-				url: urlForSend,
-				dataType: 'json',
-				global: false,
-				data: data,
-				type: 'POST',
-				complete: function(data){
-					document.getElementById('loadingSpinnerMain').style.display = "none";
-					}
-				});
-			}(data));
+					$.ajax({
+					url: urlForSend,
+					dataType: 'json',
+					global: false,
+					data: data,
+					type: 'POST',
+					complete: function(data){
+						document.getElementById('loadingSpinnerMain').style.display = "none";
+						}
+					});
+				}(data));
+			}
 		}
 	}
 }

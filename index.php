@@ -290,6 +290,7 @@ else
 			echo "var checkForIssueEndsWithNum = '".$checkForIssueEndsWithNum."';";
 			echo "var checkForIssueCustom = '".$checkForIssueCustom."';";
 			echo "var checkForIssueInCommit = '".$checkForIssueInCommit."';";
+			echo "var cacheEnabled = '".$cacheEnabled."';";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";
