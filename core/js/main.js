@@ -716,7 +716,7 @@ function pausePollFunction()
 {
 	pausePollFile = true;
 	document.getElementById('pauseImage').src="core/img/Play.png";
-	document.title = "Log Hog | Paused";
+	document.title = "Status | Paused";
 }
 
 function switchToStandardView() 
