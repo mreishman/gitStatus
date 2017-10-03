@@ -291,6 +291,7 @@ else
 			echo "var checkForIssueCustom = '".$checkForIssueCustom."';";
 			echo "var checkForIssueInCommit = '".$checkForIssueInCommit."';";
 			echo "var cacheEnabled = '".$cacheEnabled."';";
+			echo "var onlyRefreshVisible = '".$onlyRefreshVisible."';";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";

@@ -46,7 +46,20 @@ function poll(all = -1)
 		var arrayOfFilesLength = arrayOfFiles.length
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
-			tryHTTPForPollRequest(i);
+			var boolForRun = true;
+			if(onlyRefreshVisible === "true")
+			{
+				var name = "innerFirstDevBoxbranchNameDevBox1"+arrayOfFiles[i][0];
+				name = name.replace(/\s/g, '_');
+				if( document.getElementById(name).parentElement.style.display !== "none")
+				{
+					boolForRun = false;
+				}
+			}
+			if(boolForRun)
+			{
+				tryHTTPForPollRequest(i);
+			}
 		}
 	}
 	else

@@ -54,6 +54,15 @@
   						<option <?php if($cacheEnabled == 'false'){echo "selected";} ?> value="false">False</option>
 					</select>					
 				</li>
+				<li>
+					<span class="leftSpacingserverNames"> Refresh Visible</span>
+					
+					<select name="onlyRefreshVisible">
+						<option <?php if ($onlyRefreshVisible == 'true'){echo "selected";}?> value="true">True</option>
+						<option <?php if ($onlyRefreshVisible == 'false'){echo "selected";}?> value="false">False</option>
+					</select>
+					<p class="description" >Only refresh data for visible sites</p>
+				</li>
 			</ul>
 		</div>
 	</div>

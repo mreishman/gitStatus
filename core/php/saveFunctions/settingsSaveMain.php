@@ -32,6 +32,7 @@ require_once('../loadVars.php');
 			'developmentTabEnabled' => '".$developmentTabEnabled."',
 			'enableDevBranchDownload' => '".$enableDevBranchDownload."',
 			'defaultViewBranch'	=> '".$defaultViewBranch."',
+			'onlyRefreshVisible'	=> '".$onlyRefreshVisible."',
 			'cacheEnabled'	=>	'".$cacheEnabled."',
 			'defaultViewBranchCookie'	=> '".$defaultViewBranchCookie."',
 			'checkForIssueStartsWithNum'	=> '".$checkForIssueStartsWithNum."',
