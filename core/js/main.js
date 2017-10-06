@@ -108,6 +108,10 @@ function tryHTTPForPollRequest(count)
 function tryHttpActuallyPollLogic(count, name)
 {
 	var urlForSend = 'http://'+arrayOfFiles[count][1]+'/status/core/php/functions/gitBranchName.php?format=json';
+	if(arrayOfFiles[count][6] !== "")
+	{
+		urlForSend = 'http://'+arrayOfFiles[count][6]+'?format=json';
+	}
 	document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
 	var data = {location: arrayOfFiles[count][2], name: name, githubRepo: arrayOfFiles[count][4], urlForSend: urlForSend};
 		(function(_data){
