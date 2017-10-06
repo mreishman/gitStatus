@@ -51,7 +51,7 @@ function poll(all = -1)
 			{
 				var name = "innerFirstDevBoxbranchNameDevBox1"+arrayOfFiles[i][0];
 				name = name.replace(/\s/g, '_');
-				if( document.getElementById(name).parentElement.style.display !== "none")
+				if( document.getElementById(name).parentElement.style.display === "none")
 				{
 					boolForRun = false;
 				}
