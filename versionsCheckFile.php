@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '1.4.2',
+	'version'		=> '1.4.3',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -30,6 +30,10 @@ $versionCheckArray = array(
 		'1.4.2'		=> array(
 			'branchName'	=> '1.4.2Update',
 			'releaseNotes'  => '<ul><li>Added button to reset cache (if needed, under advanced)</li><li>Added button to enable / disable cache</li><li>Fixed update bug with version numbers and changelog</li></ul>'
+		),
+		'1.4.3'		=> array(
+			'branchName'	=> '1.4.3Update',
+			'releaseNotes'  => '<ul><li>Updated updater</li><li>Option (default true) to only refresh visible tabs</li><li>Added custom options for post urls</li></ul>'
 		),
 	)
 );
