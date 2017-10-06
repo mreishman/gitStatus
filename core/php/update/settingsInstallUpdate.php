@@ -3,18 +3,9 @@
 
 function updateMainProgressLogFile($dotsTime)
 {
-	$varToIndexDir = "";
-	$countOfSlash = 0;
-	while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
-	{
-	  $varToIndexDir .= "../";        
-	}
 
 	require_once('../configStatic.php');
 	require_once('../update/updateProgressFileNext.php');
-
-	require_once('../verifyWriteStatus.php');
-	checkForUpdate($_SERVER['REQUEST_URI']);
 
 	$dots = "";
 	while($dotsTime > 0.1)
@@ -27,8 +18,8 @@ function updateMainProgressLogFile($dotsTime)
 	//find next version to update to
 	if(!empty($configStatic))
 	{
-
-		foreach ($configStatic['versionList'] as $key => $value) 
+		$keys = array_keys($configStatic['versionList']);
+		foreach ($keys as $key)
 		{
 			$version = explode('.', $configStatic['version']);
 			$newestVersion = explode('.', $key);
@@ -42,7 +33,7 @@ function updateMainProgressLogFile($dotsTime)
 			{
 				if($i < $versionCount)
 				{
-					if($i == 0)
+					if($i === 0)
 					{
 						if($newestVersion[$i] > $version[$i])
 						{
@@ -55,7 +46,7 @@ function updateMainProgressLogFile($dotsTime)
 							break;
 						}
 					}
-					elseif($i == 1)
+					elseif($i === 1)
 					{
 						if($newestVersion[$i] > $version[$i])
 						{
@@ -68,7 +59,7 @@ function updateMainProgressLogFile($dotsTime)
 							break;
 						}
 					}
-					else
+					elseif($i > 1)
 					{
 						if($newestVersion[$i] > $version[$i])
 						{
@@ -97,7 +88,6 @@ function updateMainProgressLogFile($dotsTime)
 
 		}
 	}
-	
 
 	if(!empty($configStatic))
 	{
@@ -124,69 +114,127 @@ function updateMainProgressLogFile($dotsTime)
 	file_put_contents("../update/updateProgressLog.php", $mainFileContents);
 }
 
-function updateHeadProgressLogFile($message)
-{
-
-}
-
-function updateProgressFile($status, $pathToFile, $typeOfProgress, $action)
+function updateProgressFile($status, $pathToFile, $typeOfProgress, $action, $percent = 0)
 {
 	$writtenTextTofile = "<?php
-	$"."updateProgress = array(
-  	'currentStep'   => '".$status."',
-  	'action' => '".$action."'
-	);
-	?>
-	";
+$"."updateProgress = array(
+'currentStep'   => '".$status."',
+'action' => '".$action."',
+'percent' => ".$percent."
+);
+?>";
 
 	$fileToPutContent = $pathToFile.$typeOfProgress;
 
 	file_put_contents($fileToPutContent, $writtenTextTofile);
 }
 
-function downloadFile($file)
+function downloadFile($file = null, $update = true, $downloadFrom = 'gitStatus/archive/', $downloadTo = '../../update/downloads/updateFiles/updateFiles.zip')
 {
-	$varToIndexDir = "";
-	$countOfSlash = 0;
-	while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
+
+	if($update == true)
 	{
-	  $varToIndexDir .= "../";        
+		require_once('../configStatic.php');
+		$file = $configStatic['versionList'][$file]['branchName'];
 	}
 
-	require_once($varToIndexDir.'/core/php/configStatic.php');
-
-	$arrayForFile = $configStatic['versionList'];
-	$arrayForFile = $arrayForFile[$file];
-	file_put_contents($varToIndexDir."update/downloads/updateFiles/updateFiles.zip", 
-	file_get_contents("https://github.com/mreishman/gitStatus/archive/".$arrayForFile['branchName'].".zip")
+	file_put_contents($downloadTo,
+	file_get_contents("https://github.com/mreishman/".$downloadFrom.$file.".zip")
 	);
 }
 
-function unzipFile()
+function rrmdir($dir)
 {
-
-	$varToIndexDir = "";
-	$countOfSlash = 0;
-	while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
+	if (is_dir($dir))
 	{
-	  $varToIndexDir .= "../";        
+		$objects = scandir($dir);
+		foreach ($objects as $object)
+		{
+			if ($object != "." && $object != "..") 
+			{
+				if (filetype($dir."/".$object) == "dir")
+				{
+					rrmdir($dir."/".$object);
+				}
+				else
+				{
+					unlink($dir."/".$object);
+				}
+			}
+		}
+    reset($objects);
+    rmdir($dir);
+	}
+}
+
+function unzipFile($locationExtractTo = '../../update/downloads/updateFiles/extracted/', $locationExtractFrom = '../../update/downloads/updateFiles/updateFiles.zip')
+{
+	if($locationExtractTo == "")
+	{
+		$locationExtractTo = '../../update/downloads/updateFiles/extracted/';
 	}
 
-	mkdir($varToIndexDir."update/downloads/updateFiles/extracted/");
+	if(!file_exists($locationExtractTo))
+	{
+		mkdir($locationExtractTo);
+	}
 	$zip = new ZipArchive;
-	$path = $varToIndexDir."update/downloads/updateFiles/updateFiles.zip";
+	$path = $locationExtractFrom;
 	$res = $zip->open($path);
 	$arrayOfExtensions = array('.php','.js','.css','.html','.png','.jpg','.jpeg','.gif');
-	if ($res === TRUE) {
+	$arrayOfFiles = array();
+	if ($res === true) {
 	  for($i = 0; $i < $zip->numFiles; $i++) {
 	        $filename = $zip->getNameIndex($i);
 	        $fileinfo = pathinfo($filename);
-	        if (strposa($fileinfo['basename'], $arrayOfExtensions, 1)) 
+	        if (strposa($fileinfo["basename"], $arrayOfExtensions, 1))
 	        {
-	          copy("zip://".$path."#".$filename, $varToIndexDir."update/downloads/updateFiles/extracted/".$fileinfo['basename']);
+	          copy("zip://".$path."#".$filename, $locationExtractTo.$fileinfo['basename']);
+	          array_push($arrayOfFiles, $fileinfo['basename']);
 	        }
-	    }                   
-	    $zip->close();  
+	    }
+	    $zip->close();
+	}
+	if(empty($arrayOfFiles))
+	{
+		return false;
+	}
+	else
+	{
+		return $arrayOfFiles;
+	}
+}
+
+function unzipFileAndSub($zipfile, $subpath, $destination, $temp_cache, $traverseFirstSubdir=true){
+	$zip = new ZipArchive;
+	if(substr($temp_cache, -1) !== DIRECTORY_SEPARATOR)
+	{
+		$temp_cache .= DIRECTORY_SEPARATOR;
+	}
+	$res = $zip->open($zipfile);
+	if ($res === true)
+	{
+	    if ($traverseFirstSubdir === true)
+	    {
+	        $zip_dir = $temp_cache . $zip->getNameIndex(0);
+	    }
+	    else
+	    {
+	    	$temp_cache = $temp_cache . basename($zipfile, ".zip");
+	    	$zip_dir = $temp_cache;
+	    }
+
+	    $zip->extractTo($temp_cache);
+	    $zip->close();
+
+	    //rename($zip_dir . DIRECTORY_SEPARATOR . $subpath, $destination);
+
+	    //rrmdir($zip_dir);
+	    return true;
+	}
+	else
+	{
+	    return false;
 	}
 }
 
@@ -198,49 +246,169 @@ function strposa($haystack, $needle, $offset=0) {
     return false;
 }
 
-function removeZipFile()
+function removeZipFile($fileToUnlink = "../../update/downloads/updateFiles/updateFiles.zip")
 {
-	$varToIndexDir = "";
-	$countOfSlash = 0;
-	while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
+	if($fileToUnlink == "")
 	{
-	  $varToIndexDir .= "../";        
+		$fileToUnlink = "../../update/downloads/updateFiles/updateFiles.zip";
 	}
-
-	unlink($varToIndexDir."update/downloads/updateFiles/updateFiles.zip");
+	if(is_file($fileToUnlink))
+	{
+		unlink($fileToUnlink);
+	}
 }
 
 
-function removeUnZippedFiles()
+function removeUnZippedFiles($locationOfFilesThatNeedToBeRemovedRecursivally = '../../update/downloads/updateFiles/extracted', $removeDirectory = true)
 {
-	$varToIndexDir = "";
-	$countOfSlash = 0;
-	while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
+	if($locationOfFilesThatNeedToBeRemovedRecursivally == "")
 	{
-	  $varToIndexDir .= "../";        
+		$locationOfFilesThatNeedToBeRemovedRecursivally = '../../update/downloads/updateFiles/extracted';
 	}
-
-	$files = glob($varToIndexDir."update/downloads/updateFiles/extracted/*"); // get all file names
+	$files = glob($locationOfFilesThatNeedToBeRemovedRecursivally."/*"); // get all file names
 	foreach($files as $file){ // iterate files
 	  if(is_file($file))
 	    unlink($file); // delete file
 	}
+	if($removeDirectory)
+	{
+		removeDirectory();
+	}
+}
 
-	rmdir($varToIndexDir."update/downloads/updateFiles/extracted/");
+function removeDirectory($directory = "../../update/downloads/updateFiles/extracted/")
+{
+	if(is_dir($directory))
+	{
+		rmdir($directory);
+	}
+}
 
+function verifyFileIsThere($file, $notInvert = true)
+{
+	if(is_file($file))
+	{
+		if($notInvert == false || $notInvert == "false")
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	else
+	{
+		if($notInvert == false || $notInvert == "false")
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+}
+
+function verifyDirIsThere($file)
+{
+	if(is_dir($file))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function verifyDirOrFile($file)
+{
+	if(is_file($file) || is_dir($file))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function verifyDirIsEmpty($dir)
+{
+	if (!is_readable($dir))
+	{
+		return null;
+	}
+	return (count(scandir($dir)) == 2);
 }
 
 function handOffToUpdate()
 {
-	$varToIndexDir = "";
-	$countOfSlash = 0;
-	while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
+	require_once('../../update/downloads/updateFiles/extracted/updateScript.php');
+}
+
+function copyFileToFile($currentFile, $indexToExtracted = "update/downloads/updateFiles/extracted/")
+{
+	$varToIndexDir = "../../";
+
+	$currentFileArray = explode("_", $currentFile );  
+	$sizeOfCurrentFileArray = sizeOf($currentFileArray);
+	$nameOfFile = $currentFileArray[$sizeOfCurrentFileArray - 1];
+	$directoryPath = "";
+	  
+	for($i = 0; $i < $sizeOfCurrentFileArray - 1; $i++)
 	{
-	  $varToIndexDir .= "../";        
+	  $directoryPath .= $currentFileArray[$i]."/"; 
+	}
+	 
+	$newFile = $directoryPath.$nameOfFile;
+	$fileTransfer = file_get_contents($varToIndexDir.$indexToExtracted.$currentFile);
+	$newFileWithIndexVar = $varToIndexDir.$newFile;
+	file_put_contents($newFileWithIndexVar,$fileTransfer);
+	return ($newFileWithIndexVar);   
+}
+
+function updateConfigStatic($versionToUpdate)
+{
+	require_once('../configStatic.php');
+
+	$arrayForVersionList = "";
+	$countOfArray = count($configStatic['versionList']);
+	$i = 0;
+	foreach ($configStatic['versionList'] as $key => $value) {
+	  $i++;
+	  $arrayForVersionList .= "'".$key."' => array(";
+	  $countOfArraySub = count($value);
+	  $j = 0;
+	  foreach ($value as $keySub => $valueSub) 
+	  {
+	    $j++;
+	    $arrayForVersionList .= "'".$keySub."' => '".$valueSub."'";
+	    if($j != $countOfArraySub)
+	    {
+	      $arrayForVersionList .= ",";
+	    }
+	  }
+	  $arrayForVersionList .= ")";
+	  if($i != $countOfArray)
+	  {
+	    $arrayForVersionList .= ",";
+	  }
 	}
 
+	$newInfoForConfig = "<?php
 
-	require_once($varToIndexDir.'update/downloads/updateFiles/extracted/updateScript.php');
+$"."configStatic = array(
+	'version'   => '".$versionToUpdate."',
+	'lastCheck'   => '".date('m-d-Y')."',
+	'newestVersion' => '".$configStatic['newestVersion']."',
+	'versionList' => array(
+		".$arrayForVersionList."
+	)
+);";
+	file_put_contents("../configStatic.php", $newInfoForConfig);
 }
 
 function finishedUpdate()
