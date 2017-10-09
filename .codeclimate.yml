@@ -1,0 +1,7 @@
+exclude_paths:
+  - "core/js/jquery.js"
+  - "core/js/angular.min.js"
+  - "core/js/jquery.xcolor.min.js"
+  - "core/js/jquery-ui.js"
+  - "core/js/jscolor.js"
+  - "core/css/jquery-ui.css"
