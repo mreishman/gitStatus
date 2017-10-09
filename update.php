@@ -183,14 +183,17 @@ require_once('core/php/loadVars.php'); ?>
 									}
 									else
 									{
-										if($newestVersion[$i] > $version[$i])
+										if(isset($newestVersion[$i]))
 										{
-											$levelOfUpdate = 1;
-											break;
-										}
-										elseif($newestVersion[$i] < $version[$i])
-										{
-											break;
+											if($newestVersion[$i] > $version[$i])
+											{
+												$levelOfUpdate = 1;
+												break;
+											}
+											elseif($newestVersion[$i] < $version[$i])
+											{
+												break;
+											}
 										}
 									}
 								}

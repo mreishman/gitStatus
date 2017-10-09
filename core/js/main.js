@@ -127,28 +127,35 @@ function pollCompleteLogic()
 	counterForSave--;
 	if(counterForSave < 1)
 	{
-		loadingSpinnerText.innerHTML = "Saving..."
-		if(!jQuery.isEmptyObject(arrayOfWatchFilters))
+		if(cacheEnabled === "true")
 		{
-			//save object after poll
-			var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
-			var data = {arrayOfdata: arrayOfWatchFilters};
-			(function(_data){
+			loadingSpinnerText.innerHTML = "Saving..."
+			if(!jQuery.isEmptyObject(arrayOfWatchFilters))
+			{
+				//save object after poll
+				var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
+				var data = {arrayOfdata: arrayOfWatchFilters};
+				(function(_data){
 
-				$.ajax({
-				url: urlForSend,
-				dataType: 'json',
-				global: false,
-				data: data,
-				type: 'POST',
-				complete: function(data){
-					document.getElementById('loadingSpinnerMain').style.display = "none";
-					loadingSpinnerText.innerHTML = ""
-					}
-				});
-			}(data));
+					$.ajax({
+					url: urlForSend,
+					dataType: 'json',
+					global: false,
+					data: data,
+					type: 'POST',
+					complete: function(data){
+						document.getElementById('loadingSpinnerMain').style.display = "none";
+						loadingSpinnerText.innerHTML = ""
+						}
+					});
+				}(data));
+			}
 		}
-	}
+		else
+		{
+			document.getElementById('loadingSpinnerMain').style.display = "none";
+		}
+	}		
 }
 
 function pollFailure(dataInner, dataInnerPass)

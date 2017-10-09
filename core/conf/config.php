@@ -11,6 +11,7 @@ $defaultConfig = array(
 	'enableSystemPrefShellOrPhp'	=> 'false',
 	'expSettingsAvail'	=> 'true',
 	'defaultViewBranch'	=> 'Standard',
+	'cacheEnabled'		=> 'true',
 	'defaultViewBranchCookie'	=> 'false',
 	'loginAuthType'	=> 'disabled',
 	'errorAndColorArray'	=> array(
