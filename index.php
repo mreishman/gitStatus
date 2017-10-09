@@ -203,7 +203,7 @@ else
 	$h++;	
 	$keyNoSpace = preg_replace('/\s+/', '_', $key);
 	$showCachedValue = false;
-	if(!empty($cachedStatusMainObject) && $cachedStatusMainObject != array())
+	if(!empty($cachedStatusMainObject) && $cachedStatusMainObject != array() && $cacheEnabled === "true")
 	{
 		if(isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace]))
 		{
