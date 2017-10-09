@@ -9,6 +9,12 @@ engines:
     enabled: true
   duplication:
     enabled: true
+ratings:
+  paths:
+  - "**.php"
+  - "**.html"
+  - "**.css"
+  - "**.js"
 exclude_paths:
 - "core/js/jquery.js"
 - "core/js/angular.min.js"
