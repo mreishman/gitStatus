@@ -1,0 +1,24 @@
+engines:
+  fixme:
+    enabled: true
+  phpmd:
+    enabled: true
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
+ratings:
+  paths:
+  - app/**
+  - lib/**
+  - "**.rb"
+  - "**.go"
+exclude_paths:
+- "core/js/jquery.js"
+- "core/js/angular.min.js"
+- "core/js/jquery.xcolor.min.js"
+- "core/js/jquery-ui.js"
+- "core/js/jscolor.js"
+- "core/css/jquery-ui.css"
