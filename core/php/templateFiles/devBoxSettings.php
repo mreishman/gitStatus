@@ -12,6 +12,7 @@
 	  						<option <?php if($enableDevBranchDownload == 'false'){echo "selected";} ?> value="false">False</option>
 						</select>
 				</li>
+				<!-- 
 				<li>
 					<span class="leftSpacingserverNames" >Login Auth:</span>
 						<select name="loginAuthType">
@@ -21,6 +22,7 @@
 	  						<option <?php if($loginAuthType == 'GitHub'){echo "selected";} ?> value="GitHub">GitHub</option>
 						</select>
 				</li>
+				-->
 			</ul>
 		</div>
 	</div>
