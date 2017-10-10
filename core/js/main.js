@@ -201,7 +201,7 @@ function pollCompleteLogic()
 						}
 					}
 				}
-				
+
 				//save object after poll
 				var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
 				var data = {arrayOfdata: arrayOfWatchFilters};
@@ -244,7 +244,7 @@ function pollFailure(dataInner, dataInnerPass)
 
 	if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 	{
-		arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
+		arrayOfWatchFilters[noSpaceName] = new Array("Error",dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
 	}
 	else
 	{
