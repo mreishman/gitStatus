@@ -1,5 +1,17 @@
 var counterForSave = numberOfLogs+1;
 
+function escapeHTML(unsafeStr)
+{
+	return unsafeStr.toString()
+	.replace(/&/g, "&amp;")
+	.replace(/</g, "&lt;")
+	.replace(/>/g, "&gt;")
+	.replace(/\"/g, "&quot;")
+	.replace(/\'/g, "&#39;")
+	.replace(/\//g, "&#x2F;");
+	
+}
+
 function checkLogHog(logHogI)
 {
 	var urlForSend = '/status/core/php/functions/logHog.php?format=json'
@@ -176,6 +188,20 @@ function pollCompleteLogic()
 			document.getElementById('loadingSpinnerMain').style.display = "block";
 			if(!jQuery.isEmptyObject(arrayOfWatchFilters))
 			{
+				//filter array (remove html stuff)
+				
+				var listOfKeysArrayWatchFilters = Object.keys(arrayOfWatchFilters);
+				for (var i = listOfKeysArrayWatchFilters.length - 1; i >= 0; i--)
+				{
+					for (var j = arrayOfWatchFilters[listOfKeysArrayWatchFilters[i]].length - 1; j >= 0; j--)
+					{
+						if(arrayOfWatchFilters[listOfKeysArrayWatchFilters[i]][j])
+						{
+							arrayOfWatchFilters[listOfKeysArrayWatchFilters[i]][j] = escapeHTML(arrayOfWatchFilters[listOfKeysArrayWatchFilters[i]][j]);
+						}
+					}
+				}
+				
 				//save object after poll
 				var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
 				var data = {arrayOfdata: arrayOfWatchFilters};
