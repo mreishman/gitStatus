@@ -319,7 +319,7 @@ if(count($arrayOfVersions) === 0)
 		}
 		var urlForSend = urlForSendMain;
 		document.getElementById('innerDisplayUpdate').innerHTML = settingsForBranchStuff['versionList'][versionToUpdateTo]['releaseNotes'];
-		var data = {action: 'downloadFile', file: settingsForBranchStuff['versionList'][versionToUpdateTo]['branchName'],downloadFrom: 'gitStatus/archive/', downloadTo: '../../update/downloads/updateFiles/updateFiles.zip'};
+		var data = {action: 'downloadFile', file: settingsForBranchStuff['versionList'][versionToUpdateTo]['branchName'],downloadFrom: 'gitStatus/archive/', downloadTo: '../../../update/downloads/updateFiles/updateFiles.zip'};
 		$.ajax({
 			url: urlForSend,
 			dataType: 'json',
@@ -329,7 +329,7 @@ if(count($arrayOfVersions) === 0)
 			{
 				//verify if downloaded
 				updateText("Verifying Download");
-				verifyFile('downloadLogHog', '../../update/downloads/updateFiles/updateFiles.zip');
+				verifyFile('downloadLogHog', '../../../date/downloads/updateFiles/updateFiles.zip');
 			}
 		});	
 
@@ -359,7 +359,7 @@ if(count($arrayOfVersions) === 0)
 				//verify if downloaded
 				arrayOfFilesExtracted = arrayOfFiles;
 				updateText("Verifying Unzipping");
-				verifyFile('unzipUpdateAndReturnArray', '../../update/downloads/updateFiles/extracted/'+arrayOfFiles[0]);
+				verifyFile('unzipUpdateAndReturnArray', '../../../update/downloads/updateFiles/extracted/'+arrayOfFiles[0]);
 			},
 			failure: function(data)
 			{
@@ -852,7 +852,7 @@ if(count($arrayOfVersions) === 0)
 			{
 				//verify if downloaded
 				updateText("Verifying that TMP files were removed");
-				verifyFile('removeDirUpdate', '../../update/downloads/updateFiles/extracted/', false);
+				verifyFile('removeDirUpdate', '../../../update/downloads/updateFiles/extracted/', false);
 			},
 			failure: function(data)
 			{
@@ -873,7 +873,7 @@ if(count($arrayOfVersions) === 0)
 			updateText("Attempt "+(retryCount+1)+" of 3 for Removing Zip TMP File");
 		}
 		var urlForSend = urlForSendMain;
-		var dataSend = {action: 'removeZipFile', fileToUnlink: "../../update/downloads/updateFiles/updateFiles.zip"};
+		var dataSend = {action: 'removeZipFile', fileToUnlink: "../../../update/downloads/updateFiles/updateFiles.zip"};
 		$.ajax({
 			url: urlForSend,
 			dataType: 'json',
@@ -883,7 +883,7 @@ if(count($arrayOfVersions) === 0)
 			{
 				//verify if downloaded
 				updateText("Verifying that TMP files were removed");
-				verifyFile('removeZipFile', '../../update/downloads/updateFiles/updateFiles.zip', false);
+				verifyFile('removeZipFile', '../../../update/downloads/updateFiles/updateFiles.zip', false);
 			},
 			failure: function(data)
 			{
