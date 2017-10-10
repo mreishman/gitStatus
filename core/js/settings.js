@@ -51,7 +51,6 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 	if(decreaseCountWatchListNum)
 	{
 		var countOfHeighestNum = 1;
-		console.log(filterType+countOfHeighestNum);
 		while (document.getElementById(filterType+countOfHeighestNum))
 		{
 			countOfHeighestNum++;
@@ -146,7 +145,6 @@ function clearCache()
 	displayLoadingPopup();
 	var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
 	var data = {clearArray: true};
-	console.log(data);
 	(function(_data)
 	{
 		$.ajax({
@@ -157,7 +155,7 @@ function clearCache()
 		type: 'POST',
 		success(data)
 		{
-			console.log(data);
+			
 		},
 		complete: function(data)
 		{

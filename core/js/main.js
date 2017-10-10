@@ -12,6 +12,18 @@ function escapeHTML(unsafeStr)
 	
 }
 
+function removeHTML(unsafeStr)
+{
+	return unsafeStr.toString()
+	.replace(/&/g, "")
+	.replace(/</g, "")
+	.replace(/>/g, "")
+	.replace(/\"/g, "")
+	.replace(/\'/g, "")
+	.replace(/\//g, "");
+	
+}
+
 function checkLogHog(logHogI)
 {
 	var urlForSend = '/status/core/php/functions/logHog.php?format=json'
@@ -189,15 +201,17 @@ function pollCompleteLogic()
 			if(!jQuery.isEmptyObject(arrayOfWatchFilters))
 			{
 				//filter array (remove html stuff)
-				
-				var listOfKeysArrayWatchFilters = Object.keys(arrayOfWatchFilters);
-				for (var i = listOfKeysArrayWatchFilters.length - 1; i >= 0; i--)
+				if(false)
 				{
-					for (var j = arrayOfWatchFilters[listOfKeysArrayWatchFilters[i]].length - 1; j >= 0; j--)
+					var listOfKeysArrayWatchFilters = Object.keys(arrayOfWatchFilters);
+					for (var i = listOfKeysArrayWatchFilters.length - 1; i >= 0; i--)
 					{
-						if(arrayOfWatchFilters[listOfKeysArrayWatchFilters[i]][j])
+						for (var j = arrayOfWatchFilters[listOfKeysArrayWatchFilters[i]].length - 1; j >= 0; j--)
 						{
-							arrayOfWatchFilters[listOfKeysArrayWatchFilters[i]][j] = escapeHTML(arrayOfWatchFilters[listOfKeysArrayWatchFilters[i]][j]);
+							if(arrayOfWatchFilters[listOfKeysArrayWatchFilters[i]][j])
+							{
+								arrayOfWatchFilters[listOfKeysArrayWatchFilters[i]][j] = escapeHTML(arrayOfWatchFilters[listOfKeysArrayWatchFilters[i]][j]);
+							}
 						}
 					}
 				}
@@ -244,7 +258,7 @@ function pollFailure(dataInner, dataInnerPass)
 
 	if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 	{
-		arrayOfWatchFilters[noSpaceName] = new Array("Error",dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
+		arrayOfWatchFilters[noSpaceName] = new Array("Error","n/a","Could not connect to server",true,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
 	}
 	else
 	{
@@ -525,7 +539,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	    var nameForBackground = "innerFirstDevBox"+noSpaceName;
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
-			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
+			arrayOfWatchFilters[noSpaceName] = new Array("Error","n/a",errorMessage,true,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
 		}
 		else
 		{
