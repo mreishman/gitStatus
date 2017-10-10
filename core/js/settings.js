@@ -186,7 +186,7 @@ function verifyCacheClear()
 			type: 'POST',
 			success: function(data)
 			{
-				if(!data || data === [])
+				if(!data || (!(data.length > 0)))
 				{
 					cacheClearSuccess();
 				}
