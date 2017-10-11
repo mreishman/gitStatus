@@ -1,6 +1,6 @@
 body{
 	background-color: #222222;
-	margin: 0px;
+	margin: 0;
 }
 .nav-toggle {
 	display: inline-block;
@@ -44,7 +44,7 @@ body{
 	padding-left: 10px;
 	padding-bottom: 12px;
 	border-bottom: 1px solid white;
-	box-shadow: 0px 5px 2px rgba(0,0,0,.3);
+	box-shadow: 0 5px 2px rgba(0,0,0,.3);
 	z-index: 10;
 }
 .devBoxContent{
@@ -64,7 +64,7 @@ body{
 }
 #sidebar{
 	background-color: #aaaaaa;
-	width: 0px;
+	width: 0;
 	display: inline-table;
 	position: fixed;
 	height: 100%;
@@ -74,7 +74,7 @@ body{
 }
 #sidebarBG{
 	background-color: #aaaaaa;
-	width: 0px;
+	width: 0;
 	height: 1px;
 	display: inline-table;
 	border-right: 3px solid white;
@@ -88,7 +88,7 @@ body{
 }
 .menuBarLeft{
 	list-style-type: none;
-	padding: 0px;
+	padding: 0;
 }
 .menuBarLeft li{
 	line-height: 200%;
@@ -103,7 +103,7 @@ body{
 	padding-right: 5px;
 	width: 100%;
 	position: fixed;
-	top: 0px;
+	top: 0;
 	height: 40px;
 	background-color: #222222;
 	border-bottom: 1px solid white;
@@ -129,7 +129,7 @@ body{
 }
 .paddingTopForLeftMenu{
 	height: 40px;
-	box-shadow: 0px 10px 5px #888888;
+	box-shadow: 0 10px 5px #888888;
 }
 .buttonSelectorOuter{
 	border: 1px solid white;
@@ -139,7 +139,7 @@ body{
 	margin-left: auto;
 	height: 20px;
 	background-color: #444444;
-	box-shadow: 0px 5px 10px;
+	box-shadow: 0 5px 10px;
 }
 .buttonSlectorInnerBoxesAll{
 	width: 50%;
@@ -175,15 +175,15 @@ body{
 .groupTabShadow{
 	position: relative;
 	display: inline-block;
-	border-radius: 0px 9px 15px 15px;
-	box-shadow: 0px 0px 20px 5px rgba(0,0,0,0.5);
+	border-radius: 0 9px 15px 15px;
+	box-shadow: 0 0 20px 5px rgba(0,0,0,0.5);
 }
 .groupTab{
 	background-color: #222222;
 	height: 25px;
 	width: 100px;
 	color: white;
-	border-radius: 0px 0px 15px 15px;
+	border-radius: 0 0 15px 15px;
 	border: 1px solid white;
 	text-align: center;
 	cursor: pointer;
@@ -196,16 +196,16 @@ body{
 	color: black;
 }
 .groupTabSelected{
-	background-color: white !important;
+	background-color: white;
 	color: black !important;
 	cursor: default;
 }
 .groupTabSelected:hover{
-	background-color: white !important;
-	color: black !important;
+	background-color: white;
+	color: black;
 }
 .expandMenu{
-	display: inline-block;
+	display: block;
 	float: right;
 	cursor: pointer;
 }
@@ -219,7 +219,7 @@ body{
     background-color: #f9f9f9;
     min-width: 160px;
     overflow: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     z-index: 1;
     margin-left: 131px;
 }
@@ -236,13 +236,13 @@ body{
 .back-to-top {
     text-decoration: none;
     color: #000000;
-    background-color: rgba(235, 235, 235, 1);
+    background-color: rgb(235, 235, 235);
     font-size: 16px;
     height: 30px;
     display: none; 
     position: absolute;
     left: 120px;
-    top: 0px;
+    top: 0;
     padding-top: 10px;
     padding-right: 8px;
     padding-left: 8px;
@@ -264,7 +264,7 @@ body{
     height: 0;
     width: 0;
     position: relative;
-    right: 0px;
+    right: 0;
     z-index: 2;
     top: 13px;
     left: 13px;
@@ -276,15 +276,15 @@ body{
 	padding: 5px;
 	border: 1px solid white;
 	margin: 10px;
-	box-shadow: 0px 2px 5px rgba(0,0,0,.25);
+	box-shadow: 0 2px 5px rgba(0,0,0,.25);
 }
 
 .backgroundButtonForColor{
 	width: 20px;
 	height: 20px;
-	margin: 0px;
+	margin: 0;
 	position: relative;
-	right: 0px;
+	right: 0;
 	top: -9px;
 	border: none;
 }
