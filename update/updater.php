@@ -137,7 +137,7 @@ if(count($arrayOfVersions) === 0)
 <body>
 
 
-<div id="main">
+<div id="main" style="width: 90%; background-color: #CCC; border: 3px solid white; left: 5%; overflow-y: none;">
 	<div class="settingsHeader" style="text-align: center;" >
 		<span id="titleHeader" >
 		<?php if($update):?>
@@ -151,9 +151,9 @@ if(count($arrayOfVersions) === 0)
 		<?php endif; ?>
 		</span>
 		<div id="menu" style="margin-right: auto; margin-left: auto; position: relative; display: none;">
-			<h2 style="color: black;">If this page doesn't redirect within 10 seconds... click here:</h2>
+			<h2 style="color: white;">If this page doesn't redirect within 10 seconds... click here:</h2>
 			<br>
-			<a onclick="window.location.href = '../settings/update.php'">Back to Status</a>
+			<a onclick="window.location.href = '../update.php'">Back to Status</a>
 		</div>
 	</div>
 	<div class="settingsDiv" >
@@ -164,10 +164,7 @@ if(count($arrayOfVersions) === 0)
 
 			</div>
 			<p style="border-bottom: 1px solid white;"></p>
-			<div class="settingsHeader">
-			Log Info
-			</div>
-			<div id="innerSettingsText" class="settingsDiv" style="height: 75px; overflow-y: scroll;" >
+			<div id="innerSettingsText" class="settingsDiv" style="height: 100px; overflow-y: scroll;" >
 				<?php require_once('../core/php/update/updateProgressLog.php'); ?>
 			</div>
 		</div>
@@ -329,7 +326,7 @@ if(count($arrayOfVersions) === 0)
 			{
 				//verify if downloaded
 				updateText("Verifying Download");
-				verifyFile('downloadLogHog', '../../../date/downloads/updateFiles/updateFiles.zip');
+				verifyFile('downloadLogHog', '../../../update/downloads/updateFiles/updateFiles.zip');
 			}
 		});	
 
@@ -564,10 +561,12 @@ if(count($arrayOfVersions) === 0)
 		updateText("Verified Action");
 		if(action === "preScriptRun")
 		{
+			preScriptCount--;
 			preScriptRun();
 		}
 		else
 		{
+			postScriptCount--;
 			postScriptRun();
 		}
 	}
@@ -600,13 +599,13 @@ if(count($arrayOfVersions) === 0)
 		if(preScriptCount != 1)
 		{
 			var totalCount = 1;
-			var fileName = "pre-script-"+totalCount;
-			var loop = ($.inArray(fileName,arrayOfFilesExtracted)!= "-1");
+			var fileName = "pre-script-"+totalCount+".php";
+			var loop = ($.inArray(fileName,arrayOfFilesExtracted)!== -1);
 			while(loop)
 			{
 				totalCount++;
-				fileName = "pre-script-"+totalCount;
-				loop = ($.inArray(fileName,arrayOfFilesExtracted)!= "-1");
+				fileName = "pre-script-"+totalCount+".php";
+				loop = ($.inArray(fileName,arrayOfFilesExtracted)!== -1);
 			}
 			updateProgressBar(((1/totalCount)*5));
 		}
@@ -733,13 +732,13 @@ if(count($arrayOfVersions) === 0)
 		if(postScriptCount != 1)
 		{
 			var totalCount = 1;
-			var fileName = "post-script-"+totalCount;
-			var loop = ($.inArray(fileName,arrayOfFilesExtracted)!= "-1");
+			var fileName = "post-script-"+totalCount+".php";
+			var loop = ($.inArray(fileName,arrayOfFilesExtracted)!== -1);
 			while(loop)
 			{
 				totalCount++;
-				fileName = "post-script-"+totalCount;
-				loop = ($.inArray(fileName,arrayOfFilesExtracted)!= "-1");
+				fileName = "post-script-"+totalCount+".php";
+				loop = ($.inArray(fileName,arrayOfFilesExtracted)!== -1);
 			}
 			updateProgressBar(((1/totalCount)*5));
 		}
@@ -963,7 +962,7 @@ if(count($arrayOfVersions) === 0)
 			document.getElementById('titleHeader').innerHTML = "<h1>Finished Update</h1>";
 			document.getElementById('progressBar').value = 100;
 			updateStatusFunc("Finished Updating to ","finishedUpdate",100);
-			window.location.href = "../settings/update.php";
+			window.location.href = "../update.php";
 		}
 		else
 		{

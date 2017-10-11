@@ -129,7 +129,7 @@ $"."updateProgress = array(
 	file_put_contents($fileToPutContent, $writtenTextTofile);
 }
 
-function downloadFile($file = null, $update = true, $downloadFrom = 'gitStatus/archive/', $downloadTo = '../../update/downloads/updateFiles/updateFiles.zip')
+function downloadFile($file = null, $update = true, $downloadFrom = 'gitStatus/archive/', $downloadTo = '../../../update/downloads/updateFiles/updateFiles.zip')
 {
 
 	if($update == true)
@@ -167,11 +167,11 @@ function rrmdir($dir)
 	}
 }
 
-function unzipFile($locationExtractTo = '../../update/downloads/updateFiles/extracted/', $locationExtractFrom = '../../update/downloads/updateFiles/updateFiles.zip')
+function unzipFile($locationExtractTo = '../../../update/downloads/updateFiles/extracted/', $locationExtractFrom = '../../../update/downloads/updateFiles/updateFiles.zip')
 {
 	if($locationExtractTo == "")
 	{
-		$locationExtractTo = '../../update/downloads/updateFiles/extracted/';
+		$locationExtractTo = '../../../update/downloads/updateFiles/extracted/';
 	}
 
 	if(!file_exists($locationExtractTo))
@@ -246,11 +246,11 @@ function strposa($haystack, $needle, $offset=0) {
     return false;
 }
 
-function removeZipFile($fileToUnlink = "../../update/downloads/updateFiles/updateFiles.zip")
+function removeZipFile($fileToUnlink = "../../../update/downloads/updateFiles/updateFiles.zip")
 {
 	if($fileToUnlink == "")
 	{
-		$fileToUnlink = "../../update/downloads/updateFiles/updateFiles.zip";
+		$fileToUnlink = "../../../update/downloads/updateFiles/updateFiles.zip";
 	}
 	if(is_file($fileToUnlink))
 	{
@@ -259,11 +259,11 @@ function removeZipFile($fileToUnlink = "../../update/downloads/updateFiles/updat
 }
 
 
-function removeUnZippedFiles($locationOfFilesThatNeedToBeRemovedRecursivally = '../../update/downloads/updateFiles/extracted', $removeDirectory = true)
+function removeUnZippedFiles($locationOfFilesThatNeedToBeRemovedRecursivally = '../../../update/downloads/updateFiles/extracted', $removeDirectory = true)
 {
 	if($locationOfFilesThatNeedToBeRemovedRecursivally == "")
 	{
-		$locationOfFilesThatNeedToBeRemovedRecursivally = '../../update/downloads/updateFiles/extracted';
+		$locationOfFilesThatNeedToBeRemovedRecursivally = '../../../update/downloads/updateFiles/extracted';
 	}
 	$files = glob($locationOfFilesThatNeedToBeRemovedRecursivally."/*"); // get all file names
 	foreach($files as $file){ // iterate files
@@ -276,7 +276,7 @@ function removeUnZippedFiles($locationOfFilesThatNeedToBeRemovedRecursivally = '
 	}
 }
 
-function removeDirectory($directory = "../../update/downloads/updateFiles/extracted/")
+function removeDirectory($directory = "../../../update/downloads/updateFiles/extracted/")
 {
 	if(is_dir($directory))
 	{
@@ -346,12 +346,12 @@ function verifyDirIsEmpty($dir)
 
 function handOffToUpdate()
 {
-	require_once('../../update/downloads/updateFiles/extracted/updateScript.php');
+	require_once('../../../update/downloads/updateFiles/extracted/updateScript.php');
 }
 
 function copyFileToFile($currentFile, $indexToExtracted = "update/downloads/updateFiles/extracted/")
 {
-	$varToIndexDir = "../../";
+	$varToIndexDir = "../../../";
 
 	$currentFileArray = explode("_", $currentFile );  
 	$sizeOfCurrentFileArray = sizeOf($currentFileArray);
