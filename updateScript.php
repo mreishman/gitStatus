@@ -1,6 +1,6 @@
 <?php
   
-$arrayOfFiles = array("about.php", "core_html_changelog.html","core_img_loading.gif","core_js_allPages.js","core_js_main.js","core_php_functions_logHog.php","core_php_saveFunctions_settingsdevAdvancedSave.php","core_php_saveFunctions_settingsDevBranch.php","core_php_templateFiles_allPages.php","core_php_templateFiles_sidebar.php","index.php","local_default_template_theme.css","settings.php","update.php");
+$arrayOfFiles = array("core_php_upgradeScripts_upgrade-1.3.2-1.3.3.php", "core_conf_config.php","core_html_changelog.html","core_js_allPages.js","core_js_main.js","core_js_settings.js","core_php_loadVars.php","core_php_saveFunctions_settingsSaveMain.php","core_php_templateFiles_settingsMain.php","core_php_templateFiles_watchList.php","core_php_update_checkVersionOfConfig.php","core_php_update_checkVersionOfLayout.php","core_php_update_configStaticCheck.php","core_php_update_getPercentUpdate.php","core_php_update_performSettingsInstallUpdateAction.php","core_php_update_resetUpdateFilesToDefault.php","core_php_update_settingsInstallUpdate.php","core_php_versionCheck.php","core_template_theme.css","index.php","local_default_template_theme.css","update_index.php");
 
 require_once("innerUpgradeStatus.php");
 
