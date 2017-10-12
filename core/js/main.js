@@ -42,6 +42,10 @@ function poll(all = -1)
 			{
 				tryHTTPForPollRequest(i);
 			}
+			else
+			{
+				pollCompleteLogic();
+			}
 		}
 	}
 	else
@@ -84,6 +88,10 @@ function tryHTTPForPollRequest(count)
 	if(doPollLogic)
 	{
 		tryHttpActuallyPollLogic(count, name);
+	}
+	else
+	{
+		pollCompleteLogic();
 	}
 }
 
