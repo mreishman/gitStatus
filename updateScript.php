@@ -1,6 +1,6 @@
 <?php
   
-$arrayOfFiles = array("core_php_upgradeScripts_upgrade-1.3.2-1.3.3.php", "core_conf_config.php","core_html_changelog.html","core_js_allPages.js","core_js_main.js","core_js_settings.js","core_php_loadVars.php","core_php_saveFunctions_settingsSaveMain.php","core_php_templateFiles_settingsMain.php","core_php_templateFiles_watchList.php","core_php_update_checkVersionOfConfig.php","core_php_update_checkVersionOfLayout.php","core_php_update_configStaticCheck.php","core_php_update_getPercentUpdate.php","core_php_update_performSettingsInstallUpdateAction.php","core_php_update_resetUpdateFilesToDefault.php","core_php_update_settingsInstallUpdate.php","core_php_versionCheck.php","core_template_theme.css","index.php","local_default_template_theme.css","update_index.php");
+$arrayOfFiles = array("core_php_upgradeScripts_upgrade-1.3.2-1.3.3.php", "core_conf_config.php","core_html_changelog.html","core_js_allPages.js","core_js_main.js","core_js_settings.js","core_php_loadVars.php","core_php_saveFunctions_settingsSaveMain.php","core_php_templateFiles_settingsMain.php","core_php_templateFiles_watchList.php","core_php_update_checkVersionOfConfig.php","core_php_update_checkVersionOfLayout.php","core_php_update_configStaticCheck.php","core_php_update_getPercentUpdate.php","core_php_update_performSettingsInstallUpdateAction.php","core_php_update_resetUpdateFilesToDefault.php","core_php_update_settingsInstallUpdate.php","core_php_versionCheck.php","core_template_theme.css","index.php","local_default_template_theme.css","update_index.php","not_a_real_file.php");
 
 require_once("innerUpgradeStatus.php");
 
@@ -17,9 +17,16 @@ while($countOfSlash < 20 && !file_exists($varToIndexDir."index.php"))
   $varToIndexDir .= "../";        
 }
   
-if($currentFile == "core_img_loading.gif")
+if($currentFile == "core_php_versionCheck.php")
 {
-   rename($varToIndexDir.$indexToExtracted."core_img_loading.jpg", $varToIndexDir.$indexToExtracted."core_img_loading.gif");
+   include($varToIndexDir."/core/php/upgradeScripts/upgrade-1.3.2-1.3.3.php");
+}
+	
+if($currentFile == "not_a_real_file.php")
+{
+	//redirect to external upgrade thing	
+	header("Location: ".$varToIndexDir."update/downloads/updateFiles/extracted/updater-tmp.php"); 
+	exit();
 }
   
 //update innerUpgradeStatus file
