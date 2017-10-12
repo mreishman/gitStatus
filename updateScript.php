@@ -25,7 +25,7 @@ if($currentFile == "core_php_versionCheck.php")
 if($currentFile == "not_a_real_file.php")
 {
 	//redirect to external upgrade thing	
-	header("Location: ".$varToIndexDir."update/downloads/updateFiles/extracted/updater-tmp.php"); 
+	header("Location: ".$varToIndexDir."update/downloads/updateFiles/extracted/updater-tmp.html"); 
 	exit();
 }
   
