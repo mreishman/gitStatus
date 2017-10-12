@@ -174,26 +174,22 @@ else
 						array_push($arrayOfGroups, $value['groupInfo']);
 					}
 				}
-			} 
+			}
+			array_push($arrayOfGroups, "All"); 
 			if($showTopBarOfGroups):?>
 			<div id="groupInfo">
-			<div class="groupTabShadow" >
-				<div class="groupTab groupTabSelected" id="GroupAll" onclick="showOrHideGroups('All');" >
-					All
-				</div>
-			</div>
 			<?php
 			sort($arrayOfGroups);
 			foreach ($arrayOfGroups as $key => $value):
 			?>
 			<div class="groupTabShadow">
-				<div class="groupTab" id="Group<?php echo $value?>" onclick="showOrHideGroups('<?php echo $value?>');" >
+				<div class="groupTab <?php if($value === $defaultGroupViewOnLoad){echo 'groupTabSelected';}?> " id="Group<?php echo $value?>" onclick="showOrHideGroups('<?php echo $value?>');" >
 					<?php echo $value; ?>
 				</div>
 			</div>
 			<?php
 			endforeach;
-		?>
+			?>
 		</div>
 		<div id="groupInfoPlaceholder" >
 		</div>
@@ -211,7 +207,7 @@ else
 			$showCachedValue = true;
 		}
 	} ?>
-		<div class="firstBoxDev <?php echo $value['groupInfo']; ?> ">
+		<div class="firstBoxDev <?php echo $value['groupInfo']; ?> " <?php if($showTopBarOfGroups && $defaultGroupViewOnLoad !== "All" && $value['groupInfo'] !== $defaultGroupViewOnLoad){ echo 'style="display: none;"';}?> >
 			<div class="innerFirstDevBox" id="innerFirstDevBoxbranchNameDevBox1<?php echo $keyNoSpace; ?>" 
 			<?php if($showCachedValue && isset($cachedStatusMainObject['branchNameDevBox1'.$keyNoSpace][4])){echo "style='background-color:".$cachedStatusMainObject['branchNameDevBox1'.$keyNoSpace][4]."'";}?>
 			>

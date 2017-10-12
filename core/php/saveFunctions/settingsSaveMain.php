@@ -44,6 +44,7 @@ require_once('../loadVars.php');
 			'messageText' => '".$messageText."',
 			'enableBlockUntilDate'	=> '".$enableBlockUntilDate."',
 			'datePicker'	=> '".$datePicker."',
+			'defaultGroupViewOnLoad'	=> '".$defaultGroupViewOnLoad."',
 			".$arrayFilterAll."
 			'watchList' => array(
 			".$arrayWatchList.")

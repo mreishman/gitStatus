@@ -63,6 +63,38 @@
 					</select>
 					<p class="description" >Only refresh data for visible sites</p>
 				</li>
+				<?php 
+				$arrayOfGroups = array();
+				$showTopBarOfGroups = false;
+				foreach ($config['watchList'] as $key => $value)
+				{
+					if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
+					{
+						$showTopBarOfGroups = true;
+						if(!in_array($value['groupInfo'], $arrayOfGroups))
+						{
+							array_push($arrayOfGroups, $value['groupInfo']);
+						}
+					}
+				}
+				array_push($arrayOfGroups, "All");
+				if($showTopBarOfGroups): ?>
+					<li>
+						<span class="leftSpacingserverNames"> Default Group</span>
+							<select name="defaultGroupViewOnLoad">
+								<?php
+								sort($arrayOfGroups);
+								foreach ($arrayOfGroups as $key => $value):
+								?>
+								<option <?php if ($defaultGroupViewOnLoad == $value){echo "selected";}?> value="<?php echo $value; ?>"><?php echo $value; ?></option>
+										
+								<?php
+								endforeach;
+								?>
+							</select>
+						<p class="description" >Default group visible on page load</p>
+					</li>
+				<?php endif; ?>
 			</ul>
 		</div>
 	</div>
