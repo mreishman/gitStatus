@@ -94,7 +94,7 @@
 
 <script type="text/javascript"> 
 	var lock = false;
-	var urlForSendMain = '../../../../core/php/performSettingsInstallUpdateAction.php?format=json';
+	var urlForSendMain = '../../../../core/php/update/performSettingsInstallUpdateAction.php?format=json';
 
 	$( document ).ready(function()
 	{
@@ -263,7 +263,7 @@
 
 	function verifyConfFileChanged()
 	{
-		var urlForSend =  '../../../../core/php/getPercentUpdate.php?format=json';
+		var urlForSend =  '../../../../core/php/update/getPercentUpdate.php?format=json';
 		var data = {};
 		$.ajax({
 			url: urlForSend,
