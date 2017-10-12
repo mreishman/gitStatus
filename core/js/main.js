@@ -1,5 +1,17 @@
 var counterForSave = numberOfLogs+1;
 
+function escapeHTML(unsafeStr)
+{
+	return unsafeStr.toString()
+	.replace(/&/g, "&amp;")
+	.replace(/</g, "&lt;")
+	.replace(/>/g, "&gt;")
+	.replace(/\"/g, "&quot;")
+	.replace(/\'/g, "&#39;")
+	.replace(/\//g, "&#x2F;");
+	
+}
+
 function checkLogHog(logHogI)
 {
 	var urlForSend = '/status/core/php/functions/logHog.php?format=json'
@@ -46,7 +58,20 @@ function poll(all = -1)
 		var arrayOfFilesLength = arrayOfFiles.length
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
-			tryHTTPForPollRequest(i);
+			var boolForRun = true;
+			if(onlyRefreshVisible === "true")
+			{
+				var name = "innerFirstDevBoxbranchNameDevBox1"+arrayOfFiles[i][0];
+				name = name.replace(/\s/g, '_');
+				if( document.getElementById(name).parentElement.style.display === "none")
+				{
+					boolForRun = false;
+				}
+			}
+			if(boolForRun)
+			{
+				tryHTTPForPollRequest(i);
+			}
 		}
 	}
 	else
@@ -95,6 +120,10 @@ function tryHTTPForPollRequest(count)
 function tryHttpActuallyPollLogic(count, name)
 {
 	var urlForSend = 'http://'+arrayOfFiles[count][1]+'/status/core/php/functions/gitBranchName.php?format=json';
+	if(arrayOfFiles[count][6] !== "")
+	{
+		urlForSend = 'http://'+arrayOfFiles[count][6]+'?format=json';
+	}
 	document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
 	var data = {location: arrayOfFiles[count][2], name: name, githubRepo: arrayOfFiles[count][4], urlForSend: urlForSend};
 		(function(_data){
@@ -703,7 +732,7 @@ function pausePollFunction()
 {
 	pausePollFile = true;
 	document.getElementById('pauseImage').src="core/img/Play.png";
-	document.title = "Log Hog | Paused";
+	document.title = "Status | Paused";
 }
 
 function switchToStandardView() 

@@ -203,7 +203,7 @@ else
 	$h++;	
 	$keyNoSpace = preg_replace('/\s+/', '_', $key);
 	$showCachedValue = false;
-	if(!empty($cachedStatusMainObject) && $cachedStatusMainObject != array())
+	if(!empty($cachedStatusMainObject) && $cachedStatusMainObject != array() && $cacheEnabled === "true")
 	{
 		if(isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace]))
 		{
@@ -243,29 +243,31 @@ else
 						echo "Blocking poll requests untill: ".$cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][8];
 					endif; ?>
 				</span>
-					<b><span id="branchNameDevBox1<?php echo $keyNoSpace;?>">
-					<?php if($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][0])):
-						echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][0];
-					else: ?>
-						<img style="width: 20px;" src="core/img/loading.gif"> Loading...
-					<?php endif; ?>
-					</span></b>
+					<b>
+						<?php if($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][0])):
+							echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][0];
+						else: ?>
+						<span id="branchNameDevBox1<?php echo $keyNoSpace;?>">
+							<img style="width: 20px;" src="core/img/loading.gif"> Loading...
+						</span>
+						<?php endif; ?>
+					</b>
 					<div class="<?php if($defaultViewBranch == 'Standard'){echo 'devBoxContentSecondary';}else{echo'devBoxContentSecondaryExpanded';}?>">
 					<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>UpdateOuter">
 						<br><br>
 						<b>Last Updated:</b>
-						<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update">
 						<?php if($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][1])):
 							echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][1];
 						else: ?>
+							<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update">
 							--Pending--
+							</span>
 						<?php endif; ?>
-						</span>
 						<br>
 					</span>
 					<br>
 					<?php if($showCachedValue && isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][2])):?>
-						<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats"><?php echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][2]; ?></span>
+						<?php echo $cachedStatusMainObject["branchNameDevBox1".$keyNoSpace][2]; ?>
 					<?php else: ?>
 						<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">--Pending--</span>
 					<?php endif; ?>
@@ -291,6 +293,7 @@ else
 			echo "var checkForIssueCustom = '".$checkForIssueCustom."';";
 			echo "var checkForIssueInCommit = '".$checkForIssueInCommit."';";
 			echo "var cacheEnabled = '".$cacheEnabled."';";
+			echo "var onlyRefreshVisible = '".$onlyRefreshVisible."';";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";
