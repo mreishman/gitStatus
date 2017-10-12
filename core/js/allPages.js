@@ -73,4 +73,5 @@ jQuery(document).ready(function() {
         $('#main').animate({scrollTop: 0}, duration);
         return false;
     });
+    resizeFunction();
 });

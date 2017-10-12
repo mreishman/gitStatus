@@ -8,18 +8,49 @@ if(file_exists('../../../local/layout.php'))
 	require_once('../../../local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
-if(file_exists($baseUrl.'conf/config.php'))
-{
-	require_once($baseUrl.'conf/config.php');
-}
-else
-{
-	$config = array();
-}
+
+require_once($baseUrl.'conf/config.php');
 require_once('../../../core/conf/config.php'); 
 require_once('../loadVars.php');
 
 	$fileName = ''.$baseUrl.'conf/config.php';
+	$arrayWatchList = "";
+
+	$numberOfRows = count($watchList);
+	$i = 0;
+	foreach ($watchList as $key => $value) 
+	{
+		$i++;
+		$j = 0;
+		$numberOfRows2 = count($value);
+		$arrayWatchList .= "'".$key."' => array(";
+		$githubRepoPresent = false;
+		foreach ($value as $key2 => $value2)
+		{
+			if($key2 == "urlHit")
+			{
+				$githubRepoPresent = true;
+			}
+
+			$j++;
+			$arrayWatchList .= "'".$key2."' =>  '".$value2."'";
+			if($j != $numberOfRows2)
+			{
+				$arrayWatchList .= ",";
+			}
+		}
+		if(!$githubRepoPresent)
+		{
+			$arrayWatchList .= ",'urlHit' =>  ''";
+		}
+		$arrayWatchList .= ")";
+		if($i != $numberOfRows)
+		{
+			$arrayWatchList .= ",";
+		}
+	}
+
+
 
 	$newInfoForConfig = "
 	<?php
@@ -52,6 +83,6 @@ require_once('../loadVars.php');
 
 	file_put_contents($fileName, $newInfoForConfig);
 
-	header('Location: ' . $_SERVER['HTTP_REFERER']);
-	exit();
+	//header('Location: https://' . $_SERVER['SERVER_NAME'] . '/status/update/updater.php');
+	//exit();
 ?>

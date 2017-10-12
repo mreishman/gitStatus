@@ -12,6 +12,7 @@ $defaultConfig = array(
 	'expSettingsAvail'	=> 'true',
 	'defaultViewBranch'	=> 'Standard',
 	'cacheEnabled'		=> 'true',
+	'onlyRefreshVisible'	=> 'true',
 	'defaultViewBranchCookie'	=> 'false',
 	'loginAuthType'	=> 'disabled',
 	'errorAndColorArray'	=> array(

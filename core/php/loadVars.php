@@ -46,6 +46,18 @@ foreach ($defaultConfig as $key => $value)
 		$$key = $value;
 	} 
 }
+if(isset($_POST['onlyRefreshVisible']))
+{
+	$onlyRefreshVisible = $_POST['onlyRefreshVisible'];
+}
+elseif(array_key_exists('onlyRefreshVisible', $config))
+{
+	$onlyRefreshVisible = $config['onlyRefreshVisible'];
+}
+else
+{
+	$onlyRefreshVisible = $defaultConfig['onlyRefreshVisible'];
+}
 
 
 

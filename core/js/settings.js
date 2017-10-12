@@ -1,5 +1,7 @@
-document.getElementById("menuBarLeftSettings").style.backgroundColor  = "#ffffff";
-
+if(document.getElementById("menuBarLeftSettings"))
+{
+	document.getElementById("menuBarLeftSettings").style.backgroundColor  = "#ffffff";
+}
 var countOfClicksFilterBranch = 0;
 var countOfClicksFilterAuthor = 0;
 var countOfClicksFilterComittee = 0;
@@ -51,7 +53,6 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 	if(decreaseCountWatchListNum)
 	{
 		var countOfHeighestNum = 1;
-		console.log(filterType+countOfHeighestNum);
 		while (document.getElementById(filterType+countOfHeighestNum))
 		{
 			countOfHeighestNum++;
@@ -146,7 +147,6 @@ function clearCache()
 	displayLoadingPopup();
 	var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
 	var data = {clearArray: true};
-	console.log(data);
 	(function(_data)
 	{
 		$.ajax({
@@ -157,7 +157,7 @@ function clearCache()
 		type: 'POST',
 		success(data)
 		{
-			console.log(data);
+
 		},
 		complete: function(data)
 		{
@@ -186,8 +186,7 @@ function verifyCacheClear()
 			type: 'POST',
 			success: function(data)
 			{
-				console.log(data);
-				if(!data)
+				if(jQuery.isEmptyObject(data))
 				{
 					cacheClearSuccess();
 				}
