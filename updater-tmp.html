@@ -104,7 +104,7 @@
 	function removeUpdateOld()
 	{
 		var urlForSend = urlForSendMain;
-		var dataSend = {action: 'removeZipFile', fileToUnlink: "../../update/updater.php"};
+		var dataSend = {action: 'removeZipFile', fileToUnlink: "../../../update/updater.php"};
 		$.ajax({
 			url: urlForSend,
 			dataType: 'json',
@@ -115,7 +115,7 @@
 				document.getElementById('loadingCopyOld').style.display = "none";
 				document.getElementById('greenCheckOld').style.display = "block";
 				document.getElementById('loadingVerifiedRemove').style.display = "block";
-				verifyFile("remove","../../update/updater.php", false);
+				verifyFile("remove","../../../update/updater.php", false);
 			},
 			failure: function(data)
 			{
@@ -139,7 +139,7 @@
 				document.getElementById('loadingCopyNew').style.display = "none";
 				document.getElementById('greenCheckCopyNew').style.display = "block";
 				document.getElementById('loadingCopyNewVerify').style.display = "block";
-				verifyFile("added","../../update/updater.php");
+				verifyFile("added","../../../update/updater.php");
 			}
 		});
 	}
