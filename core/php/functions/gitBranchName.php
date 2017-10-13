@@ -32,6 +32,27 @@ if(strlen(escapeshellarg($_POST['location'])) < 500)
 	{
 		$monitor = $_POST['websiteBase']."/loghog/top";
 	}
+	elseif(is_dir("../../../../Log-Hog/monitor"))
+	{
+		$monitor = $_POST['websiteBase']."/Log-Hog/monitor";
+	}
+	elseif(is_dir("../../../../loghog/monitor"))
+	{
+		$monitor = $_POST['websiteBase']."/loghog/monitor";
+	}
+	$search = "";
+	if(is_dir("../../../../search"))
+	{
+		$search = $_POST['websiteBase']."/search";
+	}
+	elseif(is_dir("../../../../Log-Hog/search"))
+	{
+		$search = $_POST['websiteBase']."/Log-Hog/search";
+	}
+	elseif(is_dir("../../../../loghog/search"))
+	{
+		$search = $_POST['websiteBase']."/loghog/search";
+	}
 	$response = array(
 		'branch' 	=> $branchName,
 		'idName'	=> $keyNoSpace,
@@ -44,6 +65,7 @@ if(strlen(escapeshellarg($_POST['location'])) < 500)
 		'datePicker'	=> $datePicker,
 		'loghog'		=> $loghog,
 		'monitor'		=> $monitor,
+		'search'		=> $search,
 		'otherFunctions'	=> ''
 	);
 }

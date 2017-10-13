@@ -494,6 +494,12 @@ function pollSuccess(dataInner, dataInnerPass)
 				document.getElementById(noSpaceName+"MonitorOuter").style.display = "inline-block";
   				document.getElementById(noSpaceName+"MonitorInner").href = "http://"+dataInner['monitor'];
 			}
+
+			if(dataInner['search'] != "")
+			{
+				document.getElementById(noSpaceName+"SearchOuter").style.display = "inline-block";
+  				document.getElementById(noSpaceName+"SearchInner").href = "http://"+dataInner['search'];
+			}
 		}
 	}
 	else
