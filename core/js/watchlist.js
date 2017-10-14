@@ -60,3 +60,8 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 	}
 
 }	
+
+function testConnection(currentRow)
+{
+	//get info for request (URL hit, if defined or website base / folder)
+}

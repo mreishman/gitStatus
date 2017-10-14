@@ -53,7 +53,9 @@
 	 				?>
 	 				<br> <input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'> 
 	 				<span class="leftSpacingserverNames" ></span>
-					<a class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $i; ?>, true)">Remove</a>
+					<a class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $i; ?>, true);">Remove</a>
+					<span> | </span>
+					<a class="mainLinkClass" onclick="testConnection(<?php echo $i; ?>);" >Check Connection</a>
 				</li>
 				<?php endforeach; ?>
 				<div style="display: inline-block;" id="newRowLocationForWatchList"></div>
