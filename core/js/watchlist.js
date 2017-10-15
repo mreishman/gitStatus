@@ -61,7 +61,44 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 
 }	
 
-function testConnection(currentRow)
+function testConnection(currentRowInformation)
 {
 	//get info for request (URL hit, if defined or website base / folder)
+	var sendUrlHere = currentRowInformation['urlHit'];
+	if(sendUrlHere === "" || sendUrlHere === " ")
+	{
+		sendUrlHere = currentRowInformation['WebsiteBase'];
+	}
+
+
+	//show popup window
+	showPopup();
+	var popupHtml = "";
+	document.getElementById('popupContentInnerHTMLDiv').innerHTML = popupHtml;
+	
+	
+	//send check requests
+	checkWebsiteInGeneral(currentRowInformation['WebsiteBase']);
+	checkWebsiteStatus(sendUrlHere);
+}
+
+function checkWebsiteInGeneral(sendUrlHere)
+{
+
+}
+
+function checkWebsiteStatus(sendUrlHere)
+{
+	$.ajax({
+		url:sendUrlHere,
+		dataType: 'jsonp',
+		success(json)
+		{
+			alert("Success");
+		},
+		error()
+		{
+			alert("Error");
+		}
+	});
 }

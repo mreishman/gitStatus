@@ -4,7 +4,7 @@ $disablePostRequestWithPostData = false;
 
 if((isset($_POST['location']) && isset($_POST['name']) && isset($_POST['websiteBase'])) && !$disablePostRequestWithPostData)
 {
-	//old version!!!! (prior to 1.6)
+	//old version!!!! (prior to 2.0)
 
 	$postLocation = $_POST['location'];
 	$postName = $_POST['name'];
@@ -90,7 +90,7 @@ if((isset($_POST['location']) && isset($_POST['name']) && isset($_POST['websiteB
 }
 else
 {
-	//new version (1.6 or greater) or just checking
+	//new version (2.0 or greater) or just checking
 	$response = array(
 			'isHere' => true
 		);

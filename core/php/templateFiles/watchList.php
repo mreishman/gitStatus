@@ -31,6 +31,9 @@
 				$numCount = 0;
 				$arrayOfKeys = array();
 				foreach($config['watchList'] as $key => $item): $i++; ?>
+				<script type="text/javascript">
+					var dataForWatchFolder<?php echo $i?> = JSON.parse('<?php echo json_encode($item); ?>');
+				</script>
 				<li class="watchFolderGroups" id="rowNumber<?php echo $i; ?>" >
 					<span class="leftSpacingserverNames" > Name: </span>
 	 				<input class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
@@ -55,7 +58,7 @@
 	 				<span class="leftSpacingserverNames" ></span>
 					<a class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $i; ?>, true);">Remove</a>
 					<span> | </span>
-					<a class="mainLinkClass" onclick="testConnection(<?php echo $i; ?>);" >Check Connection</a>
+					<a class="mainLinkClass" onclick="testConnection(dataForWatchFolder<?php echo $i; ?>);" >Check Connection</a>
 				</li>
 				<?php endforeach; ?>
 				<div style="display: inline-block;" id="newRowLocationForWatchList"></div>
