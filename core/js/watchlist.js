@@ -1,3 +1,4 @@
+var urlForCurl = "./core/php/functions/sendCurl.php";
 
 function addRowFunction()
 {
@@ -67,13 +68,14 @@ function testConnection(currentRowInformation)
 	var sendUrlHere = currentRowInformation['urlHit'];
 	if(sendUrlHere === "" || sendUrlHere === " ")
 	{
-		sendUrlHere = currentRowInformation['WebsiteBase'];
+		sendUrlHere = currentRowInformation['WebsiteBase'] + "/status/core/php/functions/gitBranchName.php";
 	}
-
 
 	//show popup window
 	showPopup();
-	var popupHtml = "";
+	var popupHtml = "<div class=\"devBoxTitle\" ><b>Checking connection</b> | <button class=\"buttonButton\" onclick=\"hidePopup();\" >Close</button> </div><br><br>"
+	popupHtml += "<div style=\"width:100%;text-align:center; line-height: 50px;\"> <img id=\"connectionCheckMainLoad\" src=\"core/img/loading.gif\" height=\"50\" width=\"50\"> <img style=\"display: none;\" id=\"connectionCheckMainGreen\" src=\"core/img/greenCheck.png\" height=\"50\" width=\"50\"> <img style=\"display: none;\" id=\"connectionCheckMainRed\" src=\"core/img/redWarning.png\" height=\"50\" width=\"50\">Website";
+	popupHtml += "<img id=\"connectionCheckStatusLoad\" src=\"core/img/loading.gif\" height=\"50\" width=\"50\"> <img style=\"display: none;\" id=\"connectionCheckStatusGreen\" src=\"core/img/greenCheck.png\" height=\"50\" width=\"50\"> <img style=\"display: none;\" id=\"connectionCheckStatusRed\" src=\"core/img/redWarning.png\" height=\"50\" width=\"50\"> Status </div>";
 	document.getElementById('popupContentInnerHTMLDiv').innerHTML = popupHtml;
 	
 	
@@ -84,21 +86,40 @@ function testConnection(currentRowInformation)
 
 function checkWebsiteInGeneral(sendUrlHere)
 {
-
+	$.ajax({
+		url:urlForCurl,
+		dataType: 'json',
+		type: 'POST',
+		data: {sendUrlHere},
+		success(json)
+		{
+			document.getElementById("connectionCheckMainLoad").style.display = "none";
+			document.getElementById("connectionCheckMainGreen").style.display = "inline-block";
+		},
+		error()
+		{
+			document.getElementById("connectionCheckMainLoad").style.display = "none";
+			document.getElementById("connectionCheckMainRed").style.display = "inline-block";
+		}
+	});
 }
 
 function checkWebsiteStatus(sendUrlHere)
 {
 	$.ajax({
-		url:sendUrlHere,
-		dataType: 'jsonp',
+		url:urlForCurl,
+		dataType: 'json',
+		type: 'POST',
+		data: {sendUrlHere},
 		success(json)
 		{
-			alert("Success");
+			document.getElementById("connectionCheckStatusLoad").style.display = "none";
+			document.getElementById("connectionCheckStatusGreen").style.display = "inline-block";
 		},
 		error()
 		{
-			alert("Error");
+			document.getElementById("connectionCheckStatusLoad").style.display = "none";
+			document.getElementById("connectionCheckStatusRed").style.display = "inline-block";
 		}
 	});
 }
