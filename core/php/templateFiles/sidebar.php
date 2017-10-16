@@ -67,14 +67,34 @@
 				</li>
 				<li style="height: 0px; border-top: 1px solid white; border-bottom: 10px solid #aaaaaa;" >
 				</li>
+				<!-- Monitor -->
 				<?php if(file_exists('../monitor/index.php')): ?>
 					<li id="monitorLink"  onclick="window.location.href =  '../monitor/';" >Monitor</li>
 				<?php endif;?>
+				<!-- Search -->
+				<?php if(file_exists('../search/index.php')): ?>
+					<li id="search-link"  onclick="window.location.href =  '../search/';" >Search</li>
+				<?php endif;?>
+				<!-- Log-Hog -->
 				<?php if(file_exists('../Log-Hog/index.php')): ?>
 					<li id="Log-HogLink"  onclick="window.location.href =  '../Log-Hog/';" >Log-Hog</li>
 				<?php endif;?>
 				<?php if(file_exists('../loghog/index.php')): ?>
 					<li id="Loghog-link"  onclick="window.location.href =  '../loghog/';" >Loghog</li>
+				<?php endif;?>
+				<!-- Log-Hog / Monitor -->
+				<?php if(file_exists('../Log-Hog/monitor/index.php')): ?>
+					<li id="Log-HogLink"  onclick="window.location.href =  '../Log-Hog/monitor/';" >Monitor</li>
+				<?php endif;?>
+				<?php if(file_exists('../loghog/monitor/index.php')): ?>
+					<li id="Loghog-link"  onclick="window.location.href =  '../loghog/monitor/';" >Monitor</li>
+				<?php endif;?>
+				<!-- Log-Hog / Search -->
+				<?php if(file_exists('../Log-Hog/search/index.php')): ?>
+					<li id="Log-HogLink"  onclick="window.location.href =  '../Log-Hog/search/';" >Search</li>
+				<?php endif;?>
+				<?php if(file_exists('../loghog/search/index.php')): ?>
+					<li id="Loghog-link"  onclick="window.location.href =  '../loghog/search/';" >Search</li>
 				<?php endif;?>
 			</ul>
 
