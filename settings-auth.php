@@ -26,18 +26,7 @@ require_once('core/php/loadVars.php'); ?>
 <body>
 	
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
-	<div id="menu">
-			<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
-			<a class="show-sidebar" id="show">
-		    	<span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		    </a>
-			</div>
-			<div style="display: inline-block;" >
-				<a href="#" class="back-to-top" style="color:#000000;">Back to Top</a>
-			</div>
-		</div>	
+	<?php require_once('core/php/templateFiles/header.php'); ?>
 	<div id="main">
 	<?php if($loginAuthType == 'LDAP'): ?>
 		<div class="firstBoxDev">
