@@ -143,4 +143,14 @@ else
 
 }
 
+
+$open = false;
+if(isset($_COOKIE['toggleMenuSideBarGitStatus']))
+{
+	if($_COOKIE['toggleMenuSideBarGitStatus'] == 'open')
+	{
+		$open = true;
+	}
+}
+
 ?>

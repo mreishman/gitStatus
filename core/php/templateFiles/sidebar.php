@@ -1,45 +1,20 @@
 	<div id="sidebar" <?php
-	$open = false;
-	if(isset($_COOKIE['toggleMenuSideBarGitStatus'])) 
-		{
-	    	$open = false;
-			if(isset($_COOKIE['toggleMenuSideBarGitStatus'])) 
-			{
-			    if($_COOKIE['toggleMenuSideBarGitStatus'] == 'open')
-			    {
-			    	echo "style='width: 100px;' class='sidebarIsVisible'";
-			    	$open = true;
-			    }
-			}
-			if($open == false && $levelOfUpdate != 0)
-			{
-				echo "style='width: 100px;' class='sidebarIsVisible'";
-			}
-		}
+	
+	if($open)
+	{
+		echo "style='width: 100px;' class='sidebarIsVisible'";
+	}
 	?>
 	>
-		<div id="sidebarMenu"  <?php if(isset($_COOKIE['toggleMenuSideBarGitStatus'])) 
+		<div id="sidebarMenu"  <?php 
+		if($open)
+	    {
+	    	echo "style='width: block;'";
+	    }
+	    else
 		{
-    		if($open == true)
-		    {
-		    	echo "style='width: block;'";
-		    }
-		    else
-		    {
-		    	if($open == false && $levelOfUpdate != 0)
-				{
-					echo "style='width: block;'";
-				}
-				else
-				{
-		    		echo 'style="display: none;"';
-		    	}
-		    }
-		}
-		else
-		{
-			echo 'style="display: none;"';
-		}
+    		echo 'style="display: none;"';
+    	}
 		?>>
 		<div class="paddingTopForLeftMenu">
 		</div>
@@ -103,14 +78,9 @@
 
 	<div id="sidebarBG" 
 	<?php
-    if($open == true)
+    if($open)
     {
     	echo "style='width: 100px;'";
-    	$open = true;
     }
-	if($open == false && $levelOfUpdate != 0)
-	{
-		echo "style='width: 100px;'";
-	}
 ?>  >
 	</div>
