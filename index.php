@@ -230,9 +230,30 @@ else
 			}
 		?>
 		var branchColorFilter = '<?php echo $branchColorFilter;?>';
-		var errorAndColorArray = JSON.parse('<?php echo json_encode($errorAndColorArray); ?>');
-		var errorAndColorAuthorArray = JSON.parse('<?php echo json_encode($errorAndColorAuthorArray); ?>');
-		var errorAndColorComitteeArray = JSON.parse('<?php echo json_encode($errorAndColorComitteeArray); ?>'); 
+
+
+		var errorAndColorArray = new Array();
+		var errorAndColorAuthorArray = new Array();
+		var errorAndColorComitteeArray = new Array();
+
+		try
+		{
+			var errorAndColorArray = JSON.parse('<?php echo json_encode($errorAndColorArray); ?>');
+		}
+		catch(e){}
+
+		try
+		{
+			var errorAndColorAuthorArray = JSON.parse('<?php echo json_encode($errorAndColorAuthorArray); ?>');
+		}
+		catch(e){}
+		
+		try
+		{
+			var errorAndColorComitteeArray = JSON.parse('<?php echo json_encode($errorAndColorComitteeArray); ?>');
+		}
+		catch(e){}
+		
 		var pausePoll = false;
 		var pausePollFile = false;
 		var refreshActionVar;
