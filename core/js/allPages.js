@@ -26,6 +26,8 @@ function toggleMenuSideBar() {
 		document.cookie = "toggleMenuSideBarGitStatus=closed";
 		calcuateWidth();
 		$('#sidebar').removeClass('sidebarIsVisible');
+        document.getElementById("openMenuHamburger").style.display = "none";
+        document.getElementById("closeMenuHamburger").style.display = "inline-block";
 	}
 	else
 	{
@@ -35,6 +37,8 @@ function toggleMenuSideBar() {
 		document.cookie = "toggleMenuSideBarGitStatus=open";
 		calcuateWidth();	
 		$('#sidebar').addClass('sidebarIsVisible');
+        document.getElementById("openMenuHamburger").style.display = "inline-block";
+        document.getElementById("closeMenuHamburger").style.display = "none";
 	}
 }
 

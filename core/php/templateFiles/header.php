@@ -13,11 +13,28 @@
 ?>
 <div id="menu">
 	<div class="menuSections" >
-		<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
+		<div
+		id="closeMenuHamburger"
+		style="
+		<?php if($open){echo"display: none;";}else{echo "display: inline-block;";} ?>
+		"
+		onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
 			<a class="show-sidebar" id="show">
 		    	<span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
+		    </a>
+		</div>
+		<div
+		id="openMenuHamburger"
+		style="
+		<?php if(!$open){echo"display: none;";}else{echo "display: inline-block;";} ?>
+		"
+		onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
+			<a style="margin-top: 15px;" class="show-sidebar" id="show">
+		    	<span class="icon-bar-top"></span>
+		        <span class="icon-bar-mid"></span>
+		        <span class="icon-bar-bot"></span>
 		    </a>
 		</div>
 		<div style="display: inline-block;" >
