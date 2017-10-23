@@ -34,41 +34,74 @@ require_once('core/php/loadVars.php'); ?>
 		</div>
 	</div>
 	<script type="text/javascript">
-		function calcuateWidth()
-{
-	var innerWidthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-	if(document.getElementById("sidebar").style.width == '100px')
+	function calcuateWidth()
 	{
-		innerWidthWindow -= 103;
+		var innerWidthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+		if(document.getElementById("sidebar").style.width == '100px')
+		{
+			innerWidthWindow -= 103;
+		}
+		if(document.getElementById("sidebar").style.width == '100px')
+		{
+			document.getElementById("main").style.left = "103px";
+		}
+		else
+		{
+			document.getElementById("main").style.left = "0px";
+		}
+		var innerWidthWindowCalc = innerWidthWindow;
+		var innerWidthWindowCalcAdd = 0;
+		var numOfWindows = 0;
+		var elementWidth = 410;
+		while(innerWidthWindowCalc > elementWidth)
+		{
+			innerWidthWindowCalcAdd += elementWidth;
+			numOfWindows++;
+			
+			innerWidthWindowCalc -= elementWidth;
+		}
+		var windowWidthText = ((innerWidthWindowCalcAdd)+40)+"px";
+		document.getElementById("main").style.width = windowWidthText;
+		var remainingWidth = innerWidthWindow - ((innerWidthWindowCalcAdd)+40);
+		remainingWidth = remainingWidth / 2;
+		var windowWidthText = remainingWidth+"px";
+		document.getElementById("main").style.marginLeft = windowWidthText;
+		document.getElementById("main").style.paddingRight = windowWidthText;
+		document.getElementById("widthForWatchListSection").style.width = ((innerWidthWindowCalcAdd))+"px";
 	}
-	if(document.getElementById("sidebar").style.width == '100px')
+
+	function saveWatchList()
 	{
-		document.getElementById("main").style.left = "103px";
+		var duplicateNames = false;
+		//check for duplicate names
+		var counter = 1;
+		var arrayOfNames = new Array();
+		while(document.getElementsByName("watchListKey"+counter).length > 0)
+		{
+			var checkName = document.getElementsByName("watchListKey"+counter)[0].value;
+			if(!((arrayOfNames.indexOf(checkName) > -1)))
+			{
+				arrayOfNames.push(checkName);
+			}
+			else
+			{
+				duplicateNames = true;
+			}
+			counter++;
+		}
+		if(!duplicateNames)
+		{
+			displayLoadingPopup();
+			document.getElementById("settingsMainWatch").submit();
+		}
+		else
+		{
+			//show popup
+			showPopup();
+			document.getElementById('popupContentInnerHTMLDiv').innerHTML = "<div class='devBoxTitle' ><b>Error</b></div><br><br><div style='width:100%;text-align:center;'> Names must be unique <br> <button class='buttonButton' onclick='hidePopup();'>Ok</button> </div>";
+		}
+
 	}
-	else
-	{
-		document.getElementById("main").style.left = "0px";
-	}
-	var innerWidthWindowCalc = innerWidthWindow;
-	var innerWidthWindowCalcAdd = 0;
-	var numOfWindows = 0;
-	var elementWidth = 410;
-	while(innerWidthWindowCalc > elementWidth)
-	{
-		innerWidthWindowCalcAdd += elementWidth;
-		numOfWindows++;
-		
-		innerWidthWindowCalc -= elementWidth;
-	}
-	var windowWidthText = ((innerWidthWindowCalcAdd)+40)+"px";
-	document.getElementById("main").style.width = windowWidthText;
-	var remainingWidth = innerWidthWindow - ((innerWidthWindowCalcAdd)+40);
-	remainingWidth = remainingWidth / 2;
-	var windowWidthText = remainingWidth+"px";
-	document.getElementById("main").style.marginLeft = windowWidthText;
-	document.getElementById("main").style.paddingRight = windowWidthText;
-	document.getElementById("widthForWatchListSection").style.width = ((innerWidthWindowCalcAdd))+"px";
-}
 
 
 var countOfWatchList = <?php echo $i; ?>;

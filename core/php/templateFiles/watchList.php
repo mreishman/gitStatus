@@ -1,7 +1,7 @@
 <form id="settingsMainWatch" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 	<div id="widthForWatchListSection" class="innerFirstDevBox" style="width: 500px;" >
 		<div class="devBoxTitle">
-			<b>Watch List</b> <button class="buttonButton" onclick="displayLoadingPopup();" >Save Changes</button>
+			<b>Watch List</b> <a class="buttonButton" onclick="saveWatchList();" >Save Changes</a>
 		</div>
 		<div class="devBoxContent">
 			<ul class="settingsUl">
