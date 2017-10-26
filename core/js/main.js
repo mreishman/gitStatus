@@ -1,4 +1,5 @@
 var counterForSave = numberOfLogs+1;
+var updating = false;
 
 function escapeHTML(unsafeStr)
 {
@@ -707,7 +708,7 @@ if (autoCheckUpdate == true)
 	today = mm+'-'+dd+'-'+yyyy;
 	if(today != dateOfLastUpdate)
 	{
-		window.location.href = "core/php/update/settingsCheckForUpdate.php";
+		checkForUpdateDefinitely();
 	}
 }
 
@@ -885,3 +886,101 @@ window.onclick = function(event) {
 	}
 }
 
+function checkForUpdateDefinitely(showPopupForNoUpdate = false)
+{
+	if(!updating)
+	{
+		updating = true;
+		if(showPopupForNoUpdate)
+		{
+			displayLoadingPopup("./core/img/");
+		}
+		$.getJSON('core/php/update/settingsCheckForUpdate.php', {}, function(data) 
+		{
+			if((data.version == "1" && updateNoticeMeter == "every")|| data.version == "2" | data.version == "3")
+			{
+				//Update needed
+				if(dontNotifyVersion != data.versionNumber)
+				{
+
+					if(popupSettingsArray.versionCheck != "false")
+					{
+						dataFromUpdateCheck = data;
+						timeoutVar = setInterval(function(){updateUpdateCheckWaitTimer();},3000);
+					}
+					else
+					{
+						location.reload();
+					}
+				}
+			}
+			else if (data.version == "0")
+			{
+				if(showPopupForNoUpdate)
+				{
+					showPopup();
+					document.getElementById("popupContentInnerHTMLDiv").innerHTML = "<div class='settingsHeader' >No Update Needed</div><br><div style='width:100%;text-align:center;padding-left:10px;padding-right:10px;'>You are on the most current version</div><div class='link' onclick='hidePopup();' style='margin-left:165px; margin-right:50px;margin-top:25px;'>Okay!</div></div>";
+				}
+			}
+			else
+			{
+				//error?
+				showPopup();
+				document.getElementById("popupContentInnerHTMLDiv").innerHTML = "<div class='settingsHeader' >Error when checking for update</div><br><div style='width:100%;text-align:center;padding-left:10px;padding-right:10px;'>An error occured while trying to check for updates. Make sure you are connected to the internet and settingsCheckForUpdate.php has sufficient rights to write / create files. </div><div class='link' onclick='hidePopup();' style='margin-left:165px; margin-right:50px;margin-top:5px;'>Okay!</div></div>";
+			}
+			
+		});
+		updating = false;
+	}
+}
+
+function updateUpdateCheckWaitTimer()
+{
+	$.getJSON("core/php/update/configStaticCheck.php", {}, function(data) 
+	{
+		if(currentVersion != data)
+		{
+			clearInterval(timeoutVar);
+			showUpdateCheckPopup(dataFromUpdateCheck);
+		}
+	});
+}
+
+function showUpdateCheckPopup(data)
+{
+	showPopup();
+	var textForInnerHTML = "<div class='settingsHeader' >New Version Available!</div><br><div style='width:100%;text-align:center;padding-left:10px;padding-right:10px;'>Version "+escapeHTML(data.versionNumber)+" is now available!</div><div class='link' onclick='installUpdates();' style='margin-left:74px; margin-right:50px;margin-top:25px;'>Update Now</div><div onclick='saveSettingFromPopupNoCheckMaybe();' class='link'>Maybe Later</div><br><div style='width:100%; padding-left:45px; padding-top:5px;'>";
+	textForInnerHTML += "<span style='display: none;'>";
+	textForInnerHTML += "<input id='dontShowPopuForThisUpdateAgain'";
+	if(dontNotifyVersion == data.versionNumber)
+	{
+		//textForInnerHTML += " checked "
+	}
+	dontNotifyVersion = data.versionNumber;
+	textForInnerHTML += "type='checkbox'>Don't notify me about this update again";
+	textForInnerHTML += "</span>";
+	textForInnerHTML += "</div></div>";
+	document.getElementById("popupContentInnerHTMLDiv").innerHTML = textForInnerHTML;
+}
+
+function saveSettingFromPopupNoCheckMaybe()
+{
+	if(document.getElementById("dontShowPopuForThisUpdateAgain").checked)
+	{
+		var urlForSend = "core/php/settingsSaveAjax.php?format=json";
+		var data = {dontNotifyVersion: dontNotifyVersion };
+		$.ajax({
+				  url: urlForSend,
+				  dataType: "json",
+				  data: data,
+				  type: "POST",
+		complete: function(data){
+			hidePopup();
+  	},
+		});
+	}
+	else
+	{
+	hidePopup();
+	}
+}

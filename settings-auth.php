@@ -1,5 +1,5 @@
 <?php 
-
+require_once("core/php/functions/commonFunctions.php");
 $baseUrl = "core/";
 if(file_exists('local/layout.php'))
 {

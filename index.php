@@ -1,4 +1,5 @@
 <?php
+require_once("core/php/functions/commonFunctions.php");
 $baseUrl = "core/";
 if(file_exists('local/layout.php'))
 {
@@ -203,6 +204,7 @@ else
 			echo "var checkForIssueInCommit = '".$checkForIssueInCommit."';";
 			echo "var cacheEnabled = '".$cacheEnabled."';";
 			echo "var onlyRefreshVisible = '".$onlyRefreshVisible."';";
+			echo "var dontNotifyVersion = '".$dontNotifyVersion."';";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";
