@@ -75,72 +75,23 @@ require_once('core/php/loadVars.php'); ?>
 				</div>
 			</div>
 		</div>
-		<?php if($levelOfUpdate != 0): ?>
-		<div class="firstBoxDev">
+		<div class="firstBoxDev" <?php if($levelOfUpdate == 0): ?> style="display: none;" <?php endif; ?>>
 			<div class="innerFirstDevBox" style="width: 600px;"  >
 				<div class="devBoxTitle">
 				Update - Release Notes
 				</div>
-				<div class="devBoxContent"  >
+				<div class="devBoxContent">
 					<ul id="settingsUl">
 					<?php 
-					if(array_key_exists('versionList', $configStatic))
+					if(array_key_exists('versionList', $configStatic) && ($levelOfUpdate != 0))
 					{
 						foreach ($configStatic['versionList'] as $key => $value) 
 						{
 							$version = explode('.', $configStatic['version']);
 							$newestVersion = explode('.', $key);
-							$levelOfUpdate = 0;
-							for($i = 0; $i < $newestVersionCount; $i++)
-							{
-								if($i < $versionCount)
-								{
-									if($i == 0)
-									{
-										if($newestVersion[$i] > $version[$i])
-										{
-											$levelOfUpdate = 3;
-											break;
-										}
-										elseif($newestVersion[$i] < $version[$i])
-										{
-											break;
-										}
-									}
-									elseif($i == 1)
-									{
-										if($newestVersion[$i] > $version[$i])
-										{
-											$levelOfUpdate = 2;
-											break;
-										}
-										elseif($newestVersion[$i] < $version[$i])
-										{
-											break;
-										}
-									}
-									else
-									{
-										if(isset($newestVersion[$i]))
-										{
-											if($newestVersion[$i] > $version[$i])
-											{
-												$levelOfUpdate = 1;
-												break;
-											}
-											elseif($newestVersion[$i] < $version[$i])
-											{
-												break;
-											}
-										}
-									}
-								}
-								else
-								{
-									$levelOfUpdate = 1;
-									break;
-								}
-							}
+							$newestVersionCount = count($newestVersion);
+							$versionCount = count($version);
+							$levelOfUpdate = findUpdateValue($newestVersionCount, $versionCount, $newestVersion, $version);
 							if($levelOfUpdate != 0)
 							{
 								echo "<li class='settingsUl' ><h2>Changelog For ".$key." update</h2></li>";
@@ -154,7 +105,6 @@ require_once('core/php/loadVars.php'); ?>
 				</div>
 			</div>
 		</div>
-		<?php endif; ?>
 		<div class="firstBoxDev">
 			<div class="innerFirstDevBox" style=" width: 600px;"  >
 				<div class="devBoxTitle">
