@@ -287,3 +287,4 @@ else
 	<?php require_once('core/php/templateFiles/allPages.php') ?>
 	<?php readfile('core/html/popup.html') ?>
 </body>
+<form id="settingsInstallUpdate" action="update/updater.php" method="post" style="display: none"></form>
