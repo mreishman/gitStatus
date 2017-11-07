@@ -330,6 +330,7 @@ body{
 	border: 1px ridge;
 	border-bottom: ridge #999;
 	border-right: ridge #999;
+	text-align: center;
 }
 
 .buttonButton:hover{

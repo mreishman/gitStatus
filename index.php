@@ -205,6 +205,7 @@ else
 			echo "var cacheEnabled = '".$cacheEnabled."';";
 			echo "var onlyRefreshVisible = '".$onlyRefreshVisible."';";
 			echo "var dontNotifyVersion = '".$dontNotifyVersion."';";
+			echo "var currentVersion = '".$configStatic['version']."';";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";
@@ -279,6 +280,7 @@ else
 		}
 	?>
 	</script>
+	<script src="core/js/updateCommon.js"></script>
 	<script src="core/js/main.js"></script>
 	<script src="core/js/allPages.js"></script>
 	<script type="text/javascript">

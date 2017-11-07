@@ -49,9 +49,9 @@ require_once('core/php/loadVars.php'); ?>
 					<br><br>
 					Last Check for updates -  <?php echo $configStatic['lastCheck'];?>
 					<br><br>
-					<form id="settingsCheckForUpdate" action="core/php/update/settingsCheckForUpdate.php" method="post">
-					<button class="buttonButton" onclick="displayLoadingPopup();" >Check for Update</button>
-					</form>
+					
+					<button class="buttonButton" onclick="checkForUpdateDefinitely(true);" >Check for Update</button>
+					
 					
 					<form id="settingsCheckForUpdate" action="update/updater.php" method="post">
 					<?php
@@ -118,64 +118,77 @@ require_once('core/php/loadVars.php'); ?>
 	</div>
 		<script type="text/javascript">
 		function calcuateWidth()
-{
-	var innerWidthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-	if(document.getElementById("sidebar").style.width == '100px')
-	{
-		innerWidthWindow -= 103;
-	}
-	if(document.getElementById("sidebar").style.width == '100px')
-	{
-		document.getElementById("main").style.left = "103px";
-	}
-	else
-	{
-		document.getElementById("main").style.left = "0px";
-	}
-	var innerWidthWindowCalc = innerWidthWindow;
-	var innerWidthWindowCalcAdd = 0;
-	var numOfWindows = 0;
-	var elementWidth = 342;
-	while(innerWidthWindowCalc > elementWidth)
-	{
-		innerWidthWindowCalcAdd += elementWidth;
-		numOfWindows++;
-		if(numOfWindows == 1)
 		{
-			elementWidth = 342;
+			var innerWidthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+			if(document.getElementById("sidebar").style.width == '100px')
+			{
+				innerWidthWindow -= 103;
+			}
+			if(document.getElementById("sidebar").style.width == '100px')
+			{
+				document.getElementById("main").style.left = "103px";
+			}
+			else
+			{
+				document.getElementById("main").style.left = "0px";
+			}
+			var innerWidthWindowCalc = innerWidthWindow;
+			var innerWidthWindowCalcAdd = 0;
+			var numOfWindows = 0;
+			var elementWidth = 342;
+			while(innerWidthWindowCalc > elementWidth)
+			{
+				innerWidthWindowCalcAdd += elementWidth;
+				numOfWindows++;
+				if(numOfWindows == 1)
+				{
+					elementWidth = 342;
+				}
+				<?php if($levelOfUpdate != 0): ?>
+				else if (numOfWindows == 2)
+				{
+					elementWidth = 642;
+				}
+				else if (numOfWindows == 3)
+				{
+					//change if adding more windows to update.php
+					elementWidth = 9000000;
+				}
+				<?php else: ?>
+				else if (numOfWindows == 2)
+				{
+					//change if adding more windows to update.php
+					elementWidth = 9000000;
+				}
+				<?php endif; ?>
+				innerWidthWindowCalc -= elementWidth;
+			}
+			var windowWidthText = ((innerWidthWindowCalcAdd)+40)+"px";
+			document.getElementById("main").style.width = windowWidthText;
+			var remainingWidth = innerWidthWindow - ((innerWidthWindowCalcAdd)+40);
+			remainingWidth = remainingWidth / 2;
+			var windowWidthText = remainingWidth+"px";
+			document.getElementById("main").style.marginLeft = windowWidthText;
+			document.getElementById("main").style.paddingRight = windowWidthText;
 		}
-		<?php if($levelOfUpdate != 0): ?>
-		else if (numOfWindows == 2)
-		{
-			elementWidth = 642;
-		}
-		else if (numOfWindows == 3)
-		{
-			//change if adding more windows to update.php
-			elementWidth = 9000000;
-		}
-		<?php else: ?>
-		else if (numOfWindows == 2)
-		{
-			//change if adding more windows to update.php
-			elementWidth = 9000000;
-		}
-		<?php endif; ?>
-		innerWidthWindowCalc -= elementWidth;
-	}
-	var windowWidthText = ((innerWidthWindowCalcAdd)+40)+"px";
-	document.getElementById("main").style.width = windowWidthText;
-	var remainingWidth = innerWidthWindow - ((innerWidthWindowCalcAdd)+40);
-	remainingWidth = remainingWidth / 2;
-	var windowWidthText = remainingWidth+"px";
-	document.getElementById("main").style.marginLeft = windowWidthText;
-	document.getElementById("main").style.paddingRight = windowWidthText;
-}
 
+
+		function showUpdateCheckPopup(data)
+		{
+			if(data)
+			{
+				location.reload();
+			}
+		}
 	</script>
 	<script src="core/js/allPages.js"></script>
+	<script src="core/js/updateCommon.js"></script>
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftUpdate").style.backgroundColor  = "#ffffff";
+		var updating = false;
+		<?php
+		echo "var currentVersion = '".$configStatic['version']."';";
+		?>
 	</script>
 	<?php require_once('core/php/templateFiles/allPages.php') ?>
 	<?php readfile('core/html/popup.html') ?>
