@@ -12,7 +12,9 @@ require_once($baseUrl.'conf/config.php');
 require_once('core/conf/config.php');
 require_once('core/php/configStatic.php');  
 require_once('core/php/update/updateCheck.php');
-require_once('core/php/loadVars.php'); ?>
+require_once('core/php/loadVars.php'); 
+require_once('setup/setupProcessFile.php');
+?>
 <!doctype html>
 <head>
 	<title>Git Status | Settings</title>
@@ -70,7 +72,7 @@ require_once('core/php/loadVars.php'); ?>
 		document.getElementById("widthForWatchListSection").style.width = ((innerWidthWindowCalcAdd))+"px";
 	}
 
-	function saveWatchList()
+	function saveWatchList(post)
 	{
 		var duplicateNames = false;
 		//check for duplicate names
@@ -91,8 +93,15 @@ require_once('core/php/loadVars.php'); ?>
 		}
 		if(!duplicateNames)
 		{
-			displayLoadingPopup();
-			document.getElementById("settingsMainWatch").submit();
+			if(!post)
+			{
+				saveAndVerifyMain("settingsMainWatch");
+			}
+			else
+			{
+				displayLoadingPopup();
+				document.getElementById("settingsMainWatch").submit();
+			}
 		}
 		else
 		{
@@ -115,6 +124,7 @@ var arrayOfKeysNonEnc = JSON.parse(arrayOfKeysJsonEncoded);
 
 	</script>
 	<script src="core/js/allPages.js"></script>
+	<script src="core/js/settingsAll.js"></script>
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftSettingsWatchList").style.backgroundColor  = "#ffffff";
 	</script>

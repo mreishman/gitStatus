@@ -16,7 +16,9 @@ if(file_exists('core/conf/cachedStatus.php'))
 	require_once('core/conf/cachedStatus.php');  
 }
 require_once('core/php/update/updateCheck.php');
-require_once('core/php/loadVars.php'); ?>
+require_once('core/php/loadVars.php'); 
+require_once('setup/setupProcessFile.php');
+?>
 <!doctype html>
 <head>
 	<title>Git Status | Settings</title>
@@ -122,6 +124,7 @@ require_once('core/php/loadVars.php'); ?>
 	</script>
 	<script src="core/js/allPages.js"></script>
 	<script src="core/js/settings.js"></script>
+	<script src="core/js/settingsAll.js"></script>
 <?php require_once('core/php/templateFiles/allPages.php') ?>
 <?php readfile('core/html/popup.html') ?>
 </body>

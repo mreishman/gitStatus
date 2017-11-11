@@ -1,7 +1,12 @@
 <form id="settingsMainVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 	<div class="innerFirstDevBox"  >
 		<div class="devBoxTitle">
-			<b>Settings</b> <button class="buttonButton" onclick="displayLoadingPopup();" >Save Changes</button>
+			<b>Settings</b>\
+			<?php if($setupProcess == "finished"): ?>
+				<a class="buttonButton" onclick="saveAndVerifyMain('settingsMainVars');" >Save Changes</a>
+			<?php else: ?>
+				<button class="buttonButton" onclick="displayLoadingPopup();" >Save Changes</button>
+			<?php endif; ?>
 		</div>
 		<div class="devBoxContent">
 			<ul class="settingsUl">

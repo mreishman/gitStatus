@@ -1,7 +1,12 @@
 <form id="settingsMainWatch" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 	<div id="widthForWatchListSection" class="innerFirstDevBox" style="width: 500px;" >
 		<div class="devBoxTitle">
-			<b>Watch List</b> <a class="buttonButton" onclick="saveWatchList();" >Save Changes</a>
+			<b>Watch List</b>
+			<?php if($setupProcess == "finished"): ?>
+				<a class="buttonButton" onclick="saveWatchList(false);" >Save Changes</a>
+			<?php else: ?>
+				<a class="buttonButton" onclick="saveWatchList(true);" >Save Changes</a>
+			<?php endif; ?>
 		</div>
 		<div class="devBoxContent">
 			<ul class="settingsUl">

@@ -53,6 +53,15 @@ require_once('../loadVars.php');
 
 	file_put_contents($fileName, $newInfoForConfig);
 
+require_once($baseUrl."setup/setupProcessFile.php");
+
+if($setupProcess == "finished")
+{
+	echo json_encode(true);
+}
+else
+{
 	header('Location: ' . $_SERVER['HTTP_REFERER']);
 	exit();
+}
 ?>

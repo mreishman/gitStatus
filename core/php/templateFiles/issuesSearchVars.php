@@ -1,7 +1,8 @@
 <form id="settingsIssueSearchVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 	<div class="innerFirstDevBox" style="width: 500px;" >
 		<div class="devBoxTitle">
-			<b>Link Search</b> <button class="buttonButton" onclick="displayLoadingPopup();" >Save Changes</button>
+			<b>Link Search</b>
+			<a class="buttonButton" onclick="saveAndVerifyMain('settingsIssueSearchVars');" >Save Changes</a>
 		</div>
 		<div class="devBoxContent">
 			<ul class="settingsUl">

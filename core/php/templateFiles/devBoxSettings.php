@@ -1,7 +1,8 @@
 <form id="settingsDevBoxVars" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 	<div class="innerFirstDevBox"  >
 		<div class="devBoxTitle">
-			<b>Advanced</b> <button class="buttonButton" onclick="displayLoadingPopup();" >Save Changes</button>
+			<b>Advanced</b>
+			<a class="buttonButton" onclick="saveAndVerifyMain('settingsDevBoxVars');" >Save Changes</a>
 		</div>
 		<div class="devBoxContent">
 			<ul class="settingsUl">
