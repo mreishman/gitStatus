@@ -52,11 +52,11 @@ if(isset($_POST['numberOfRows']))
 {
 	for($i = 1; $i <= $_POST['numberOfRows']; $i++ )
 	{
-		$arrayWatchList .= "'".$_POST['watchListKey'.$i]."' => array("; // '".$_POST['watchListItem'.$i]."'";
+		$arrayWatchList .= "'".$_POST['watchListKey'.$i]."' => array(";
 		for($j = 0; $j < $_POST['watchListItem'.$i."-0"]; $j++)
 		{
 			$jP = $j+1;
-			$arrayWatchList .= "'".$_POST['watchListItem'.$i."-".$jP."-Name"]."' =>  '".$_POST['watchListItem'.$i."-".$jP]."'";
+			$arrayWatchList .= "'".$_POST['watchListItem'.$i."-".$jP."-Name"]."' => '".$_POST['watchListItem'.$i."-".$jP]."'";
 			if($j != ($_POST['watchListItem'.$i."-0"]-1))
 			{
 				$arrayWatchList .= ",";
@@ -81,7 +81,7 @@ if(isset($_POST['numberOfRows']))
 		$arrayWatchList .= "'".$key."' => array(";
 		foreach ($value as $key2 => $value2) {
 			$j++;
-			$arrayWatchList .= "'".$key2."' =>  '".$value2."'";
+			$arrayWatchList .= "'".$key2."' => '".$value2."'";
 			if($j != $numberOfRows2)
 			{
 				$arrayWatchList .= ",";
@@ -94,6 +94,48 @@ if(isset($_POST['numberOfRows']))
 		}
 	}
 	$watchList = $arrayWatchList;
+}
+
+
+if(isset($_POST['branchColorFilter']))
+{
+	$arrayOfArrays = ['errorAndColorArray' => 'newRowLocationForFilterBranch', 'errorAndColorAuthorArray' => 'newRowLocationForFilterAuthor', 'errorAndColorComitteeArray' => 'newRowLocationForFilterComittee'];
+	foreach ($arrayOfArrays as $key => $value) 
+	{
+		$$key = "'".$key."' => array(";
+		$countOfBranchColorFilterCount = 1; 
+		//Name , Color, Select
+		while (isset($_POST[$value.'Name'.$countOfBranchColorFilterCount])) 
+		{
+			$$key .= "'".$_POST[$value.'Name'.$countOfBranchColorFilterCount]."' => array(";
+			//logic for save
+			$$key .= "'color' => '".$_POST[$value.'Color'.$countOfBranchColorFilterCount]."',";
+			$$key .= "'type' => '".$_POST[$value.'Select'.$countOfBranchColorFilterCount]."',";
+			$$key .= "),";
+			$countOfBranchColorFilterCount++;
+		}
+		$$key .= "),";
+	}
+
+	$arrayOfArrays = ['errorAndColorArray' => $errorAndColorArray, 'errorAndColorAuthorArray' => $errorAndColorAuthorArray, 'errorAndColorComitteeArray' => $errorAndColorComitteeArray];
+	foreach ($arrayOfArrays as $key => $value) 
+	{
+		$keySave = $key."Save";
+		$$keySave = "'".$key."' => array(";
+		$numberOfRows = count($value);
+		foreach ($value as $key2 => $value2)
+		{
+			$$keySave .= "'".$key2."' => array(";
+			$numberOfRows2 = count($value2);
+			foreach ($value2 as $key3 => $value3) 
+			{
+				$$keySave .= "'".$key3."' => '".$value3."',";
+			}
+			$$keySave .= "),";
+		} 
+		$$keySave .= "),";
+	}	
+
 }
 
 foreach ($defaultConfig as $key => $value)

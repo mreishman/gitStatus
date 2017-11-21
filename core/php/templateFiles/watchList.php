@@ -2,7 +2,7 @@
 	<div id="widthForWatchListSection" class="innerFirstDevBox" style="width: 500px;" >
 		<div class="devBoxTitle">
 			<b>Watch List</b>
-			<?php if($setupProcess == "finished"): ?>
+			<?php if($setupProcess == "finished" || $setupProcess == "preStart"): ?>
 				<a class="buttonButton" onclick="saveWatchList(false);" >Save Changes</a>
 			<?php else: ?>
 				<a class="buttonButton" onclick="saveWatchList(true);" >Save Changes</a>

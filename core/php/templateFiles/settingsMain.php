@@ -2,7 +2,7 @@
 	<div class="innerFirstDevBox"  >
 		<div class="devBoxTitle">
 			<b>Settings</b>\
-			<?php if($setupProcess == "finished"): ?>
+			<?php if($setupProcess == "finished" || $setupProcess == "preStart"): ?>
 				<a class="buttonButton" onclick="saveAndVerifyMain('settingsMainVars');" >Save Changes</a>
 			<?php else: ?>
 				<button class="buttonButton" onclick="displayLoadingPopup();" >Save Changes</button>

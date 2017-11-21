@@ -6,7 +6,7 @@ function saveAndVerifyMain(idForForm)
 	data = $(idForm).serializeArray();
 	$.ajax({
         type: "post",
-        url: "../core/php/settingsSaveMain.php",
+        url: "core/php/saveFunctions/settingsSaveMain.php",
         data,
         complete()
         {
@@ -28,7 +28,7 @@ function timerVerifySave()
 	countForVerifySave++;
 	if(countForVerifySave < 20)
 	{
-		var urlForSend = "../core/php/saveFunctions/saveCheck.php?format=json";
+		var urlForSend = "core/php/saveFunctions/saveCheck.php?format=json";
 		$.ajax(
 		{
 			url: urlForSend,

@@ -53,9 +53,9 @@ require_once('../loadVars.php');
 
 	file_put_contents($fileName, $newInfoForConfig);
 
-require_once($baseUrl."setup/setupProcessFile.php");
+require_once("../../../setup/setupProcessFile.php");
 
-if($setupProcess == "finished")
+if($setupProcess == "finished" || $setupProcess == "preStart")
 {
 	echo json_encode(true);
 }
