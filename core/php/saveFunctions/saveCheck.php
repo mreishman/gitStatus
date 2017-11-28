@@ -80,9 +80,9 @@ if(isset($_POST['numberOfRows']))
 	$watchListSave = $arrayWatchList;
 	$arrayWatchList = "";
 
-	$numberOfRows = count($$config['watchList']);
+	$numberOfRows = count($config['watchList']);
 	$i = 0;
-	foreach ($$config['watchList'] as $key => $value) 
+	foreach ($config['watchList'] as $key => $value) 
 	{
 		$i++;
 		$j = 0;
@@ -126,23 +126,23 @@ if(isset($_POST['branchColorFilter']))
 		$$key .= "),";
 	}
 
-	$errorAndColorArray = $defaultConfig['$errorAndColorArray'];
-	$errorAndColorAuthorArray = $defaultConfig['$errorAndColorAuthorArray'];
-	$errorAndColorComitteeArray = $defaultConfig['$errorAndColorComitteeArray'];
+	$errorAndColorArray = $defaultConfig['errorAndColorArray'];
+	$errorAndColorAuthorArray = $defaultConfig['errorAndColorAuthorArray'];
+	$errorAndColorComitteeArray = $defaultConfig['errorAndColorComitteeArray'];
 
 	if (isset($config['errorAndColorArray']))
 	{
-		$errorAndColorArray = $config['$errorAndColorArray'];
+		$errorAndColorArray = $config['errorAndColorArray'];
 	}
 
 	if (isset($config['errorAndColorAuthorArray']))
 	{
-		$errorAndColorAuthorArray = $config['$errorAndColorAuthorArray'];
+		$errorAndColorAuthorArray = $config['errorAndColorAuthorArray'];
 	}
 
 	if (isset($config['errorAndColorComitteeArray']))
 	{
-		$errorAndColorComitteeArray = $config['$errorAndColorComitteeArray'];
+		$errorAndColorComitteeArray = $config['errorAndColorComitteeArray'];
 	}
 
 	$arrayOfArrays = ['errorAndColorArray' => $errorAndColorArray, 'errorAndColorAuthorArray' => $errorAndColorAuthorArray, 'errorAndColorComitteeArray' => $errorAndColorComitteeArray];
