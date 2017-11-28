@@ -126,26 +126,26 @@ if(isset($_POST['branchColorFilter']))
 		$$key .= "),";
 	}
 
-	$errorAndColorArray = $defaultConfig['errorAndColorArray'];
-	$errorAndColorAuthorArray = $defaultConfig['errorAndColorAuthorArray'];
-	$errorAndColorComitteeArray = $defaultConfig['errorAndColorComitteeArray'];
+	$errorAndColorArrayTmp = $defaultConfig['errorAndColorArray'];
+	$errorAndColorAuthorArrayTmp = $defaultConfig['errorAndColorAuthorArray'];
+	$errorAndColorComitteeArrayTmp = $defaultConfig['errorAndColorComitteeArray'];
 
 	if (isset($config['errorAndColorArray']))
 	{
-		$errorAndColorArray = $config['errorAndColorArray'];
+		$errorAndColorArrayTmp = $config['errorAndColorArray'];
 	}
 
 	if (isset($config['errorAndColorAuthorArray']))
 	{
-		$errorAndColorAuthorArray = $config['errorAndColorAuthorArray'];
+		$errorAndColorAuthorArrayTmp = $config['errorAndColorAuthorArray'];
 	}
 
 	if (isset($config['errorAndColorComitteeArray']))
 	{
-		$errorAndColorComitteeArray = $config['errorAndColorComitteeArray'];
+		$errorAndColorComitteeArrayTmp = $config['errorAndColorComitteeArray'];
 	}
 
-	$arrayOfArrays = ['errorAndColorArray' => $errorAndColorArray, 'errorAndColorAuthorArray' => $errorAndColorAuthorArray, 'errorAndColorComitteeArray' => $errorAndColorComitteeArray];
+	$arrayOfArrays = ['errorAndColorArray' => $errorAndColorArrayTmp, 'errorAndColorAuthorArray' => $errorAndColorAuthorArrayTmp, 'errorAndColorComitteeArray' => $errorAndColorComitteeArrayTmp];
 	foreach ($arrayOfArrays as $key => $value) 
 	{
 		$keySave = $key."Save";
