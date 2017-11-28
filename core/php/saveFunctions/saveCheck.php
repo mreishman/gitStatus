@@ -21,9 +21,18 @@ function forEachAddVars($variable)
 
 $varToIndexDir = "";
 $countOfSlash = 0;
-while($countOfSlash < 20 && !file_exists($varToIndexDir."error.php"))
+$boolForLoop = false;
+while(!$boolForLoop)
 {
-  $varToIndexDir .= "../";
+	if(file_exists($varToIndexDir."settings-watchList.php") || $countOfSlash > 10)
+	{
+		$boolForLoop = true;
+	}
+	else
+	{
+		$varToIndexDir .= "../";
+		$countOfSlash++;
+	}
 }
 
 $baseUrl = $varToIndexDir."core/";
@@ -115,6 +124,25 @@ if(isset($_POST['branchColorFilter']))
 			$countOfBranchColorFilterCount++;
 		}
 		$$key .= "),";
+	}
+
+	$errorAndColorArray = $defaultConfig['$errorAndColorArray'];
+	$errorAndColorAuthorArray = $defaultConfig['$errorAndColorAuthorArray'];
+	$errorAndColorComitteeArray = $defaultConfig['$errorAndColorComitteeArray'];
+
+	if (isset($config['errorAndColorArray']))
+	{
+		$errorAndColorArray = $config['$errorAndColorArray'];
+	}
+
+	if (isset($config['errorAndColorAuthorArray']))
+	{
+		$errorAndColorAuthorArray = $config['$errorAndColorAuthorArray'];
+	}
+
+	if (isset($config['errorAndColorComitteeArray']))
+	{
+		$errorAndColorComitteeArray = $config['$errorAndColorComitteeArray'];
 	}
 
 	$arrayOfArrays = ['errorAndColorArray' => $errorAndColorArray, 'errorAndColorAuthorArray' => $errorAndColorAuthorArray, 'errorAndColorComitteeArray' => $errorAndColorComitteeArray];
