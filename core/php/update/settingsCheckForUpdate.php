@@ -1,6 +1,6 @@
 <?php
 
-//check for previous update, if failed
+require_once("../functions/commonFunctions.php");
 
 $baseUrl = "../../../core/";
 if(file_exists('../../../local/layout.php'))
@@ -129,9 +129,17 @@ file_put_contents("../configStatic.php", $newInfoForConfig);
 
 rmdir("../../../update/downloads/versionCheck/extracted/");
 
-if(array_key_exists('HTTP_REFERER', $_SERVER))
-{
-  header('Location: ' . $_SERVER['HTTP_REFERER']);
-}
-exit();
-?>
+$version = $configStatic['version'];
+$newestVersion = $versionCheckArray['version'];
+
+$version = explode('.', $configStatic['version'] ); 
+$newestVersion =  explode('.', $versionCheckArray['version']);
+
+$newestVersionCount = count($newestVersion);
+$versionCount = count($version);
+$levelOfUpdate = $levelOfUpdate = findUpdateValue($newestVersionCount, $versionCount, $newestVersion, $version);
+
+$data['version'] = $levelOfUpdate;
+$data['versionNumber'] = $versionCheckArray['version'];
+
+echo json_encode($data);

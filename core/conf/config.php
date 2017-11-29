@@ -12,8 +12,10 @@ $defaultConfig = array(
 	'expSettingsAvail'	=> 'true',
 	'defaultViewBranch'	=> 'Standard',
 	'cacheEnabled'		=> 'true',
+	'dontNotifyVersion'	=> '0',
 	'onlyRefreshVisible'	=> 'true',
 	'defaultViewBranchCookie'	=> 'false',
+	'loginAuthType'	=> 'disabled',
 	'errorAndColorArray'	=> array(
 		'error'	=> array(
 			'color'	=> 'C33',
@@ -68,8 +70,9 @@ $defaultConfig = array(
 	'messageTextEnabled'	=> 'false',
 	'messageText' => 'Example Message',
 	'enableBlockUntilDate'	=> 'false',
+	'defaultGroupViewOnLoad'	=> 'All',
 	'datePicker'	=> '07/04/2017',
 	'watchList' => array(
-			'Example Server' => array('WebsiteBase' =>  'website.com','Folder' =>  '/var/www/html/','Website' =>  'website.com','githubRepo' => 'githubRepo', 'groupInfo'=> 'Group')
+			'Example Server' => array('WebsiteBase' =>  'website.com','Folder' =>  '/var/www/html/','Website' =>  'website.com','githubRepo' => 'githubRepo', 'groupInfo'=> 'Group', 'urlHit' => 'location of file if not default')
 			)
 );

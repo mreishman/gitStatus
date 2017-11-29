@@ -9,6 +9,41 @@ body{
 	border-radius: 4px;
 	height: 30px;
 }
+.icon-bar-top
+{
+	display: block;
+	width: 22px;
+	height: 2px;
+	border-radius: 1px;
+	background-color: #ffffff;
+	margin-top: 4px;
+	-ms-transform: rotate(-45deg); /* IE 9 */
+    -webkit-transform: rotate(-45deg); /* Chrome, Safari, Opera */
+    transform: rotate(-45deg);
+    margin-top: 9px;
+}
+.icon-bar-mid
+{
+	display: none;
+	width: 22px;
+	height: 2px;
+	border-radius: 1px;
+	background-color: #ffffff;
+	margin-top: 4px;
+}
+.icon-bar-bot
+{
+	display: block;
+	width: 22px;
+	height: 2px;
+	border-radius: 1px;
+	background-color: #ffffff;
+	margin-top: 4px;
+	-ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+    margin-top: -2px;
+}
 .icon-bar {
 	display: block;
 	width: 22px;
@@ -217,7 +252,7 @@ body{
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 160px;
+    width: 160px;
     overflow: auto;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     z-index: 1;
@@ -295,6 +330,7 @@ body{
 	border: 1px ridge;
 	border-bottom: ridge #999;
 	border-right: ridge #999;
+	text-align: center;
 }
 
 .buttonButton:hover{

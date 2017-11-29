@@ -1,4 +1,5 @@
 <?php
+require_once("core/php/functions/commonFunctions.php");
 $baseUrl = "core/";
 if(file_exists('local/layout.php'))
 {
@@ -32,65 +33,7 @@ if(file_exists('core/conf/cachedStatus.php'))
 { 
 	require_once('core/conf/cachedStatus.php');  
 }
-$version = explode('.', $configStatic['version']);
-$newestVersion = explode('.', $configStatic['newestVersion']);
-
-$levelOfUpdate = 0; // 0 is no updated, 1 is minor update and 2 is major update
-$beta = false;
-
-$newestVersionCount = count($newestVersion);
-$versionCount = count($version);
-
-for($i = 0; $i < $newestVersionCount; $i++)
-{
-	if($i < $versionCount)
-	{
-		if($i == 0)
-		{
-			if($newestVersion[$i] > $version[$i])
-			{
-				$levelOfUpdate = 3;
-				break;
-			}
-			elseif($newestVersion[$i] < $version[$i])
-			{
-				$beta = true;
-				break;
-			}
-		}
-		elseif($i == 1)
-		{
-			if($newestVersion[$i] > $version[$i])
-			{
-				$levelOfUpdate = 2;
-				break;
-			}
-			elseif($newestVersion[$i] < $version[$i])
-			{
-				$beta = true;
-				break;
-			}
-		}
-		else
-		{
-			if($newestVersion[$i] > $version[$i])
-			{
-				$levelOfUpdate = 1;
-				break;
-			}
-			elseif($newestVersion[$i] < $version[$i])
-			{
-				$beta = true;
-				break;
-			}
-		}
-	}
-	else
-	{
-		$levelOfUpdate = 1;
-		break;
-	}
-}
+require_once('core/php/update/updateCheck.php');
 require_once('core/php/loadVars.php');
 
 if($defaultViewBranchCookie == 'true')
@@ -123,42 +66,7 @@ else
 </head>
 <body>
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
-	<div id="menu">
-		<div class="menuSections" >
-			<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
-				<a class="show-sidebar" id="show">
-			    	<span class="icon-bar"></span>
-			        <span class="icon-bar"></span>
-			        <span class="icon-bar"></span>
-			    </a>
-			</div>
-			<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-				<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
-			</div>
-			<div onclick="refreshAction('refreshImage');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-				<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
-			</div>
-			<div style="display: inline-block;" >
-				<a href="#" class="back-to-top" style="color:#000000;">Back to Top</a>
-			</div>
-			<div style="display: inline-block;" >
-				<img id="loadingSpinnerMain" class='menuImage' height="30px" style="display: none;" src="core/img/loading.gif">
-			</div>
-		</div>
-		<div class="menuSections" >
-			<div class="buttonSelectorOuter" >
-				<div onclick="switchToStandardView();" id="standardViewButtonMainSection" class="<?php if($defaultViewBranch == 'Standard'){echo 'buttonSlectorInnerBoxesSelected';}else{echo'buttonSlectorInnerBoxes';}?> buttonSlectorInnerBoxesAll" style="border-radius: 5px 0px 0px 5px;" >
-					Standard
-				</div>
-				<div onclick="switchToExpandedView();" id="expandedViewButtonMainSection" class="<?php if($defaultViewBranch == 'Expanded'){echo 'buttonSlectorInnerBoxesSelected';}else{echo'buttonSlectorInnerBoxes';}?> buttonSlectorInnerBoxesAll" style="border-radius: 0px 5px 5px 0px">
-					Expanded
-				</div>
-			</div>
-		</div>
-		<div class="menuSections" >
-			
-		</div>
-	</div>
+	<?php require_once('core/php/templateFiles/header.php'); ?>
 	<div id="main">
 		<?php
 			$arrayOfGroups = array();
@@ -173,26 +81,22 @@ else
 						array_push($arrayOfGroups, $value['groupInfo']);
 					}
 				}
-			} 
+			}
+			array_push($arrayOfGroups, "All"); 
 			if($showTopBarOfGroups):?>
 			<div id="groupInfo">
-			<div class="groupTabShadow" >
-				<div class="groupTab groupTabSelected" id="GroupAll" onclick="showOrHideGroups('All');" >
-					All
-				</div>
-			</div>
 			<?php
 			sort($arrayOfGroups);
 			foreach ($arrayOfGroups as $key => $value):
 			?>
 			<div class="groupTabShadow">
-				<div class="groupTab" id="Group<?php echo $value?>" onclick="showOrHideGroups('<?php echo $value?>');" >
+				<div class="groupTab <?php if($value === $defaultGroupViewOnLoad){echo 'groupTabSelected';}?> " id="Group<?php echo $value?>" onclick="showOrHideGroups('<?php echo $value?>');" >
 					<?php echo $value; ?>
 				</div>
 			</div>
 			<?php
 			endforeach;
-		?>
+			?>
 		</div>
 		<div id="groupInfoPlaceholder" >
 		</div>
@@ -210,7 +114,7 @@ else
 			$showCachedValue = true;
 		}
 	} ?>
-		<div class="firstBoxDev <?php echo $value['groupInfo']; ?> ">
+		<div class="firstBoxDev <?php echo $value['groupInfo']; ?> " <?php if($showTopBarOfGroups && $defaultGroupViewOnLoad !== "All" && $value['groupInfo'] !== $defaultGroupViewOnLoad){ echo 'style="display: none;"';}?> >
 			<div class="innerFirstDevBox" id="innerFirstDevBoxbranchNameDevBox1<?php echo $keyNoSpace; ?>" 
 			<?php if($showCachedValue && isset($cachedStatusMainObject['branchNameDevBox1'.$keyNoSpace][4])){echo "style='background-color:".$cachedStatusMainObject['branchNameDevBox1'.$keyNoSpace][4]."'";}?>
 			>
@@ -228,6 +132,12 @@ else
 					    <a style="cursor: pointer" onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" >Refresh</a>
 					    <div id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogOuter" style="display: none; cursor: pointer; width: 100%;" >
 							<a id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogInner" style="color: black;" href="#">Log-Hog</a>
+						</div>
+						<div id="branchNameDevBox1<?php echo $keyNoSpace;?>MonitorOuter" style="display: none; cursor: pointer; width: 100%;" >
+							<a id="branchNameDevBox1<?php echo $keyNoSpace;?>MonitorInner" style="color: black;" href="#">Monitor</a>
+						</div>
+						<div id="branchNameDevBox1<?php echo $keyNoSpace;?>SearchOuter" style="display: none; cursor: pointer; width: 100%;" >
+							<a id="branchNameDevBox1<?php echo $keyNoSpace;?>SearchInner" style="color: black;" href="#">Search</a>
 						</div>
 						<a id="branchNameDevBox1<?php echo $keyNoSpace;?>errorMessageLink" style="cursor: pointer; display: none;">Error</a> 
 						<a id="branchNameDevBox1<?php echo $keyNoSpace;?>noticeMessageLink" style="cursor: pointer; display: none;">Notice</a> 
@@ -294,6 +204,8 @@ else
 			echo "var checkForIssueInCommit = '".$checkForIssueInCommit."';";
 			echo "var cacheEnabled = '".$cacheEnabled."';";
 			echo "var onlyRefreshVisible = '".$onlyRefreshVisible."';";
+			echo "var dontNotifyVersion = '".$dontNotifyVersion."';";
+			echo "var currentVersion = '".$configStatic['version']."';";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";
@@ -321,9 +233,30 @@ else
 			}
 		?>
 		var branchColorFilter = '<?php echo $branchColorFilter;?>';
-		var errorAndColorArray = JSON.parse('<?php echo json_encode($errorAndColorArray); ?>');
-		var errorAndColorAuthorArray = JSON.parse('<?php echo json_encode($errorAndColorAuthorArray); ?>');
-		var errorAndColorComitteeArray = JSON.parse('<?php echo json_encode($errorAndColorComitteeArray); ?>'); 
+
+
+		var errorAndColorArray = new Array();
+		var errorAndColorAuthorArray = new Array();
+		var errorAndColorComitteeArray = new Array();
+
+		try
+		{
+			var errorAndColorArray = JSON.parse('<?php echo json_encode($errorAndColorArray); ?>');
+		}
+		catch(e){}
+
+		try
+		{
+			var errorAndColorAuthorArray = JSON.parse('<?php echo json_encode($errorAndColorAuthorArray); ?>');
+		}
+		catch(e){}
+		
+		try
+		{
+			var errorAndColorComitteeArray = JSON.parse('<?php echo json_encode($errorAndColorComitteeArray); ?>');
+		}
+		catch(e){}
+		
 		var pausePoll = false;
 		var pausePollFile = false;
 		var refreshActionVar;
@@ -347,6 +280,7 @@ else
 		}
 	?>
 	</script>
+	<script src="core/js/updateCommon.js"></script>
 	<script src="core/js/main.js"></script>
 	<script src="core/js/allPages.js"></script>
 	<script type="text/javascript">
@@ -355,3 +289,4 @@ else
 	<?php require_once('core/php/templateFiles/allPages.php') ?>
 	<?php readfile('core/html/popup.html') ?>
 </body>
+<form id="settingsInstallUpdate" action="update/updater.php" method="post" style="display: none"></form>

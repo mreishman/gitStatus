@@ -1,7 +1,8 @@
 <form id="settingsCustomMessage" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 	<div class="innerFirstDevBox"  >
 		<div class="devBoxTitle">
-			<b>Custom Message</b> <button class="buttonButton" onclick="displayLoadingPopup();" >Save Changes</button>
+			<b>Custom Message</b>
+			<a class="buttonButton" onclick="saveAndVerifyMain('settingsCustomMessage');" >Save Changes</a>
 		</div>
 		<div class="devBoxContent">
 			<ul class="settingsUl">

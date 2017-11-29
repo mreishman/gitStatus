@@ -1,4 +1,5 @@
 var counterForSave = numberOfLogs+1;
+var updating = false;
 
 function escapeHTML(unsafeStr)
 {
@@ -12,25 +13,6 @@ function escapeHTML(unsafeStr)
 	
 }
 
-function checkLogHog(logHogI)
-{
-	var urlForSend = '/status/core/php/functions/logHog.php?format=json'
-	var websiteBase = arrayOfFiles[logHogI][1];
-	var website = arrayOfFiles[logHogI][3];
-	var name = "branchNameDevBox1"+arrayOfFiles[logHogI][0];
-	name = name.replace(/\s/g, '_');
-	var data = {location: arrayOfFiles[logHogI][2], websiteBase: websiteBase, website: website, name: name};
-	$.ajax({
-	  url: urlForSend,
-	  dataType: 'json',
-	  data: data,
-	  type: 'POST',
-	  success: function(data){
-	  	logHogSuccess(data);
-	  },
-	});
-}
-
 function pollTimed()
 {
 	if(!pausePollFile)
@@ -38,17 +20,6 @@ function pollTimed()
 		poll();
 	}
 }
-
-function logHogSuccess(data)
-{
-	if(data['link'] != "null" && data['link'] != null)
-  	{
-  		//console.log(data['link'] + "   |   "+data['name'] + "   |   "+data['file_headers']);
-  		document.getElementById(data['name']+"LogHogOuter").style.display = "inline-block";
-  		document.getElementById(data['name']+"LogHogInner").href = data['link'];
-  	}
-}
-
 
 function poll(all = -1)
 {
@@ -71,6 +42,10 @@ function poll(all = -1)
 			if(boolForRun)
 			{
 				tryHTTPForPollRequest(i);
+			}
+			else
+			{
+				pollCompleteLogic();
 			}
 		}
 	}
@@ -115,6 +90,10 @@ function tryHTTPForPollRequest(count)
 	{
 		tryHttpActuallyPollLogic(count, name);
 	}
+	else
+	{
+		pollCompleteLogic();
+	}
 }
 
 function tryHttpActuallyPollLogic(count, name)
@@ -125,7 +104,7 @@ function tryHttpActuallyPollLogic(count, name)
 		urlForSend = 'http://'+arrayOfFiles[count][6]+'?format=json';
 	}
 	document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
-	var data = {location: arrayOfFiles[count][2], name: name, githubRepo: arrayOfFiles[count][4], urlForSend: urlForSend};
+	var data = {location: arrayOfFiles[count][2], name: name, githubRepo: arrayOfFiles[count][4], urlForSend: urlForSend,websiteBase: arrayOfFiles[count][1]};
 		(function(_data){
 
 			$.ajax({
@@ -150,7 +129,7 @@ function tryHTTPSForPollRequest(data, _data)
 {
 	var urlForSend = _data.urlForSend;
 	urlForSend = urlForSend.replace("http","https");
-	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo};
+	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase};
 	
 		(function(_data){
 
@@ -180,12 +159,15 @@ function showPopupWithMessage(type, message)
 
 function pollCompleteLogic()
 {
+	document.getElementById('loadingSpinnerMain').style.display = "block";
+	var loadingSpinnerText = document.getElementById('loadingSpinnerText');
+	loadingSpinnerText.innerHTML = ((counterForSave-1))
 	counterForSave--;
 	if(counterForSave < 1)
 	{
 		if(cacheEnabled === "true")
 		{
-			document.getElementById('loadingSpinnerMain').style.display = "block";
+			loadingSpinnerText.innerHTML = "Saving..."
 			if(!jQuery.isEmptyObject(arrayOfWatchFilters))
 			{
 				//save object after poll
@@ -201,12 +183,17 @@ function pollCompleteLogic()
 					type: 'POST',
 					complete: function(data){
 						document.getElementById('loadingSpinnerMain').style.display = "none";
+						loadingSpinnerText.innerHTML = ""
 						}
 					});
 				}(data));
 			}
 		}
-	}
+		else
+		{
+			document.getElementById('loadingSpinnerMain').style.display = "none";
+		}
+	}		
 }
 
 function pollFailure(dataInner, dataInnerPass)
@@ -493,6 +480,28 @@ function pollSuccess(dataInner, dataInnerPass)
 				document.getElementById(noSpaceName+'NoticeMessage').style.display = "none";
 			}
 		}
+
+		//Log-Hog / monitor
+		if(dataInner.hasOwnProperty("loghog"))
+		{
+			if(dataInner['loghog'] != "")
+			{
+				document.getElementById(noSpaceName+"LogHogOuter").style.display = "inline-block";
+  				document.getElementById(noSpaceName+"LogHogInner").href = "http://"+dataInner['loghog'];
+			}
+
+			if(dataInner['monitor'] != "")
+			{
+				document.getElementById(noSpaceName+"MonitorOuter").style.display = "inline-block";
+  				document.getElementById(noSpaceName+"MonitorInner").href = "http://"+dataInner['monitor'];
+			}
+
+			if(dataInner['search'] != "")
+			{
+				document.getElementById(noSpaceName+"SearchOuter").style.display = "inline-block";
+  				document.getElementById(noSpaceName+"SearchInner").href = "http://"+dataInner['search'];
+			}
+		}
 	}
 	else
 	{
@@ -676,10 +685,6 @@ function endRefreshAction(refreshImage, status)
 
 $( document ).ready(function()
 {
-	for (var i = 0; i <= numberOfLogs; i++)
-	{
-		checkLogHog(i);
-	}
 	poll();
 	pollingRate = pollingRate * 60000; 
 	setInterval(pollTimed, pollingRate);
@@ -703,7 +708,7 @@ if (autoCheckUpdate == true)
 	today = mm+'-'+dd+'-'+yyyy;
 	if(today != dateOfLastUpdate)
 	{
-		window.location.href = "core/php/update/settingsCheckForUpdate.php";
+		checkForUpdateDefinitely();
 	}
 }
 
@@ -881,3 +886,87 @@ window.onclick = function(event) {
 	}
 }
 
+function showUpdateCheckPopup(data)
+{
+	showPopup();
+	var textForInnerHTML = "<div class='devBoxTitle' >New Version Available!</div><br><div style='width:100%;text-align:center;'>Version "+escapeHTML(data.versionNumber)+" is now available!</div><div class='buttonButton' onclick='installUpdates();' style='margin-left:50px; margin-right:50px;margin-top:25px;'>Update Now</div><div onclick='saveSettingFromPopupNoCheckMaybe();' class='buttonButton' style='margin-left:50px; margin-right:50px;margin-top:10px;'>Maybe Later</div><br><div style='width:100%; padding-left:45px; padding-top:5px;'>";
+	textForInnerHTML += "<span style='display: none;'>";
+	textForInnerHTML += "<input id='dontShowPopuForThisUpdateAgain'";
+	if(dontNotifyVersion == data.versionNumber)
+	{
+		//textForInnerHTML += " checked "
+	}
+	dontNotifyVersion = data.versionNumber;
+	textForInnerHTML += "type='checkbox'>Don't notify me about this update again";
+	textForInnerHTML += "</span>";
+	textForInnerHTML += "</div></div>";
+	document.getElementById("popupContentInnerHTMLDiv").innerHTML = textForInnerHTML;
+}
+
+function saveSettingFromPopupNoCheckMaybe()
+{
+	if(document.getElementById("dontShowPopuForThisUpdateAgain").checked)
+	{
+		var urlForSend = "core/php/settingsSaveAjax.php?format=json";
+		var data = {dontNotifyVersion: dontNotifyVersion };
+		$.ajax({
+				  url: urlForSend,
+				  dataType: "json",
+				  data: data,
+				  type: "POST",
+		complete: function(data){
+			hidePopup();
+  	},
+		});
+	}
+	else
+	{
+	hidePopup();
+	}
+}
+
+function installUpdates()
+{
+    displayLoadingPopup();
+	//reset vars in post request
+	var urlForSend = 'core/php/update/resetUpdateFilesToDefault.php?format=json'
+	var data = {status: "" };
+	$.ajax(
+	{
+		url: urlForSend,
+		dataType: "json",
+		data: data,
+		type: "POST",
+		complete: function(data)
+		{
+			//set thing to check for updated files. 	
+			timeoutVar = setInterval(function(){verifyChange();},3000);
+		}
+	});
+}
+
+function verifyChange()
+{
+    var urlForSend = 'update/updateActionCheck.php?format=json'
+	var data = {status: "" };
+	$.ajax(
+	{
+		url: urlForSend,
+		dataType: "json",
+		data: data,
+		type: "POST",
+		success(data)
+		{
+			if(data == 'finishedUpdate')
+			{
+				clearInterval(timeoutVar);
+				actuallyInstallUpdates();
+			}
+		}
+	});
+}
+
+function actuallyInstallUpdates()
+{
+    $("#settingsInstallUpdate").submit();
+}

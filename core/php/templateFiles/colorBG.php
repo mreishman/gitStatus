@@ -1,7 +1,8 @@
 <form id="settingsColorBG" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 	<div class="innerFirstDevBox" style="width: 500px;" >
 		<div class="devBoxTitle">
-			<b>Dev Box Color Settings</b> <button class="buttonButton" onclick="displayLoadingPopup();" >Save Changes</button>
+			<b>Dev Box Color Settings</b>
+			<a class="buttonButton" onclick="saveAndVerifyMain('settingsColorBG');" >Save Changes</a>
 		</div>
 		<div class="devBoxContent">
 				<ul class="settingsUl">

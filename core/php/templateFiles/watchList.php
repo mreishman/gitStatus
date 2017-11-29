@@ -1,7 +1,12 @@
 <form id="settingsMainWatch" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 	<div id="widthForWatchListSection" class="innerFirstDevBox" style="width: 500px;" >
 		<div class="devBoxTitle">
-			<b>Watch List</b> <button class="buttonButton" onclick="displayLoadingPopup();" >Save Changes</button>
+			<b>Watch List</b>
+			<?php if($setupProcess == "finished" || $setupProcess == "preStart"): ?>
+				<a class="buttonButton" onclick="saveWatchList(false);" >Save Changes</a>
+			<?php else: ?>
+				<a class="buttonButton" onclick="saveWatchList(true);" >Save Changes</a>
+			<?php endif; ?>
 		</div>
 		<div class="devBoxContent">
 			<ul class="settingsUl">
@@ -31,6 +36,9 @@
 				$numCount = 0;
 				$arrayOfKeys = array();
 				foreach($config['watchList'] as $key => $item): $i++; ?>
+				<script type="text/javascript">
+					var dataForWatchFolder<?php echo $i?> = JSON.parse('<?php echo json_encode($item); ?>');
+				</script>
 				<li class="watchFolderGroups" id="rowNumber<?php echo $i; ?>" >
 					<span class="leftSpacingserverNames" > Name: </span>
 	 				<input class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
@@ -53,7 +61,9 @@
 	 				?>
 	 				<br> <input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'> 
 	 				<span class="leftSpacingserverNames" ></span>
-					<a class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $i; ?>, true)">Remove</a>
+					<a class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $i; ?>, true);">Remove</a>
+					<span> | </span>
+					<a class="mainLinkClass" onclick="testConnection(dataForWatchFolder<?php echo $i; ?>);" >Check Connection</a>
 				</li>
 				<?php endforeach; ?>
 				<div style="display: inline-block;" id="newRowLocationForWatchList"></div>

@@ -1,5 +1,5 @@
 <?php
-
+require_once("core/php/functions/commonFunctions.php");
 $baseUrl = "core/";
 if(file_exists('local/layout.php'))
 {
@@ -20,59 +20,8 @@ $beta = false;
 
 $newestVersionCount = count($newestVersion);
 $versionCount = count($version);
-
-for($i = 0; $i < $newestVersionCount; $i++)
-{
-	if($i < $versionCount)
-	{
-		if($i == 0)
-		{
-			if($newestVersion[$i] > $version[$i])
-			{
-				$levelOfUpdate = 3;
-				break;
-			}
-			elseif($newestVersion[$i] < $version[$i])
-			{
-				$beta = true;
-				break;
-			}
-		}
-		elseif($i == 1)
-		{
-			if($newestVersion[$i] > $version[$i])
-			{
-				$levelOfUpdate = 2;
-				break;
-			}
-			elseif($newestVersion[$i] < $version[$i])
-			{
-				$beta = true;
-				break;
-			}
-		}
-		else
-		{
-			if($newestVersion[$i] > $version[$i])
-			{
-				$levelOfUpdate = 1;
-				break;
-			}
-			elseif($newestVersion[$i] < $version[$i])
-			{
-				$beta = true;
-				break;
-			}
-		}
-	}
-	else
-	{
-		$levelOfUpdate = 1;
-		break;
-	}
-}
-
-?>
+$levelOfUpdate = $levelOfUpdate = findUpdateValue($newestVersionCount, $versionCount, $newestVersion, $version);
+require_once('core/php/loadVars.php'); ?>
 <!doctype html>
 <head>
 	<title>Git Status | Update</title>
@@ -87,18 +36,7 @@ for($i = 0; $i < $newestVersionCount; $i++)
 <body>
 	
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
-	<div id="menu">
-			<div onclick="toggleMenuSideBar()" class="nav-toggle pull-right link">
-			<a class="show-sidebar" id="show">
-		    	<span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		    </a>
-			</div>
-			<div style="display: inline-block;" >
-				<a href="#" class="back-to-top" style="color:#000000;">Back to Top</a>
-			</div>
-		</div>	
+	<?php require_once('core/php/templateFiles/header.php'); ?>
 	<div id="main">
 		
 		<div class="firstBoxDev">
@@ -111,9 +49,9 @@ for($i = 0; $i < $newestVersionCount; $i++)
 					<br><br>
 					Last Check for updates -  <?php echo $configStatic['lastCheck'];?>
 					<br><br>
-					<form id="settingsCheckForUpdate" action="core/php/update/settingsCheckForUpdate.php" method="post">
-					<button class="buttonButton" onclick="displayLoadingPopup();" >Check for Update</button>
-					</form>
+					
+					<button class="buttonButton" onclick="checkForUpdateDefinitely(true);" >Check for Update</button>
+					
 					
 					<form id="settingsCheckForUpdate" action="update/updater.php" method="post">
 					<?php
@@ -137,72 +75,23 @@ for($i = 0; $i < $newestVersionCount; $i++)
 				</div>
 			</div>
 		</div>
-		<?php if($levelOfUpdate != 0): ?>
-		<div class="firstBoxDev">
+		<div class="firstBoxDev" <?php if($levelOfUpdate == 0): ?> style="display: none;" <?php endif; ?>>
 			<div class="innerFirstDevBox" style="width: 600px;"  >
 				<div class="devBoxTitle">
 				Update - Release Notes
 				</div>
-				<div class="devBoxContent"  >
+				<div class="devBoxContent">
 					<ul id="settingsUl">
 					<?php 
-					if(array_key_exists('versionList', $configStatic))
+					if(array_key_exists('versionList', $configStatic) && ($levelOfUpdate != 0))
 					{
 						foreach ($configStatic['versionList'] as $key => $value) 
 						{
 							$version = explode('.', $configStatic['version']);
 							$newestVersion = explode('.', $key);
-							$levelOfUpdate = 0;
-							for($i = 0; $i < $newestVersionCount; $i++)
-							{
-								if($i < $versionCount)
-								{
-									if($i == 0)
-									{
-										if($newestVersion[$i] > $version[$i])
-										{
-											$levelOfUpdate = 3;
-											break;
-										}
-										elseif($newestVersion[$i] < $version[$i])
-										{
-											break;
-										}
-									}
-									elseif($i == 1)
-									{
-										if($newestVersion[$i] > $version[$i])
-										{
-											$levelOfUpdate = 2;
-											break;
-										}
-										elseif($newestVersion[$i] < $version[$i])
-										{
-											break;
-										}
-									}
-									else
-									{
-										if(isset($newestVersion[$i]))
-										{
-											if($newestVersion[$i] > $version[$i])
-											{
-												$levelOfUpdate = 1;
-												break;
-											}
-											elseif($newestVersion[$i] < $version[$i])
-											{
-												break;
-											}
-										}
-									}
-								}
-								else
-								{
-									$levelOfUpdate = 1;
-									break;
-								}
-							}
+							$newestVersionCount = count($newestVersion);
+							$versionCount = count($version);
+							$levelOfUpdate = findUpdateValue($newestVersionCount, $versionCount, $newestVersion, $version);
 							if($levelOfUpdate != 0)
 							{
 								echo "<li class='settingsUl' ><h2>Changelog For ".$key." update</h2></li>";
@@ -216,7 +105,6 @@ for($i = 0; $i < $newestVersionCount; $i++)
 				</div>
 			</div>
 		</div>
-		<?php endif; ?>
 		<div class="firstBoxDev">
 			<div class="innerFirstDevBox" style=" width: 600px;"  >
 				<div class="devBoxTitle">
@@ -229,65 +117,80 @@ for($i = 0; $i < $newestVersionCount; $i++)
 		</div>
 	</div>
 		<script type="text/javascript">
-		function calcuateWidth()
-{
-	var innerWidthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-	if(document.getElementById("sidebar").style.width == '100px')
-	{
-		innerWidthWindow -= 103;
-	}
-	if(document.getElementById("sidebar").style.width == '100px')
-	{
-		document.getElementById("main").style.left = "103px";
-	}
-	else
-	{
-		document.getElementById("main").style.left = "0px";
-	}
-	var innerWidthWindowCalc = innerWidthWindow;
-	var innerWidthWindowCalcAdd = 0;
-	var numOfWindows = 0;
-	var elementWidth = 342;
-	while(innerWidthWindowCalc > elementWidth)
-	{
-		innerWidthWindowCalcAdd += elementWidth;
-		numOfWindows++;
-		if(numOfWindows == 1)
-		{
-			elementWidth = 342;
-		}
-		<?php if($levelOfUpdate != 0): ?>
-		else if (numOfWindows == 2)
-		{
-			elementWidth = 642;
-		}
-		else if (numOfWindows == 3)
-		{
-			//change if adding more windows to update.php
-			elementWidth = 9000000;
-		}
-		<?php else: ?>
-		else if (numOfWindows == 2)
-		{
-			//change if adding more windows to update.php
-			elementWidth = 9000000;
-		}
-		<?php endif; ?>
-		innerWidthWindowCalc -= elementWidth;
-	}
-	var windowWidthText = ((innerWidthWindowCalcAdd)+40)+"px";
-	document.getElementById("main").style.width = windowWidthText;
-	var remainingWidth = innerWidthWindow - ((innerWidthWindowCalcAdd)+40);
-	remainingWidth = remainingWidth / 2;
-	var windowWidthText = remainingWidth+"px";
-	document.getElementById("main").style.marginLeft = windowWidthText;
-	document.getElementById("main").style.paddingRight = windowWidthText;
-}
+		<?php echo "var dontNotifyVersion = '".$dontNotifyVersion."';"; ?>
 
+		function calcuateWidth()
+		{
+			var innerWidthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+			if(document.getElementById("sidebar").style.width == '100px')
+			{
+				innerWidthWindow -= 103;
+			}
+			if(document.getElementById("sidebar").style.width == '100px')
+			{
+				document.getElementById("main").style.left = "103px";
+			}
+			else
+			{
+				document.getElementById("main").style.left = "0px";
+			}
+			var innerWidthWindowCalc = innerWidthWindow;
+			var innerWidthWindowCalcAdd = 0;
+			var numOfWindows = 0;
+			var elementWidth = 342;
+			while(innerWidthWindowCalc > elementWidth)
+			{
+				innerWidthWindowCalcAdd += elementWidth;
+				numOfWindows++;
+				if(numOfWindows == 1)
+				{
+					elementWidth = 342;
+				}
+				<?php if($levelOfUpdate != 0): ?>
+				else if (numOfWindows == 2)
+				{
+					elementWidth = 642;
+				}
+				else if (numOfWindows == 3)
+				{
+					//change if adding more windows to update.php
+					elementWidth = 9000000;
+				}
+				<?php else: ?>
+				else if (numOfWindows == 2)
+				{
+					//change if adding more windows to update.php
+					elementWidth = 9000000;
+				}
+				<?php endif; ?>
+				innerWidthWindowCalc -= elementWidth;
+			}
+			var windowWidthText = ((innerWidthWindowCalcAdd)+40)+"px";
+			document.getElementById("main").style.width = windowWidthText;
+			var remainingWidth = innerWidthWindow - ((innerWidthWindowCalcAdd)+40);
+			remainingWidth = remainingWidth / 2;
+			var windowWidthText = remainingWidth+"px";
+			document.getElementById("main").style.marginLeft = windowWidthText;
+			document.getElementById("main").style.paddingRight = windowWidthText;
+		}
+
+
+		function showUpdateCheckPopup(data)
+		{
+			if(data)
+			{
+				location.reload();
+			}
+		}
 	</script>
 	<script src="core/js/allPages.js"></script>
+	<script src="core/js/updateCommon.js"></script>
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftUpdate").style.backgroundColor  = "#ffffff";
+		var updating = false;
+		<?php
+		echo "var currentVersion = '".$configStatic['version']."';";
+		?>
 	</script>
 	<?php require_once('core/php/templateFiles/allPages.php') ?>
 	<?php readfile('core/html/popup.html') ?>

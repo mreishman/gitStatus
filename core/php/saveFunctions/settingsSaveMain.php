@@ -44,6 +44,7 @@ require_once('../loadVars.php');
 			'messageText' => '".$messageText."',
 			'enableBlockUntilDate'	=> '".$enableBlockUntilDate."',
 			'datePicker'	=> '".$datePicker."',
+			'defaultGroupViewOnLoad'	=> '".$defaultGroupViewOnLoad."',
 			".$arrayFilterAll."
 			'watchList' => array(
 			".$arrayWatchList.")
@@ -52,6 +53,15 @@ require_once('../loadVars.php');
 
 	file_put_contents($fileName, $newInfoForConfig);
 
+require_once("../../../setup/setupProcessFile.php");
+
+if($setupProcess == "finished" || $setupProcess == "preStart")
+{
+	echo json_encode(true);
+}
+else
+{
 	header('Location: ' . $_SERVER['HTTP_REFERER']);
 	exit();
+}
 ?>
