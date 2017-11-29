@@ -218,4 +218,7 @@ function cacheClearUnsuccess()
 	document.getElementById('popupContentInnerHTMLDiv').innerHTML = "<div class='devBoxTitle' ><b>Cache Not Cleared</b></div><br><br><div style='width:100%;text-align:center;'> An error occured when clearing cache <br> <button class='buttonButton' onclick='hidePopup();' >Ok :c</button></div>";
 }
 
-document.getElementById("branchColorTypeSelector").addEventListener("change", switchToNewFilterBranchColor, false);
+if(document.getElementById("branchColorTypeSelector"))
+{
+	document.getElementById("branchColorTypeSelector").addEventListener("change", switchToNewFilterBranchColor, false);
+}
