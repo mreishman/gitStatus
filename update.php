@@ -117,6 +117,8 @@ require_once('core/php/loadVars.php'); ?>
 		</div>
 	</div>
 		<script type="text/javascript">
+		<?php echo "var dontNotifyVersion = '".$dontNotifyVersion."';"; ?>
+
 		function calcuateWidth()
 		{
 			var innerWidthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
