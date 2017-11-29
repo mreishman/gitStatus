@@ -52,9 +52,9 @@
 				<?php endif;?>
 				<!-- SeleniumMonitor -->
 				<?php if(file_exists('../SeleniumMonitor/index.php')): ?>
-					<li id="seleniumMonitor-link"  onclick="window.location.href =  '../SeleniumMonitor/';" >SeleniumMonitor</li>
+					<li id="seleniumMonitor-link"  onclick="window.location.href =  '../SeleniumMonitor/';" >Selenium Monitor</li>
 				<?php elseif(file_exists('../seleniumMonitor/index.php')): ?>
-					<li id="seleniumMonitor-link"  onclick="window.location.href =  '../seleniumMonitor/';" >SeleniumMonitor</li>
+					<li id="seleniumMonitor-link"  onclick="window.location.href =  '../seleniumMonitor/';" >Selenium Monitor</li>
 				<?php endif;?>
 				<!-- Log-Hog -->
 				<?php if(file_exists('../Log-Hog/index.php')): ?>
@@ -79,9 +79,9 @@
 				<?php endif;?>
 				<!-- Log=Hog / SeleniumMonitor -->
 				<?php if(file_exists('../Log-Hog/seleniumMonitor/index.php')): ?>
-					<li id="seleniumMonitor-link"  onclick="window.location.href =  '../Log-Hog/SeleniumMonitor/';" >SeleniumMonitor</li>
+					<li id="seleniumMonitor-link"  onclick="window.location.href =  '../Log-Hog/SeleniumMonitor/';" >Selenium Monitor</li>
 				<?php elseif(file_exists('../loghog/seleniumMonitor/index.php')): ?>
-					<li id="seleniumMonitor-link"  onclick="window.location.href =  '../loghog/seleniumMonitor/';" >SeleniumMonitor</li>
+					<li id="seleniumMonitor-link"  onclick="window.location.href =  '../loghog/seleniumMonitor/';" >Selenium Monitor</li>
 				<?php endif;?>
 			</ul>
 
