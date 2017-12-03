@@ -11,7 +11,7 @@ function addRowFunction()
 		documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span> <input style='display: none;' type='text' name='watchListItem"+countOfWatchList+"-"+(i+1)+"-Name' value="+arrayOfKeysNonEnc[i]+">   <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >"
 	}
 	documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+countOfWatchList+'-0" value="'+numberOfSubRows+'"> '
-	documentUpdateText += " <span class='leftSpacingserverNames' ></span> <a class='mainLinkClass'  onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a></li><div style='display:inline-block;' id='newRowLocationForWatchList"+countOfClicks+"'></div>";
+	documentUpdateText += " <span class='leftSpacingserverNames' ></span> <a class='mainLinkClass'  onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a><span> | </span><a class='mainLinkClass' onclick='testConnection(dataForWatchFolder"+countOfWatchList+");' >Check Connection</a></li><div style='display:inline-block;' id='newRowLocationForWatchList"+countOfClicks+"'></div>";
 	document.getElementById(locationInsert).outerHTML += documentUpdateText;
 	document.getElementById('numberOfRows').value = countOfWatchList;
 	countOfAddedFiles++;
@@ -46,7 +46,7 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 					documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[j]+": </span> <input style='display: none;' type='text' name='watchListItem"+updateItoIMinusOne+"-"+(j+1)+"-Name' value="+arrayOfKeysNonEnc[j]+">  <input class='inputWidth300' type='text' name='watchListItem"+updateItoIMinusOne+"-"+(j+1)+"' value='"+previousElementNumIdentifierForItem[0].value+"'>";
 				}
 				documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+updateItoIMinusOne+'-0" value="'+numberOfSubRows+'"> ';
-				documentUpdateText += '<span class="leftSpacingserverNames" ></span> <a class="mainLinkClass" onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove</a>';
+				documentUpdateText += '<span class="leftSpacingserverNames" ></span> <a class="mainLinkClass" onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove</a><span> | </span><a class="mainLinkClass" onclick="testConnection(dataForWatchFolder'+updateItoIMinusOne+');" >Check Connection</a>';
 				documentUpdateText += '</li>';
 				document.getElementById(elementToUpdate).outerHTML = documentUpdateText;
 			}
