@@ -104,51 +104,46 @@ function tryHttpActuallyPollLogic(count, name)
 		urlForSend = 'http://'+arrayOfFiles[count][6]+'?format=json';
 	}
 	document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
-	var data = {location: arrayOfFiles[count][2], name: name, githubRepo: arrayOfFiles[count][4], urlForSend: urlForSend,websiteBase: arrayOfFiles[count][1]};
+	var data = {location: arrayOfFiles[count][2], name, githubRepo: arrayOfFiles[count][4], urlForSend ,websiteBase: arrayOfFiles[count][1]};
 		(function(_data){
-
-			$.ajax({
-			url: urlForSend,
-			dataType: 'json',
-			global: false,
-			data: data,
-			type: 'POST',
-			success: function(data){
-				pollSuccess(data, _data);
-			},
-			error: function(data){
-				tryHTTPSForPollRequest(data, _data);
-			}
-		});
-
-	}(data));
+				$.ajax({
+				url: urlForSend,
+				dataType: 'json',
+				global: false,
+				data,
+				type: 'POST',
+				success: function(data){
+					pollSuccess(data, _data);
+				},
+				error: function(xhr, error){
+					tryHTTPSForPollRequest(_data);
+				}
+			});
+		}(data));
 }
 
 
-function tryHTTPSForPollRequest(data, _data)
+function tryHTTPSForPollRequest(_data)
 {
 	var urlForSend = _data.urlForSend;
 	urlForSend = urlForSend.replace("http","https");
 	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase};
 	
 		(function(_data){
-
 			$.ajax({
-			url: urlForSend,
-			dataType: 'json',
-			global: false,
-			data: data,
-			type: 'POST',
-			success: function(data){
-				pollSuccess(data, _data);
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				pollFailure(jqXHR.status, _data);
-			}
-		});
-
-			}(data));
-			
+				url: urlForSend,
+				dataType: 'json',
+				global: false,
+				data,
+				type: 'POST',
+				success: function(data){
+					pollSuccess(data, _data);
+				},
+				error: function(xhr, error){
+					pollFailure(xhr.status, error, _data);
+				}
+			});
+		}(data));
 }
 
 function showPopupWithMessage(type, message)
@@ -196,7 +191,7 @@ function pollCompleteLogic()
 	}		
 }
 
-function pollFailure(dataInner, dataInnerPass)
+function pollFailure(xhr, error, dataInnerPass)
 {
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
 	var nameForBackground = "innerFirstDevBox"+noSpaceName;
@@ -205,12 +200,12 @@ function pollFailure(dataInner, dataInnerPass)
 	document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
 	document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
     document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
-    if(document.getElementById(noSpaceName+'Stats').innerHTML == "--Pending--")
+    if(document.getElementById(noSpaceName+'Stats').innerHTML != JSON.stringify(error))
 	{
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
-	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
+	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">'+JSON.stringify(xhr)+'</span>';
 	    document.getElementById(noSpaceName+'UpdateOuter').style.display = "none";
-	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">Could not connect to server</span>';
+	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">'+JSON.stringify(error)+'</span>';
 	    displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats)
 	    filterBGColor('error', nameForBackground, 1);
 	}
