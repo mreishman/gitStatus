@@ -63,9 +63,9 @@ function tryHTTPForPollRequest(count)
 	var doPollLogic = true;
 	if(arrayOfWatchFilters && arrayOfWatchFilters[name])
 	{
-		if(arrayOfWatchFilters[name][7] == 'true' || arrayOfWatchFilters[name][7] == true)
+		if(arrayOfWatchFilters[name]["enableBlockUntilDate"] == 'true' || arrayOfWatchFilters[name]["enableBlockUntilDate"] == true)
 		{
-			var dateForEnd = arrayOfWatchFilters[name][8];
+			var dateForEnd = arrayOfWatchFilters[name]["datePicker"];
 			var today = new Date();
 			var dd = today.getDate();
 			var mm = today.getMonth()+1; //January is 0!
@@ -212,18 +212,28 @@ function pollFailure(xhr, error, dataInnerPass)
 
 	if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 	{
-		arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
+		arrayOfWatchFilters[noSpaceName] = {
+				data: dataBranchForFile,
+				time: dataBranchForFileUpdateTime,
+				status: dataBranchForFileStats,
+				errorStatus : true,
+				backgroundColor : (document.getElementById(nameForBackground).style.backgroundColor),
+				messageTextEnabled: false,
+				messageText: null,
+				enableBlockUntilDate: false,
+				datePicker: null
+			};
 	}
 	else
 	{
-		if(arrayOfWatchFilters[noSpaceName][3] == false)
+		if(arrayOfWatchFilters[noSpaceName]["errorStatus"] == false)
 		{
 			//new error
-			arrayOfWatchFilters[noSpaceName][3] = true;
+			arrayOfWatchFilters[noSpaceName]["errorStatus"] = true;
 			filterBGColor('error', nameForBackground, 0.5);
 		}
-		arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
-		arrayOfWatchFilters[noSpaceName][5] = false;
+		arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
+		arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
 	}
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
 	pollCompleteLogic();
@@ -403,23 +413,33 @@ function pollSuccess(dataInner, dataInnerPass)
 	    }
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
-			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,false,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
+			arrayOfWatchFilters[noSpaceName] = {
+				data: dataBranchForFile,
+				time: dataBranchForFileUpdateTime,
+				status: dataBranchForFileStats,
+				errorStatus : false,
+				backgroundColor : (document.getElementById(nameForBackground).style.backgroundColor),
+				messageTextEnabled: false,
+				messageText: null,
+				enableBlockUntilDate: false,
+				datePicker: null
+			};
 		}
 		else
 		{
-			arrayOfWatchFilters[noSpaceName][0] = dataBranchForFile;
-			arrayOfWatchFilters[noSpaceName][1] = dataBranchForFileUpdateTime;
-			arrayOfWatchFilters[noSpaceName][2] = dataBranchForFileStats;
-			if(arrayOfWatchFilters[noSpaceName][3] == true)
+			arrayOfWatchFilters[noSpaceName]["data"] = dataBranchForFile;
+			arrayOfWatchFilters[noSpaceName]["time"] = dataBranchForFileUpdateTime;
+			arrayOfWatchFilters[noSpaceName]["status"] = dataBranchForFileStats;
+			if(arrayOfWatchFilters[noSpaceName]["errorStatus"] == true)
 			{
 				//was error
-				arrayOfWatchFilters[noSpaceName][3] = false;
+				arrayOfWatchFilters[noSpaceName]["errorStatus"] = false;
 			}
 
 		}
 		
 		filterBGColor(dataToFilterBy, nameForBackground, 1);
-		arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
+		arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
 		//custom message stuff
 		(Object.values(dataInner).indexOf('messageTextEnabled') > -1)
 		{
@@ -442,27 +462,27 @@ function pollSuccess(dataInner, dataInnerPass)
 
 			if(dataInner['messageTextEnabled'] == 'true')
 			{
-				arrayOfWatchFilters[noSpaceName][5] = true;
-				arrayOfWatchFilters[noSpaceName][6] = dataInner['messageText'];
+				arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = true;
+				arrayOfWatchFilters[noSpaceName]["messageText"] = dataInner['messageText'];
 				document.getElementById(noSpaceName+'NoticeMessage').innerHTML = dataInner['messageText'];
 			}
 			else
 			{
-				arrayOfWatchFilters[noSpaceName][5] = false;
-				arrayOfWatchFilters[noSpaceName][6] = null;
+				arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
+				arrayOfWatchFilters[noSpaceName]["messageText"] = null;
 				document.getElementById(noSpaceName+'NoticeMessage').innerHTML = "";
 				document.getElementById(noSpaceName+'NoticeMessage').style.display = "none";
 			}
 			if(dataInner['enableBlockUntilDate'] == 'true' && dateForEnd >= today)
 			{
-				arrayOfWatchFilters[noSpaceName][7] = true;
-				arrayOfWatchFilters[noSpaceName][8] = dataInner['datePicker'];
+				arrayOfWatchFilters[noSpaceName]["enableBlockUntilDate"] = true;
+				arrayOfWatchFilters[noSpaceName]["datePicker"] = dataInner['datePicker'];
 				document.getElementById(noSpaceName+'NoticeMessage').innerHTML += " Blocking poll requests untill: "+dataInner['datePicker'];
 				document.getElementById(noSpaceName+'spinnerDiv').style.display = "none";
 			}
 			else
 			{
-				arrayOfWatchFilters[noSpaceName][7] = false;
+				arrayOfWatchFilters[noSpaceName]["enableBlockUntilDate"] = false;
 			}
 			if(dataInner['messageTextEnabled'] == 'true' || dataInner['enableBlockUntilDate'] == 'true')
 			{
@@ -515,18 +535,28 @@ function pollSuccess(dataInner, dataInnerPass)
 	    var nameForBackground = "innerFirstDevBox"+noSpaceName;
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
-			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
+			arrayOfWatchFilters[noSpaceName] = {
+				data: dataBranchForFile,
+				time: dataBranchForFileUpdateTime,
+				status: dataBranchForFileStats,
+				errorStatus : true,
+				backgroundColor : (document.getElementById(nameForBackground).style.backgroundColor),
+				messageTextEnabled: false,
+				messageText: null,
+				enableBlockUntilDate: false,
+				datePicker: null
+			};
 		}
 		else
 		{
-			if(arrayOfWatchFilters[noSpaceName][3] == false)
+			if(arrayOfWatchFilters[noSpaceName]["errorStatus"] == false)
 			{
 				//new error
-				arrayOfWatchFilters[noSpaceName][3] = true;
+				arrayOfWatchFilters[noSpaceName]["errorStatus"] = true;
 				filterBGColor('error', nameForBackground, 0.5);
 			}
-			arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
-			arrayOfWatchFilters[noSpaceName][5] = false;
+			arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
+			arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
 		}
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
