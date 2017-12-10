@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '1.5',
+	'version'		=> '1.5.1',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -38,6 +38,10 @@ $versionCheckArray = array(
 		'1.5'		=> array(
 			'branchName'	=> '1.5Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>Adds links to loghog / monitor in sidebar</li><li>Moved loghog check into the gitbranch logic</li><li>Added option to select default view group</li></ul></li><li>Bug Fixes<ul><li>Fixed issue with updating on home page (fixed refresh loop on some machines)</li><li>Fixed issue with updating on update page (same as above note)</li><li>Added delay check to saving the config file</li><li>Style changes to sidebar</li><li>Popup for duplicate names in watch list</li></ul></li></ul>'
+		),
+		'1.5.1'		=> array(
+			'branchName'	=> '1.5.1Update',
+			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Changed cache storage method</li><li>More detailed error info</li><li>Fixed bugs with connect test dissapearing when adding / removing items from watch list</li></ul></li></ul>'
 		),
 	)
 );
