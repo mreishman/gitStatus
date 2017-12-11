@@ -21,7 +21,7 @@ else
 
 if($boolForSave)
 {
-	foreach ($_POST['arrayOfdata'] as $key => $value)
+	foreach ($arrayOfdata as $key => $value)
 	{
 		$key = str_replace("'", "", $key);
 		$string .= "'".$key."' => array(";
