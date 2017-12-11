@@ -1,5 +1,5 @@
 <?php
-require_once('../../core/php/update/updateProgressFile.php');
+require_once('../../../core/php/update/updateProgressFile.php');
 $returnBool = false;
 if($updateProgress['percent'] === 100)
 {
