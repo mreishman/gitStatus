@@ -21,12 +21,14 @@ else
 
 if($boolForSave)
 {
-	foreach ($_POST['arrayOfdata'] as $key => $value) {
+	foreach ($_POST['arrayOfdata'] as $key => $value)
+	{
 		$key = str_replace("'", "", $key);
 		$string .= "'".$key."' => array(";
-		foreach ($value as $key2) {
+		foreach ($value as $value2 => $key2)
+		{
 			$key2 = str_replace("'", "", $key2);
-			$string .= "'".$key2."',";
+			$string .= "'".$value2."' => '".$key2."',";
 		}
 		$string .= "),";
 	}

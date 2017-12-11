@@ -63,9 +63,9 @@ function tryHTTPForPollRequest(count)
 	var doPollLogic = true;
 	if(arrayOfWatchFilters && arrayOfWatchFilters[name])
 	{
-		if(arrayOfWatchFilters[name][7] == 'true' || arrayOfWatchFilters[name][7] == true)
+		if(arrayOfWatchFilters[name]["enableBlockUntilDate"] == 'true' || arrayOfWatchFilters[name]["enableBlockUntilDate"] == true)
 		{
-			var dateForEnd = arrayOfWatchFilters[name][8];
+			var dateForEnd = arrayOfWatchFilters[name]["datePicker"];
 			var today = new Date();
 			var dd = today.getDate();
 			var mm = today.getMonth()+1; //January is 0!
@@ -104,51 +104,46 @@ function tryHttpActuallyPollLogic(count, name)
 		urlForSend = 'http://'+arrayOfFiles[count][6]+'?format=json';
 	}
 	document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
-	var data = {location: arrayOfFiles[count][2], name: name, githubRepo: arrayOfFiles[count][4], urlForSend: urlForSend,websiteBase: arrayOfFiles[count][1]};
+	var data = {location: arrayOfFiles[count][2], name, githubRepo: arrayOfFiles[count][4], urlForSend ,websiteBase: arrayOfFiles[count][1]};
 		(function(_data){
-
-			$.ajax({
-			url: urlForSend,
-			dataType: 'json',
-			global: false,
-			data: data,
-			type: 'POST',
-			success: function(data){
-				pollSuccess(data, _data);
-			},
-			error: function(data){
-				tryHTTPSForPollRequest(data, _data);
-			}
-		});
-
-	}(data));
+				$.ajax({
+				url: urlForSend,
+				dataType: 'json',
+				global: false,
+				data,
+				type: 'POST',
+				success: function(data){
+					pollSuccess(data, _data);
+				},
+				error: function(xhr, error){
+					tryHTTPSForPollRequest(_data);
+				}
+			});
+		}(data));
 }
 
 
-function tryHTTPSForPollRequest(data, _data)
+function tryHTTPSForPollRequest(_data)
 {
 	var urlForSend = _data.urlForSend;
 	urlForSend = urlForSend.replace("http","https");
 	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase};
 	
 		(function(_data){
-
 			$.ajax({
-			url: urlForSend,
-			dataType: 'json',
-			global: false,
-			data: data,
-			type: 'POST',
-			success: function(data){
-				pollSuccess(data, _data);
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				pollFailure(jqXHR.status, _data);
-			}
-		});
-
-			}(data));
-			
+				url: urlForSend,
+				dataType: 'json',
+				global: false,
+				data,
+				type: 'POST',
+				success: function(data){
+					pollSuccess(data, _data);
+				},
+				error: function(xhr, error){
+					pollFailure(xhr.status, error, _data);
+				}
+			});
+		}(data));
 }
 
 function showPopupWithMessage(type, message)
@@ -196,7 +191,7 @@ function pollCompleteLogic()
 	}		
 }
 
-function pollFailure(dataInner, dataInnerPass)
+function pollFailure(xhr, error, dataInnerPass)
 {
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
 	var nameForBackground = "innerFirstDevBox"+noSpaceName;
@@ -205,30 +200,40 @@ function pollFailure(dataInner, dataInnerPass)
 	document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
 	document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
     document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
-    if(document.getElementById(noSpaceName+'Stats').innerHTML == "--Pending--")
+    if(document.getElementById(noSpaceName+'Stats').innerHTML != JSON.stringify(error))
 	{
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
-	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">n/a</span>';
+	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">'+JSON.stringify(xhr)+'</span>';
 	    document.getElementById(noSpaceName+'UpdateOuter').style.display = "none";
-	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">Could not connect to server</span>';
+	    var dataBranchForFileStats = '<span id="'+noSpaceName+'Stats";">'+JSON.stringify(error)+'</span>';
 	    displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats)
 	    filterBGColor('error', nameForBackground, 1);
 	}
 
 	if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 	{
-		arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
+		arrayOfWatchFilters[noSpaceName] = {
+				data: dataBranchForFile,
+				time: dataBranchForFileUpdateTime,
+				status: dataBranchForFileStats,
+				errorStatus : true,
+				backgroundColor : (document.getElementById(nameForBackground).style.backgroundColor),
+				messageTextEnabled: false,
+				messageText: null,
+				enableBlockUntilDate: false,
+				datePicker: null
+			};
 	}
 	else
 	{
-		if(arrayOfWatchFilters[noSpaceName][3] == false)
+		if(arrayOfWatchFilters[noSpaceName]["errorStatus"] == false)
 		{
 			//new error
-			arrayOfWatchFilters[noSpaceName][3] = true;
+			arrayOfWatchFilters[noSpaceName]["errorStatus"] = true;
 			filterBGColor('error', nameForBackground, 0.5);
 		}
-		arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
-		arrayOfWatchFilters[noSpaceName][5] = false;
+		arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
+		arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
 	}
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
 	pollCompleteLogic();
@@ -408,23 +413,33 @@ function pollSuccess(dataInner, dataInnerPass)
 	    }
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
-			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,false,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
+			arrayOfWatchFilters[noSpaceName] = {
+				data: dataBranchForFile,
+				time: dataBranchForFileUpdateTime,
+				status: dataBranchForFileStats,
+				errorStatus : false,
+				backgroundColor : (document.getElementById(nameForBackground).style.backgroundColor),
+				messageTextEnabled: false,
+				messageText: null,
+				enableBlockUntilDate: false,
+				datePicker: null
+			};
 		}
 		else
 		{
-			arrayOfWatchFilters[noSpaceName][0] = dataBranchForFile;
-			arrayOfWatchFilters[noSpaceName][1] = dataBranchForFileUpdateTime;
-			arrayOfWatchFilters[noSpaceName][2] = dataBranchForFileStats;
-			if(arrayOfWatchFilters[noSpaceName][3] == true)
+			arrayOfWatchFilters[noSpaceName]["data"] = dataBranchForFile;
+			arrayOfWatchFilters[noSpaceName]["time"] = dataBranchForFileUpdateTime;
+			arrayOfWatchFilters[noSpaceName]["status"] = dataBranchForFileStats;
+			if(arrayOfWatchFilters[noSpaceName]["errorStatus"] == true)
 			{
 				//was error
-				arrayOfWatchFilters[noSpaceName][3] = false;
+				arrayOfWatchFilters[noSpaceName]["errorStatus"] = false;
 			}
 
 		}
 		
 		filterBGColor(dataToFilterBy, nameForBackground, 1);
-		arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
+		arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
 		//custom message stuff
 		(Object.values(dataInner).indexOf('messageTextEnabled') > -1)
 		{
@@ -447,27 +462,27 @@ function pollSuccess(dataInner, dataInnerPass)
 
 			if(dataInner['messageTextEnabled'] == 'true')
 			{
-				arrayOfWatchFilters[noSpaceName][5] = true;
-				arrayOfWatchFilters[noSpaceName][6] = dataInner['messageText'];
+				arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = true;
+				arrayOfWatchFilters[noSpaceName]["messageText"] = dataInner['messageText'];
 				document.getElementById(noSpaceName+'NoticeMessage').innerHTML = dataInner['messageText'];
 			}
 			else
 			{
-				arrayOfWatchFilters[noSpaceName][5] = false;
-				arrayOfWatchFilters[noSpaceName][6] = null;
+				arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
+				arrayOfWatchFilters[noSpaceName]["messageText"] = null;
 				document.getElementById(noSpaceName+'NoticeMessage').innerHTML = "";
 				document.getElementById(noSpaceName+'NoticeMessage').style.display = "none";
 			}
 			if(dataInner['enableBlockUntilDate'] == 'true' && dateForEnd >= today)
 			{
-				arrayOfWatchFilters[noSpaceName][7] = true;
-				arrayOfWatchFilters[noSpaceName][8] = dataInner['datePicker'];
+				arrayOfWatchFilters[noSpaceName]["enableBlockUntilDate"] = true;
+				arrayOfWatchFilters[noSpaceName]["datePicker"] = dataInner['datePicker'];
 				document.getElementById(noSpaceName+'NoticeMessage').innerHTML += " Blocking poll requests untill: "+dataInner['datePicker'];
 				document.getElementById(noSpaceName+'spinnerDiv').style.display = "none";
 			}
 			else
 			{
-				arrayOfWatchFilters[noSpaceName][7] = false;
+				arrayOfWatchFilters[noSpaceName]["enableBlockUntilDate"] = false;
 			}
 			if(dataInner['messageTextEnabled'] == 'true' || dataInner['enableBlockUntilDate'] == 'true')
 			{
@@ -520,18 +535,28 @@ function pollSuccess(dataInner, dataInnerPass)
 	    var nameForBackground = "innerFirstDevBox"+noSpaceName;
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
-			arrayOfWatchFilters[noSpaceName] = new Array(dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats,true,(document.getElementById(nameForBackground).style.backgroundColor),false,null,false,null);
+			arrayOfWatchFilters[noSpaceName] = {
+				data: dataBranchForFile,
+				time: dataBranchForFileUpdateTime,
+				status: dataBranchForFileStats,
+				errorStatus : true,
+				backgroundColor : (document.getElementById(nameForBackground).style.backgroundColor),
+				messageTextEnabled: false,
+				messageText: null,
+				enableBlockUntilDate: false,
+				datePicker: null
+			};
 		}
 		else
 		{
-			if(arrayOfWatchFilters[noSpaceName][3] == false)
+			if(arrayOfWatchFilters[noSpaceName]["errorStatus"] == false)
 			{
 				//new error
-				arrayOfWatchFilters[noSpaceName][3] = true;
+				arrayOfWatchFilters[noSpaceName]["errorStatus"] = true;
 				filterBGColor('error', nameForBackground, 0.5);
 			}
-			arrayOfWatchFilters[noSpaceName][4] = document.getElementById(nameForBackground).style.backgroundColor;
-			arrayOfWatchFilters[noSpaceName][5] = false;
+			arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
+			arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
 		}
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
