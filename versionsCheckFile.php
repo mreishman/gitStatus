@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '1.5.1',
+	'version'		=> '1.5.2',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -42,6 +42,10 @@ $versionCheckArray = array(
 		'1.5.1'		=> array(
 			'branchName'	=> '1.5.1Update',
 			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Changed cache storage method</li><li>More detailed error info</li><li>Fixed bugs with connect test dissapearing when adding / removing items from watch list</li></ul></li></ul>'
+		),
+		'1.5.2'		=> array(
+			'branchName'	=> '1.5.2Update',
+			'releaseNotes'  => '<ul><li>TEST</li></ul>'
 		),
 	)
 );
