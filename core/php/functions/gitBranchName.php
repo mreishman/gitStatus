@@ -1,8 +1,10 @@
 <?php header('Access-Control-Allow-Origin: *'); 
 
-$disablePostRequestWithPostData = false;
+require_once("../../../core/conf/config.php");
+require_once("../../../local/default/conf/config.php");
+require_once("../../../core/php/loadVars.php");
 
-if((isset($_POST['location']) && isset($_POST['name']) && isset($_POST['websiteBase'])) && !$disablePostRequestWithPostData)
+if((isset($_POST['location']) && isset($_POST['name']) && isset($_POST['websiteBase'])) && $disablePostRequestWithPostData === "false")
 {
 	//old version!!!! (prior to 2.0)
 

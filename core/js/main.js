@@ -88,12 +88,25 @@ function tryHTTPForPollRequest(count)
 	}
 	if(doPollLogic)
 	{
-		tryHttpActuallyPollLogic(count, name);
+		if(pollType == 1)
+		{
+			tryHttpActuallyPollLogic(count, name);
+		}
+		else if(pollType == 2)
+		{
+			//v2 of poll logic (going to remove 1 at some point, not now though)
+			versionTwoForPoll(count, name);
+		}
 	}
 	else
 	{
 		pollCompleteLogic();
 	}
+}
+
+function versionTwoForPoll(count, name)
+{
+
 }
 
 function tryHttpActuallyPollLogic(count, name)

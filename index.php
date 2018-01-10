@@ -286,6 +286,7 @@ else
 			echo "var onlyRefreshVisible = '".$onlyRefreshVisible."';";
 			echo "var dontNotifyVersion = '".$dontNotifyVersion."';";
 			echo "var currentVersion = '".$configStatic['version']."';";
+			echo "var pollType ='".$pollType."';";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";
