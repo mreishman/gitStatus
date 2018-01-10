@@ -50,6 +50,14 @@ else
 		unset($_COOKIE['defaultViewBranchCookie']);
 	}
 }
+
+$sendPing = true;
+$pingResult = shell_exec("ping 127.0.0.1 -c 1");
+if(gettype($pingResult) == "null")
+{
+	$sendPing = false;
+}
+
 ?>
 <!doctype html>
 <head>
@@ -152,6 +160,37 @@ else
 				?>
 			>
 				<div class="devBoxTitle">
+					<?php $showLED = true; ?>
+					<div class="led-red" id="branchNameDevBox1<?php echo $keyNoSpace; ?>redwWarning" style="display: inline-block; margin-bottom: -8px; 
+							<?php if($showCachedValue && $errorStatus !== "" && $errorStatus === false): 
+								$showLED = false;
+							?> 
+								display: inline-block;
+							<?php else: ?>
+								display: none;
+							<?php endif; ?>
+						"
+					>
+					</div>
+					<div class="led-yellow" id="branchNameDevBox1<?php echo $keyNoSpace; ?>yellowWarning" style="display: inline-block; margin-bottom: -8px; 
+							<?php if($showLED && $showCachedValue && (($messageTextEnabled !== "" && $messageTextEnabled === true) || ($enableBlockUntilDate !== "" && $enableBlockUntilDate === true))):
+								$showLED = false;
+							?>
+								display: inline-block;
+							<?php else: ?>
+								display: none;
+							<?php endif; ?>
+						"
+					>
+					</div>
+					<div class="led-green" id="branchNameDevBox1<?php echo $keyNoSpace; ?>greenNotice" style="display: inline-block; margin-bottom: -8px; 
+							<?php if($showLED): ?>
+								display: inline-block;
+							<?php else: ?>
+								display: none;
+							<?php endif; ?>
+						">
+					</div>
 					<a style="color: black;" href="https://<?php echo $value['Website']; ?>"><b><?php echo $key; ?></b></a>
 					<div
 						id="branchNameDevBox1<?php echo $keyNoSpace; ?>spinnerDiv"
@@ -166,32 +205,6 @@ else
 					>
 						<img style="margin-bottom: -5px;" id="refreshImage<?php echo $keyNoSpace; ?>" class="menuImage" src="core/img/Refresh2.png" height="25px">
 					</div>
-					<img 
-						id="branchNameDevBox1<?php echo $keyNoSpace; ?>yellowWarning"
-						src="core/img/yellowWarning.png"
-						height="15px"
-						style="
-							margin-bottom: 0px; 
-							<?php if($showCachedValue && (($messageTextEnabled !== "" && $messageTextEnabled === true) || ($enableBlockUntilDate !== "" && $enableBlockUntilDate === true))): ?>
-								display: inline-block;
-							<?php else: ?>
-								display: none;
-							<?php endif; ?>
-						"
-					>
-					<img
-						id="branchNameDevBox1<?php echo $keyNoSpace; ?>redwWarning"
-						src="core/img/redWarning.png"
-						height="15px"
-						style="
-							margin-bottom: 0px;
-							<?php if($showCachedValue && $errorStatus !== "" && $errorStatus === false): ?> 
-								display: inline-block;
-							<?php else: ?>
-								display: none;
-							<?php endif; ?>
-						"
-					>
 					<img
 						id="branchNameDevBox1<?php echo $keyNoSpace; ?>loadingSpinnerHeader"
 						class='loadingSpinnerHeader'

@@ -208,7 +208,7 @@ function pollFailure(xhr, error, dataInnerPass)
 {
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
 	var nameForBackground = "innerFirstDevBox"+noSpaceName;
-	document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
+	switchToColorLed(noSpaceName, "red");
 	document.getElementById(noSpaceName+'redwWarning').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
 	document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
 	document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
@@ -259,9 +259,8 @@ function pollSuccess(dataInner, dataInnerPass)
 	document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
 	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
-		document.getElementById(noSpaceName+'redwWarning').style.display = "none";
+		switchToColorLed(noSpaceName, "green");
 		document.getElementById(noSpaceName+'errorMessageLink').style.display = "none";
-		document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
 		document.getElementById(noSpaceName+'noticeMessageLink').style.display = "none";
 		var dataStats = dataInner['stats'].replace("','", "'"+'&#44;'+"'");
 	    var dataStats = dataStats.split(", <");
@@ -499,12 +498,12 @@ function pollSuccess(dataInner, dataInnerPass)
 			}
 			if(dataInner['messageTextEnabled'] == 'true' || dataInner['enableBlockUntilDate'] == 'true')
 			{
-				document.getElementById(noSpaceName+'yellowWarning').style.display = "inline-block";
+				switchToColorLed(noSpaceName, "yellow");
 				document.getElementById(noSpaceName+'NoticeMessage').style.display = "inline-block";
 			}
 			else
 			{
-				document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
+				switchToColorLed(noSpaceName, "green");
 				document.getElementById(noSpaceName+'NoticeMessage').style.display = "none";
 			}
 		}
@@ -539,7 +538,7 @@ function pollSuccess(dataInner, dataInnerPass)
 			errorMessage = "Location var is too long.";
 		}
 		//assume no data was recieved
-		document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
+		switchToColorLed(noSpaceName, "red");
 		document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
 		document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error',errorMessage)};
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
@@ -575,6 +574,28 @@ function pollSuccess(dataInner, dataInnerPass)
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
 	pollCompleteLogic();
+}
+
+function switchToColorLed(noSpaceName, type)
+{
+	if(type === "red")
+	{
+		document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
+		document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
+		document.getElementById(noSpaceName+'greenNotice').style.display = "none";
+	}
+	else if(type === "yellow")
+	{
+		document.getElementById(noSpaceName+'redwWarning').style.display = "none";
+		document.getElementById(noSpaceName+'yellowWarning').style.display = "inline-block";
+		document.getElementById(noSpaceName+'greenNotice').style.display = "none";
+	}
+	else
+	{
+		document.getElementById(noSpaceName+'redwWarning').style.display = "none";
+		document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
+		document.getElementById(noSpaceName+'greenNotice').style.display = "inline-block";
+	}
 }
 
 function displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats)
