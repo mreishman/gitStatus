@@ -44,7 +44,7 @@
 			<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
 				<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
 			</div>
-			<div onclick="refreshAction('refreshImage');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
+			<div id="refreshDiv" onclick="refreshAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
 				<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
 			</div>
 			<div style="display: inline-block;" >

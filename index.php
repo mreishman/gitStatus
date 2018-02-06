@@ -194,7 +194,7 @@ if(gettype($pingResult) == "null")
 					<a style="color: black;" href="https://<?php echo $value['Website']; ?>"><b><?php echo $key; ?></b></a>
 					<div
 						id="branchNameDevBox1<?php echo $keyNoSpace; ?>spinnerDiv"
-						onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');"
+						onclick="refreshAction('<?php echo $h;?>','inner');"
 						style="
 							<?php if( $showCachedValue && $enableBlockUntilDate !== "" && $enableBlockUntilDate === true): ?>
 								display: none;
@@ -213,7 +213,7 @@ if(gettype($pingResult) == "null")
 					>
 					<div class="expandMenu" onclick="dropdownShow('<?php echo $keyNoSpace;?>')" ></div>
 					<div id="dropdown-<?php echo $keyNoSpace;?>" class="dropdown-content">
-					    <a style="cursor: pointer" onclick="refreshAction('refreshImage<?php echo $keyNoSpace; ?>','<?php echo $h;?>','inner');" >Refresh</a>
+					    <a style="cursor: pointer" onclick="refreshAction('<?php echo $h;?>','inner');" >Refresh</a>
 					    <div id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogOuter" style="display: none; cursor: pointer; width: 100%;" >
 							<a id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogInner" style="color: black;" href="#">Log-Hog</a>
 						</div>

@@ -117,6 +117,8 @@ function tryHttpActuallyPollLogic(count, name)
 		urlForSend = 'http://'+arrayOfFiles[count][6]+'?format=json';
 	}
 	document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
+	document.getElementById(name+"spinnerDiv").style.display = "none";
+	document.getElementById("refreshDiv").style.display = "none";
 	var data = {location: arrayOfFiles[count][2], name, githubRepo: arrayOfFiles[count][4], urlForSend ,websiteBase: arrayOfFiles[count][1]};
 		(function(_data){
 				$.ajax({
@@ -189,9 +191,11 @@ function pollCompleteLogic()
 					global: false,
 					data: data,
 					type: 'POST',
-					complete: function(data){
+					complete: function(data)
+					{
 						document.getElementById('loadingSpinnerMain').style.display = "none";
-						loadingSpinnerText.innerHTML = ""
+						loadingSpinnerText.innerHTML = "";
+						document.getElementById("refreshDiv").style.display = "inline-block";
 						}
 					});
 				}(data));
@@ -249,6 +253,8 @@ function pollFailure(xhr, error, dataInnerPass)
 		arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
 	}
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
+	document.getElementById(noSpaceName+"spinnerDiv").style.display = "inline-block";
+	document.getElementById("refreshDiv").style.display = "inline-block";
 	pollCompleteLogic();
 }
 
@@ -573,6 +579,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
+	document.getElementById(noSpaceName+"spinnerDiv").style.display = "inline-block";
 	pollCompleteLogic();
 }
 
@@ -674,20 +681,11 @@ function filterBGColor(filterName, idName, opacity)
 
 var refreshing = false;
 
-function refreshAction(refreshImage, all = -1, status = 'outer')
+function refreshAction(all = -1, status = 'outer')
 {
 	if(refreshing == false)
 	{
 		clearTimeout(refreshActionVar);
-		if(status == "inner")
-		{
-			document.getElementById(refreshImage).src="core/img/refresh-animated-2.gif";
-		}
-		else
-		{
-			//outer default
-			document.getElementById(refreshImage).src="core/img/refresh-animated.gif";
-		}
 		
 		refreshing = true;
 		if(pausePoll)
@@ -715,22 +713,12 @@ function refreshAction(refreshImage, all = -1, status = 'outer')
 				poll(all);	
 			}
 		}
-		refreshActionVar = setTimeout(function(){endRefreshAction(refreshImage, status)}, 1500);
+		refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
 	}
 }
 
-function endRefreshAction(refreshImage, status)
-{
-	if(status == "inner")
-	{
-		document.getElementById(refreshImage).src="core/img/Refresh2.png"; 
-	}
-	else
-	{
-		//outer default
-		document.getElementById(refreshImage).src="core/img/Refresh.png"; 
-	}
-	
+function endRefreshAction()
+{	
 	refreshing = false;
 	if(pausePoll)
 	{
