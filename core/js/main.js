@@ -88,27 +88,13 @@ function tryHTTPForPollRequest(count)
 	}
 	if(doPollLogic)
 	{
-		if(pollType == 1)
-		{
-			tryHttpActuallyPollLogic(count, name);
-		}
-		else if(pollType == 2)
-		{
-			//v2 of poll logic (going to remove 1 at some point, not now though)
-			versionTwoForPoll(count, name);
-		}
+		tryHttpActuallyPollLogic(count, name);
 	}
 	else
 	{
 		pollCompleteLogic();
 	}
 }
-
-function versionTwoForPoll(count, name)
-{
-
-}
-
 function tryHttpActuallyPollLogic(count, name)
 {
 	var urlForSend = 'http://'+arrayOfFiles[count][1]+'/status/core/php/functions/gitBranchName.php?format=json';
@@ -120,21 +106,26 @@ function tryHttpActuallyPollLogic(count, name)
 	document.getElementById(name+"spinnerDiv").style.display = "none";
 	document.getElementById("refreshDiv").style.display = "none";
 	var data = {location: arrayOfFiles[count][2], name, githubRepo: arrayOfFiles[count][4], urlForSend ,websiteBase: arrayOfFiles[count][1]};
-		(function(_data){
-				$.ajax({
-				url: urlForSend,
-				dataType: 'json',
-				global: false,
-				data,
-				type: 'POST',
-				success: function(data){
-					pollSuccess(data, _data);
-				},
-				error: function(xhr, error){
-					tryHTTPSForPollRequest(_data);
-				}
-			});
-		}(data));
+	var innerData = {};
+	if(pollType == 1)
+	{
+		innerData = data;
+	}
+	(function(_data){
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data: innerData,
+			type: 'POST',
+			success: function(data){
+				pollSuccess(data, _data);
+			},
+			error: function(xhr, error){
+				tryHTTPSForPollRequest(_data);
+			}
+		});
+	}(data));
 }
 
 
@@ -143,13 +134,17 @@ function tryHTTPSForPollRequest(_data)
 	var urlForSend = _data.urlForSend;
 	urlForSend = urlForSend.replace("http","https");
 	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase};
-	
+	var innerData = {};
+	if(pollType == 1)
+	{
+		innerData = data;
+	}
 		(function(_data){
 			$.ajax({
 				url: urlForSend,
 				dataType: 'json',
 				global: false,
-				data,
+				data: innerData,
 				type: 'POST',
 				success: function(data){
 					pollSuccess(data, _data);
