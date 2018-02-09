@@ -4,6 +4,16 @@ require_once("../../../core/conf/config.php");
 require_once("../../../local/default/conf/config.php");
 require_once("../../../core/php/loadVars.php");
 
+function sendCurl($url)
+{
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$result = curl_exec ($ch);
+	curl_close ($ch);
+	return $result;
+}
+
 function checkForSearch($baseWeb)
 {
 	if(is_dir("../../../../search"))
@@ -122,23 +132,42 @@ else
 		'isHere' 		=> true,
 		'info'			=> array()
 	);
-	foreach ($localWatchList as $key => $value)
+	foreach ($serverWatchList as $key => $value)
 	{
-		$response["info"][$key] = array(
-			'isHere' => true,
-			'branch' 	=> getBranchName($value['Folder']),
-			'date'		=> date('j m Y'),
-			'time'		=> trim(shell_exec('date')),
-			'stats'		=> getBranchStats($value['Folder']),
-			'messageTextEnabled'	=> $messageTextEnabled,
-			'messageText' => $messageText,
-			'enableBlockUntilDate'	=> $enableBlockUntilDate,
-			'datePicker'	=> $datePicker,
-			'loghog'		=> checkForLogHog($value['WebsiteBase']),
-			'monitor'		=> checkForMonitor($value['WebsiteBase']),
-			'search'		=> checkForSearch($value['WebsiteBase']),
-			'otherFunctions'	=> ''
-		);
+		if($value["type"] == "local")
+		{
+			$response["info"][$key] = array(
+				'isHere' => true,
+				'branch' 	=> getBranchName($value['Folder']),
+				'date'		=> date('j m Y'),
+				'time'		=> trim(shell_exec('date')),
+				'stats'		=> getBranchStats($value['Folder']),
+				'messageTextEnabled'	=> $messageTextEnabled,
+				'messageText' => $messageText,
+				'enableBlockUntilDate'	=> $enableBlockUntilDate,
+				'datePicker'	=> $datePicker,
+				'loghog'		=> checkForLogHog($value['WebsiteBase']),
+				'monitor'		=> checkForMonitor($value['WebsiteBase']),
+				'search'		=> checkForSearch($value['WebsiteBase']),
+				'otherFunctions'	=> ''
+			);
+		}
+		else
+		{
+			$sendUrlHere = "".$value["WebsiteBase"]."/status/core/php/functions/gitBranchName.php";
+			if($value["urlHit"] !== "")
+			{
+				$sendUrlHere = $value["urlHit"];
+			}
+			$url = "https://".$sendUrlHere;
+			$result = sendCurl($url);
+			if(!$result)
+			{
+				$url = "http://".$sendUrlHere;
+				$result = sendCurl($url);
+			}
+			array_merge($response["info"], $result["info"]);
+		}
 	}
 }
 echo json_encode($response);
