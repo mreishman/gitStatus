@@ -35,36 +35,44 @@
 				$i = 0;
 				$numCount = 0;
 				$arrayOfKeys = array();
-				foreach($config['watchList'] as $key => $item): $i++; ?>
-				<script type="text/javascript">
-					var dataForWatchFolder<?php echo $i?> = JSON.parse('<?php echo json_encode($item); ?>');
-				</script>
-				<li class="watchFolderGroups" id="rowNumber<?php echo $i; ?>" >
-					<span class="leftSpacingserverNames" > Name: </span>
-	 				<input class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
-	 				<?php
-	 				$j = 0;
-	 				foreach($item as $key2 => $item2): $j++; ?>
-		 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span><input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
+				foreach($config['watchList'] as $key => $item): $i++;
+					$type = $item["type"];
+					?>
+					<script type="text/javascript">
+						var dataForWatchFolder<?php echo $i?> = JSON.parse('<?php echo json_encode($item); ?>');
+					</script>
+					<li class="watchFolderGroups" id="rowNumber<?php echo $i; ?>" >
+						<span class="leftSpacingserverNames" > Name: </span>
+		 				<input <?php if ($type === "external"){ echo "disabled= \"true\";";}?> class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
 		 				<?php
-			 				if(!in_array($key2, $arrayOfKeys))
-			 				{
-			 					array_push($arrayOfKeys, $key2);
-			 				}	
+		 				$j = 0;
+		 				foreach($item as $key2 => $item2): $j++;
+		 					if($key2 !== "type"):?>
+			 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span>
+			 				<?php endif; ?>
+			 				<input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
+			 				<?php
+				 				if(!in_array($key2, $arrayOfKeys))
+				 				{
+				 					array_push($arrayOfKeys, $key2);
+				 				}	
+			 				?>
+			 				<input style=" <?php if($key2 === "type"){echo "display: none;";} ?> " <?php if ($type === "external"  && ($key2 === "WebsiteBase" || $key2 === "Folder" || $key2 === "urlHit")){ echo "disabled= \"true\";";}?> class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
+			 				
+		 				<?php endforeach; 
+		 				if($numCount < $j)
+		 				{
+		 					$numCount = $j;
+		 				}
 		 				?>
-		 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
-	 				<?php endforeach; 
-	 				if($numCount < $j)
-	 				{
-	 					$numCount = $j;
-	 				}
-	 				?>
-	 				<br> <input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'> 
-	 				<span class="leftSpacingserverNames" ></span>
-					<a class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $i; ?>, true);">Remove</a>
-					<span> | </span>
-					<a class="mainLinkClass" onclick="testConnection(dataForWatchFolder<?php echo $i; ?>);" >Check Connection</a>
-				</li>
+		 				<br> <input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'> 
+		 				<span class="leftSpacingserverNames" ></span>
+		 				<?php if($type !== "external"): ?>
+							<a class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $i; ?>, true);">Remove</a>
+							<span> | </span>
+						<?php endif; ?>
+						<a class="mainLinkClass" onclick="testConnection(dataForWatchFolder<?php echo $i; ?>);" >Check Connection</a>
+					</li>
 				<?php endforeach; ?>
 				<div style="display: inline-block;" id="newRowLocationForWatchList"></div>
 			</ul>
