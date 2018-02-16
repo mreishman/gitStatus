@@ -10,9 +10,11 @@
 		</div>
 		<div class="devBoxContent">
 			<ul class="settingsUl">
-
+			<?php if($pollType === 1): ?>
 				<li><h2>Example:</h2></li>
 				<li class="watchFolderGroups">
+				<span>Poll Version 1</span>
+				<br>
 				<span class="leftSpacingserverNames" > Name:</span> <input disabled="true" class='inputWidth300' type='text' value='Name you want to call website'> 
 				<br>
 				<span class="leftSpacingserverNames" > WebsiteBase:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'> 
@@ -28,8 +30,35 @@
 				<span class="leftSpacingserverNames" > urlHit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'> 
 				<br>
 				</li>
+			<?php elseif($pollType === 2): ?>
+				<li class="watchFolderGroups">
+				<span>Poll Version 2 - Server</span>
+				<br>
+				<span class="leftSpacingserverNames" > Name:</span> <input disabled="true" class='inputWidth300' type='text' value='Name you want to call website'> 
+				<br>
+				<span class="leftSpacingserverNames" > WebsiteBase:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'> 
+				<br>
+				<span class="leftSpacingserverNames" > urlHit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'> 
+				<br>
+				</li>
 
-
+				<li class="watchFolderGroups">
+				<span>Poll Version 2 - Node</span>
+				<br>
+				<span class="leftSpacingserverNames" > Name:</span> <input disabled="true" class='inputWidth300' type='text' value='Name you want to call website'> 
+				<br>
+				<span class="leftSpacingserverNames" > WebsiteBase:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'> 
+				<br>
+				<span class="leftSpacingserverNames" > Website:</span> <input disabled="true" class='inputWidth300' type='text' value='Specific directory of website'> 
+				<br>
+				<span class="leftSpacingserverNames" > githubRepo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'> 
+				<br>
+				<span class="leftSpacingserverNames" > groupInfo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of group'> 
+				<br>
+				<span class="leftSpacingserverNames" > urlHit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'> 
+				<br>
+				</li>
+			<?php endif; ?>
 				<li><h2>Your Watch List: </h2></li>
 				<?php 
 				$i = 0;
