@@ -149,6 +149,7 @@ else
 				'loghog'		=> checkForLogHog($value['WebsiteBase']),
 				'monitor'		=> checkForMonitor($value['WebsiteBase']),
 				'search'		=> checkForSearch($value['WebsiteBase']),
+				'displayName'	=> $key,
 				'otherFunctions'	=> ''
 			);
 		}

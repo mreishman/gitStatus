@@ -34,9 +34,12 @@ function poll(all = -1)
 			{
 				var name = "innerFirstDevBoxbranchNameDevBox1"+arrayOfFiles[i][0];
 				name = name.replace(/\s/g, '_');
-				if( document.getElementById(name).parentElement.style.display === "none")
+				if( document.getElementById(name))
 				{
-					boolForRun = false;
+					if( document.getElementById(name).parentElement.style.display === "none")
+					{
+						boolForRun = false;
+					}
 				}
 			}
 			if(boolForRun)
@@ -102,8 +105,11 @@ function tryHttpActuallyPollLogic(count, name)
 	{
 		urlForSend = 'http://'+arrayOfFiles[count][6]+'?format=json';
 	}
-	document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
-	document.getElementById(name+"spinnerDiv").style.display = "none";
+	if(document.getElementById(name))
+	{
+		document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
+		document.getElementById(name+"spinnerDiv").style.display = "none";
+	}
 	document.getElementById("refreshDiv").style.display = "none";
 	var data = {location: arrayOfFiles[count][2], name, githubRepo: arrayOfFiles[count][4], urlForSend ,websiteBase: arrayOfFiles[count][1]};
 	var innerData = {};
@@ -255,8 +261,50 @@ function pollFailure(xhr, error, dataInnerPass)
 
 function pollSuccess(dataInner, dataInnerPass)
 {
+	if(pollType === "1")
+	{
+		pollSuccessInner(dataInner, dataInnerPass);
+	}
+	else if(pollType === "2")
+	{
+		if("info" in dataInner)
+		{
+			console.log("event");
+			var keysInfo = Object.keys(dataInner["info"]);
+			console.log(keysInfo);
+			var keysInfoLength = keysInfo.length;
+			for(var i = 0; i < keysInfoLength; i++)
+			{
+				var name = "branchNameDevBox1"+keysInfo[i];
+				dataInner["info"][keysInfo[i]]["name"] = name.replace(/\s/g, '_');
+				pollSuccessInner(dataInner["info"][keysInfo[i]],dataInner["info"][keysInfo[i]])
+			}
+		}
+	}
+}
+
+function pollSuccessInner(dataInner, dataInnerPass)
+{
+	console.log(dataInner);
 	var dataToFilterBy = "error";
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
+	if(!document.getElementById(noSpaceName))
+	{
+		//no there, add
+		var item = $("#storage .container").html();
+		item = item.replace(/{{keyNoSpace}}/g, noSpaceName);
+		if(!$('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
+		{
+			item = item.replace(/{{branchView}}/g, "devBoxContentSecondary");
+		}
+		if(!$('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
+		{
+			item = item.replace(/{{branchView}}/g, "devBoxContentSecondaryExpanded");
+		}
+		item = item.replace(/{{name}}/g,dataInner["displayName"]);
+		item = item.replace(/{{website}}/g,"#");
+		$("#main").append(item);
+	}
 	document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
 	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
