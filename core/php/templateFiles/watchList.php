@@ -32,7 +32,7 @@
 				</li>
 			<?php elseif($pollType === 2): ?>
 				<li class="watchFolderGroups">
-				<span>Poll Version 2 - Server</span>
+				<span>Poll Version 2</span>
 				<br>
 				<span class="leftSpacingserverNames" > Name:</span> <input disabled="true" class='inputWidth300' type='text' value='Name you want to call website'> 
 				<br>
@@ -42,28 +42,13 @@
 				<br>
 				</li>
 
-				<li class="watchFolderGroups">
-				<span>Poll Version 2 - Node</span>
-				<br>
-				<span class="leftSpacingserverNames" > Name:</span> <input disabled="true" class='inputWidth300' type='text' value='Name you want to call website'> 
-				<br>
-				<span class="leftSpacingserverNames" > WebsiteBase:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'> 
-				<br>
-				<span class="leftSpacingserverNames" > Website:</span> <input disabled="true" class='inputWidth300' type='text' value='Specific directory of website'> 
-				<br>
-				<span class="leftSpacingserverNames" > githubRepo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'> 
-				<br>
-				<span class="leftSpacingserverNames" > groupInfo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of group'> 
-				<br>
-				<span class="leftSpacingserverNames" > urlHit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'> 
-				<br>
-				</li>
 			<?php endif; ?>
 				<li><h2>Your Watch List: </h2></li>
 				<?php 
 				$i = 0;
 				$numCount = 0;
 				$arrayOfKeys = array();
+				$approvedArrayKeys = array("Name","WebsiteBase","urlHit");
 				foreach($config['watchList'] as $key => $item): $i++;
 					$type = $item["type"];
 					?>
@@ -75,20 +60,21 @@
 		 				<input <?php if ($type === "external"){ echo "disabled= \"true\";";}?> class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
 		 				<?php
 		 				$j = 0;
-		 				foreach($item as $key2 => $item2): $j++;
-		 					if($key2 !== "type"):?>
-			 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span>
-			 				<?php endif; ?>
-			 				<input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
-			 				<?php
-				 				if(!in_array($key2, $arrayOfKeys))
-				 				{
-				 					array_push($arrayOfKeys, $key2);
-				 				}	
-			 				?>
-			 				<input style=" <?php if($key2 === "type"){echo "display: none;";} ?> " <?php if ($type === "external"  && ($key2 === "WebsiteBase" || $key2 === "Folder" || $key2 === "urlHit")){ echo "disabled= \"true\";";}?> class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
-			 				
-		 				<?php endforeach; 
+		 				foreach($item as $key2 => $item2):
+		 					if(in_array($key2, $approvedArrayKeys)):
+			 					$j++;
+			 					?>
+				 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span>
+				 				<input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
+				 				<?php
+					 				if(!in_array($key2, $arrayOfKeys))
+					 				{
+					 					array_push($arrayOfKeys, $key2);
+					 				}	
+				 				?>
+				 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
+			 				<?php endif;
+		 				endforeach; 
 		 				if($numCount < $j)
 		 				{
 		 					$numCount = $j;
