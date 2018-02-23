@@ -4,13 +4,20 @@ require_once("../../../core/conf/config.php");
 require_once("../../../local/default/conf/config.php");
 require_once("../../../core/php/loadVars.php");
 
-function sendCurl($url)
+function sendCurl($requestUrl)
 {
 	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, $url);
+	$headers["Content-Length"] = strlen($postString);
+	$headers["User-Agent"] = "Curl/1.0";
+
+	curl_setopt($ch, CURLOPT_URL, $requestUrl);
+	curl_setopt($ch, CURLOPT_HEADER, false);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2); //timeout in seconds
+	curl_setopt($ch, CURLOPT_TIMEOUT, 2); //timeout in seconds
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	$result = curl_exec ($ch);
-	curl_close ($ch);
+	$result = curl_exec($ch);
+	curl_close($ch);
 	return $result;
 }
 
