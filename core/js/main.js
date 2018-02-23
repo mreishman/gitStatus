@@ -200,7 +200,7 @@ function pollFailure(xhr, error, dataInnerPass)
 	document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
 	document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
     document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
-    if(document.getElementById(noSpaceName+'Stats').innerHTML != JSON.stringify(error))
+    if(document.getElementById(noSpaceName+'Stats').innerHTML != JSON.stringify(error) && document.getElementById(noSpaceName+'Stats').innerHTML == "")
 	{
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
 	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">'+JSON.stringify(xhr)+'</span>';
