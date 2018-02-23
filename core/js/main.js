@@ -27,6 +27,8 @@ function poll(all = -1)
 	{
 		counterForSave = numberOfLogs+1;
 		var arrayOfFilesLength = arrayOfFiles.length
+		$(".loadingSpinnerHeader").css('display', 'inline-block');
+		$(".refreshImageDevBox").css('display', 'none');
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
 			var boolForRun = true;

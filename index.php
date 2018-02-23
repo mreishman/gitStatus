@@ -201,6 +201,7 @@ if(gettype($pingResult) == "null")
 						</div>
 						<a style="color: black;" href="<?php if(isset($value['Website'])): ?> https://<?php echo $value['Website']; else: echo "#"; endif; ?> "><b><?php echo $key; ?></b></a>
 						<div
+							class="refreshImageDevBox"
 							id="branchNameDevBox1<?php echo $keyNoSpace; ?>spinnerDiv"
 							onclick="refreshAction('<?php echo $h;?>','inner');"
 							style="
