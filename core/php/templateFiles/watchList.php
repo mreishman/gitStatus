@@ -30,6 +30,7 @@
 				<span class="leftSpacingserverNames" > urlHit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'> 
 				<br>
 				</li>
+				<?php $approvedArrayKeys = array("Name","WebsiteBase","Folder","Website","githubRepo","groupInfo","urlHit"); ?>
 			<?php elseif($pollType === 2): ?>
 				<li class="watchFolderGroups">
 				<span>Poll Version 2</span>
@@ -41,14 +42,13 @@
 				<span class="leftSpacingserverNames" > urlHit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'> 
 				<br>
 				</li>
-
+				<?php $approvedArrayKeys = array("Name","WebsiteBase","urlHit"); ?>
 			<?php endif; ?>
 				<li><h2>Your Watch List: </h2></li>
 				<?php 
 				$i = 0;
 				$numCount = 0;
 				$arrayOfKeys = array();
-				$approvedArrayKeys = array("Name","WebsiteBase","urlHit");
 				foreach($config['watchList'] as $key => $item): $i++;
 					$type = $item["type"];
 					?>
