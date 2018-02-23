@@ -129,7 +129,7 @@ if(gettype($pingResult) == "null")
 	$data = "";
 	$time = "";
 	$status = "";
-	if($value["type"] !== "server"):
+	if(!isset($value["type"]) || $value["type"] !== "server"):
 		if(!empty($cachedStatusMainObject) && $cachedStatusMainObject != array() && $cacheEnabled === "true")
 		{
 			if(isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace]))
@@ -149,8 +149,8 @@ if(gettype($pingResult) == "null")
 			}
 		} ?>
 			<div 
-				class="firstBoxDev <?php echo $value['groupInfo']; ?> " 
-				<?php if($showTopBarOfGroups && $defaultGroupViewOnLoad !== "All" && $value['groupInfo'] !== $defaultGroupViewOnLoad)
+				class="firstBoxDev <?php if(isset($value['groupInfo'])){ echo $value['groupInfo']; } ?> " 
+				<?php if($showTopBarOfGroups && $defaultGroupViewOnLoad !== "All" && isset($value['groupInfo']) && $value['groupInfo'] !== $defaultGroupViewOnLoad)
 				{
 					echo 'style="display: none;"';
 				}
@@ -197,7 +197,7 @@ if(gettype($pingResult) == "null")
 								<?php endif; ?>
 							">
 						</div>
-						<a style="color: black;" href="https://<?php echo $value['Website']; ?>"><b><?php echo $key; ?></b></a>
+						<a style="color: black;" href="<?php if(isset($value['Website'])): ?> https://<?php echo $value['Website']; else: echo "#"; endif; ?> "><b><?php echo $key; ?></b></a>
 						<div
 							id="branchNameDevBox1<?php echo $keyNoSpace; ?>spinnerDiv"
 							onclick="refreshAction('<?php echo $h;?>','inner');"
