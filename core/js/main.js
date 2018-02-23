@@ -286,6 +286,10 @@ function pollSuccess(dataInner, dataInnerPass)
 				pollSuccessInner(dataInner["info"][keysInfo[i]],dataInner["info"][keysInfo[i]])
 			}
 		}
+		else
+		{
+			pollFailure("Error","Incorrect Poll Request Type", dataInnerPass);
+		}
 	}
 }
 
