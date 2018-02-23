@@ -1,6 +1,6 @@
 <?php
 	$URI = $_SERVER['REQUEST_URI'];
-	$listOfPages = array("settings.php","about.php","settings-watchList.php","update.php","settings-auth.php");
+	$listOfPages = array("settings.php","about.php","settings-watchList.php","update.php","settings-auth.php","settings-watchListServer.php");
 	$onHome = true;
 	foreach ($listOfPages as $page)
 	{

@@ -1,7 +1,7 @@
 <form id="settingsMainWatch" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 	<div id="widthForWatchListSection" class="innerFirstDevBox" style="width: 500px;" >
 		<div class="devBoxTitle">
-			<b>Watch List</b>
+			<b>Server Watch List</b>
 			<?php if($setupProcess == "finished" || $setupProcess == "preStart"): ?>
 				<a class="buttonButton" onclick="saveWatchList(false);" >Save Changes</a>
 			<?php else: ?>
@@ -18,6 +18,12 @@
 				<span class="leftSpacingserverNames" > WebsiteBase:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'> 
 				<br>
 				<span class="leftSpacingserverNames" > Folder:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of github repo on server'> 
+				<br>
+				<span class="leftSpacingserverNames" > Website:</span> <input disabled="true" class='inputWidth300' type='text' value='Specific directory of website'> 
+				<br>
+				<span class="leftSpacingserverNames" > githubRepo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'> 
+				<br>
+				<span class="leftSpacingserverNames" > groupInfo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of group'> 
 				<br>
 				<span class="leftSpacingserverNames" > urlHit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'> 
 				<br>

@@ -126,7 +126,7 @@ var arrayOfKeysNonEnc = JSON.parse(arrayOfKeysJsonEncoded);
 	<script src="core/js/allPages.js"></script>
 	<script src="core/js/settingsAll.js"></script>
 	<script type="text/javascript">
-		document.getElementById("menuBarLeftSettingsWatchList").style.backgroundColor  = "#ffffff";
+		document.getElementById("menuBarLeftSettingsServerWatchList").style.backgroundColor  = "#ffffff";
 	</script>
 	<script src="core/js/watchlist.js"></script>
 
