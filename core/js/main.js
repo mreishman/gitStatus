@@ -168,12 +168,19 @@ function showPopupWithMessage(type, message)
 	document.getElementById('popupContentInnerHTMLDiv').innerHTML = "<div class='devBoxTitle' ><b>"+type+"</b></div><br><br><div style='width:100%;text-align:center;'>"+message+"<br><br><a class='buttonButton' onclick='hidePopup();'>Ok</a></div>";
 }
 
-function pollCompleteLogic()
+function decreaseSpinnerCounter(loadingSpinnerText)
 {
 	document.getElementById('loadingSpinnerMain').style.display = "block";
 	var loadingSpinnerText = document.getElementById('loadingSpinnerText');
 	loadingSpinnerText.innerHTML = ((counterForSave-1))
 	counterForSave--;
+	return loadingSpinnerText;
+}
+
+function pollCompleteLogic()
+{
+	document.getElementById('loadingSpinnerMain').style.display = "block";
+	var loadingSpinnerText = decreaseSpinnerCounter();
 	if(counterForSave < 1)
 	{
 		if(cacheEnabled === "true")
@@ -269,6 +276,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	{
 		if("info" in dataInner)
 		{
+			decreaseSpinnerCounter();
 			var keysInfo = Object.keys(dataInner["info"]);
 			var keysInfoLength = keysInfo.length;
 			for(var i = 0; i < keysInfoLength; i++)

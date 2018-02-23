@@ -112,6 +112,7 @@ if(gettype($pingResult) == "null")
 	<?php 
 	$h = -1;
 	$newArray = array_merge($cachedStatusMainObject, $config['watchList']);
+	$alreadyShown = array();
 	foreach ($newArray as $key => $value): 
 	$h++;
 	if(strpos($key, "branchNameDevBox1") !== false)
@@ -129,7 +130,8 @@ if(gettype($pingResult) == "null")
 	$data = "";
 	$time = "";
 	$status = "";
-	if(!isset($value["type"]) || $value["type"] !== "server"):
+	if((!isset($value["type"]) || $value["type"] !== "server" ) && !in_array($keyNoSpace, $alreadyShown)):
+		array_push($alreadyShown, $keyNoSpace);
 		if(!empty($cachedStatusMainObject) && $cachedStatusMainObject != array() && $cacheEnabled === "true")
 		{
 			if(isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace]))
