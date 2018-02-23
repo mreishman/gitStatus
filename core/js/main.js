@@ -269,9 +269,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	{
 		if("info" in dataInner)
 		{
-			console.log("event");
 			var keysInfo = Object.keys(dataInner["info"]);
-			console.log(keysInfo);
 			var keysInfoLength = keysInfo.length;
 			for(var i = 0; i < keysInfoLength; i++)
 			{
@@ -285,7 +283,6 @@ function pollSuccess(dataInner, dataInnerPass)
 
 function pollSuccessInner(dataInner, dataInnerPass)
 {
-	console.log(dataInner);
 	var dataToFilterBy = "error";
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
 	if(!document.getElementById(noSpaceName))

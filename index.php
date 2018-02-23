@@ -111,8 +111,13 @@ if(gettype($pingResult) == "null")
 		<?php endif; ?>
 	<?php 
 	$h = -1;
-	foreach ($config['watchList'] as $key => $value): 
-	$h++;	
+	$newArray = array_merge($cachedStatusMainObject, $config['watchList']);
+	foreach ($newArray as $key => $value): 
+	$h++;
+	if(strpos($key, "branchNameDevBox1") !== false)
+	{
+		$key = str_replace("branchNameDevBox1", "", $key);
+	}
 	$keyNoSpace = preg_replace('/\s+/', '_', $key);
 	$showCachedValue = false;
 	$enableBlockUntilDate = "";
