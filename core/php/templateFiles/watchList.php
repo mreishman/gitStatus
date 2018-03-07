@@ -30,7 +30,20 @@
 				<span class="leftSpacingserverNames" > urlHit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'> 
 				<br>
 				</li>
-				<?php $approvedArrayKeys = array("Name","WebsiteBase","Folder","Website","githubRepo","groupInfo","urlHit"); ?>
+				<?php
+
+				$approvedArrayKeys = array("Name","WebsiteBase","Folder","Website","githubRepo","groupInfo","urlHit");
+
+				$defaultArray = array(
+					'WebsiteBase' =>  '',
+					'Folder' =>  '',
+					'Website' =>  '',
+					'githubRepo' =>  '',
+					'groupInfo' =>  '',
+					'urlHit' =>  ''
+				);
+
+				?>
 			<?php elseif($pollType === 2): ?>
 				<li class="watchFolderGroups">
 				<span>Poll Version 2</span>
@@ -42,7 +55,18 @@
 				<span class="leftSpacingserverNames" > urlHit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'> 
 				<br>
 				</li>
-				<?php $approvedArrayKeys = array("Name","WebsiteBase","urlHit"); ?>
+				<?php
+
+				$approvedArrayKeys = array("Name","WebsiteBase","urlHit");
+
+				$defaultArray = array(
+					'WebsiteBase' =>  '',
+					'Folder' =>  '',
+					'urlHit' =>  '',
+					"type" => ""
+				);
+
+				?>
 			<?php endif; ?>
 				<li><h2>Your Watch List: </h2></li>
 				<?php 
@@ -50,7 +74,11 @@
 				$numCount = 0;
 				$arrayOfKeys = array();
 				foreach($config['watchList'] as $key => $item): $i++;
-					$type = $item["type"];
+					$type = "internal";
+					if(isset($item["type"]) && $pollType === 2)
+					{
+						$type = $item["type"];
+					}
 					?>
 					<script type="text/javascript">
 						var dataForWatchFolder<?php echo $i?> = JSON.parse('<?php echo json_encode($item); ?>');
@@ -60,7 +88,7 @@
 		 				<input <?php if ($type === "external"){ echo "disabled= \"true\";";}?> class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
 		 				<?php
 		 				$j = 0;
-		 				foreach($item as $key2 => $item2):
+		 				foreach($defaultArray as $key2 => $item2):
 		 					if(in_array($key2, $approvedArrayKeys)):
 			 					$j++;
 			 					?>
@@ -72,7 +100,7 @@
 					 					array_push($arrayOfKeys, $key2);
 					 				}	
 				 				?>
-				 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
+				 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if(isset($item[$key2])){ echo $item[$key2]; }?>'>
 			 				<?php endif;
 		 				endforeach; 
 		 				if($numCount < $j)

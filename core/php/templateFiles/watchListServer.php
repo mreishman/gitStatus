@@ -36,7 +36,18 @@
 
 
 				<li><h2>Your Watch List: </h2></li>
-				<?php 
+				<?php
+
+				$defaultArray = array(
+					'WebsiteBase' =>  '',
+					'Folder' =>  '',
+					'Website' =>  '',
+					'githubRepo' =>  '',
+					'groupInfo' =>  '',
+					'urlHit' =>  '',
+					"type" => ""
+				);
+
 				$i = 0;
 				$numCount = 0;
 				$arrayOfKeys = array();
@@ -49,7 +60,7 @@
 	 				<input class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
 	 				<?php
 	 				$j = 0;
-	 				foreach($item as $key2 => $item2): $j++; ?>
+	 				foreach($defaultArray as $key2 => $item2): $j++; ?>
 		 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span><input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
 		 				<?php
 			 				if(!in_array($key2, $arrayOfKeys))
@@ -58,11 +69,11 @@
 			 				}
 			 			if($key2 === "type"):?>
 			 				<select class='inputWidth300' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' >
-			 					<option value="local" <?php if($item2 === "local"){echo "selected"; }?> >Local</option>
-			 					<option value="external" <?php if($item2 === "external"){echo "selected"; }?> >External</option>
+			 					<option value="local" <?php if($item[$key2] === "local"){echo "selected"; }?> >Local</option>
+			 					<option value="external" <?php if($item[$key2] === "external"){echo "selected"; }?> >External</option>
 			 				</select>
 		 				<?php else: ?>
-		 					<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php echo $item2; ?>'>
+		 					<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if (isset($item[$key2])){ echo $item[$key2]; } ?>'>
 		 				<?php endif; ?>
 	 				<?php endforeach; 
 	 				if($numCount < $j)
