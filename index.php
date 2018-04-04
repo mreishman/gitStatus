@@ -58,6 +58,99 @@ if(gettype($pingResult) == "null")
 	$sendPing = false;
 }
 
+function generateWindow($data = array())
+{
+
+	$groupInfo = "{{groupInfo}}";
+	$keyNoSpace = "{{keyNoSpace}}";
+	$website = "{{website}}";
+	$counter = "{{counter}}";
+	$name = "{{name}}";
+	$branchView = "{{branchView}}";
+
+	if(isset($data['groupInfo']))
+	{
+		$groupInfo = $data["groupInfo"];
+	}
+
+	if(isset($data['keyNoSpace']))
+	{
+		$keyNoSpace = $data["keyNoSpace"];
+	}
+
+	if(isset($data['website']))
+	{
+		$website = $data["website"];
+	}
+
+	if(isset($data['counter']))
+	{
+		$counter = $data["counter"];
+	}
+
+	if(isset($data['name']))
+	{
+		$name = $data["name"];
+	}
+
+	if(isset($data['branchView']))
+	{
+		$branchView = $data["branchView"];
+	}
+
+	$blockHTML =  "	<div class=\"firstBoxDev ".$groupInfo." \" >";
+	$blockHTML .= "		<div class=\"innerFirstDevBox\" id=\"innerFirstDevBox".$keyNoSpace."\" >";
+	$blockHTML .= "			<div class=\"devBoxTitle\">";
+	$blockHTML .= "				<div class=\"led-red\" id=\"".$keyNoSpace."redwWarning\" style=\"display: inline-block; margin-bottom: -8px; display: inline-block;\">";
+	$blockHTML .= "				</div>";
+	$blockHTML .= "				<div class=\"led-yellow\" id=\"".$keyNoSpace."yellowWarning\" style=\"display: inline-block; margin-bottom: -8px; display: none;\">";
+	$blockHTML .= "				</div>";
+	$blockHTML .= "				<div class=\"led-green\" id=\"".$keyNoSpace."greenNotice\" style=\"display: inline-block; margin-bottom: -8px; display: none;\">";
+	$blockHTML .= "				</div>";
+	$blockHTML .= "				<a style=\"color: black;\" href=\"https://".$website."\"><b>".$name."</b></a>";
+	$blockHTML .= "				<div id=\"".$keyNoSpace."spinnerDiv\" onclick=\"refreshAction('".$counter."','inner');\" style=\"display: inline-block;cursor: pointer; height: 25px; width: 25px; \">";
+	$blockHTML .= "					<img style=\"margin-bottom: -5px;\" id=\"refreshImage".$keyNoSpace."\" class=\"menuImage\" src=\"core/img/Refresh2.png\" height=\"25px\">";
+	$blockHTML .= "				</div>";
+	$blockHTML .= "				<img id=\"".$keyNoSpace."loadingSpinnerHeader\" class=\"loadingSpinnerHeader\" style=\"width: 25px; margin-bottom: -5px; display: none;\" src=\"core/img/loading.gif\" >";
+	$blockHTML .= "				<div class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
+	$blockHTML .= "				<div id=\"dropdown-".$keyNoSpace."\" class=\"dropdown-content\">";
+	$blockHTML .= "			    	<a style=\"cursor: pointer\" onclick=\"refreshAction('".$counter."','inner');\" >Refresh</a>";
+	$blockHTML .= "			    	<div id=\"".$keyNoSpace."LogHogOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
+	$blockHTML .= "						<a id=\"".$keyNoSpace."LogHogInner\" style=\"color: black;\" href=\"#\">Log-Hog</a>";
+	$blockHTML .= "					</div>";
+	$blockHTML .= "					<div id=\"".$keyNoSpace."MonitorOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
+	$blockHTML .= "						<a id=\"".$keyNoSpace."MonitorInner\" style=\"color: black;\" href=\"#\">Monitor</a>";
+	$blockHTML .= "					</div>";
+	$blockHTML .= "					<div id=\"".$keyNoSpace."SearchOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
+	$blockHTML .= "						<a id=\"".$keyNoSpace."SearchInner\" style=\"color: black;\" href=\"#\">Search</a>";
+	$blockHTML .= "					</div>";
+	$blockHTML .= "					<a id=\"".$keyNoSpace."errorMessageLink\" style=\"cursor: pointer; display: none;\">Error</a> ";
+	$blockHTML .= "					<a id=\"".$keyNoSpace."noticeMessageLink\" style=\"cursor: pointer; display: none;\">Notice</a> ";
+	$blockHTML .= "				</div>";
+	$blockHTML .= "			</div>";
+	$blockHTML .= "			<div class=\"devBoxContent\">";
+	$blockHTML .= "				<span style=\"display: none;\" class=\"noticeMessage\" id=\"".$keyNoSpace."NoticeMessage\" ></span> ":
+	$blockHTML .= "				<b>";
+	$blockHTML .= "					<span id=\"".$keyNoSpace."\">";
+	$blockHTML .= "						<img style=\"width: 20px;\" src=\"core/img/loading.gif\"> Loading...";
+	$blockHTML .= "					</span>";
+	$blockHTML .= "				</b>";
+	$blockHTML .= "				<div class=\".$branchView.\">";
+	$blockHTML .= "					<span style=\"display: none;\" id=\"".$keyNoSpace."UpdateOuter\">";
+	$blockHTML .= "						<br><br>";
+	$blockHTML .= "						<b>Last Updated:</b>";
+	$blockHTML .= "						<span id=\"".$keyNoSpace."Update\"> --Pending-- </span>";
+	$blockHTML .= " 					<br>";
+	$blockHTML .= " 				</span>":
+	$blockHTML .= "					<br>";
+	$blockHTML .= "					<span style=\"display: none;\" id=\"".$keyNoSpace."Stats\">--Pending--</span>";
+	$blockHTML .= "				</div>";
+	$blockHTML .= "			</div>";
+	$blockHTML .= "		</div>";
+	$blockHTML .= "	</div>";
+	return $blockHTML;
+}
+
 ?>
 <!doctype html>
 <head>
@@ -314,61 +407,7 @@ if(gettype($pingResult) == "null")
 
 	<div style="display: none;" id="storage">
 		<div class="container">
-			<div class="firstBoxDev {{groupInfo}} " >
-				<div class="innerFirstDevBox" id="innerFirstDevBox{{keyNoSpace}}" >
-					<div class="devBoxTitle">
-						<div class="led-red" id="{{keyNoSpace}}redwWarning" style="display: inline-block; margin-bottom: -8px; display: inline-block;">
-						</div>
-						<div class="led-yellow" id="{{keyNoSpace}}yellowWarning" style="display: inline-block; margin-bottom: -8px; display: none;">
-						</div>
-						<div class="led-green" id="{{keyNoSpace}}greenNotice" style="display: inline-block; margin-bottom: -8px; display: none;">
-						</div>
-						<a style="color: black;" href="https://{{website}}"><b>{{name}}</b></a>
-						<div id="{{keyNoSpace}}spinnerDiv" onclick="refreshAction('{{counter}}','inner');" style="display: inline-block;cursor: pointer; height: 25px; width: 25px; ">
-							<img style="margin-bottom: -5px;" id="refreshImage{{keyNoSpace}}" class="menuImage" src="core/img/Refresh2.png" height="25px">
-						</div>
-						<img id="{{keyNoSpace}}loadingSpinnerHeader" class='loadingSpinnerHeader' style="width: 25px; margin-bottom: -5px; display: none;" src="core/img/loading.gif" >
-						<div class="expandMenu" onclick="dropdownShow('{{keyNoSpace}}')" ></div>
-						<div id="dropdown-{{keyNoSpace}}" class="dropdown-content">
-						    <a style="cursor: pointer" onclick="refreshAction('{{counter}}','inner');" >Refresh</a>
-						    <div id="{{keyNoSpace}}LogHogOuter" style="display: none; cursor: pointer; width: 100%;" >
-								<a id="{{keyNoSpace}}LogHogInner" style="color: black;" href="#">Log-Hog</a>
-							</div>
-							<div id="{{keyNoSpace}}MonitorOuter" style="display: none; cursor: pointer; width: 100%;" >
-								<a id="{{keyNoSpace}}MonitorInner" style="color: black;" href="#">Monitor</a>
-							</div>
-							<div id="{{keyNoSpace}}SearchOuter" style="display: none; cursor: pointer; width: 100%;" >
-								<a id="{{keyNoSpace}}SearchInner" style="color: black;" href="#">Search</a>
-							</div>
-							<a id="{{keyNoSpace}}errorMessageLink" style="cursor: pointer; display: none;">Error</a> 
-							<a id="{{keyNoSpace}}noticeMessageLink" style="cursor: pointer; display: none;">Notice</a> 
-						  </div>
-					</div>
-					<div class="devBoxContent">
-
-					<span style="display: none;" class="noticeMessage" id="{{keyNoSpace}}NoticeMessage" >
-					</span>
-						<b>
-							<span id="{{keyNoSpace}}">
-								<img style="width: 20px;" src="core/img/loading.gif"> Loading...
-							</span>
-							
-						</b>
-						<div class="{{branchView}}">
-							<span style="display: none;" id="{{keyNoSpace}}UpdateOuter">
-								<br><br>
-								<b>Last Updated:</b>
-								<span id="{{keyNoSpace}}Update">
-									--Pending--
-								</span>
-								<br>
-							</span>
-							<br>
-							<span style="display: none;" id="{{keyNoSpace}}Stats">--Pending--</span>
-						</div>
-					</div>
-				</div>
-			</div>
+			<?php echo generateWindow(); ?>
 		</div>
 	</div>
 
