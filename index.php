@@ -62,6 +62,8 @@ function generateWindow($data = array())
 {
 
 	$groupInfo = "{{groupInfo}}";
+	$groupInfoStyle = "{{groupInfoStyle}}";
+	$backgroundColor = "{{backgroundColor}}";
 	$keyNoSpace = "{{keyNoSpace}}";
 	$website = "{{website}}";
 	$counter = "{{counter}}";
@@ -71,6 +73,16 @@ function generateWindow($data = array())
 	if(isset($data['groupInfo']))
 	{
 		$groupInfo = $data["groupInfo"];
+	}
+
+	if(isset($data['groupInfoStyle']))
+	{
+		$groupInfoStyle = $data["groupInfoStyle"];
+	}
+
+	if(isset($data['backgroundColor']))
+	{
+		$backgroundColor = $data["backgroundColor"];
 	}
 
 	if(isset($data['keyNoSpace']))
@@ -98,8 +110,8 @@ function generateWindow($data = array())
 		$branchView = $data["branchView"];
 	}
 
-	$blockHTML =  "	<div class=\"firstBoxDev ".$groupInfo." \" >";
-	$blockHTML .= "		<div class=\"innerFirstDevBox\" id=\"innerFirstDevBox".$keyNoSpace."\" >";
+	$blockHTML =  "	<div class=\"firstBoxDev ".$groupInfo." \"  ".$groupInfoStyle." >";
+	$blockHTML .= "		<div class=\"innerFirstDevBox\" id=\"innerFirstDevBox".$keyNoSpace."\"  ".$backgroundColor." >";
 	$blockHTML .= "			<div class=\"devBoxTitle\">";
 	$blockHTML .= "				<div class=\"led-red\" id=\"".$keyNoSpace."redwWarning\" style=\"display: inline-block; margin-bottom: -8px; display: inline-block;\">";
 	$blockHTML .= "				</div>";
@@ -129,7 +141,7 @@ function generateWindow($data = array())
 	$blockHTML .= "				</div>";
 	$blockHTML .= "			</div>";
 	$blockHTML .= "			<div class=\"devBoxContent\">";
-	$blockHTML .= "				<span style=\"display: none;\" class=\"noticeMessage\" id=\"".$keyNoSpace."NoticeMessage\" ></span> ":
+	$blockHTML .= "				<span style=\"display: none;\" class=\"noticeMessage\" id=\"".$keyNoSpace."NoticeMessage\" ></span> ";
 	$blockHTML .= "				<b>";
 	$blockHTML .= "					<span id=\"".$keyNoSpace."\">";
 	$blockHTML .= "						<img style=\"width: 20px;\" src=\"core/img/loading.gif\"> Loading...";
@@ -141,7 +153,7 @@ function generateWindow($data = array())
 	$blockHTML .= "						<b>Last Updated:</b>";
 	$blockHTML .= "						<span id=\"".$keyNoSpace."Update\"> --Pending-- </span>";
 	$blockHTML .= " 					<br>";
-	$blockHTML .= " 				</span>":
+	$blockHTML .= " 				</span>";
 	$blockHTML .= "					<br>";
 	$blockHTML .= "					<span style=\"display: none;\" id=\"".$keyNoSpace."Stats\">--Pending--</span>";
 	$blockHTML .= "				</div>";
@@ -242,6 +254,8 @@ function generateWindow($data = array())
 	$data = "";
 	$time = "";
 	$status = "";
+	$groupInfo = "";
+	$groupInfoStyle = "";
 	if((!isset($value["type"]) || $value["type"] !== "server" ) && !in_array($keyNoSpace, $alreadyShown)):
 		$h++;
 		array_push($alreadyShown, $keyNoSpace);
@@ -262,24 +276,38 @@ function generateWindow($data = array())
 					}
 				}
 			}
-		} ?>
-			<div 
-				class="firstBoxDev <?php if(isset($value['groupInfo'])){ echo $value['groupInfo']; } ?> " 
-				<?php if($showTopBarOfGroups && $defaultGroupViewOnLoad !== "All" && isset($value['groupInfo']) && $value['groupInfo'] !== $defaultGroupViewOnLoad)
-				{
-					echo 'style="display: none;"';
-				}
-				?>
-			>
+		}
+
+		if(isset($value["groupInfo"]) && strpos($groupInfo, $value["groupInfo"]) === -1)
+		{
+			$groupInfo .= " ".$value["groupInfo"]." ";
+		}
+
+		if($showTopBarOfGroups && $defaultGroupViewOnLoad !== "All" && strpos($groupInfo, $defaultGroupViewOnLoad) > -1)
+		{
+			$groupInfoStyle = "style=\"display: none;\"";
+		}
+
+		if($backgroundColor !== "")
+		{
+			$backgroundColor = "style=\"background-color:".$backgroundColor."\"";
+		}
+
+		generateWindow(
+			array(
+				"groupInfo"				=>	$groupInfo,
+				"groupInfoStyle"		=>	$groupInfoStyle,
+				"backgroundColor"		=>	$backgroundColor,
+				"keyNoSpace"			=>	$keyNoSpace
+			)
+		);
+
+
+		?>
+			<div class="firstBoxDev <?php echo $groupInfo;?> " <?php echo $groupInfoStyle;	?> >
 				<div
 					class="innerFirstDevBox"
-					id="innerFirstDevBoxbranchNameDevBox1<?php echo $keyNoSpace; ?>" 
-					<?php if($showCachedValue && $backgroundColor !== "")
-					{
-						echo "style='background-color:".$backgroundColor."'";
-					}
-					?>
-				>
+					id="innerFirstDevBoxbranchNameDevBox1<?php echo $keyNoSpace; ?>" <?php echo $backgroundColor; ?> >
 					<div class="devBoxTitle">
 						<?php $showLED = true; ?>
 						<div class="led-red" id="branchNameDevBox1<?php echo $keyNoSpace; ?>redwWarning" style="display: inline-block; margin-bottom: -8px; 
@@ -445,11 +473,11 @@ function generateWindow($data = array())
 						echo $value2.": ";
 						if($key2 !== 'false' && $key2 !== 'true')
 						{
-					 	echo "'".$key2."',";
+					 		echo "'".$key2."',";
 					 	}
 					 	else
 					 	{
-					 	echo $key2.",";
+					 		echo $key2.",";
 					 	}
 					} 
 					echo "};";
