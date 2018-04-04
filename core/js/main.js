@@ -170,7 +170,7 @@ function showPopupWithMessage(type, message)
 	document.getElementById('popupContentInnerHTMLDiv').innerHTML = "<div class='devBoxTitle' ><b>"+type+"</b></div><br><br><div style='width:100%;text-align:center;'>"+message+"<br><br><a class='buttonButton' onclick='hidePopup();'>Ok</a></div>";
 }
 
-function decreaseSpinnerCounter(loadingSpinnerText)
+function decreaseSpinnerCounter()
 {
 	document.getElementById('loadingSpinnerMain').style.display = "block";
 	var loadingSpinnerText = document.getElementById('loadingSpinnerText');
@@ -222,6 +222,18 @@ function pollFailure(xhr, error, dataInnerPass)
 {
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
 	var nameForBackground = "innerFirstDevBox"+noSpaceName;
+	if(document.getElementById(nameForBackground))
+	{
+		pollFailureInner(xhr, error, dataInnerPass, noSpaceName, nameForBackground);
+	}
+	else
+	{
+		
+	}
+}
+
+function pollFailureInner(xhr, error, dataInnerPass, noSpaceName, nameForBackground)
+{
 	switchToColorLed(noSpaceName, "red");
 	document.getElementById(noSpaceName+'redwWarning').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
 	document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
@@ -248,7 +260,7 @@ function pollFailure(xhr, error, dataInnerPass)
 				messageTextEnabled: false,
 				messageText: null,
 				enableBlockUntilDate: false,
-				datePicker: null
+				datePicker: null,
 			};
 	}
 	else
@@ -639,23 +651,26 @@ function pollSuccessInner(dataInner, dataInnerPass)
 
 function switchToColorLed(noSpaceName, type)
 {
-	if(type === "red")
+	if(document.getElementById(noSpaceName+'redwWarning'))
 	{
-		document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
-		document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
-		document.getElementById(noSpaceName+'greenNotice').style.display = "none";
-	}
-	else if(type === "yellow")
-	{
-		document.getElementById(noSpaceName+'redwWarning').style.display = "none";
-		document.getElementById(noSpaceName+'yellowWarning').style.display = "inline-block";
-		document.getElementById(noSpaceName+'greenNotice').style.display = "none";
-	}
-	else
-	{
-		document.getElementById(noSpaceName+'redwWarning').style.display = "none";
-		document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
-		document.getElementById(noSpaceName+'greenNotice').style.display = "inline-block";
+		if(type === "red")
+		{
+			document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
+			document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
+			document.getElementById(noSpaceName+'greenNotice').style.display = "none";
+		}
+		else if(type === "yellow")
+		{
+			document.getElementById(noSpaceName+'redwWarning').style.display = "none";
+			document.getElementById(noSpaceName+'yellowWarning').style.display = "inline-block";
+			document.getElementById(noSpaceName+'greenNotice').style.display = "none";
+		}
+		else
+		{
+			document.getElementById(noSpaceName+'redwWarning').style.display = "none";
+			document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
+			document.getElementById(noSpaceName+'greenNotice').style.display = "inline-block";
+		}
 	}
 }
 

@@ -79,11 +79,31 @@ if(gettype($pingResult) == "null")
 		<?php
 			$arrayOfGroups = array();
 			$showTopBarOfGroups = false;
+			$count = 0;
 			foreach ($config['watchList'] as $key => $value)
 			{
 				if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
 				{
-					$showTopBarOfGroups = true;
+					$count++;
+					if($count > 1)
+					{
+						$showTopBarOfGroups = true;
+					}
+					if(!in_array($value['groupInfo'], $arrayOfGroups))
+					{
+						array_push($arrayOfGroups, $value['groupInfo']);
+					}
+				}
+			}
+			foreach ($cachedStatusMainObject as $key => $value)
+			{
+				if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
+				{
+					$count++;
+					if($count > 1)
+					{
+						$showTopBarOfGroups = true;
+					}
 					if(!in_array($value['groupInfo'], $arrayOfGroups))
 					{
 						array_push($arrayOfGroups, $value['groupInfo']);
