@@ -179,6 +179,17 @@ function decreaseSpinnerCounter()
 	return loadingSpinnerText;
 }
 
+function addGroup(groupName)
+{
+	if(arrayOfGroups.indexOf(groupName) === -1)
+	{
+		arrayOfGroups.push(groupName);
+		var item = $("#storage .groupEmpty").html();
+		item = item.replace(/{{group}}/g, groupName);
+		$("#groupInfo").append(item);
+	}
+}
+
 function pollCompleteLogic()
 {
 	document.getElementById('loadingSpinnerMain').style.display = "block";
@@ -327,6 +338,8 @@ function pollSuccessInner(dataInner, dataInnerPass)
 		item = item.replace(/{{name}}/g,dataInner["displayName"]);
 		item = item.replace(/{{website}}/g,"#");
 		item = item.replace(/{{branchView}}/g,branchView);
+		item = item.replace(/{{groupInfo}}/g,dataInner["groupInfo"]);
+		addGroup(dataInner["groupInfo"]);
 		$("#main").append(item);
 	}
 	document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";

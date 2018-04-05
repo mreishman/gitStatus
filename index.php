@@ -64,6 +64,29 @@ if($defaultViewBranch == 'Standard')
 	$branchView =  "devBoxContentSecondary";
 }
 
+function generateGroup($data = array())
+{
+	$group = "{{group}}";
+	$selected = "";
+	if(isset($data["group"]))
+	{
+		$group = $data["group"];
+	}
+	if(isset($data["defaultGroupViewOnLoad"]))
+	{
+		if($group === $data["defaultGroupViewOnLoad"])
+		{
+			$selected = "groupTabSelected";
+		}
+	}
+	$groupBlock =  "<div class=\"groupTabShadow\">";
+	$groupBlock .= "	<div class=\"groupTab ".$selected." \" id=\"Group".$group."\" onclick=\"showOrHideGroups('".$group."');\" >";
+	$groupBlock .= 			$group;
+	$groupBlock .= "	</div>";
+	$groupBlock .= "</div>";
+	return $groupBlock;
+}
+
 function generateWindow($data = array())
 {
 
@@ -153,8 +176,8 @@ function generateWindow($data = array())
 		$showRefresh = $data["showRefresh"];
 	}
 
-	$status = "<span style=\"display: none;\" id=\"branchNameDevBox1".$keyNoSpace."Stats\"></span>";
-	$branchData = "<span id=\"branchNameDevBox1".$keyNoSpace."\"><img style=\"width: 20px;\" src=\"core/img/loading.gif\"> Loading...</span>";
+	$status = "<span style=\"display: none;\" id=\"".$keyNoSpace."Stats\"></span>";
+	$branchData = "<span id=\"".$keyNoSpace."\"><img style=\"width: 20px;\" src=\"core/img/loading.gif\"> Loading...</span>";
 
 	if(isset($data['status']))
 	{
@@ -272,27 +295,21 @@ function generateWindow($data = array())
 				}
 			}
 		}
-		array_push($arrayOfGroups, "All"); 
-		if($showTopBarOfGroups):?>
-			<div id="groupInfo">
-			<?php
-			sort($arrayOfGroups);
-			foreach ($arrayOfGroups as $key => $value):
-			?>
-			<div class="groupTabShadow">
-				<div class="groupTab <?php if($value === $defaultGroupViewOnLoad){echo 'groupTabSelected';}?> " id="Group<?php echo $value?>" onclick="showOrHideGroups('<?php echo $value?>');" >
-					<?php echo $value; ?>
-				</div>
-			</div>
-			<?php
-			endforeach;
-			?>
-			</div>
-			<div id="groupInfoPlaceholder" >
-			</div>
-			<?php
-		endif;
+		array_push($arrayOfGroups, "All"); ?>
+		<div id="groupInfo" <?php if(!$showTopBarOfGroups):?> style="display: none;"<?php endif; ?> >
+		<?php
+		sort($arrayOfGroups);
+		foreach ($arrayOfGroups as $key => $value)
+		{
+			echo generateGroup(array(
+				"group"						=>	$value,
+				"defaultGroupViewOnLoad"	=>	$defaultGroupViewOnLoad
+			));
+		}
 		?>
+		</div>
+		<div id="groupInfoPlaceholder" >
+		</div>
 		<?php 
 		$h = -1;
 		$newArray = $config["watchList"];
@@ -425,6 +442,9 @@ function generateWindow($data = array())
 		<div class="container">
 			<?php echo generateWindow(); ?>
 		</div>
+		<div class="groupEmpty">
+			<?php echo generateGroup(); ?>
+		</div>
 	</div>
 
 	<script>
@@ -447,6 +467,7 @@ function generateWindow($data = array())
 			echo "var currentVersion = '".$configStatic['version']."';";
 			echo "var pollType ='".$pollType."';";
 			echo "var branchView = '".$branchView."';";
+			echo "var arrayOfGroups = ".json_encode($arrayOfGroups).";";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";

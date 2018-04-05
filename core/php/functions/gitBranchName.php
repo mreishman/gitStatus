@@ -157,6 +157,7 @@ else
 				'monitor'		=> checkForMonitor($value['WebsiteBase']),
 				'search'		=> checkForSearch($value['WebsiteBase']),
 				'displayName'	=> $key,
+				'groupInfo'		=>	$value['groupInfo'],
 				'otherFunctions'	=> ''
 			);
 		}
