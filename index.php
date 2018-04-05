@@ -58,6 +58,12 @@ if(gettype($pingResult) == "null")
 	$sendPing = false;
 }
 
+$branchView = "devBoxContentSecondaryExpanded";
+if($defaultViewBranch == 'Standard')
+{
+	$branchView =  "devBoxContentSecondary";
+}
+
 function generateWindow($data = array())
 {
 
@@ -310,9 +316,6 @@ function generateWindow($data = array())
 			$website = "#";
 			$noticeMessageShow = "none";
 			$showRefresh = "inline-block";
-			$branchView = "devBoxContentSecondaryExpanded";
-
-
 
 			if((!isset($value["type"]) || $value["type"] !== "server" ) && !in_array($keyNoSpace, $alreadyShown))
 			{
@@ -373,10 +376,7 @@ function generateWindow($data = array())
 					$greenLED = "inline-block";
 				}
 
-				if($defaultViewBranch == 'Standard')
-				{
-					$branchView =  "devBoxContentSecondary";
-				}
+				
 
 				if(($messageTextEnabled !== "" && $messageTextEnabled === true) || ($enableBlockUntilDate !== "" && $enableBlockUntilDate === true))
 				{
@@ -439,6 +439,7 @@ function generateWindow($data = array())
 			echo "var dontNotifyVersion = '".$dontNotifyVersion."';";
 			echo "var currentVersion = '".$configStatic['version']."';";
 			echo "var pollType ='".$pollType."';";
+			echo "var branchView = '".$branchView."';";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";

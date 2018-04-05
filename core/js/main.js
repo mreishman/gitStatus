@@ -326,6 +326,7 @@ function pollSuccessInner(dataInner, dataInnerPass)
 		}
 		item = item.replace(/{{name}}/g,dataInner["displayName"]);
 		item = item.replace(/{{website}}/g,"#");
+		item = item.replace(/{{branchView}}/g,branchView);
 		$("#main").append(item);
 	}
 	document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
