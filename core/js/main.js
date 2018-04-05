@@ -272,6 +272,7 @@ function pollFailureInner(xhr, error, dataInnerPass, noSpaceName, nameForBackgro
 				messageText: null,
 				enableBlockUntilDate: false,
 				datePicker: null,
+				groupInfo: ""
 			};
 	}
 	else
@@ -284,6 +285,7 @@ function pollFailureInner(xhr, error, dataInnerPass, noSpaceName, nameForBackgro
 		}
 		arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
 		arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
+		arrayOfWatchFilters[noSpaceName]["groupInfo"] = "";
 	}
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
 	document.getElementById(noSpaceName+"spinnerDiv").style.display = "inline-block";
@@ -520,7 +522,8 @@ function pollSuccessInner(dataInner, dataInnerPass)
 				messageTextEnabled: false,
 				messageText: null,
 				enableBlockUntilDate: false,
-				datePicker: null
+				datePicker: null,
+				groupInfo: dataInner["groupInfo"]
 			};
 		}
 		else
@@ -533,6 +536,7 @@ function pollSuccessInner(dataInner, dataInnerPass)
 				//was error
 				arrayOfWatchFilters[noSpaceName]["errorStatus"] = false;
 			}
+			arrayOfWatchFilters[noSpaceName]["groupInfo"] = dataInner["groupInfo"];
 
 		}
 		
@@ -642,7 +646,8 @@ function pollSuccessInner(dataInner, dataInnerPass)
 				messageTextEnabled: false,
 				messageText: null,
 				enableBlockUntilDate: false,
-				datePicker: null
+				datePicker: null,
+				groupInfo: ""
 			};
 		}
 		else
@@ -655,6 +660,7 @@ function pollSuccessInner(dataInner, dataInnerPass)
 			}
 			arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
 			arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
+			arrayOfWatchFilters[noSpaceName]["groupInfo"] = "";
 		}
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
