@@ -148,10 +148,16 @@ function generateWindow($data = array())
 	}
 
 	$status = "<span style=\"display: none;\" id=\"branchNameDevBox1".$keyNoSpace."Stats\"></span>";
+	$branchData = "<span id=\"branchNameDevBox1".$keyNoSpace."\"><img style=\"width: 20px;\" src=\"core/img/loading.gif\"> Loading...</span>";
 
 	if(isset($data['status']))
 	{
 		$status = $data["status"];
+	}
+
+	if(isset($data['branchData']))
+	{
+		$branchData = $data["branchData"];
 	}
 
 	$blockHTML =  "	<div class=\"firstBoxDev ".$groupInfo." \"  ".$groupInfoStyle." >";
@@ -187,11 +193,9 @@ function generateWindow($data = array())
 	$blockHTML .= "			<div class=\"devBoxContent\">";
 	$blockHTML .= "				<span style=\"display: ".$noticeMessageShow.";\" class=\"noticeMessage\" id=\"".$keyNoSpace."NoticeMessage\" >".$messageText."</span> ";
 	$blockHTML .= "				<b>";
-	$blockHTML .= "					<span id=\"".$keyNoSpace."\">";
-	$blockHTML .= "						<img style=\"width: 20px;\" src=\"core/img/loading.gif\"> Loading...";
-	$blockHTML .= "					</span>";
+	$blockHTML .= 					$branchData;
 	$blockHTML .= "				</b>";
-	$blockHTML .= "				<div class=\".$branchView.\">";
+	$blockHTML .= "				<div class=\"".$branchView."\">";
 	$blockHTML .= "					<span style=\"display: none;\" id=\"".$keyNoSpace."UpdateOuter\">";
 	$blockHTML .= "						<br><br>";
 	$blockHTML .= "						<b>Last Updated:</b>";
@@ -295,7 +299,7 @@ function generateWindow($data = array())
 	$messageText = "";
 	$errorStatus = "";
 	$datePicker = "";
-	$data = "";
+	$data = "<span id=\"branchNameDevBox1".$keyNoSpace."\"><img style=\"width: 20px;\" src=\"core/img/loading.gif\"> Loading...</span>";
 	$time = "";
 	$status = "<span style=\"display: none;\" id=\"branchNameDevBox1".$keyNoSpace."Stats\"></span>";
 	$groupInfo = "";
@@ -304,6 +308,9 @@ function generateWindow($data = array())
 	$noticeMessageShow = "none";
 	$showRefresh = "inline-block";
 	$branchView = "devBoxContentSecondaryExpanded";
+
+
+
 	if((!isset($value["type"]) || $value["type"] !== "server" ) && !in_array($keyNoSpace, $alreadyShown)):
 		$h++;
 		array_push($alreadyShown, $keyNoSpace);
@@ -392,6 +399,8 @@ function generateWindow($data = array())
 				"messageText"			=>	$messageText,
 				"showRefresh"			=>	$showRefresh,
 				"status"				=>	$status,
+				"name"					=>	$key,
+				"branchData"			=>	$data
 			)
 		);
 
@@ -402,7 +411,6 @@ function generateWindow($data = array())
 					class="innerFirstDevBox"
 					id="innerFirstDevBoxbranchNameDevBox1<?php echo $keyNoSpace; ?>" <?php echo $backgroundColor; ?> >
 					<div class="devBoxTitle">
-						<?php $showLED = true; ?>
 						<div class="led-red" id="branchNameDevBox1<?php echo $keyNoSpace; ?>redwWarning" style="display: inline-block; margin-bottom: -8px; display: <?php echo $redLED; ?>"	>
 						</div>
 						<div class="led-yellow" id="branchNameDevBox1<?php echo $keyNoSpace; ?>yellowWarning" style="display: inline-block; margin-bottom: -8px; display: <?php echo $yellowLED; ?>"	>
@@ -451,13 +459,7 @@ function generateWindow($data = array())
 						endif; ?>
 					</span>
 						<b>
-							<?php if($showCachedValue && $data !== ""):
-								echo $data;
-							else: ?>
-							<span id="branchNameDevBox1<?php echo $keyNoSpace;?>">
-								<img style="width: 20px;" src="core/img/loading.gif"> Loading...
-							</span>
-							<?php endif; ?>
+							<?php echo $data; ?>
 						</b>
 						<div class="<?php echo $branchView;?>">
 						<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>UpdateOuter">
