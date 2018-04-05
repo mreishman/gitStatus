@@ -283,14 +283,28 @@ function generateWindow($data = array())
 			{
 				if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
 				{
-					$count++;
-					if($count > 1)
+					$groupInfoNew = $value["groupInfo"];
+					$innerGroupArray = array(
+						$groupInfoNew
+					);
+					if(strpos($groupInfoNew, " ") !== -1)
 					{
-						$showTopBarOfGroups = true;
+						$innerGroupArray = explode(" ", $groupInfoNew);
 					}
-					if(!in_array($value['groupInfo'], $arrayOfGroups))
+					foreach ($innerGroupArray as $groupName)
 					{
-						array_push($arrayOfGroups, $value['groupInfo']);
+						if(!isset($config["watchList"][$groupName]))
+						{
+							$count++;
+							if($count > 1)
+							{
+								$showTopBarOfGroups = true;
+							}
+							if(!in_array($groupName, $arrayOfGroups))
+							{
+								array_push($arrayOfGroups, $groupName);
+							}
+						}
 					}
 				}
 			}

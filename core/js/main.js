@@ -113,7 +113,7 @@ function tryHttpActuallyPollLogic(count, name)
 		document.getElementById(name+"spinnerDiv").style.display = "none";
 	}
 	document.getElementById("refreshDiv").style.display = "none";
-	var data = {location: arrayOfFiles[count][2], name, githubRepo: arrayOfFiles[count][4], urlForSend ,websiteBase: arrayOfFiles[count][1]};
+	var data = {location: arrayOfFiles[count][2], name, githubRepo: arrayOfFiles[count][4], urlForSend ,websiteBase: arrayOfFiles[count][1], id: arrayOfFiles[count][0]};
 	var innerData = {};
 	if(pollType == 1)
 	{
@@ -141,7 +141,7 @@ function tryHTTPSForPollRequest(_data)
 {
 	var urlForSend = _data.urlForSend;
 	urlForSend = urlForSend.replace("http","https");
-	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase};
+	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase, id: _data.id};
 	var innerData = {};
 	if(pollType == 1)
 	{
@@ -297,7 +297,7 @@ function pollSuccess(dataInner, dataInnerPass)
 {
 	if(pollType === "1")
 	{
-		pollSuccessInner(dataInner, dataInnerPass);
+		pollSuccessInner(dataInner, dataInnerPass, {});
 	}
 	else if(pollType === "2")
 	{
@@ -310,7 +310,7 @@ function pollSuccess(dataInner, dataInnerPass)
 			{
 				var name = "branchNameDevBox1"+keysInfo[i];
 				dataInner["info"][keysInfo[i]]["name"] = name.replace(/\s/g, '_');
-				pollSuccessInner(dataInner["info"][keysInfo[i]],dataInner["info"][keysInfo[i]])
+				pollSuccessInner(dataInner["info"][keysInfo[i]],dataInner["info"][keysInfo[i]], dataInnerPass)
 			}
 		}
 		else
@@ -320,10 +320,15 @@ function pollSuccess(dataInner, dataInnerPass)
 	}
 }
 
-function pollSuccessInner(dataInner, dataInnerPass)
+function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 {
 	var dataToFilterBy = "error";
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
+	var groupNames = dataInner["groupInfo"];
+	if("id" in dataInnerPassMaster)
+	{
+		groupNames	+= " " + dataInnerPassMaster["id"];
+	}
 	if(!document.getElementById(noSpaceName))
 	{
 		//no there, add
@@ -340,7 +345,8 @@ function pollSuccessInner(dataInner, dataInnerPass)
 		item = item.replace(/{{name}}/g,dataInner["displayName"]);
 		item = item.replace(/{{website}}/g,"#");
 		item = item.replace(/{{branchView}}/g,branchView);
-		item = item.replace(/{{groupInfo}}/g,dataInner["groupInfo"]);
+
+		item = item.replace(/{{groupInfo}}/g,groupNames);
 		addGroup(dataInner["groupInfo"]);
 		$("#main").append(item);
 	}
@@ -542,7 +548,7 @@ function pollSuccessInner(dataInner, dataInnerPass)
 				messageText: null,
 				enableBlockUntilDate: false,
 				datePicker: null,
-				groupInfo: dataInner["groupInfo"]
+				groupInfo: groupNames
 			};
 		}
 		else
@@ -555,7 +561,7 @@ function pollSuccessInner(dataInner, dataInnerPass)
 				//was error
 				arrayOfWatchFilters[noSpaceName]["errorStatus"] = false;
 			}
-			arrayOfWatchFilters[noSpaceName]["groupInfo"] = dataInner["groupInfo"];
+			arrayOfWatchFilters[noSpaceName]["groupInfo"] = groupNames;
 
 		}
 		
