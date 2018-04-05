@@ -157,7 +157,9 @@ else
 				'monitor'		=> checkForMonitor($value['WebsiteBase']),
 				'search'		=> checkForSearch($value['WebsiteBase']),
 				'displayName'	=> $key,
-				'groupInfo'		=>	$value['groupInfo'],
+				'groupInfo'		=> $value['groupInfo'],
+				'gitType'		=> $value['gitType'],
+				'githubRepo'	=> $value['githubRepo'],	
 				'otherFunctions'	=> ''
 			);
 		}
