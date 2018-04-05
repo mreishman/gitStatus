@@ -230,41 +230,41 @@ function generateWindow($data = array())
 	<?php require_once('core/php/templateFiles/header.php'); ?>
 	<div id="main">
 		<?php
-			$arrayOfGroups = array();
-			$showTopBarOfGroups = false;
-			$count = 0;
-			foreach ($config['watchList'] as $key => $value)
+		$arrayOfGroups = array();
+		$showTopBarOfGroups = false;
+		$count = 0;
+		foreach ($config['watchList'] as $key => $value)
+		{
+			if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
 			{
-				if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
+				$count++;
+				if($count > 1)
 				{
-					$count++;
-					if($count > 1)
-					{
-						$showTopBarOfGroups = true;
-					}
-					if(!in_array($value['groupInfo'], $arrayOfGroups))
-					{
-						array_push($arrayOfGroups, $value['groupInfo']);
-					}
+					$showTopBarOfGroups = true;
+				}
+				if(!in_array($value['groupInfo'], $arrayOfGroups))
+				{
+					array_push($arrayOfGroups, $value['groupInfo']);
 				}
 			}
-			foreach ($cachedStatusMainObject as $key => $value)
+		}
+		foreach ($cachedStatusMainObject as $key => $value)
+		{
+			if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
 			{
-				if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
+				$count++;
+				if($count > 1)
 				{
-					$count++;
-					if($count > 1)
-					{
-						$showTopBarOfGroups = true;
-					}
-					if(!in_array($value['groupInfo'], $arrayOfGroups))
-					{
-						array_push($arrayOfGroups, $value['groupInfo']);
-					}
+					$showTopBarOfGroups = true;
+				}
+				if(!in_array($value['groupInfo'], $arrayOfGroups))
+				{
+					array_push($arrayOfGroups, $value['groupInfo']);
 				}
 			}
-			array_push($arrayOfGroups, "All"); 
-			if($showTopBarOfGroups):?>
+		}
+		array_push($arrayOfGroups, "All"); 
+		if($showTopBarOfGroups):?>
 			<div id="groupInfo">
 			<?php
 			sort($arrayOfGroups);
@@ -278,139 +278,140 @@ function generateWindow($data = array())
 			<?php
 			endforeach;
 			?>
-		</div>
-		<div id="groupInfoPlaceholder" >
-		</div>
-		<?php endif; ?>
-	<?php 
-	$h = -1;
-	$newArray = array_merge($cachedStatusMainObject, $config['watchList']);
-	$alreadyShown = array();
-	foreach ($newArray as $key => $value): 
-	if(strpos($key, "branchNameDevBox1") !== false)
-	{
-		$key = str_replace("branchNameDevBox1", "", $key);
-	}
-	$keyNoSpace = preg_replace('/\s+/', '_', $key);
-	$showCachedValue = false;
-	$enableBlockUntilDate = "";
-	$backgroundColor = "";
-	$messageTextEnabled = "";
-	$messageText = "";
-	$errorStatus = "";
-	$datePicker = "";
-	$data = "<span id=\"branchNameDevBox1".$keyNoSpace."\"><img style=\"width: 20px;\" src=\"core/img/loading.gif\"> Loading...</span>";
-	$time = "";
-	$status = "<span style=\"display: none;\" id=\"branchNameDevBox1".$keyNoSpace."Stats\"></span>";
-	$groupInfo = "";
-	$groupInfoStyle = "";
-	$website = "#";
-	$noticeMessageShow = "none";
-	$showRefresh = "inline-block";
-	$branchView = "devBoxContentSecondaryExpanded";
-
-
-
-	if((!isset($value["type"]) || $value["type"] !== "server" ) && !in_array($keyNoSpace, $alreadyShown)):
-		$h++;
-		array_push($alreadyShown, $keyNoSpace);
-		if(!empty($cachedStatusMainObject) && $cachedStatusMainObject != array() && $cacheEnabled === "true")
+			</div>
+			<div id="groupInfoPlaceholder" >
+			</div>
+			<?php
+		endif;
+		?>
+		<?php 
+		$h = -1;
+		$newArray = array_merge($cachedStatusMainObject, $config['watchList']);
+		$alreadyShown = array();
+		foreach ($newArray as $key => $value)
 		{
-			if(isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace]))
+			if(strpos($key, "branchNameDevBox1") !== false)
 			{
-				if(isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace]["data"]))
-				{
-					$showCachedValue = true;
+				$key = str_replace("branchNameDevBox1", "", $key);
+			}
+			$keyNoSpace = preg_replace('/\s+/', '_', $key);
+			$showCachedValue = false;
+			$enableBlockUntilDate = "";
+			$backgroundColor = "";
+			$messageTextEnabled = "";
+			$messageText = "";
+			$errorStatus = "";
+			$datePicker = "";
+			$data = "<span id=\"branchNameDevBox1".$keyNoSpace."\"><img style=\"width: 20px;\" src=\"core/img/loading.gif\"> Loading...</span>";
+			$time = "";
+			$status = "<span style=\"display: none;\" id=\"branchNameDevBox1".$keyNoSpace."Stats\"></span>";
+			$groupInfo = "";
+			$groupInfoStyle = "";
+			$website = "#";
+			$noticeMessageShow = "none";
+			$showRefresh = "inline-block";
+			$branchView = "devBoxContentSecondaryExpanded";
 
-					foreach ($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace] as $key2 => $value2)
+
+
+			if((!isset($value["type"]) || $value["type"] !== "server" ) && !in_array($keyNoSpace, $alreadyShown))
+			{
+				$h++;
+				array_push($alreadyShown, $keyNoSpace);
+				if(!empty($cachedStatusMainObject) && $cachedStatusMainObject != array() && $cacheEnabled === "true")
+				{
+					if(isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace]))
 					{
-						if(isset($$key2))
+						if(isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace]["data"]))
 						{
-							$$key2 = $value2;
+							$showCachedValue = true;
+
+							foreach ($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace] as $key2 => $value2)
+							{
+								if(isset($$key2))
+								{
+									$$key2 = $value2;
+								}
+							}
 						}
 					}
 				}
+
+				if(isset($value["groupInfo"]) && strpos($groupInfo, $value["groupInfo"]) === -1)
+				{
+					$groupInfo .= " ".$value["groupInfo"]." ";
+				}
+
+				if(isset($value['Website']))
+				{
+					$website = $value["Website"];
+				}
+
+				if($showTopBarOfGroups && $defaultGroupViewOnLoad !== "All" && strpos($groupInfo, $defaultGroupViewOnLoad) > -1)
+				{
+					$groupInfoStyle = "style=\"display: none;\"";
+				}
+
+				if($backgroundColor !== "")
+				{
+					$backgroundColor = "style=\"background-color:".$backgroundColor."\"";
+				}
+
+				$redLED = "none";
+				$yellowLED = "none";
+				$greenLED = "none";
+				if($errorStatus !== "" && $errorStatus === false)
+				{
+					$redLED = "inline-block";
+				}
+				elseif(($messageTextEnabled !== "" && $messageTextEnabled === true) || ($enableBlockUntilDate !== "" && $enableBlockUntilDate === true))
+				{
+					$yellowLED = "inline-block";
+				}
+				else
+				{
+					$greenLED = "inline-block";
+				}
+
+				if($defaultViewBranch == 'Standard')
+				{
+					$branchView =  "devBoxContentSecondary";
+				}
+
+				if(($messageTextEnabled !== "" && $messageTextEnabled === true) || ($enableBlockUntilDate !== "" && $enableBlockUntilDate === true))
+				{
+					$noticeMessageShow = "inline-block";
+				}
+
+				if($enableBlockUntilDate !== "" && $enableBlockUntilDate === true)
+				{
+					$showRefresh = "none";
+				}
+
+				echo generateWindow(
+					array(
+						"groupInfo"				=>	$groupInfo,
+						"groupInfoStyle"		=>	$groupInfoStyle,
+						"backgroundColor"		=>	$backgroundColor,
+						"keyNoSpace"			=>	$keyNoSpace,
+						"website"				=>	$website,
+						"redLED"				=>	$redLED,
+						"yellowLED"				=>	$yellowLED,
+						"greenLED"				=>	$greenLED,
+						"branchView"			=>	$branchView,
+						"noticeMessageShow"		=>	$noticeMessageShow,
+						"messageText"			=>	$messageText,
+						"showRefresh"			=>	$showRefresh,
+						"status"				=>	$status,
+						"name"					=>	$key,
+						"branchData"			=>	$data,
+						"counter"				=>	$h
+					)
+				);
+
 			}
 		}
-
-		if(isset($value["groupInfo"]) && strpos($groupInfo, $value["groupInfo"]) === -1)
-		{
-			$groupInfo .= " ".$value["groupInfo"]." ";
-		}
-
-		if(isset($value['Website']))
-		{
-			$website = $value["Website"];
-		}
-
-		if($showTopBarOfGroups && $defaultGroupViewOnLoad !== "All" && strpos($groupInfo, $defaultGroupViewOnLoad) > -1)
-		{
-			$groupInfoStyle = "style=\"display: none;\"";
-		}
-
-		if($backgroundColor !== "")
-		{
-			$backgroundColor = "style=\"background-color:".$backgroundColor."\"";
-		}
-
-		$redLED = "none";
-		$yellowLED = "none";
-		$greenLED = "none";
-		if($errorStatus !== "" && $errorStatus === false)
-		{
-			$redLED = "inline-block";
-		}
-		elseif(($messageTextEnabled !== "" && $messageTextEnabled === true) || ($enableBlockUntilDate !== "" && $enableBlockUntilDate === true))
-		{
-			$yellowLED = "inline-block";
-		}
-		else
-		{
-			$greenLED = "inline-block";
-		}
-
-		if($defaultViewBranch == 'Standard')
-		{
-			$branchView =  "devBoxContentSecondary";
-		}
-
-		if(($messageTextEnabled !== "" && $messageTextEnabled === true) || ($enableBlockUntilDate !== "" && $enableBlockUntilDate === true))
-		{
-			$noticeMessageShow = "inline-block";
-		}
-
-		if($enableBlockUntilDate !== "" && $enableBlockUntilDate === true)
-		{
-			$showRefresh = "none";
-		}
-
-		echo generateWindow(
-			array(
-				"groupInfo"				=>	$groupInfo,
-				"groupInfoStyle"		=>	$groupInfoStyle,
-				"backgroundColor"		=>	$backgroundColor,
-				"keyNoSpace"			=>	$keyNoSpace,
-				"website"				=>	$website,
-				"redLED"				=>	$redLED,
-				"yellowLED"				=>	$yellowLED,
-				"greenLED"				=>	$greenLED,
-				"branchView"			=>	$branchView,
-				"noticeMessageShow"		=>	$noticeMessageShow,
-				"messageText"			=>	$messageText,
-				"showRefresh"			=>	$showRefresh,
-				"status"				=>	$status,
-				"name"					=>	$key,
-				"branchData"			=>	$data,
-				"counter"				=>	$h
-			)
-		);
-
-
 		?>
-			
-		<?php 
-		endif;
-	endforeach; ?>
 	</div>
 
 	<div style="display: none;" id="storage">
