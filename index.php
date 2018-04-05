@@ -73,6 +73,9 @@ function generateWindow($data = array())
 	$greenLED = "inline-block";
 	$yellowLED = "none";
 	$redLED = "none";
+	$noticeMessageShow = "none";
+	$messageText = "";
+	$showRefresh = "inline-block";
 
 	if(isset($data['groupInfo']))
 	{
@@ -129,17 +132,39 @@ function generateWindow($data = array())
 		$redLED = $data["redLED"];
 	}
 
+	if(isset($data['noticeMessageShow']))
+	{
+		$noticeMessageShow = $data["noticeMessageShow"];
+	}
+
+	if(isset($data['messageText']))
+	{
+		$messageText = $data["messageText"];
+	}
+
+	if(isset($data['showRefresh']))
+	{
+		$showRefresh = $data["showRefresh"];
+	}
+
+	$status = "<span style=\"display: none;\" id=\"branchNameDevBox1".$keyNoSpace."Stats\"></span>";
+
+	if(isset($data['status']))
+	{
+		$status = $data["status"];
+	}
+
 	$blockHTML =  "	<div class=\"firstBoxDev ".$groupInfo." \"  ".$groupInfoStyle." >";
 	$blockHTML .= "		<div class=\"innerFirstDevBox\" id=\"innerFirstDevBox".$keyNoSpace."\"  ".$backgroundColor." >";
 	$blockHTML .= "			<div class=\"devBoxTitle\">";
-	$blockHTML .= "				<div class=\"led-red\" id=\"".$keyNoSpace."redwWarning\" style=\"display: inline-block; margin-bottom: -8px; ".$redLED." \">";
+	$blockHTML .= "				<div class=\"led-red\" id=\"".$keyNoSpace."redwWarning\" style=\"display: inline-block; margin-bottom: -8px; display: ".$redLED." \">";
 	$blockHTML .= "				</div>";
-	$blockHTML .= "				<div class=\"led-yellow\" id=\"".$keyNoSpace."yellowWarning\" style=\"display: inline-block; margin-bottom: -8px; ".$yellowLED." \">";
+	$blockHTML .= "				<div class=\"led-yellow\" id=\"".$keyNoSpace."yellowWarning\" style=\"display: inline-block; margin-bottom: -8px; display: ".$yellowLED." \">";
 	$blockHTML .= "				</div>";
-	$blockHTML .= "				<div class=\"led-green\" id=\"".$keyNoSpace."greenNotice\" style=\"display: inline-block; margin-bottom: -8px; ".$greenLED." \">";
+	$blockHTML .= "				<div class=\"led-green\" id=\"".$keyNoSpace."greenNotice\" style=\"display: inline-block; margin-bottom: -8px; display: ".$greenLED." \">";
 	$blockHTML .= "				</div>";
 	$blockHTML .= "				<a style=\"color: black;\" href=\"https://".$website."\"><b>".$name."</b></a>";
-	$blockHTML .= "				<div id=\"".$keyNoSpace."spinnerDiv\" onclick=\"refreshAction('".$counter."','inner');\" style=\"display: inline-block;cursor: pointer; height: 25px; width: 25px; \">";
+	$blockHTML .= "				<div id=\"".$keyNoSpace."spinnerDiv\" onclick=\"refreshAction('".$counter."','inner');\" style=\"display: ".$showRefresh.";cursor: pointer; height: 25px; width: 25px; \">";
 	$blockHTML .= "					<img style=\"margin-bottom: -5px;\" id=\"refreshImage".$keyNoSpace."\" class=\"menuImage\" src=\"core/img/Refresh2.png\" height=\"25px\">";
 	$blockHTML .= "				</div>";
 	$blockHTML .= "				<img id=\"".$keyNoSpace."loadingSpinnerHeader\" class=\"loadingSpinnerHeader\" style=\"width: 25px; margin-bottom: -5px; display: none;\" src=\"core/img/loading.gif\" >";
@@ -160,7 +185,7 @@ function generateWindow($data = array())
 	$blockHTML .= "				</div>";
 	$blockHTML .= "			</div>";
 	$blockHTML .= "			<div class=\"devBoxContent\">";
-	$blockHTML .= "				<span style=\"display: none;\" class=\"noticeMessage\" id=\"".$keyNoSpace."NoticeMessage\" ></span> ";
+	$blockHTML .= "				<span style=\"display: ".$noticeMessageShow.";\" class=\"noticeMessage\" id=\"".$keyNoSpace."NoticeMessage\" >".$messageText."</span> ";
 	$blockHTML .= "				<b>";
 	$blockHTML .= "					<span id=\"".$keyNoSpace."\">";
 	$blockHTML .= "						<img style=\"width: 20px;\" src=\"core/img/loading.gif\"> Loading...";
@@ -174,7 +199,7 @@ function generateWindow($data = array())
 	$blockHTML .= " 					<br>";
 	$blockHTML .= " 				</span>";
 	$blockHTML .= "					<br>";
-	$blockHTML .= "					<span style=\"display: none;\" id=\"".$keyNoSpace."Stats\">--Pending--</span>";
+	$blockHTML .= 					$status;
 	$blockHTML .= "				</div>";
 	$blockHTML .= "			</div>";
 	$blockHTML .= "		</div>";
@@ -272,10 +297,12 @@ function generateWindow($data = array())
 	$datePicker = "";
 	$data = "";
 	$time = "";
-	$status = "";
+	$status = "<span style=\"display: none;\" id=\"branchNameDevBox1".$keyNoSpace."Stats\"></span>";
 	$groupInfo = "";
 	$groupInfoStyle = "";
 	$website = "#";
+	$noticeMessageShow = "none";
+	$showRefresh = "inline-block";
 	$branchView = "devBoxContentSecondaryExpanded";
 	if((!isset($value["type"]) || $value["type"] !== "server" ) && !in_array($keyNoSpace, $alreadyShown)):
 		$h++;
@@ -340,6 +367,16 @@ function generateWindow($data = array())
 			$branchView =  "devBoxContentSecondary";
 		}
 
+		if(($messageTextEnabled !== "" && $messageTextEnabled === true) || ($enableBlockUntilDate !== "" && $enableBlockUntilDate === true))
+		{
+			$noticeMessageShow = "inline-block";
+		}
+
+		if($enableBlockUntilDate !== "" && $enableBlockUntilDate === true)
+		{
+			$showRefresh = "none";
+		}
+
 		generateWindow(
 			array(
 				"groupInfo"				=>	$groupInfo,
@@ -350,7 +387,11 @@ function generateWindow($data = array())
 				"redLED"				=>	$redLED,
 				"yellowLED"				=>	$yellowLED,
 				"greenLED"				=>	$greenLED,
-				"branchView"			=>	$branchView
+				"branchView"			=>	$branchView,
+				"noticeMessageShow"		=>	$noticeMessageShow,
+				"messageText"			=>	$messageText,
+				"showRefresh"			=>	$showRefresh,
+				"status"				=>	$status,
 			)
 		);
 
@@ -362,25 +403,18 @@ function generateWindow($data = array())
 					id="innerFirstDevBoxbranchNameDevBox1<?php echo $keyNoSpace; ?>" <?php echo $backgroundColor; ?> >
 					<div class="devBoxTitle">
 						<?php $showLED = true; ?>
-						<div class="led-red" id="branchNameDevBox1<?php echo $keyNoSpace; ?>redwWarning" style="display: inline-block; margin-bottom: -8px; <?php echo $redLED; ?>"	>
+						<div class="led-red" id="branchNameDevBox1<?php echo $keyNoSpace; ?>redwWarning" style="display: inline-block; margin-bottom: -8px; display: <?php echo $redLED; ?>"	>
 						</div>
-						<div class="led-yellow" id="branchNameDevBox1<?php echo $keyNoSpace; ?>yellowWarning" style="display: inline-block; margin-bottom: -8px; <?php echo $yellowLED; ?>"	>
+						<div class="led-yellow" id="branchNameDevBox1<?php echo $keyNoSpace; ?>yellowWarning" style="display: inline-block; margin-bottom: -8px; display: <?php echo $yellowLED; ?>"	>
 						</div>
-						<div class="led-green" id="branchNameDevBox1<?php echo $keyNoSpace; ?>greenNotice" style="display: inline-block; margin-bottom: -8px; <?php echo $greenLED; ?>"	>
+						<div class="led-green" id="branchNameDevBox1<?php echo $keyNoSpace; ?>greenNotice" style="display: inline-block; margin-bottom: -8px; display: <?php echo $greenLED; ?>"	>
 						</div>
 						<a style="color: black;" href="https://<?php echo $website; ?> "><b><?php echo $key; ?></b></a>
 						<div
 							class="refreshImageDevBox"
 							id="branchNameDevBox1<?php echo $keyNoSpace; ?>spinnerDiv"
 							onclick="refreshAction('<?php echo $h;?>','inner');"
-							style="
-								<?php if( $showCachedValue && $enableBlockUntilDate !== "" && $enableBlockUntilDate === true): ?>
-									display: none;
-								<?php else: ?>
-									display: inline-block;
-								<?php endif; ?>
-								cursor: pointer; height: 25px; width: 25px; "
-						>
+							style="	display: <?php echo $showRefresh; ?>; cursor: pointer; height: 25px; width: 25px; "	>
 							<img style="margin-bottom: -5px;" id="refreshImage<?php echo $keyNoSpace; ?>" class="menuImage" src="core/img/Refresh2.png" height="25px">
 						</div>
 						<img
@@ -407,15 +441,7 @@ function generateWindow($data = array())
 					</div>
 					<div class="devBoxContent">
 
-					<span
-						<?php if($showCachedValue && (($messageTextEnabled !== "" && $messageTextEnabled === true) || ($enableBlockUntilDate !== "" && $enableBlockUntilDate === true))): ?>
-							style="display: inline-block;"
-						<?php else: ?>
-							style="display: none;"
-						<?php endif; ?>
-						class="noticeMessage"
-						id="branchNameDevBox1<?php echo $keyNoSpace;?>NoticeMessage"
-					>
+					<span style="display: <?php echo $noticeMessageShow; ?>;" class="noticeMessage"	id="branchNameDevBox1<?php echo $keyNoSpace;?>NoticeMessage" >
 						<?php if($showCachedValue && $messageText !== ""):
 							echo $messageText;
 						endif; ?>
@@ -433,7 +459,7 @@ function generateWindow($data = array())
 							</span>
 							<?php endif; ?>
 						</b>
-						<div class="<?php echo $branchView;}?>">
+						<div class="<?php echo $branchView;?>">
 						<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>UpdateOuter">
 							<br><br>
 							<b>Last Updated:</b>
@@ -447,11 +473,7 @@ function generateWindow($data = array())
 							<br>
 						</span>
 						<br>
-						<?php if($showCachedValue && $status !== ""):?>
-							<?php echo $status; ?>
-						<?php else: ?>
-							<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>Stats">--Pending--</span>
-						<?php endif; ?>
+						<?php echo $status; ?>
 						</div>
 					</div>
 				</div>
