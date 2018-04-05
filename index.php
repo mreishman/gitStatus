@@ -254,18 +254,21 @@ function generateWindow($data = array())
 				}
 			}
 		}
-		foreach ($cachedStatusMainObject as $key => $value)
+		if($cacheEnabled === "true")
 		{
-			if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
+			foreach ($cachedStatusMainObject as $key => $value)
 			{
-				$count++;
-				if($count > 1)
+				if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
 				{
-					$showTopBarOfGroups = true;
-				}
-				if(!in_array($value['groupInfo'], $arrayOfGroups))
-				{
-					array_push($arrayOfGroups, $value['groupInfo']);
+					$count++;
+					if($count > 1)
+					{
+						$showTopBarOfGroups = true;
+					}
+					if(!in_array($value['groupInfo'], $arrayOfGroups))
+					{
+						array_push($arrayOfGroups, $value['groupInfo']);
+					}
 				}
 			}
 		}
@@ -292,7 +295,11 @@ function generateWindow($data = array())
 		?>
 		<?php 
 		$h = -1;
-		$newArray = array_merge($cachedStatusMainObject, $config['watchList']);
+		$newArray = $config["watchList"];
+		if($cacheEnabled === "true")
+		{
+			$newArray = array_merge($cachedStatusMainObject, $config['watchList']);
+		}
 		$alreadyShown = array();
 		foreach ($newArray as $key => $value)
 		{
