@@ -235,15 +235,23 @@ function pollFailure(xhr, error, dataInnerPass)
 	var nameForBackground = "innerFirstDevBox"+noSpaceName;
 	if(document.getElementById(nameForBackground))
 	{
-		pollFailureInner(xhr, error, dataInnerPass, noSpaceName, nameForBackground);
+		pollFailureInner(xhr, error, noSpaceName, nameForBackground);
 	}
 	else
 	{
-		
+		//get all with class of id
+		var subBoxes = document.getElementsByClassName(dataInnerPass["id"]);
+		var countOfBoxes = subBoxes.length;
+		for(var i = 0; i < countOfBoxes; i++)
+		{
+			nameForBackground = subBoxes[i].getElementsByClassName("innerFirstDevBox")[0].id;
+			noSpaceName = nameForBackground.replace("innerFirstDevBox", "");
+			pollFailureInner(xhr, error, noSpaceName, nameForBackground);
+		}
 	}
 }
 
-function pollFailureInner(xhr, error, dataInnerPass, noSpaceName, nameForBackground)
+function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 {
 	switchToColorLed(noSpaceName, "red");
 	document.getElementById(noSpaceName+'redwWarning').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
