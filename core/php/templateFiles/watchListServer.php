@@ -32,6 +32,12 @@
  					<option value="local" >Local</option>
  					<option value="external" >External</option>
  				</select>
+ 				<br>
+ 				<span class="leftSpacingserverNames" > gitType:</span>
+				<select disabled="true" class='inputWidth300' >
+ 					<option value="local" >github</option>
+ 					<option value="external" >gitlab</option>
+ 				</select>
 				</li>
 
 
@@ -45,7 +51,8 @@
 					'githubRepo' =>  '',
 					'groupInfo' =>  '',
 					'urlHit' =>  '',
-					"type" => ""
+					"type" => "",
+					"gitType"	=>	""
 				);
 
 				$i = 0;
@@ -67,11 +74,19 @@
 			 				{
 			 					array_push($arrayOfKeys, $key2);
 			 				}
-			 			if($key2 === "type"):?>
+			 			if($key2 === "type"):
+			 				?>
 			 				<select class='inputWidth300' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' >
 			 					<option value="local" <?php if($item[$key2] === "local"){echo "selected"; }?> >Local</option>
 			 					<option value="external" <?php if($item[$key2] === "external"){echo "selected"; }?> >External</option>
 			 				</select>
+			 			<?php
+		 				elseif($key2 === "gitType"):
+		 					?>
+		 				<select class='inputWidth300' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' >
+		 					<option value="local" <?php if($item[$key2] === "github"){echo "selected"; }?> >GitHub</option>
+		 					<option value="external" <?php if($item[$key2] === "gitLab"){echo "selected"; }?> >GitLab</option>
+		 				</select>
 		 				<?php else: ?>
 		 					<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if (isset($item[$key2])){ echo $item[$key2]; } ?>'>
 		 				<?php endif; ?>
