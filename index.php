@@ -94,7 +94,7 @@ function generateWindow($data = array())
 
 	if(isset($data['keyNoSpace']))
 	{
-		$keyNoSpace = $data["keyNoSpace"];
+		$keyNoSpace = "branchNameDevBox1".$data["keyNoSpace"];
 	}
 
 	if(isset($data['website']))
@@ -384,7 +384,7 @@ function generateWindow($data = array())
 			$showRefresh = "none";
 		}
 
-		generateWindow(
+		echo generateWindow(
 			array(
 				"groupInfo"				=>	$groupInfo,
 				"groupInfoStyle"		=>	$groupInfoStyle,
@@ -400,86 +400,14 @@ function generateWindow($data = array())
 				"showRefresh"			=>	$showRefresh,
 				"status"				=>	$status,
 				"name"					=>	$key,
-				"branchData"			=>	$data
+				"branchData"			=>	$data,
+				"counter"				=>	$h
 			)
 		);
 
 
 		?>
-			<div class="firstBoxDev <?php echo $groupInfo;?> " <?php echo $groupInfoStyle;	?> >
-				<div
-					class="innerFirstDevBox"
-					id="innerFirstDevBoxbranchNameDevBox1<?php echo $keyNoSpace; ?>" <?php echo $backgroundColor; ?> >
-					<div class="devBoxTitle">
-						<div class="led-red" id="branchNameDevBox1<?php echo $keyNoSpace; ?>redwWarning" style="display: inline-block; margin-bottom: -8px; display: <?php echo $redLED; ?>"	>
-						</div>
-						<div class="led-yellow" id="branchNameDevBox1<?php echo $keyNoSpace; ?>yellowWarning" style="display: inline-block; margin-bottom: -8px; display: <?php echo $yellowLED; ?>"	>
-						</div>
-						<div class="led-green" id="branchNameDevBox1<?php echo $keyNoSpace; ?>greenNotice" style="display: inline-block; margin-bottom: -8px; display: <?php echo $greenLED; ?>"	>
-						</div>
-						<a style="color: black;" href="https://<?php echo $website; ?> "><b><?php echo $key; ?></b></a>
-						<div
-							class="refreshImageDevBox"
-							id="branchNameDevBox1<?php echo $keyNoSpace; ?>spinnerDiv"
-							onclick="refreshAction('<?php echo $h;?>','inner');"
-							style="	display: <?php echo $showRefresh; ?>; cursor: pointer; height: 25px; width: 25px; "	>
-							<img style="margin-bottom: -5px;" id="refreshImage<?php echo $keyNoSpace; ?>" class="menuImage" src="core/img/Refresh2.png" height="25px">
-						</div>
-						<img
-							id="branchNameDevBox1<?php echo $keyNoSpace; ?>loadingSpinnerHeader"
-							class='loadingSpinnerHeader'
-							style="width: 25px; margin-bottom: -5px; display: none;"
-							src="core/img/loading.gif"
-						>
-						<div class="expandMenu" onclick="dropdownShow('<?php echo $keyNoSpace;?>')" ></div>
-						<div id="dropdown-<?php echo $keyNoSpace;?>" class="dropdown-content">
-						    <a style="cursor: pointer" onclick="refreshAction('<?php echo $h;?>','inner');" >Refresh</a>
-						    <div id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogOuter" style="display: none; cursor: pointer; width: 100%;" >
-								<a id="branchNameDevBox1<?php echo $keyNoSpace;?>LogHogInner" style="color: black;" href="#">Log-Hog</a>
-							</div>
-							<div id="branchNameDevBox1<?php echo $keyNoSpace;?>MonitorOuter" style="display: none; cursor: pointer; width: 100%;" >
-								<a id="branchNameDevBox1<?php echo $keyNoSpace;?>MonitorInner" style="color: black;" href="#">Monitor</a>
-							</div>
-							<div id="branchNameDevBox1<?php echo $keyNoSpace;?>SearchOuter" style="display: none; cursor: pointer; width: 100%;" >
-								<a id="branchNameDevBox1<?php echo $keyNoSpace;?>SearchInner" style="color: black;" href="#">Search</a>
-							</div>
-							<a id="branchNameDevBox1<?php echo $keyNoSpace;?>errorMessageLink" style="cursor: pointer; display: none;">Error</a> 
-							<a id="branchNameDevBox1<?php echo $keyNoSpace;?>noticeMessageLink" style="cursor: pointer; display: none;">Notice</a> 
-						  </div>
-					</div>
-					<div class="devBoxContent">
-
-					<span style="display: <?php echo $noticeMessageShow; ?>;" class="noticeMessage"	id="branchNameDevBox1<?php echo $keyNoSpace;?>NoticeMessage" >
-						<?php if($showCachedValue && $messageText !== ""):
-							echo $messageText;
-						endif; ?>
-
-						<?php if($showCachedValue && $datePicker !== ""):
-							echo "Blocking poll requests untill: ".$datePicker;
-						endif; ?>
-					</span>
-						<b>
-							<?php echo $data; ?>
-						</b>
-						<div class="<?php echo $branchView;?>">
-						<span style="display: none;" id="branchNameDevBox1<?php echo $keyNoSpace;?>UpdateOuter">
-							<br><br>
-							<b>Last Updated:</b>
-							<?php if($showCachedValue && $time !== ""):
-								echo $time;
-							else: ?>
-								<span id="branchNameDevBox1<?php echo $keyNoSpace;?>Update">
-								--Pending--
-								</span>
-							<?php endif; ?>
-							<br>
-						</span>
-						<br>
-						<?php echo $status; ?>
-						</div>
-					</div>
-				</div>
-			</div>
+			
 		<?php 
 		endif;
 	endforeach; ?>
