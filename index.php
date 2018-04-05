@@ -364,7 +364,7 @@ function generateWindow($data = array())
 					}
 				}
 
-				if(isset($value["groupInfo"]) && strpos($groupInfo, $value["groupInfo"]) === -1)
+				if(isset($value["groupInfo"]) && !empty($value["groupInfo"]) && strpos($groupInfo, $value["groupInfo"]) === -1)
 				{
 					$groupInfo .= " ".$value["groupInfo"]." ";
 				}
