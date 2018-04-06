@@ -34,7 +34,7 @@ function poll(all = -1)
 			var boolForRun = true;
 			if(onlyRefreshVisible === "true")
 			{
-				var name = "innerFirstDevBoxbranchNameDevBox1"+arrayOfFiles[i][0];
+				var name = "innerFirstDevBoxbranchNameDevBox1"+arrayOfFiles[i]["Name"];
 				name = name.replace(/\s/g, '_');
 				if( document.getElementById(name))
 				{
@@ -63,7 +63,7 @@ function poll(all = -1)
 
 function tryHTTPForPollRequest(count)
 {
-	var name = "branchNameDevBox1"+arrayOfFiles[count][0];
+	var name = "branchNameDevBox1"+arrayOfFiles[count]["Name"];
 	name = name.replace(/\s/g, '_');
 	var doPollLogic = true;
 	if(arrayOfWatchFilters && arrayOfWatchFilters[name])
@@ -102,10 +102,10 @@ function tryHTTPForPollRequest(count)
 }
 function tryHttpActuallyPollLogic(count, name)
 {
-	var urlForSend = 'http://'+arrayOfFiles[count][1]+'/status/core/php/functions/gitBranchName.php?format=json';
-	if(arrayOfFiles[count][6] !== "")
+	var urlForSend = 'http://'+arrayOfFiles[count]["WebsiteBase"]+'/status/core/php/functions/gitBranchName.php?format=json';
+	if(arrayOfFiles[count]["urlHit"] !== "")
 	{
-		urlForSend = 'http://'+arrayOfFiles[count][6]+'?format=json';
+		urlForSend = 'http://'+arrayOfFiles[count]["urlHit"]+'?format=json';
 	}
 	if(document.getElementById(name))
 	{
@@ -113,7 +113,7 @@ function tryHttpActuallyPollLogic(count, name)
 		document.getElementById(name+"spinnerDiv").style.display = "none";
 	}
 	document.getElementById("refreshDiv").style.display = "none";
-	var data = {location: arrayOfFiles[count][2], name, githubRepo: arrayOfFiles[count][4], urlForSend ,websiteBase: arrayOfFiles[count][1], id: arrayOfFiles[count][0]};
+	var data = {location: arrayOfFiles[count]["Folder"], name, githubRepo: arrayOfFiles[count]["githubRepo"], urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"]};
 	var innerData = {};
 	if(pollType == 1)
 	{

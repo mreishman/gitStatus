@@ -545,15 +545,22 @@ function generateWindow($data = array())
 	<?php
 		foreach($config['watchList'] as $key => $item)
 		{
-			echo "arrayOfFiles.push(['";
-			echo $key;
+			echo "arrayOfFiles.push({'";
+			echo "Name' :'".$key;
 			echo "','";
-				foreach($item as $key2 => $item2)
+			$countOfItems = count($item);
+			$intCount = 0;
+			foreach($item as $key2 => $item2)
 			{
-				echo $item2;
-				echo "','";
+				$intCount++;
+				echo $key2."': '".$item2;
+				echo "'";
+				if($intCount !== $countOfItems)
+				{
+					echo ",'";
+				}
 			}
-			echo "']);";
+			echo "});";
 		}
 	?>
 	</script>
