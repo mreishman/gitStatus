@@ -23,7 +23,7 @@ function pollTimed()
 
 function poll(all = -1)
 {
-	if(all == '-1')
+	if(all === -1)
 	{
 		counterForSave = numberOfLogs+1;
 		var arrayOfFilesLength = arrayOfFiles.length
@@ -112,6 +112,24 @@ function tryHttpActuallyPollLogic(count, name)
 		document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
 		document.getElementById(name+"spinnerDiv").style.display = "none";
 	}
+	var id = name.replace("branchNameDevBox1", "");
+	var subBoxes = document.getElementsByClassName(id);
+	var countOfSubServers = subBoxes.length;
+	if(countOfSubServers > 0)
+	{
+		for(var i = 0; i < countOfSubServers; i++)
+		{
+			var nameForBackground = subBoxes[i].getElementsByClassName("innerFirstDevBox")[0].id;
+			var noSpaceName = nameForBackground.replace("innerFirstDevBox", "");
+
+			if(document.getElementById(noSpaceName))
+			{
+				document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "inline-block";
+				document.getElementById(noSpaceName+"spinnerDiv").style.display = "none";
+			}
+		}
+	}
+	loadingSpinnerText.innerHTML = (counterForSave);
 	document.getElementById("refreshDiv").style.display = "none";
 	var folder = "";
 	var githubRepo = "";
@@ -184,8 +202,8 @@ function decreaseSpinnerCounter()
 {
 	document.getElementById('loadingSpinnerMain').style.display = "block";
 	var loadingSpinnerText = document.getElementById('loadingSpinnerText');
-	loadingSpinnerText.innerHTML = ((counterForSave-1))
 	counterForSave--;
+	loadingSpinnerText.innerHTML = (counterForSave);
 	return loadingSpinnerText;
 }
 
@@ -819,31 +837,71 @@ function refreshAction(all = -1, status = 'outer')
 	{
 		clearTimeout(refreshActionVar);
 		
+		var refreshNum = parseInt(all);
+		if(refreshNum !== -1)
+		{
+			if(isNaN(refreshNum))
+			{
+				var refreshName = all;
+				//this is string, find in fileArray
+				var foundInFileArray = false;
+				var lengthOfFileArray = arrayOfFiles.length;
+				for(var i = 0; i < lengthOfFileArray; i++)
+				{
+					var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
+					if(noSpaceName === refreshName)
+					{
+						refreshNum = i;
+						foundInFileArray = true;
+						break;
+					}
+				}
+
+				if(!foundInFileArray)
+				{
+					//look for groups with ID of master server
+					if(document.getElementById("innerFirstDevBox"+refreshName))
+					{
+						var listOfClasses = document.getElementById("innerFirstDevBox"+refreshName).parentElement.classList;
+						var classListLength = listOfClasses.length;
+						var found = false;
+						for(var i = 0; i < classListLength; i++)
+						{
+							var lengthOfFileArray = arrayOfFiles.length;
+							for(var j = 0; j < lengthOfFileArray; j++)
+							{
+								var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
+								if(noSpaceName === listOfClasses[j])
+								{
+									refreshNum = j;
+									found = true;
+									break;
+								}
+							}
+							if(found)
+							{
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		if(isNaN(refreshNum))
+		{
+			refreshNum = -1;
+		}
 		refreshing = true;
 		if(pausePoll)
 		{
 			clearTimeout(refreshPauseActionVar);
 			pausePoll = false;
-			if(all == '-1')
-			{
-				poll();
-			}
-			else
-			{
-				poll(all);	
-			}
+			poll(refreshNum);	
 			refreshPauseActionVar = setTimeout(function(){pausePoll = true;}, 1000);
 		}
 		else
 		{
-			if(all == '-1')
-			{
-				poll();
-			}
-			else
-			{
-				poll(all);	
-			}
+			poll(refreshNum);
 		}
 		refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
 	}
