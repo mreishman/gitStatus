@@ -295,14 +295,28 @@ function generateWindow($data = array())
 					{
 						if(!isset($config["watchList"][$groupName]))
 						{
-							$count++;
-							if($count > 1)
+							//check if it is still set with nameNoSpace logic @todo
+							$inArray = false;
+							foreach ($config["watchList"] as $key => $value)
 							{
-								$showTopBarOfGroups = true;
+								$keyNoSpace = preg_replace('/\s+/', '_', $key);
+								if($keyNoSpace === $groupName)
+								{
+									$inArray = true;
+									break;
+								}
 							}
-							if(!in_array($groupName, $arrayOfGroups))
+							if(!$inArray)
 							{
-								array_push($arrayOfGroups, $groupName);
+								$count++;
+								if($count > 1)
+								{
+									$showTopBarOfGroups = true;
+								}
+								if(!in_array($groupName, $arrayOfGroups))
+								{
+									array_push($arrayOfGroups, $groupName);
+								}
 							}
 						}
 					}
@@ -326,10 +340,14 @@ function generateWindow($data = array())
 		</div>
 		<?php 
 		$h = -1;
-		$newArray = $config["watchList"];
+		$newArray = array();
+		if($pollType === 1)
+		{
+			$newArray = $config["watchList"];
+		}
 		if($cacheEnabled === "true")
 		{
-			$newArray = array_merge($cachedStatusMainObject, $config['watchList']);
+			$newArray = array_merge($cachedStatusMainObject, $newArray);
 		}
 		$alreadyShown = array();
 		foreach ($newArray as $key => $value)
@@ -355,7 +373,7 @@ function generateWindow($data = array())
 			$noticeMessageShow = "none";
 			$showRefresh = "inline-block";
 
-			if((!isset($value["type"]) || $value["type"] !== "server" ) && !in_array($keyNoSpace, $alreadyShown))
+			if(!in_array($keyNoSpace, $alreadyShown))
 			{
 				$h++;
 				array_push($alreadyShown, $keyNoSpace);
