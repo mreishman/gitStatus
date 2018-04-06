@@ -113,7 +113,17 @@ function tryHttpActuallyPollLogic(count, name)
 		document.getElementById(name+"spinnerDiv").style.display = "none";
 	}
 	document.getElementById("refreshDiv").style.display = "none";
-	var data = {location: arrayOfFiles[count]["Folder"], name, githubRepo: arrayOfFiles[count]["githubRepo"], urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"]};
+	var folder = "";
+	var githubRepo = "";
+	if("Folder" in arrayOfFiles[count])
+	{
+		folder = arrayOfFiles[count]["Folder"];
+	}
+	if("githubRepo" in arrayOfFiles[count])
+	{
+		folder = arrayOfFiles[count]["githubRepo"];
+	}
+	var data = {location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"]};
 	var innerData = {};
 	if(pollType == 1)
 	{
