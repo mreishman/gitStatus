@@ -386,6 +386,21 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		addGroup(dataInner["groupInfo"]);
 		$("#main").append(item);
 	}
+	else
+	{
+		//check if all classes are there
+		var parentElementOfDiv = document.getElementById("innerFirstDevBox"+noSpaceName).parentElement;
+		var listOfClasses = parentElementOfDiv.classList;
+		var groupNamesArray = groupNames.split(" ");
+		var groupNamesArrayLength = groupNamesArray.length;
+		for(var i = 0; i < groupNamesArrayLength; i++)
+		{
+			if(!(groupNamesArray[i] in listOfClasses))
+			{
+				parentElementOfDiv.className += parentElementOfDiv.className ? " "+groupNamesArray[i]  : groupNamesArray[i];
+			}
+		}
+	}
 	document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
 	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
