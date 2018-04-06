@@ -391,13 +391,25 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		//check if all classes are there
 		var parentElementOfDiv = document.getElementById("innerFirstDevBox"+noSpaceName).parentElement;
 		var listOfClasses = parentElementOfDiv.classList;
+		var listOfClassesLength = listOfClasses.length;
 		var groupNamesArray = groupNames.split(" ");
 		var groupNamesArrayLength = groupNamesArray.length;
 		for(var i = 0; i < groupNamesArrayLength; i++)
 		{
-			if(!(groupNamesArray[i] in listOfClasses))
+			var grouName = groupNamesArray[i].trim();
+			var found = false;
+			for(var j = 0; j < listOfClassesLength; j++)
 			{
-				parentElementOfDiv.className += parentElementOfDiv.className ? " "+groupNamesArray[i]  : groupNamesArray[i];
+				var classNameTest = listOfClasses[j].trim();
+				if(classNameTest === grouName)
+				{
+					found = true;
+					break;
+				}
+			}
+			if(!found)
+			{
+				parentElementOfDiv.className += parentElementOfDiv.className ? " "+grouName  : grouName;
 			}
 		}
 	}
