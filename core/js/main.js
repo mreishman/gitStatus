@@ -952,43 +952,66 @@ $( document ).ready(function()
 	poll();
 	pollingRate = pollingRate * 60000; 
 	setInterval(pollTimed, pollingRate);
+
+	if (autoCheckUpdate == true)
+	{
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+
+		if(dd<10) {
+		    dd='0'+dd
+		} 
+
+		if(mm<10) {
+		    mm='0'+mm
+		} 
+
+		today = mm+'-'+dd+'-'+yyyy;
+		if(today != dateOfLastUpdate)
+		{
+			checkForUpdateDefinitely();
+		}
+	}
+
+	if(pausePollFromFile)
+	{
+		pausePollFile = true;
+	}
+
 });
 
-if (autoCheckUpdate == true)
+function togglePlayPause()
 {
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth()+1; //January is 0!
-	var yyyy = today.getFullYear();
-
-	if(dd<10) {
-	    dd='0'+dd
-	} 
-
-	if(mm<10) {
-	    mm='0'+mm
-	} 
-
-	today = mm+'-'+dd+'-'+yyyy;
-	if(today != dateOfLastUpdate)
+	if(!isPaused())
 	{
-		checkForUpdateDefinitely();
+		document.getElementById("pauseImage").style.display = "none";
+		document.getElementById("playImage").style.display = "inline-block";
+	}
+	else
+	{
+		document.getElementById("pauseImage").style.display = "inline-block";
+		document.getElementById("playImage").style.display = "none";
 	}
 }
 
-if(pausePollFromFile)
+function isPaused()
 {
-	pausePollFile = true;
-	document.getElementById('pauseImage').src="core/img/Play.png";
+	if(document.getElementById("pauseImage").style.display !== "none")
+	{
+		return false;
+	}
+	return true;
 }
 
 function pausePollAction()
 {
-	if(pausePollFile)
+	if(isPaused())
 	{
 		userPaused = false;
 		pausePollFile = false;
-		document.getElementById('pauseImage').src="core/img/Pause.png";
+		togglePlayPause();
 	}
 	else
 	{
@@ -1000,7 +1023,7 @@ function pausePollAction()
 function pausePollFunction()
 {
 	pausePollFile = true;
-	document.getElementById('pauseImage').src="core/img/Play.png";
+	togglePlayPause();
 	document.title = "Status | Paused";
 }
 

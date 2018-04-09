@@ -41,8 +41,11 @@
 			<a href="#" class="back-to-top" style="color:#000000;">Back to Top</a>
 		</div>
 		<?php if($onHome): ?>
-			<div onclick="pausePollAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-				<img id="pauseImage" class="menuImage" src="core/img/Pause.png" height="30px">
+			<div onclick="pausePollAction();"   id="pauseImage"  style=" <?php if ($pausePoll === "false"): ?> display: inline-block; <?php else: ?> display: none; <?php endif; ?> cursor: pointer; height: 30px; width: 30px; ">
+				<img class="menuImage" src="core/img/Pause.png" height="30px">
+			</div>
+			<div onclick="pausePollAction();"  id="playImage" style=" <?php if ($pausePoll !== "false"): ?> display: inline-block; <?php else: ?> display: none; <?php endif; ?> cursor: pointer; height: 30px; width: 30px; ">
+				<img  class="menuImage" src="core/img/Play.png" height="30px">
 			</div>
 			<div id="refreshDiv" onclick="refreshAction();" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
 				<img id="refreshImage" class="menuImage" src="core/img/Refresh.png" height="30px">
