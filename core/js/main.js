@@ -14,8 +14,9 @@ function escapeHTML(unsafeStr)
 	
 }
 
-function poll(all = -1)
+function poll(all = -1, counterForSaveNew = 1)
 {
+	document.getElementById('loadingSpinnerMain').style.display = "block";
 	if(all === -1)
 	{
 		counterForSave = numberOfLogs+1;
@@ -49,7 +50,7 @@ function poll(all = -1)
 	}
 	else
 	{
-		counterForSave = 1;
+		counterForSave = counterForSaveNew;
 		tryHTTPForPollRequest(all);
 	}
 }
@@ -856,7 +857,7 @@ function refreshAction(all = -1, status = 'outer')
 	if(refreshing == false)
 	{
 		clearTimeout(refreshActionVar);
-		
+		var counterNew = 0;
 		var refreshNum = parseInt(all);
 		if(refreshNum !== -1)
 		{
@@ -903,6 +904,17 @@ function refreshAction(all = -1, status = 'outer')
 								break;
 							}
 						}
+
+						if(found)
+						{
+							var classNameFound = arrayOfFiles[refreshNum]["Name"].replace(/\s/g, '');
+							listOfClasses = document.getElementsByClassName(classNameFound);
+							classListLength = listOfClasses.length;
+							for(var i = 0; i < classListLength; i++)
+							{
+								counterNew++;
+							} 
+						}
 					}
 				}
 			}
@@ -912,7 +924,7 @@ function refreshAction(all = -1, status = 'outer')
 			refreshNum = -1;
 		}
 		refreshing = true;
-		poll(refreshNum);
+		poll(refreshNum, counterNew);
 		refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
 	}
 }
