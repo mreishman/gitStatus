@@ -856,6 +856,8 @@ function refreshAction(all = -1, status = 'outer')
 {
 	if(refreshing == false)
 	{
+		clearInterval(pollTimer);
+		startPoll();
 		clearTimeout(refreshActionVar);
 		var counterNew = 0;
 		var refreshNum = parseInt(all);
@@ -972,7 +974,7 @@ $( document ).ready(function()
 
 	if(pausePollFromFile !== "true")
 	{
-		pollTimer = setInterval(poll, pollingRate);
+		startPoll();
 	}
 
 });
@@ -1005,7 +1007,7 @@ function pausePollAction()
 	if(isPaused())
 	{
 		togglePlayPause();
-		pollTimer = setInterval(poll, pollingRate);
+		startPoll();
 	}
 	else
 	{
@@ -1018,6 +1020,11 @@ function pausePollFunction()
 	togglePlayPause();
 	document.title = "Status | Paused";
 	clearInterval(pollTimer);
+}
+
+function startPoll()
+{
+	pollTimer = setInterval(poll, pollingRate);
 }
 
 function switchToStandardView() 
