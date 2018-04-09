@@ -1,5 +1,6 @@
 var counterForSave = numberOfLogs+1;
 var updating = false;
+var pollTimer = null;
 
 function escapeHTML(unsafeStr)
 {
@@ -11,14 +12,6 @@ function escapeHTML(unsafeStr)
 	.replace(/\'/g, "&#39;")
 	.replace(/\//g, "&#x2F;");
 	
-}
-
-function pollTimed()
-{
-	if(!pausePollFile)
-	{
-		poll();
-	}
 }
 
 function poll(all = -1)
@@ -919,17 +912,7 @@ function refreshAction(all = -1, status = 'outer')
 			refreshNum = -1;
 		}
 		refreshing = true;
-		if(pausePoll)
-		{
-			clearTimeout(refreshPauseActionVar);
-			pausePoll = false;
-			poll(refreshNum);	
-			refreshPauseActionVar = setTimeout(function(){pausePoll = true;}, 1000);
-		}
-		else
-		{
-			poll(refreshNum);
-		}
+		poll(refreshNum);
 		refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
 	}
 }
@@ -937,7 +920,7 @@ function refreshAction(all = -1, status = 'outer')
 function endRefreshAction()
 {	
 	refreshing = false;
-	if(pausePoll)
+	if(isPaused())
 	{
 		document.title = "Git Status | Paused";
 	}
@@ -951,7 +934,7 @@ $( document ).ready(function()
 {
 	poll();
 	pollingRate = pollingRate * 60000; 
-	setInterval(pollTimed, pollingRate);
+	
 
 	if (autoCheckUpdate == true)
 	{
@@ -975,9 +958,9 @@ $( document ).ready(function()
 		}
 	}
 
-	if(pausePollFromFile)
+	if(pausePollFromFile !== "true")
 	{
-		pausePollFile = true;
+		pollTimer = setInterval(poll, pollingRate);
 	}
 
 });
@@ -1009,22 +992,20 @@ function pausePollAction()
 {
 	if(isPaused())
 	{
-		userPaused = false;
-		pausePollFile = false;
 		togglePlayPause();
+		pollTimer = setInterval(poll, pollingRate);
 	}
 	else
 	{
-		userPaused = true;
 		pausePollFunction();
 	}
 }
 
 function pausePollFunction()
 {
-	pausePollFile = true;
 	togglePlayPause();
 	document.title = "Status | Paused";
+	clearInterval(pollTimer);
 }
 
 function switchToStandardView() 
