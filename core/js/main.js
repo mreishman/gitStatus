@@ -794,7 +794,7 @@ function filterBGColor(filterName, idName, opacity)
 {
 	var newBG = false;
 	var filterByThisArray = [];
-	var defaultColor = "#aaaaaa";
+	var defaultColor = "#777777";
 	if (branchColorFilter == "branchName")
 	{
 		filterByThisArray = errorAndColorArray;

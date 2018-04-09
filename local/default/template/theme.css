@@ -65,7 +65,7 @@ body{
 .firstBoxDev{
 	width: 300px;
 	height: 50px;
-	background-color: #aaaaaa;
+	background-color: #777777;
 	display: inline-table;
 	margin: 20px;
 	border: 1px solid white;
@@ -74,7 +74,7 @@ body{
 	width: 300px;
 }
 .devBoxTitle{
-	background-color: #DDDDDD;
+	background-color: #aaaaaa;
 	padding: 2px;
 	padding-left: 10px;
 	padding-bottom: 12px;
