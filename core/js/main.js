@@ -133,7 +133,7 @@ function tryHttpActuallyPollLogic(count, name)
 	}
 	if("githubRepo" in arrayOfFiles[count])
 	{
-		folder = arrayOfFiles[count]["githubRepo"];
+		githubRepo = arrayOfFiles[count]["githubRepo"];
 	}
 	var data = {location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"]};
 	var innerData = {};
@@ -380,7 +380,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		addGroup(dataInner["groupInfo"]);
 		$("#main").append(item);
 	}
-	else
+	else if(typeof groupNames !== "undefined")
 	{
 		//check if all classes are there
 		var parentElementOfDiv = document.getElementById("innerFirstDevBox"+noSpaceName).parentElement;
