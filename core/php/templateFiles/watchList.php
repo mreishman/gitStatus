@@ -127,6 +127,7 @@
 		</div>
 		<div id="hidden" style="display: none">
 			<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
+			<input id="watchListNormal" type="text" name="watchListNormal" value="true" >
 		</div>
 	</div>
 </form>

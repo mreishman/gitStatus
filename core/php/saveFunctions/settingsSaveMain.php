@@ -47,7 +47,9 @@ require_once('../loadVars.php');
 			'defaultGroupViewOnLoad'	=> '".$defaultGroupViewOnLoad."',
 			".$arrayFilterAll."
 			'watchList' => array(
-			".$arrayWatchList.")
+			".$arrayWatchList."),
+			'serverWatchList' => array(
+			".$arrayServerWatchList.")
 		);
 	?>";
 

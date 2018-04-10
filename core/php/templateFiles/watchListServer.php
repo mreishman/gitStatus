@@ -113,6 +113,7 @@
 		</div>
 		<div id="hidden" style="display: none">
 			<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
+			<input id="watchListServer" type="text" name="watchListServer" value="true" >
 		</div>
 	</div>
 </form>
