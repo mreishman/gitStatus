@@ -10,7 +10,7 @@
 		</div>
 		<div class="devBoxContent">
 			<ul class="settingsUl">
-			<?php if($pollType === 1): ?>
+			<?php if((int)$pollType === 1): ?>
 				<li><h2>Example:</h2></li>
 				<li class="watchFolderGroups">
 				<span>Poll Version 1</span>
@@ -44,7 +44,7 @@
 				);
 
 				?>
-			<?php elseif($pollType === 2): ?>
+			<?php elseif((int)$pollType === 2): ?>
 				<li class="watchFolderGroups">
 				<span>Poll Version 2</span>
 				<br>

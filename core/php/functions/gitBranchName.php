@@ -6,19 +6,40 @@ require_once("../../../core/php/loadVars.php");
 
 function sendCurl($requestUrl)
 {
-	$ch = curl_init();
-	$headers["Content-Length"] = strlen($postString);
-	$headers["User-Agent"] = "Curl/1.0";
+	try
+	{
+		$ch = curl_init();
+		if (false === $ch)
+		{
+	        throw new Exception('failed to initialize');
+		}
+		$headers["User-Agent"] = "Curl/1.0";
 
-	curl_setopt($ch, CURLOPT_URL, $requestUrl);
-	curl_setopt($ch, CURLOPT_HEADER, false);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2); //timeout in seconds
-	curl_setopt($ch, CURLOPT_TIMEOUT, 2); //timeout in seconds
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	$result = curl_exec($ch);
-	curl_close($ch);
-	return $result;
+		curl_setopt($ch, CURLOPT_URL, $requestUrl);
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3); //timeout in seconds
+		curl_setopt($ch, CURLOPT_TIMEOUT, 3); //timeout in seconds
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+		$result = curl_exec($ch);
+		if (false === $result)
+		{
+	    	throw new Exception(curl_error($ch), curl_errno($ch));
+	    }
+
+	    curl_close($ch);
+		return $result;
+	}
+	catch (Exception $e)
+	{
+		 trigger_error(sprintf(
+        'Curl failed with error #%d: %s',
+        $e->getCode(), $e->getMessage()),
+        E_USER_ERROR);
+	}
 }
 
 function checkForSearch($baseWeb)

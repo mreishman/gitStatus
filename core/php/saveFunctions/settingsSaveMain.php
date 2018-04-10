@@ -26,8 +26,9 @@ require_once('../loadVars.php');
 		$"."config = array(
 			'sliceSize' => ".$sliceSize.",
 			'pollingRate' => ".$pollingRate.",
-			'pollType'	=>	".$pollType.",
+			'pollType'	=>	'".$pollType."',
 			'pausePoll' => '".$pausePoll."',
+			'disablePostRequestWithPostData'	=>	'".$disablePostRequestWithPostData."',
 			'pauseOnNotFocus' => '".$pauseOnNotFocus."',
 			'autoCheckUpdate' => '".$autoCheckUpdate."',
 			'developmentTabEnabled' => '".$developmentTabEnabled."',
