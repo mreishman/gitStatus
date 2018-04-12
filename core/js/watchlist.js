@@ -8,7 +8,26 @@ function addRowFunction()
 	var documentUpdateText = "<li class='watchFolderGroups' id='rowNumber"+countOfWatchList+"'><span class='leftSpacingserverNames' > Name: </span> <input class='inputWidth300' type='text'  name='watchListKey" + countOfWatchList + "' >";
 	for(var i = 0; i < numberOfSubRows; i++)
 	{
-		documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span> <input style='display: none;' type='text' name='watchListItem"+countOfWatchList+"-"+(i+1)+"-Name' value="+arrayOfKeysNonEnc[i]+">   <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >"
+		if(arrayOfKeysNonEnc[i] === "type")
+		{
+			documentUpdateText += " <br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>";
+			documentUpdateText += " <select class='inputWidth300' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >";
+			documentUpdateText += " 		<option value=\"local\" selected >Local</option>";
+			documentUpdateText += " 		<option value=\"external\" >External</option>";
+			documentUpdateText += " </select>";
+		}
+		else if(arrayOfKeysNonEnc[i] === "gitType")
+		{
+			documentUpdateText += " <br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>";
+			documentUpdateText += " <select class='inputWidth300' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >";
+			documentUpdateText += "		<option value=\"github\" selected>GitHub</option>";
+		 	documentUpdateText += "		<option value=\"gitlab\" >GitLab</option>";
+		 	documentUpdateText += " </select>";
+		}
+		else
+		{
+			documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span> <input style='display: none;' type='text' name='watchListItem"+countOfWatchList+"-"+(i+1)+"-Name' value="+arrayOfKeysNonEnc[i]+">   <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >"
+		}
 	}
 	documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+countOfWatchList+'-0" value="'+numberOfSubRows+'"> '
 	documentUpdateText += " <span class='leftSpacingserverNames' ></span> <a class='mainLinkClass'  onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a><span> | </span><a class='mainLinkClass' onclick='testConnection(dataForWatchFolder"+countOfWatchList+");' >Check Connection</a></li><div style='display:inline-block;' id='newRowLocationForWatchList"+countOfClicks+"'></div>";

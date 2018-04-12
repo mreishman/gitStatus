@@ -84,8 +84,8 @@
 		 				elseif($key2 === "gitType"):
 		 					?>
 		 				<select class='inputWidth300' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' >
-		 					<option value="local" <?php if($item[$key2] === "github"){echo "selected"; }?> >GitHub</option>
-		 					<option value="external" <?php if($item[$key2] === "gitLab"){echo "selected"; }?> >GitLab</option>
+		 					<option value="github" <?php if($item[$key2] === "github"){echo "selected"; }?> >GitHub</option>
+		 					<option value="gitlab" <?php if($item[$key2] === "gitlab"){echo "selected"; }?> >GitLab</option>
 		 				</select>
 		 				<?php else: ?>
 		 					<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if (isset($item[$key2])){ echo $item[$key2]; } ?>'>
