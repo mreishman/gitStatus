@@ -209,6 +209,10 @@ function addGroup(groupName)
 		var item = $("#storage .groupEmpty").html();
 		item = item.replace(/{{group}}/g, groupName);
 		$("#groupInfo").append(item);
+		if(document.getElementById("groupInfo").style.display === "none")
+		{
+			document.getElementById("groupInfo").style.display = "block";
+		}
 	}
 }
 
