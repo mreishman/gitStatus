@@ -29,10 +29,15 @@
 				<br>
 				<span class="leftSpacingserverNames" > urlHit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'> 
 				<br>
+ 				<span class="leftSpacingserverNames" > gitType:</span>
+				<select disabled="true" class='inputWidth300' >
+ 					<option value="local" >github</option>
+ 					<option value="external" >gitlab</option>
+ 				</select>
 				</li>
 				<?php
 
-				$approvedArrayKeys = array("Name","WebsiteBase","Folder","Website","githubRepo","groupInfo","urlHit");
+				$approvedArrayKeys = array("Name","WebsiteBase","Folder","Website","githubRepo","groupInfo","urlHit","gitType");
 
 				$defaultArray = array(
 					'WebsiteBase' =>  '',
@@ -40,7 +45,8 @@
 					'Website' =>  '',
 					'githubRepo' =>  '',
 					'groupInfo' =>  '',
-					'urlHit' =>  ''
+					'urlHit' =>  '',
+					'gitType'	=>	'github'
 				);
 
 				?>
@@ -100,8 +106,22 @@
 					 					array_push($arrayOfKeys, $key2);
 					 				}	
 				 				?>
+				 				<?php
+				 				if($key2 === "gitType"):
+				 					$gitType = $item2;
+				 					if(isset($item[$key2]))
+				 					{
+				 						$gitType = $item[$key2];
+				 					}
+				 					?>
+					 				<select class='inputWidth300' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' >
+					 					<option value="github" <?php if($gitType === "github"){echo "selected"; }?> >GitHub</option>
+					 					<option value="gitlab" <?php if($gitType === "gitlab"){echo "selected"; }?> >GitLab</option>
+					 				</select>
+				 				<?php else: ?>
 				 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if(isset($item[$key2])){ echo $item[$key2]; }?>'>
-			 				<?php endif;
+				 				<?php endif;
+			 				endif;
 		 				endforeach; 
 		 				if($numCount < $j)
 		 				{
