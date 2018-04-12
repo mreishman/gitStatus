@@ -17,7 +17,7 @@ function clean_url($url) {
 require_once($baseUrl.'conf/config.php'); 
 require_once('setupProcessFile.php');
 
-if($setupProcess != "step2")
+if($setupProcess != "step3")
 {
 	$partOfUrl = clean_url($_SERVER['REQUEST_URI']);
 	$partOfUrl = substr($partOfUrl, 0, strpos($partOfUrl, 'setup'));
@@ -52,17 +52,17 @@ require_once('../core/php/loadVars.php'); ?>
 <?php readfile('../core/html/popup.html') ?>	
 <div class="firstBoxDev" style="width: 90%; margin: auto; margin-right: auto; margin-left: auto; display: block; height: auto; margin-top: 15px;" >
 	<div class="devBoxTitle">
-		<h1>Step 2 of <?php echo $counterSteps; ?></h1>
+		<h1>Step 3 of <?php echo $counterSteps; ?></h1>
 	</div>
-	<p style="padding: 10px;">Watch List: These are the other instances (or add this instance) of status that you would like to keep track of. Please enter some in the fields below:</p>
+	<p style="padding: 10px;">Server Watch List: These are the local (or remote, if this is a server) folders that are being watched by status. Please enter some in the fields below:</p>
 	<div style="border: 1px solid white; margin-bottom:10px; background-color: #888">
-		<?php require_once('../core/php/templateFiles/watchList.php'); ?>
+		<?php require_once('../core/php/templateFiles/watchListServer.php'); ?>
 	</div>
 	<table style="width: 100%; padding-left: 20px; padding-right: 20px;" ><tr><th style="text-align: right;" >
-		<?php if($counterSteps == 2): ?>
+		<?php if($counterSteps == 3): ?>
 			<a onclick="updateStatus('finished');" class="mainLinkClass">Finish</a>
 		<?php else: ?>
-			<a onclick="updateStatus('step3');" class="mainLinkClass">Continue</a>
+			<a onclick="updateStatus('step4');" class="mainLinkClass">Continue</a>
 		<?php endif; ?>
 	</th></tr></table>
 	<br>
