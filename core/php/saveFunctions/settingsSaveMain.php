@@ -26,7 +26,9 @@ require_once('../loadVars.php');
 		$"."config = array(
 			'sliceSize' => ".$sliceSize.",
 			'pollingRate' => ".$pollingRate.",
+			'pollType'	=>	'".$pollType."',
 			'pausePoll' => '".$pausePoll."',
+			'disablePostRequestWithPostData'	=>	'".$disablePostRequestWithPostData."',
 			'pauseOnNotFocus' => '".$pauseOnNotFocus."',
 			'autoCheckUpdate' => '".$autoCheckUpdate."',
 			'developmentTabEnabled' => '".$developmentTabEnabled."',
@@ -47,7 +49,9 @@ require_once('../loadVars.php');
 			'defaultGroupViewOnLoad'	=> '".$defaultGroupViewOnLoad."',
 			".$arrayFilterAll."
 			'watchList' => array(
-			".$arrayWatchList.")
+			".$arrayWatchList."),
+			'serverWatchList' => array(
+			".$arrayServerWatchList.")
 		);
 	?>";
 

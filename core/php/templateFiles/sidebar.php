@@ -31,6 +31,9 @@
 				<li id="menuBarLeftSettingsWatchList" onclick="window.location.href = 'settings-watchList.php';" >
 				Watch List
 				</li>
+				<li id="menuBarLeftSettingsServerWatchList" onclick="window.location.href = 'settings-watchListServer.php';" >
+				Server Watch
+				</li>
 				<?php if($loginAuthType != 'disabled'): ?>
 					<li id="menuBarLeftSettingsLDPA" onclick="window.location.href = 'settings-auth.php';" >
 					LDPA

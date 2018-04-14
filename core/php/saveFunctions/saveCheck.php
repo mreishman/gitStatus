@@ -57,7 +57,7 @@ $response = true;
 
 
 $arrayWatchList = "";
-if(isset($_POST['numberOfRows']))
+if(isset($_POST['numberOfRows']) && isset($_POST["watchListNormal"]))
 {
 	for($i = 1; $i <= $_POST['numberOfRows']; $i++ )
 	{
@@ -103,6 +103,55 @@ if(isset($_POST['numberOfRows']))
 		}
 	}
 	$watchList = $arrayWatchList;
+}
+
+$arrayServerWatchList = "";
+if(isset($_POST['numberOfRows']) && isset($_POST["watchListServer"]))
+{
+	for($i = 1; $i <= $_POST['numberOfRows']; $i++ )
+	{
+		$arrayServerWatchList .= "'".$_POST['watchListKey'.$i]."' => array(";
+		for($j = 0; $j < $_POST['watchListItem'.$i."-0"]; $j++)
+		{
+			$jP = $j+1;
+			$arrayServerWatchList .= "'".$_POST['watchListItem'.$i."-".$jP."-Name"]."' => '".$_POST['watchListItem'.$i."-".$jP]."'";
+			if($j != ($_POST['watchListItem'.$i."-0"]-1))
+			{
+				$arrayServerWatchList .= ",";
+			}
+		}
+		$arrayServerWatchList .= ")";
+		if($i != $_POST['numberOfRows'])
+		{
+			$arrayServerWatchList .= ",";
+		}
+	}
+	$serverWatchListSave = $arrayServerWatchList;
+	$arrayServerWatchList = "";
+
+	$numberOfRows = count($config['serverWatchList']);
+	$i = 0;
+	foreach ($config['serverWatchList'] as $key => $value) 
+	{
+		$i++;
+		$j = 0;
+		$numberOfRows2 = count($value);
+		$arrayServerWatchList .= "'".$key."' => array(";
+		foreach ($value as $key2 => $value2) {
+			$j++;
+			$arrayServerWatchList .= "'".$key2."' => '".$value2."'";
+			if($j != $numberOfRows2)
+			{
+				$arrayServerWatchList .= ",";
+			}
+		}
+		$arrayServerWatchList .= ")";
+		if($i != $numberOfRows)
+		{
+			$arrayServerWatchList .= ",";
+		}
+	}
+	$serverWatchList = $arrayServerWatchList;
 }
 
 

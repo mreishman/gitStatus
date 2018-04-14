@@ -54,9 +54,36 @@ require_once('../core/php/loadVars.php'); ?>
 	<div class="devBoxTitle">
 		<h1>Step 1 of <?php echo $counterSteps; ?></h1>
 	</div>
-	<p style="padding: 10px;">Watch List: These are the other servers you would like to keep track of. Please enter some in the fields below:</p>
+	<p style="padding: 10px;">Which poll type would you like to use? Poll type 1 or 2?</p>
+	<p style="padding: 10px;">Poll type 1 is for smaller setups where getting poll information is directly between computers. Because this sends more info, it would be consered less secure.</p>
+	<p style="padding: 10px;">Poll type 2 is recommended for larger setups where one computer acts as a server, and gets info from a lot of nodes. This reduces requests made from the host machine. This does, however, require more setup (as there is two watchlists, and config is done on the node as well)</p>
 	<div style="border: 1px solid white; margin-bottom:10px; background-color: #888">
-		<?php require_once('../core/php/templateFiles/watchList.php'); ?>
+		<table width="100%">
+			<tr>
+				<th width="50%">
+					<br>
+					Poll Type 1 <span id="pollTypeOneMessage" <?php if ($pollType !== "1"){echo "style='display: none;'";} ?> >(currently selected)</span>
+					<br>
+					<br>
+					<form  id="pollTypeOne">
+						<button onclick="toggleMessage(1); saveAndVerifyMain('pollTypeTwo');" >Select</button>
+						<input type="hidden" name="pollType" value="1" >
+					</form>
+					<br>
+				</th>
+				<th width="50%">
+					<br>
+					Poll Type 2 <span id="pollTypeTwoMessage" <?php if ($pollType !== "2"){echo "style='display: none;'";} ?> >(currently selected)</span>
+					<br>
+					<br>
+					<form id="pollTypeTwo">
+						<button onclick="toggleMessage(2); saveAndVerifyMain('pollTypeTwo');" >Select</button>
+						<input type="hidden" name="pollType" value="2" >
+					</form>
+					<br>
+				</th>
+			</tr>
+		</table>
 	</div>
 	<table style="width: 100%; padding-left: 20px; padding-right: 20px;" ><tr><th style="text-align: right;" >
 		<?php if($counterSteps == 1): ?>
@@ -71,6 +98,35 @@ require_once('../core/php/loadVars.php'); ?>
 </body>
 <form id="defaultVarsForm" action="../core/php/saveFunctions/settingsSaveMain.php" method="post"></form>
 <script type="text/javascript">
+
+	function updateStatusCustom()
+	{
+		if(document.getElementById("pollTypeTwoMessage").style.display === "block")
+		{
+			//poll type 2, send to 2
+			updateStatus('step2');
+		}
+		else
+		{
+			//skip 2
+			updateStatus('step3');
+		}
+	}
+
+	function toggleMessage(num)
+	{
+		if(num == 2)
+		{
+			document.getElementById("pollTypeTwoMessage").style.display = "block";
+			document.getElementById("pollTypeOneMessage").style.display = "none";
+		}
+		else
+		{
+			document.getElementById("pollTypeTwoMessage").style.display = "none";
+			document.getElementById("pollTypeOneMessage").style.display = "block";
+		}
+	}
+
 	function defaultSettings()
 	{
 		//change setupProcess to finished
@@ -80,20 +136,10 @@ require_once('../core/php/loadVars.php'); ?>
 	function customSettings()
 	{
 		//change setupProcess to page2
-		document.getElementById('settingsMainWatch').action = "../core/php/saveFunctions/settingsSaveMain.php";
-		document.getElementById('settingsMainWatch').submit();
+		location.reload();
 	}
 
-var countOfWatchList = <?php echo $i; ?>;
-var countOfAddedFiles = 0;
-var countOfClicks = 0;
-var locationInsert = "newRowLocationForWatchList";
-var numberOfSubRows = <?php echo $numCount; ?>;
-var arrayOfKeysJsonEncoded = '<?php echo json_encode($arrayOfKeys); ?>';
-var arrayOfKeysNonEnc = JSON.parse(arrayOfKeysJsonEncoded);
-
-
 </script>
-<script src="../core/js/watchlist.js"></script>
 <script src="stepsJavascript.js"></script>
+<script src="../core/js/settingsAll.js"></script>
 </html>

@@ -13,6 +13,14 @@
 	  						<option <?php if($enableDevBranchDownload == 'false'){echo "selected";} ?> value="false">False</option>
 						</select>
 				</li>
+				<li>
+					<span class="leftSpacingserverNames" >Allow PT  V1:</span>
+						<select name="disablePostRequestWithPostData">
+	  						<option <?php if($disablePostRequestWithPostData == 'false'){echo "selected";} ?> value="false">Yes (Not Recommended)</option>
+	  						<option <?php if($disablePostRequestWithPostData == 'true'){echo "selected";} ?> value="true">No (Recommended)</option>
+						</select>
+					<p class="description" >Allows/Disallows the use of other status instances to send V1 requests to this current instance</p>
+				</li>
 				<!-- 
 				<li>
 					<span class="leftSpacingserverNames" >Login Auth:</span>

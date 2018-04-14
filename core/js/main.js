@@ -1,5 +1,6 @@
 var counterForSave = numberOfLogs+1;
 var updating = false;
+var pollTimer = null;
 
 function escapeHTML(unsafeStr)
 {
@@ -13,30 +14,28 @@ function escapeHTML(unsafeStr)
 	
 }
 
-function pollTimed()
+function poll(all = -1, counterForSaveNew = 1)
 {
-	if(!pausePollFile)
-	{
-		poll();
-	}
-}
-
-function poll(all = -1)
-{
-	if(all == '-1')
+	document.getElementById('loadingSpinnerMain').style.display = "block";
+	if(all === -1)
 	{
 		counterForSave = numberOfLogs+1;
 		var arrayOfFilesLength = arrayOfFiles.length
+		$(".loadingSpinnerHeader").css('display', 'inline-block');
+		$(".refreshImageDevBox").css('display', 'none');
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
 			var boolForRun = true;
 			if(onlyRefreshVisible === "true")
 			{
-				var name = "innerFirstDevBoxbranchNameDevBox1"+arrayOfFiles[i][0];
+				var name = "innerFirstDevBoxbranchNameDevBox1"+arrayOfFiles[i]["Name"];
 				name = name.replace(/\s/g, '_');
-				if( document.getElementById(name).parentElement.style.display === "none")
+				if( document.getElementById(name))
 				{
-					boolForRun = false;
+					if( document.getElementById(name).parentElement.style.display === "none")
+					{
+						boolForRun = false;
+					}
 				}
 			}
 			if(boolForRun)
@@ -51,14 +50,14 @@ function poll(all = -1)
 	}
 	else
 	{
-		counterForSave = 1;
+		counterForSave = counterForSaveNew;
 		tryHTTPForPollRequest(all);
 	}
 }
 
 function tryHTTPForPollRequest(count)
 {
-	var name = "branchNameDevBox1"+arrayOfFiles[count][0];
+	var name = "branchNameDevBox1"+arrayOfFiles[count]["Name"];
 	name = name.replace(/\s/g, '_');
 	var doPollLogic = true;
 	if(arrayOfWatchFilters && arrayOfWatchFilters[name])
@@ -95,31 +94,68 @@ function tryHTTPForPollRequest(count)
 		pollCompleteLogic();
 	}
 }
-
 function tryHttpActuallyPollLogic(count, name)
 {
-	var urlForSend = 'http://'+arrayOfFiles[count][1]+'/status/core/php/functions/gitBranchName.php?format=json';
-	if(arrayOfFiles[count][6] !== "")
+	var urlForSend = 'http://'+arrayOfFiles[count]["WebsiteBase"]+'/status/core/php/functions/gitBranchName.php?format=json';
+	if(arrayOfFiles[count]["urlHit"] !== "")
 	{
-		urlForSend = 'http://'+arrayOfFiles[count][6]+'?format=json';
+		urlForSend = 'http://'+arrayOfFiles[count]["urlHit"]+'?format=json';
 	}
-	document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
-	var data = {location: arrayOfFiles[count][2], name, githubRepo: arrayOfFiles[count][4], urlForSend ,websiteBase: arrayOfFiles[count][1]};
-		(function(_data){
-				$.ajax({
-				url: urlForSend,
-				dataType: 'json',
-				global: false,
-				data,
-				type: 'POST',
-				success: function(data){
-					pollSuccess(data, _data);
-				},
-				error: function(xhr, error){
-					tryHTTPSForPollRequest(_data);
-				}
-			});
-		}(data));
+	if(document.getElementById(name))
+	{
+		document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
+		document.getElementById(name+"spinnerDiv").style.display = "none";
+	}
+	var id = name.replace("branchNameDevBox1", "");
+	var subBoxes = document.getElementsByClassName(id);
+	var countOfSubServers = subBoxes.length;
+	if(countOfSubServers > 0)
+	{
+		for(var i = 0; i < countOfSubServers; i++)
+		{
+			var nameForBackground = subBoxes[i].getElementsByClassName("innerFirstDevBox")[0].id;
+			var noSpaceName = nameForBackground.replace("innerFirstDevBox", "");
+
+			if(document.getElementById(noSpaceName))
+			{
+				document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "inline-block";
+				document.getElementById(noSpaceName+"spinnerDiv").style.display = "none";
+			}
+		}
+	}
+	loadingSpinnerText.innerHTML = (counterForSave);
+	document.getElementById("refreshDiv").style.display = "none";
+	var folder = "";
+	var githubRepo = "";
+	if("Folder" in arrayOfFiles[count])
+	{
+		folder = arrayOfFiles[count]["Folder"];
+	}
+	if("githubRepo" in arrayOfFiles[count])
+	{
+		githubRepo = arrayOfFiles[count]["githubRepo"];
+	}
+	var data = {location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"]};
+	var innerData = {};
+	if(pollType == 1)
+	{
+		innerData = data;
+	}
+	(function(_data){
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data: innerData,
+			type: 'POST',
+			success: function(data){
+				pollSuccess(data, _data);
+			},
+			error: function(xhr, error){
+				tryHTTPSForPollRequest(_data);
+			}
+		});
+	}(data));
 }
 
 
@@ -127,14 +163,18 @@ function tryHTTPSForPollRequest(_data)
 {
 	var urlForSend = _data.urlForSend;
 	urlForSend = urlForSend.replace("http","https");
-	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase};
-	
+	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase, id: _data.id};
+	var innerData = {};
+	if(pollType == 1)
+	{
+		innerData = data;
+	}
 		(function(_data){
 			$.ajax({
 				url: urlForSend,
 				dataType: 'json',
 				global: false,
-				data,
+				data: innerData,
 				type: 'POST',
 				success: function(data){
 					pollSuccess(data, _data);
@@ -152,12 +192,34 @@ function showPopupWithMessage(type, message)
 	document.getElementById('popupContentInnerHTMLDiv').innerHTML = "<div class='devBoxTitle' ><b>"+type+"</b></div><br><br><div style='width:100%;text-align:center;'>"+message+"<br><br><a class='buttonButton' onclick='hidePopup();'>Ok</a></div>";
 }
 
-function pollCompleteLogic()
+function decreaseSpinnerCounter()
 {
 	document.getElementById('loadingSpinnerMain').style.display = "block";
 	var loadingSpinnerText = document.getElementById('loadingSpinnerText');
-	loadingSpinnerText.innerHTML = ((counterForSave-1))
 	counterForSave--;
+	loadingSpinnerText.innerHTML = (counterForSave);
+	return loadingSpinnerText;
+}
+
+function addGroup(groupName)
+{
+	if(arrayOfGroups.indexOf(groupName) === -1)
+	{
+		arrayOfGroups.push(groupName);
+		var item = $("#storage .groupEmpty").html();
+		item = item.replace(/{{group}}/g, groupName);
+		$("#groupInfo").append(item);
+		if(document.getElementById("groupInfo").style.display === "none")
+		{
+			document.getElementById("groupInfo").style.display = "block";
+		}
+	}
+}
+
+function pollCompleteLogic()
+{
+	document.getElementById('loadingSpinnerMain').style.display = "block";
+	var loadingSpinnerText = decreaseSpinnerCounter();
 	if(counterForSave < 1)
 	{
 		if(cacheEnabled === "true")
@@ -176,9 +238,11 @@ function pollCompleteLogic()
 					global: false,
 					data: data,
 					type: 'POST',
-					complete: function(data){
+					complete: function(data)
+					{
 						document.getElementById('loadingSpinnerMain').style.display = "none";
-						loadingSpinnerText.innerHTML = ""
+						loadingSpinnerText.innerHTML = "";
+						document.getElementById("refreshDiv").style.display = "inline-block";
 						}
 					});
 				}(data));
@@ -195,12 +259,32 @@ function pollFailure(xhr, error, dataInnerPass)
 {
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
 	var nameForBackground = "innerFirstDevBox"+noSpaceName;
-	document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
+	if(document.getElementById(nameForBackground))
+	{
+		pollFailureInner(xhr, error, noSpaceName, nameForBackground);
+	}
+	else
+	{
+		//get all with class of id
+		var subBoxes = document.getElementsByClassName(dataInnerPass["id"]);
+		var countOfBoxes = subBoxes.length;
+		for(var i = 0; i < countOfBoxes; i++)
+		{
+			nameForBackground = subBoxes[i].getElementsByClassName("innerFirstDevBox")[0].id;
+			noSpaceName = nameForBackground.replace("innerFirstDevBox", "");
+			pollFailureInner(xhr, error, noSpaceName, nameForBackground);
+		}
+	}
+}
+
+function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
+{
+	switchToColorLed(noSpaceName, "red");
 	document.getElementById(noSpaceName+'redwWarning').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
 	document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
 	document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
     document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
-    if(document.getElementById(noSpaceName+'Stats').innerHTML != JSON.stringify(error) && document.getElementById(noSpaceName+'Stats').innerHTML == "")
+    if(document.getElementById(noSpaceName+'Stats').innerHTML != JSON.stringify(error) && document.getElementById(noSpaceName+'Stats').innerHTML == "--Pending--")
 	{
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
 	    var dataBranchForFileUpdateTime = '<span id="'+noSpaceName+'Update";">'+JSON.stringify(xhr)+'</span>';
@@ -221,7 +305,8 @@ function pollFailure(xhr, error, dataInnerPass)
 				messageTextEnabled: false,
 				messageText: null,
 				enableBlockUntilDate: false,
-				datePicker: null
+				datePicker: null,
+				groupInfo: ""
 			};
 	}
 	else
@@ -234,31 +319,141 @@ function pollFailure(xhr, error, dataInnerPass)
 		}
 		arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
 		arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
+		arrayOfWatchFilters[noSpaceName]["groupInfo"] = "";
 	}
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
+	document.getElementById(noSpaceName+"spinnerDiv").style.display = "inline-block";
+	document.getElementById("refreshDiv").style.display = "inline-block";
 	pollCompleteLogic();
 }
 
 function pollSuccess(dataInner, dataInnerPass)
 {
+	if(pollType === "1")
+	{
+		pollSuccessInner(dataInner, dataInnerPass, {});
+	}
+	else if(pollType === "2")
+	{
+		if("info" in dataInner)
+		{
+			decreaseSpinnerCounter();
+			var keysInfo = Object.keys(dataInner["info"]);
+			var keysInfoLength = keysInfo.length;
+			for(var i = 0; i < keysInfoLength; i++)
+			{
+				var name = "branchNameDevBox1"+keysInfo[i];
+				dataInner["info"][keysInfo[i]]["name"] = name.replace(/\s/g, '_');
+				pollSuccessInner(dataInner["info"][keysInfo[i]],dataInner["info"][keysInfo[i]], dataInnerPass)
+			}
+		}
+		else
+		{
+			pollFailure("Error","Incorrect Poll Request Type", dataInnerPass);
+		}
+	}
+}
+
+function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
+{
 	var dataToFilterBy = "error";
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
+	var groupNames = dataInner["groupInfo"];
+	if("id" in dataInnerPassMaster)
+	{
+		groupNames	+= " " + dataInnerPassMaster["id"];
+	}
+	if(!document.getElementById(noSpaceName))
+	{
+		//no there, add
+		var item = $("#storage .container").html();
+		item = item.replace(/{{keyNoSpace}}/g, noSpaceName);
+		if(!$('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
+		{
+			item = item.replace(/{{branchView}}/g, "devBoxContentSecondary");
+		}
+		if(!$('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
+		{
+			item = item.replace(/{{branchView}}/g, "devBoxContentSecondaryExpanded");
+		}
+		item = item.replace(/{{name}}/g,dataInner["displayName"]);
+		item = item.replace(/{{website}}/g,"#");
+		item = item.replace(/{{branchView}}/g,branchView);
+
+		item = item.replace(/{{groupInfo}}/g,groupNames);
+		addGroup(dataInner["groupInfo"]);
+		$("#main").append(item);
+	}
+	else if(typeof groupNames !== "undefined")
+	{
+		//check if all classes are there
+		var parentElementOfDiv = document.getElementById("innerFirstDevBox"+noSpaceName).parentElement;
+		var listOfClasses = parentElementOfDiv.classList;
+		var listOfClassesLength = listOfClasses.length;
+		var groupNamesArray = groupNames.split(" ");
+		var groupNamesArrayLength = groupNamesArray.length;
+		for(var i = 0; i < groupNamesArrayLength; i++)
+		{
+			var grouName = groupNamesArray[i].trim();
+			var found = false;
+			for(var j = 0; j < listOfClassesLength; j++)
+			{
+				var classNameTest = listOfClasses[j].trim();
+				if(classNameTest === grouName)
+				{
+					found = true;
+					break;
+				}
+			}
+			if(!found)
+			{
+				parentElementOfDiv.className += parentElementOfDiv.className ? " "+grouName  : grouName;
+			}
+		}
+	}
 	document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
 	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
-		document.getElementById(noSpaceName+'redwWarning').style.display = "none";
+		switchToColorLed(noSpaceName, "green");
 		document.getElementById(noSpaceName+'errorMessageLink').style.display = "none";
-		document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
 		document.getElementById(noSpaceName+'noticeMessageLink').style.display = "none";
 		var dataStats = dataInner['stats'].replace("','", "'"+'&#44;'+"'");
 	    var dataStats = dataStats.split(", <");
-	    var dataBranchForFile = '<span id="'+noSpaceName+'";">';
-	    if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+	    var repoName = "";
+	    var repoDataPresent = ((typeof dataInner["githubRepo"] !== "undefined" && dataInner["githubRepo"] != 'undefined') && (dataInner["githubRepo"] != ''));
+	    if(!repoDataPresent)
 	    {
-	    	dataBranchForFile += '<a style="color: black;" href="https://github.com/'+dataInnerPass["githubRepo"]+'/tree/'+dataInner['branch']+'">';
+	    	repoDataPresent = ((typeof dataInnerPass["githubRepo"] !== "undefined" && dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''));
+	    	if(repoDataPresent)
+	    	{
+	    		repoName = dataInnerPass["githubRepo"];
+	    	}
+	    }
+	    else
+	    {
+	    	repoName = dataInner["githubRepo"];
+	    }
+	    
+	    var baseRepoUrl = "github.com"
+	    if("gitType" in dataInner)
+	    {
+	    	var gitType = dataInner["gitType"];
+	    	if(gitType === "github")
+	    	{
+	    		baseRepoUrl = "github.com";
+	    	}
+	    	else if(gitType === "gitlab")
+	    	{
+	    		baseRepoUrl = "gitlab.com";
+	    	}
+	    }
+	    var dataBranchForFile = '<span id="'+noSpaceName+'";">';
+	    if(repoDataPresent)
+	    {
+	    	dataBranchForFile += '<a style="color: black;" href="https://'+baseRepoUrl+'/'+repoName+'/tree/'+dataInner['branch']+'">';
 	    }
 	    dataBranchForFile += dataInner['branch'];
-	    if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+	    if(repoDataPresent)
 	    {
 	    	dataBranchForFile += '</a>';
 	    }
@@ -278,120 +473,111 @@ function pollSuccess(dataInner, dataInnerPass)
 	    	dataBranchForFileStats += "<br><br>";
 	    }
 	    dataBranchForFileStats +='</span>';
-	    if(checkForIssueInCommit == "true")
+	    if(repoDataPresent)
 	    {
-		    for (var i = 0, len = dataBranchForFileStats.length; i < len; i++) 
+		    if(checkForIssueInCommit == "true")
 		    {
-			  if(dataBranchForFileStats[i] == "#")
-			  {
-			  	if(!isNaN(dataBranchForFileStats[i+1]))
-			  	{
-			  		if(dataBranchForFileStats[i-1] != "&")
-			  		{
-			  			var j = 1;
-				  		var num = "";
-				  		if(dataBranchForFileStats[i+j] != " " && (!isNaN(dataBranchForFileStats[i+j])))
+			    for (var i = 0, len = dataBranchForFileStats.length; i < len; i++) 
+			    {
+				  if(dataBranchForFileStats[i] == "#")
+				  {
+				  	if(!isNaN(dataBranchForFileStats[i+1]))
+				  	{
+				  		if(dataBranchForFileStats[i-1] != "&")
 				  		{
-				  			while((!isNaN(dataBranchForFileStats[i+j])) && dataBranchForFileStats[i+j] != " ")
+				  			var j = 1;
+					  		var num = "";
+					  		if(dataBranchForFileStats[i+j] != " " && (!isNaN(dataBranchForFileStats[i+j])))
 					  		{
-					  			num += dataBranchForFileStats[i+j];
-					  			j++;
-					  		}
-					  		if(!isNaN(num));
-					  		{
-					  			if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
-					  			{
-					  				link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
+					  			while((!isNaN(dataBranchForFileStats[i+j])) && dataBranchForFileStats[i+j] != " ")
+						  		{
+						  			num += dataBranchForFileStats[i+j];
+						  			j++;
+						  		}
+						  		if(!isNaN(num));
+						  		{
+					  				link = '<a style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
 						  			dataBranchForFile += " "+link;
 						  			linksFromCommitMessage.push(num.toString());
 							  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
 							  		len = dataBranchForFileStats.length;
 							  		i = i + link.length;
-					  			}
+						  		}
 					  		}
 				  		}
-			  		}
-			  	}
-			  }
-			}
-		}
-		//loop through filters, if match -> get number, add to title if != link
-
-		
-		//num for start
-		if(checkForIssueStartsWithNum == "true")
-		{
-			var numForStart = "";
-			var countForStartLoop = 0;
-			var branchName = dataInner['branch'];
-			while(!isNaN(branchName.charAt(countForStartLoop)) && countForStartLoop != (branchName.length))
-			{
-				//starts with number
-				numForStart += branchName.charAt(countForStartLoop);
-				countForStartLoop++;
-			}
-
-			if(numForStart != "" && (linksFromCommitMessage.indexOf(numForStart) == -1))
-			{
-				if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
-				{
-					link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForStart+'">#'+numForStart+'</a>';
-					dataBranchForFile += " "+link;
+				  	}
+				  }
 				}
 			}
-		}
+			//loop through filters, if match -> get number, add to title if != link
 
-		
-		//num for end
-		if(checkForIssueEndsWithNum == "true")
-		{
-			var numForEnd = "";
-			var countForEndLoop = branchName.length - 1;
 			
-			while(!isNaN(branchName.charAt(countForEndLoop)) && countForEndLoop != 0)
+			//num for start
+			if(checkForIssueStartsWithNum == "true")
 			{
-				numForEnd += branchName.charAt(countForEndLoop);
-				countForEndLoop--;
-			}
-			numForEnd = reverseString(numForEnd);
-
-			if(numForEnd != "" && (linksFromCommitMessage.indexOf(numForEnd) == -1) && numForEnd != numForStart)
-			{
-				if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+				var numForStart = "";
+				var countForStartLoop = 0;
+				var branchName = dataInner['branch'];
+				while(!isNaN(branchName.charAt(countForStartLoop)) && countForStartLoop != (branchName.length))
 				{
-					link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForEnd+'">#'+numForEnd+'</a>';
+					//starts with number
+					numForStart += branchName.charAt(countForStartLoop);
+					countForStartLoop++;
+				}
+
+				if(numForStart != "" && (linksFromCommitMessage.indexOf(numForStart) == -1))
+				{
+					link = '<a style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForStart+'">#'+numForStart+'</a>';
 					dataBranchForFile += " "+link;
 				}
 			}
-		}
 
-		//other
-		if(checkForIssueCustom == "true")
-		{
-			var arrayOfFilters = ["Issue","issue","Issue_","issue_","Issue-","issue-","revert-"];
-			var arrayOfFiltersLength =  arrayOfFilters.length;
-			for(var i = 0; i < arrayOfFiltersLength; i++)
+			
+			//num for end
+			if(checkForIssueEndsWithNum == "true")
 			{
-				var branchNameTMP = branchName;
-				while(branchNameTMP.includes(arrayOfFilters[i]))
+				var numForEnd = "";
+				var countForEndLoop = branchName.length - 1;
+				
+				while(!isNaN(branchName.charAt(countForEndLoop)) && countForEndLoop != 0)
 				{
-					var numForcalc = (branchNameTMP.indexOf(arrayOfFilters[i]) + arrayOfFilters[i].length);
-					var numForLinkIssue = "";
-					while(!isNaN(branchNameTMP.charAt(numForcalc)) && numForcalc != (branchNameTMP.length))
-					{
-						numForLinkIssue += branchNameTMP.charAt(numForcalc);
-						numForcalc++;
-					}
+					numForEnd += branchName.charAt(countForEndLoop);
+					countForEndLoop--;
+				}
+				numForEnd = reverseString(numForEnd);
 
-					if(numForLinkIssue != "" && (linksFromCommitMessage.indexOf(numForLinkIssue) == -1) && numForLinkIssue != numForStart && numForLinkIssue != numForEnd)
+				if(numForEnd != "" && (linksFromCommitMessage.indexOf(numForEnd) == -1) && numForEnd != numForStart)
+				{
+					link = '<a style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForEnd+'">#'+numForEnd+'</a>';
+					dataBranchForFile += " "+link;
+				}
+			}
+
+			//other
+			if(checkForIssueCustom == "true")
+			{
+				var arrayOfFilters = ["Issue","issue","Issue_","issue_","Issue-","issue-","revert-"];
+				var arrayOfFiltersLength =  arrayOfFilters.length;
+				for(var i = 0; i < arrayOfFiltersLength; i++)
+				{
+					var branchNameTMP = branchName;
+					while(branchNameTMP.includes(arrayOfFilters[i]))
 					{
-						if((dataInnerPass["githubRepo"] != 'undefined') && (dataInnerPass["githubRepo"] != ''))
+						var numForcalc = (branchNameTMP.indexOf(arrayOfFilters[i]) + arrayOfFilters[i].length);
+						var numForLinkIssue = "";
+						while(!isNaN(branchNameTMP.charAt(numForcalc)) && numForcalc != (branchNameTMP.length))
 						{
-							link = '<a style="color: black;"  href="https://github.com/'+dataInnerPass["githubRepo"]+'/issues/'+numForLinkIssue+'">#'+numForLinkIssue+'</a>';
+							numForLinkIssue += branchNameTMP.charAt(numForcalc);
+							numForcalc++;
+						}
+
+						if(numForLinkIssue != "" && (linksFromCommitMessage.indexOf(numForLinkIssue) == -1) && numForLinkIssue != numForStart && numForLinkIssue != numForEnd)
+						{
+							link = '<a style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForLinkIssue+'">#'+numForLinkIssue+'</a>';
 							dataBranchForFile += " "+link;
 						}
+						branchNameTMP = branchNameTMP.substring(numForcalc);
 					}
-					branchNameTMP = branchNameTMP.substring(numForcalc);
 				}
 			}
 		}
@@ -422,7 +608,8 @@ function pollSuccess(dataInner, dataInnerPass)
 				messageTextEnabled: false,
 				messageText: null,
 				enableBlockUntilDate: false,
-				datePicker: null
+				datePicker: null,
+				groupInfo: groupNames
 			};
 		}
 		else
@@ -435,6 +622,7 @@ function pollSuccess(dataInner, dataInnerPass)
 				//was error
 				arrayOfWatchFilters[noSpaceName]["errorStatus"] = false;
 			}
+			arrayOfWatchFilters[noSpaceName]["groupInfo"] = groupNames;
 
 		}
 		
@@ -486,12 +674,12 @@ function pollSuccess(dataInner, dataInnerPass)
 			}
 			if(dataInner['messageTextEnabled'] == 'true' || dataInner['enableBlockUntilDate'] == 'true')
 			{
-				document.getElementById(noSpaceName+'yellowWarning').style.display = "inline-block";
+				switchToColorLed(noSpaceName, "yellow");
 				document.getElementById(noSpaceName+'NoticeMessage').style.display = "inline-block";
 			}
 			else
 			{
-				document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
+				switchToColorLed(noSpaceName, "green");
 				document.getElementById(noSpaceName+'NoticeMessage').style.display = "none";
 			}
 		}
@@ -526,7 +714,7 @@ function pollSuccess(dataInner, dataInnerPass)
 			errorMessage = "Location var is too long.";
 		}
 		//assume no data was recieved
-		document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
+		switchToColorLed(noSpaceName, "red");
 		document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
 		document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error',errorMessage)};
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
@@ -544,7 +732,8 @@ function pollSuccess(dataInner, dataInnerPass)
 				messageTextEnabled: false,
 				messageText: null,
 				enableBlockUntilDate: false,
-				datePicker: null
+				datePicker: null,
+				groupInfo: ""
 			};
 		}
 		else
@@ -557,11 +746,38 @@ function pollSuccess(dataInner, dataInnerPass)
 			}
 			arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
 			arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
+			arrayOfWatchFilters[noSpaceName]["groupInfo"] = "";
 		}
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
+	document.getElementById(noSpaceName+"spinnerDiv").style.display = "inline-block";
 	pollCompleteLogic();
+}
+
+function switchToColorLed(noSpaceName, type)
+{
+	if(document.getElementById(noSpaceName+'redwWarning'))
+	{
+		if(type === "red")
+		{
+			document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
+			document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
+			document.getElementById(noSpaceName+'greenNotice').style.display = "none";
+		}
+		else if(type === "yellow")
+		{
+			document.getElementById(noSpaceName+'redwWarning').style.display = "none";
+			document.getElementById(noSpaceName+'yellowWarning').style.display = "inline-block";
+			document.getElementById(noSpaceName+'greenNotice').style.display = "none";
+		}
+		else
+		{
+			document.getElementById(noSpaceName+'redwWarning').style.display = "none";
+			document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
+			document.getElementById(noSpaceName+'greenNotice').style.display = "inline-block";
+		}
+	}
 }
 
 function displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats)
@@ -582,7 +798,7 @@ function filterBGColor(filterName, idName, opacity)
 {
 	var newBG = false;
 	var filterByThisArray = [];
-	var defaultColor = "#aaaaaa";
+	var defaultColor = "#777777";
 	if (branchColorFilter == "branchName")
 	{
 		filterByThisArray = errorAndColorArray;
@@ -640,65 +856,89 @@ function filterBGColor(filterName, idName, opacity)
 
 var refreshing = false;
 
-function refreshAction(refreshImage, all = -1, status = 'outer')
+function refreshAction(all = -1, status = 'outer')
 {
 	if(refreshing == false)
 	{
+		clearInterval(pollTimer);
+		startPoll();
 		clearTimeout(refreshActionVar);
-		if(status == "inner")
+		var counterNew = 0;
+		var refreshNum = parseInt(all);
+		if(refreshNum !== -1)
 		{
-			document.getElementById(refreshImage).src="core/img/refresh-animated-2.gif";
+			if(isNaN(refreshNum))
+			{
+				var refreshName = all;
+				//this is string, find in fileArray
+				var foundInFileArray = false;
+				var lengthOfFileArray = arrayOfFiles.length;
+				for(var i = 0; i < lengthOfFileArray; i++)
+				{
+					var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
+					if(noSpaceName === refreshName)
+					{
+						refreshNum = i;
+						foundInFileArray = true;
+						break;
+					}
+				}
+
+				if(!foundInFileArray)
+				{
+					//look for groups with ID of master server
+					if(document.getElementById("innerFirstDevBox"+refreshName))
+					{
+						var listOfClasses = document.getElementById("innerFirstDevBox"+refreshName).parentElement.classList;
+						var classListLength = listOfClasses.length;
+						var found = false;
+						for(var i = 0; i < classListLength; i++)
+						{
+							var lengthOfFileArray = arrayOfFiles.length;
+							for(var j = 0; j < lengthOfFileArray; j++)
+							{
+								var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
+								if(noSpaceName === listOfClasses[j])
+								{
+									refreshNum = j;
+									found = true;
+									break;
+								}
+							}
+							if(found)
+							{
+								break;
+							}
+						}
+
+						if(found)
+						{
+							var classNameFound = arrayOfFiles[refreshNum]["Name"].replace(/\s/g, '');
+							listOfClasses = document.getElementsByClassName(classNameFound);
+							classListLength = listOfClasses.length;
+							for(var i = 0; i < classListLength; i++)
+							{
+								counterNew++;
+							} 
+						}
+					}
+				}
+			}
 		}
-		else
+		if(isNaN(refreshNum))
 		{
-			//outer default
-			document.getElementById(refreshImage).src="core/img/refresh-animated.gif";
+			refreshNum = -1;
 		}
-		
 		refreshing = true;
-		if(pausePoll)
-		{
-			clearTimeout(refreshPauseActionVar);
-			pausePoll = false;
-			if(all == '-1')
-			{
-				poll();
-			}
-			else
-			{
-				poll(all);	
-			}
-			refreshPauseActionVar = setTimeout(function(){pausePoll = true;}, 1000);
-		}
-		else
-		{
-			if(all == '-1')
-			{
-				poll();
-			}
-			else
-			{
-				poll(all);	
-			}
-		}
-		refreshActionVar = setTimeout(function(){endRefreshAction(refreshImage, status)}, 1500);
+		poll(refreshNum, counterNew);
+		refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
 	}
 }
 
-function endRefreshAction(refreshImage, status)
-{
-	if(status == "inner")
-	{
-		document.getElementById(refreshImage).src="core/img/Refresh2.png"; 
-	}
-	else
-	{
-		//outer default
-		document.getElementById(refreshImage).src="core/img/Refresh.png"; 
-	}
-	
+function endRefreshAction()
+{	
 	refreshing = false;
-	if(pausePoll)
+	if(isPaused())
 	{
 		document.title = "Git Status | Paused";
 	}
@@ -712,57 +952,83 @@ $( document ).ready(function()
 {
 	poll();
 	pollingRate = pollingRate * 60000; 
-	setInterval(pollTimed, pollingRate);
+	
+
+	if (autoCheckUpdate == true)
+	{
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+
+		if(dd<10) {
+		    dd='0'+dd
+		} 
+
+		if(mm<10) {
+		    mm='0'+mm
+		} 
+
+		today = mm+'-'+dd+'-'+yyyy;
+		if(today != dateOfLastUpdate)
+		{
+			checkForUpdateDefinitely();
+		}
+	}
+
+	if(pausePollFromFile !== "true")
+	{
+		startPoll();
+	}
+
 });
 
-if (autoCheckUpdate == true)
+function togglePlayPause()
 {
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth()+1; //January is 0!
-	var yyyy = today.getFullYear();
-
-	if(dd<10) {
-	    dd='0'+dd
-	} 
-
-	if(mm<10) {
-	    mm='0'+mm
-	} 
-
-	today = mm+'-'+dd+'-'+yyyy;
-	if(today != dateOfLastUpdate)
+	if(!isPaused())
 	{
-		checkForUpdateDefinitely();
+		document.getElementById("pauseImage").style.display = "none";
+		document.getElementById("playImage").style.display = "inline-block";
+	}
+	else
+	{
+		document.getElementById("pauseImage").style.display = "inline-block";
+		document.getElementById("playImage").style.display = "none";
 	}
 }
 
-if(pausePollFromFile)
+function isPaused()
 {
-	pausePollFile = true;
-	document.getElementById('pauseImage').src="core/img/Play.png";
+	if(document.getElementById("pauseImage").style.display !== "none")
+	{
+		return false;
+	}
+	return true;
 }
 
 function pausePollAction()
 {
-	if(pausePollFile)
+	if(isPaused())
 	{
-		userPaused = false;
-		pausePollFile = false;
-		document.getElementById('pauseImage').src="core/img/Pause.png";
+		togglePlayPause();
+		startPoll();
 	}
 	else
 	{
-		userPaused = true;
 		pausePollFunction();
 	}
 }
 
 function pausePollFunction()
 {
-	pausePollFile = true;
-	document.getElementById('pauseImage').src="core/img/Play.png";
+	togglePlayPause();
 	document.title = "Status | Paused";
+	clearInterval(pollTimer);
+}
+
+function startPoll()
+{
+	pollTimer = setInterval(poll, pollingRate);
 }
 
 function switchToStandardView() 

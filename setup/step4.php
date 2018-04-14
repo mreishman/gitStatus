@@ -17,7 +17,7 @@ function clean_url($url) {
 require_once($baseUrl.'conf/config.php'); 
 require_once('setupProcessFile.php');
 
-if($setupProcess != "step2")
+if($setupProcess != "step4")
 {
 	$partOfUrl = clean_url($_SERVER['REQUEST_URI']);
 	$partOfUrl = substr($partOfUrl, 0, strpos($partOfUrl, 'setup'));
@@ -52,17 +52,17 @@ require_once('../core/php/loadVars.php'); ?>
 <?php readfile('../core/html/popup.html') ?>	
 <div class="firstBoxDev" style="width: 90%; margin: auto; margin-right: auto; margin-left: auto; display: block; height: auto; margin-top: 15px;" >
 	<div class="devBoxTitle">
-		<h1>Step 2 of <?php echo $counterSteps; ?></h1>
+		<h1>Step 4 of <?php echo $counterSteps; ?></h1>
 	</div>
-	<p style="padding: 10px;">Watch List: These are the other instances (or add this instance) of status that you would like to keep track of. Please enter some in the fields below:</p>
+	<p style="padding: 10px;">More Settings:</p>
 	<div style="border: 1px solid white; margin-bottom:10px; background-color: #888">
-		<?php require_once('../core/php/templateFiles/watchList.php'); ?>
+		<?php require_once('../core/php/templateFiles/settingsMain.php');?>
 	</div>
 	<table style="width: 100%; padding-left: 20px; padding-right: 20px;" ><tr><th style="text-align: right;" >
-		<?php if($counterSteps == 2): ?>
+		<?php if($counterSteps == 4): ?>
 			<a onclick="updateStatus('finished');" class="mainLinkClass">Finish</a>
 		<?php else: ?>
-			<a onclick="updateStatus('step3');" class="mainLinkClass">Continue</a>
+			<a onclick="updateStatus('step5');" class="mainLinkClass">Continue</a>
 		<?php endif; ?>
 	</th></tr></table>
 	<br>
@@ -79,21 +79,10 @@ require_once('../core/php/loadVars.php'); ?>
 
 	function customSettings()
 	{
-		//change setupProcess to page2
-		document.getElementById('settingsMainWatch').action = "../core/php/saveFunctions/settingsSaveMain.php";
-		document.getElementById('settingsMainWatch').submit();
+		//change setupProcess to page1
+		document.getElementById('settingsMainVars').action = "../core/php/saveFunctions/settingsSaveMain.php";
+		document.getElementById('settingsMainVars').submit();
 	}
-
-var countOfWatchList = <?php echo $i; ?>;
-var countOfAddedFiles = 0;
-var countOfClicks = 0;
-var locationInsert = "newRowLocationForWatchList";
-var numberOfSubRows = <?php echo $numCount; ?>;
-var arrayOfKeysJsonEncoded = '<?php echo json_encode($arrayOfKeys); ?>';
-var arrayOfKeysNonEnc = JSON.parse(arrayOfKeysJsonEncoded);
-
-
 </script>
-<script src="../core/js/watchlist.js"></script>
 <script src="stepsJavascript.js"></script>
 </html>

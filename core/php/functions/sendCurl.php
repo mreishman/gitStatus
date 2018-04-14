@@ -15,6 +15,7 @@ $result = sendCurl($url);
 if(!$result)
 {
 	$url = "http://".$_POST['sendUrlHere'];
+	$result = sendCurl($url);
 }
 
 echo json_encode($result);
