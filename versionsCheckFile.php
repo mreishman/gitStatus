@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '1.5.3',
+	'version'		=> '2.0',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -46,6 +46,10 @@ $versionCheckArray = array(
 		'1.5.3'		=> array(
 			'branchName'	=> '1.5.3Update',
 			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Fix with error display from poll request</li></ul></li></ul>'
+		),
+		'2.0'		=> array(
+			'branchName'	=> '2.0Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>Changed poll method (for server / node setup)</li><li>Added second watchlist (first is a list of servers, second is a list of watch folders)</li><li>Option to change between github to gitlab</li></ul></li><li>Bug Fixes<ul><li>Changed pause to clear timer</li><li>New groups added on first load</li></ul></li></ul>'
 		),
 	)
 );
