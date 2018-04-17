@@ -198,7 +198,12 @@ else
 				$url = "http://".$sendUrlHere;
 				$result = sendCurl($url);
 			}
-			array_merge($response["info"], $result["info"]);
+			$result = rtrim($result, "\0");
+			$result =  json_decode($result, true);
+			foreach($result["info"] as $key2 => $data2)
+			{
+				$response["info"][$key2] = $data2;
+			}
 		}
 	}
 }
