@@ -35,10 +35,13 @@ function sendCurl($requestUrl)
 	}
 	catch (Exception $e)
 	{
-		 trigger_error(sprintf(
-        'Curl failed with error #%d: %s',
-        $e->getCode(), $e->getMessage()),
-        E_USER_ERROR);
+		if(false)
+		{
+			trigger_error(sprintf(
+        	'Curl failed with error #%d: %s',
+       		$e->getCode(), $e->getMessage()),
+        	E_USER_ERROR);
+		}
 	}
 }
 
@@ -198,11 +201,17 @@ else
 				$url = "http://".$sendUrlHere;
 				$result = sendCurl($url);
 			}
-			$result = rtrim($result, "\0");
-			$result =  json_decode($result, true);
-			foreach($result["info"] as $key2 => $data2)
+			if($result)
 			{
-				$response["info"][$key2] = $data2;
+				$result = rtrim($result, "\0");
+				$result =  json_decode($result, true);
+				if($result && $result["info"])
+				{
+					foreach($result["info"] as $key2 => $data2)
+					{
+						$response["info"][$key2] = $data2;
+					}
+				}
 			}
 		}
 	}
