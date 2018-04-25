@@ -8,6 +8,7 @@ function addRowFunction()
 	var documentUpdateText = "<li class='watchFolderGroups' id='rowNumber"+countOfWatchList+"'><span class='leftSpacingserverNames' > Name: </span> <input class='inputWidth300' type='text'  name='watchListKey" + countOfWatchList + "' >";
 	for(var i = 0; i < numberOfSubRows; i++)
 	{
+		documentUpdateText += " <input style='display: none;' type='text' name='watchListItem"+countOfWatchList+"-"+(i+1)+"-Name' value="+arrayOfKeysNonEnc[i]+">";
 		if(arrayOfKeysNonEnc[i] === "type")
 		{
 			documentUpdateText += " <br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>";
@@ -26,7 +27,7 @@ function addRowFunction()
 		}
 		else
 		{
-			documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span> <input style='display: none;' type='text' name='watchListItem"+countOfWatchList+"-"+(i+1)+"-Name' value="+arrayOfKeysNonEnc[i]+">   <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >"
+			documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>  <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >"
 		}
 	}
 	documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+countOfWatchList+'-0" value="'+numberOfSubRows+'"> '
