@@ -48,18 +48,18 @@ if(file_exists($baseUrl.'conf/config.php'))
 	<br>
 </div>
 </body>
-<form id="defaultVarsForm" action="../core/php/saveFunctions/settingsSaveMain.php" method="post"></form>
+<form id="defaultVarsForm"></form>
 <script type="text/javascript">
 	function defaultSettings()
 	{
 		//change setupProcess to finished
-		document.getElementById('defaultVarsForm').submit();
+		saveAndVerifyMain("defaultVarsForm");
 	}
 
 	function customSettings()
 	{
 		//change setupProcess to page1
-		document.getElementById('defaultVarsForm').submit();
+		saveAndVerifyMain("defaultVarsForm");
 	}
 </script>
 <script src="stepsJavascript.js"></script>
