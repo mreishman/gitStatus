@@ -1,3 +1,9 @@
+<?php if($branchColorFilter !== "branchName" && $branchColorFilter !== "authorName" && $branchColorFilter !== "committerName")
+{
+	//should not trigger, but this will set default to branchName if none is set
+	$branchColorFilter = "branchName";
+}
+?>
 <form id="settingsColorBG" action="core/php/saveFunctions/settingsSaveMain.php" method="post">
 	<div class="innerFirstDevBox" style="width: 500px;" >
 		<div class="devBoxTitle">
