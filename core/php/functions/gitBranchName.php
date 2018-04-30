@@ -167,6 +167,11 @@ else
 	{
 		if($value["type"] == "local")
 		{
+			$website = "#";
+			if($value["Website"])
+			{
+				$website = $value["Website"];
+			}
 			$response["info"][$key] = array(
 				'isHere' => true,
 				'branch' 	=> getBranchName($value['Folder']),
@@ -184,7 +189,8 @@ else
 				'groupInfo'		=> $value['groupInfo'],
 				'gitType'		=> $value['gitType'],
 				'githubRepo'	=> $value['githubRepo'],	
-				'otherFunctions'	=> ''
+				'otherFunctions'	=> '',
+				'website'		=> $website
 			);
 		}
 		else
