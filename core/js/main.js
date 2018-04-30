@@ -377,7 +377,6 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			item = item.replace(/{{branchView}}/g, "devBoxContentSecondaryExpanded");
 		}
 		item = item.replace(/{{name}}/g,dataInner["displayName"]);
-		console.log(dataInner);
 		var website = "#";
 		if("website" in dataInner)
 		{
