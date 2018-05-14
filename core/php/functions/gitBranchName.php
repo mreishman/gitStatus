@@ -169,86 +169,94 @@ else
 		'isHere' 		=> true,
 		'info'			=> array()
 	);
-	$blockedList = array();
-	foreach ($serverWatchList as $key => $value)
+	if($enableBlockUntilDate == "true" && strtotime($datePicker) < strtotime(now))
 	{
-		if($value["type"] == "local")
+		$blockedList = array();
+		foreach ($serverWatchList as $key => $value)
 		{
-			$website = "#";
-			if($value["Website"])
+			if($value["type"] == "local")
 			{
-				$website = $value["Website"];
-			}
-			$response["info"][$key] = array(
-				'isHere' => true,
-				'branch' 	=> getBranchName($value['Folder']),
-				'date'		=> date('j m Y'),
-				'time'		=> trim(shell_exec('date')),
-				'stats'		=> getBranchStats($value['Folder']),
-				'messageTextEnabled'	=> $messageTextEnabled,
-				'messageText' => $messageText,
-				'enableBlockUntilDate'	=> $enableBlockUntilDate,
-				'datePicker'	=> $datePicker,
-				'loghog'		=> checkForLogHog($value['WebsiteBase']),
-				'monitor'		=> checkForMonitor($value['WebsiteBase']),
-				'search'		=> checkForSearch($value['WebsiteBase']),
-				'displayName'	=> $key,
-				'groupInfo'		=> $value['groupInfo'],
-				'gitType'		=> $value['gitType'],
-				'githubRepo'	=> $value['githubRepo'],	
-				'otherFunctions'	=> '',
-				'website'		=> $website
-			);
-		}
-		else
-		{
-			
-			if($lastResult[$key]["enableBlockUntilDate"] == "true" && strtotime($lastResult[$key]["enableBlockUntilDate"]) >= strtotime(now))
-			{
-				continue;
-			}
-			$sendUrlHere = "".$value["WebsiteBase"]."/status/core/php/functions/gitBranchName.php";
-			if($value["urlHit"] !== "")
-			{
-				$sendUrlHere = $value["urlHit"];
-			}
-			$url = "https://".$sendUrlHere;
-			$result = sendCurl($url);
-			if(!$result)
-			{
-				$url = "http://".$sendUrlHere;
-				$result = sendCurl($url);
-			}
-			if($result)
-			{
-				$result = rtrim($result, "\0");
-				$result =  json_decode($result, true);
-				if($result && $result["info"])
+				$website = "#";
+				if($value["Website"])
 				{
-					foreach($result["info"] as $key2 => $data2)
+					$website = $value["Website"];
+				}
+				$response["info"][$key] = array(
+					'isHere' => true,
+					'branch' 	=> getBranchName($value['Folder']),
+					'date'		=> date('j m Y'),
+					'time'		=> trim(shell_exec('date')),
+					'stats'		=> getBranchStats($value['Folder']),
+					'messageTextEnabled'	=> $messageTextEnabled,
+					'messageText' => $messageText,
+					'enableBlockUntilDate'	=> $enableBlockUntilDate,
+					'datePicker'	=> $datePicker,
+					'loghog'		=> checkForLogHog($value['WebsiteBase']),
+					'monitor'		=> checkForMonitor($value['WebsiteBase']),
+					'search'		=> checkForSearch($value['WebsiteBase']),
+					'displayName'	=> $key,
+					'groupInfo'		=> $value['groupInfo'],
+					'gitType'		=> $value['gitType'],
+					'githubRepo'	=> $value['githubRepo'],	
+					'otherFunctions'	=> '',
+					'website'		=> $website
+				);
+			}
+			else
+			{
+				
+				if($lastResult[$key]["enableBlockUntilDate"] == "true" && strtotime($lastResult[$key]["enableBlockUntilDate"]) >= strtotime(now))
+				{
+					continue;
+				}
+				$sendUrlHere = "".$value["WebsiteBase"]."/status/core/php/functions/gitBranchName.php";
+				if($value["urlHit"] !== "")
+				{
+					$sendUrlHere = $value["urlHit"];
+				}
+				$url = "https://".$sendUrlHere;
+				$result = sendCurl($url);
+				if(!$result)
+				{
+					$url = "http://".$sendUrlHere;
+					$result = sendCurl($url);
+				}
+				if($result)
+				{
+					$result = rtrim($result, "\0");
+					$result =  json_decode($result, true);
+					if($result && $result["info"])
 					{
-						$response["info"][$key2] = $data2;
-						$blockedList[$key] = array(
-							"enableBlockUntilDate"	=>	$data2["enableBlockUntilDate"],
-							"datePicker"			=>	$data2["datePicker"]
-						);
+						foreach($result["info"] as $key2 => $data2)
+						{
+							$response["info"][$key2] = $data2;
+							$blockedList[$key] = array(
+								"enableBlockUntilDate"	=>	$data2["enableBlockUntilDate"],
+								"datePicker"			=>	$data2["datePicker"]
+							);
+						}
 					}
 				}
 			}
-		}
-		$newInfoForConfig = "
-		<?php
-			$"."cachedStatusMainObject = '".json_encode($blockedList)."';
-		?>";
-		try
-		{
-			@file_put_contents("lastRequestResults.php",$newInfoForConfig);
-		}
-		catch (Exception $e)
-		{
+			$newInfoForConfig = "
+			<?php
+				$"."cachedStatusMainObject = '".json_encode($blockedList)."';
+			?>";
+			try
+			{
+				@file_put_contents("lastRequestResults.php",$newInfoForConfig);
+			}
+			catch (Exception $e)
+			{
+				
+			}
 			
 		}
-		
+	}
+	else
+	{
+		$response["info"]["blocked"] = "true";
+		$response["info"]["blockedUntil"] = $datePicker;
 	}
 }
 echo json_encode($response);
