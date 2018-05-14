@@ -1,6 +1,7 @@
 var counterForSave = numberOfLogs+1;
 var updating = false;
 var pollTimer = null;
+var blocekdInnerObj = {};
 
 function escapeHTML(unsafeStr)
 {
@@ -60,30 +61,35 @@ function tryHTTPForPollRequest(count)
 	var name = "branchNameDevBox1"+arrayOfFiles[count]["Name"];
 	name = name.replace(/\s/g, '_');
 	var doPollLogic = true;
-	if(arrayOfWatchFilters && arrayOfWatchFilters[name])
+	var dateForEnd = null;
+	if(arrayOfWatchFilters && arrayOfWatchFilters[name] && arrayOfWatchFilters[name]["enableBlockUntilDate"] == 'true')
 	{
-		if(arrayOfWatchFilters[name]["enableBlockUntilDate"] == 'true' || arrayOfWatchFilters[name]["enableBlockUntilDate"] == true)
+		dateForEnd = arrayOfWatchFilters[name]["datePicker"];
+	}
+	else if(blocekdInnerObj && blocekdInnerObj[name] && blocekdInnerObj[name]["enableBlockUntilDate"] == 'true' )
+	{
+		dateForEnd = blocekdInnerObj[name]["datePicker"];
+	}
+	if(dateForEnd !== null)
+	{
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+
+		if(dd<10) {
+		    dd='0'+dd
+		} 
+
+		if(mm<10) {
+		    mm='0'+mm
+		} 
+
+		today = mm+'/'+dd+'/'+yyyy;
+		if (dateForEnd >= today)
 		{
-			var dateForEnd = arrayOfWatchFilters[name]["datePicker"];
-			var today = new Date();
-			var dd = today.getDate();
-			var mm = today.getMonth()+1; //January is 0!
-			var yyyy = today.getFullYear();
-
-			if(dd<10) {
-			    dd='0'+dd
-			} 
-
-			if(mm<10) {
-			    mm='0'+mm
-			} 
-
-			today = mm+'/'+dd+'/'+yyyy;
-			if (dateForEnd >= today)
-			{
-				doPollLogic = false;
-			} 
-		}
+			doPollLogic = false;
+		} 
 	}
 	if(doPollLogic)
 	{
@@ -337,14 +343,27 @@ function pollSuccess(dataInner, dataInnerPass)
 	{
 		if("info" in dataInner)
 		{
-			decreaseSpinnerCounter();
-			var keysInfo = Object.keys(dataInner["info"]);
-			var keysInfoLength = keysInfo.length;
-			for(var i = 0; i < keysInfoLength; i++)
+			if("blocked" in dataInner["info"] && dataInner["info"]["blocked"] == "true")
 			{
-				var name = "branchNameDevBox1"+keysInfo[i];
-				dataInner["info"][keysInfo[i]]["name"] = name.replace(/\s/g, '_');
-				pollSuccessInner(dataInner["info"][keysInfo[i]],dataInner["info"][keysInfo[i]], dataInnerPass)
+				if(!blocekdInnerObj[name])
+				{
+					blocekdInnerObj[name] = {};
+				}
+				blocekdInnerObj[name]["datePicker"] = dataInner["info"]["blocked"];
+				blocekdInnerObj[name]["enableBlockUntilDate"] = dataInner["info"]["blockedUntil"];
+				pollFailure("Error","Blocked Request", dataInnerPass);
+			}
+			else
+			{
+				decreaseSpinnerCounter();
+				var keysInfo = Object.keys(dataInner["info"]);
+				var keysInfoLength = keysInfo.length;
+				for(var i = 0; i < keysInfoLength; i++)
+				{
+					var name = "branchNameDevBox1"+keysInfo[i];
+					dataInner["info"][keysInfo[i]]["name"] = name.replace(/\s/g, '_');
+					pollSuccessInner(dataInner["info"][keysInfo[i]],dataInner["info"][keysInfo[i]], dataInnerPass)
+				}
 			}
 		}
 		else
@@ -377,7 +396,12 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			item = item.replace(/{{branchView}}/g, "devBoxContentSecondaryExpanded");
 		}
 		item = item.replace(/{{name}}/g,dataInner["displayName"]);
-		item = item.replace(/{{website}}/g,"#");
+		var website = "#";
+		if("website" in dataInner)
+		{
+			website = dataInner["website"];
+		}
+		item = item.replace(/{{website}}/g,website);
 		item = item.replace(/{{branchView}}/g,branchView);
 
 		item = item.replace(/{{groupInfo}}/g,groupNames);

@@ -68,7 +68,6 @@ $defaultConfig = array(
 	'checkForIssueEndsWithNum'	=> 'true',
 	'checkForIssueCustom'	=> 'true',
 	'checkForIssueInCommit'	=> 'true',
-	'branchColorFilter'	=> '".$branchColorFilter."',
 	'messageTextEnabled'	=> 'false',
 	'messageText' => 'Example Message',
 	'enableBlockUntilDate'	=> 'false',
