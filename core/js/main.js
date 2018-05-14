@@ -60,30 +60,31 @@ function tryHTTPForPollRequest(count)
 	var name = "branchNameDevBox1"+arrayOfFiles[count]["Name"];
 	name = name.replace(/\s/g, '_');
 	var doPollLogic = true;
-	if(arrayOfWatchFilters && arrayOfWatchFilters[name])
+	var dateForEnd = null;
+	if(arrayOfWatchFilters && arrayOfWatchFilters[name] && (arrayOfWatchFilters[name]["enableBlockUntilDate"] == 'true' || arrayOfWatchFilters[name]["enableBlockUntilDate"] == true))
 	{
-		if(arrayOfWatchFilters[name]["enableBlockUntilDate"] == 'true' || arrayOfWatchFilters[name]["enableBlockUntilDate"] == true)
+		var dateForEnd = arrayOfWatchFilters[name]["datePicker"];
+	}
+	if(dateForEnd !== null)
+	{
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+
+		if(dd<10) {
+		    dd='0'+dd
+		} 
+
+		if(mm<10) {
+		    mm='0'+mm
+		} 
+
+		today = mm+'/'+dd+'/'+yyyy;
+		if (dateForEnd >= today)
 		{
-			var dateForEnd = arrayOfWatchFilters[name]["datePicker"];
-			var today = new Date();
-			var dd = today.getDate();
-			var mm = today.getMonth()+1; //January is 0!
-			var yyyy = today.getFullYear();
-
-			if(dd<10) {
-			    dd='0'+dd
-			} 
-
-			if(mm<10) {
-			    mm='0'+mm
-			} 
-
-			today = mm+'/'+dd+'/'+yyyy;
-			if (dateForEnd >= today)
-			{
-				doPollLogic = false;
-			} 
-		}
+			doPollLogic = false;
+		} 
 	}
 	if(doPollLogic)
 	{

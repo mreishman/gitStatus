@@ -158,11 +158,18 @@ if((isset($_POST['location']) && isset($_POST['name']) && isset($_POST['websiteB
 }
 else
 {
+	if(is_file("lastRequestResults.php"))
+	{
+		include("lastRequestResults.php");
+		$lastResult = json_decode($cachedStatusMainObject, true);
+	}
+
 	//new version (2.0 or greater) or just checking
 	$response = array(
 		'isHere' 		=> true,
 		'info'			=> array()
 	);
+	$blockedList = array();
 	foreach ($serverWatchList as $key => $value)
 	{
 		if($value["type"] == "local")
@@ -195,6 +202,11 @@ else
 		}
 		else
 		{
+			
+			if($lastResult[$key]["enableBlockUntilDate"] == "true" && strtotime($lastResult[$key]["enableBlockUntilDate"]) >= strtotime(now))
+			{
+				continue;
+			}
 			$sendUrlHere = "".$value["WebsiteBase"]."/status/core/php/functions/gitBranchName.php";
 			if($value["urlHit"] !== "")
 			{
@@ -216,10 +228,19 @@ else
 					foreach($result["info"] as $key2 => $data2)
 					{
 						$response["info"][$key2] = $data2;
+						$blockedList[$key] = array(
+							"enableBlockUntilDate"	=>	$data2["enableBlockUntilDate"],
+							"datePicker"			=>	$data2["datePicker"]
+						);
 					}
 				}
 			}
 		}
+		$newInfoForConfig = "
+		<?php
+			$"."cachedStatusMainObject = '".json_encode($blockedList)."';
+		?>";
+		file_put_contents("lastRequestResults.php",$newInfoForConfig);
 	}
 }
 echo json_encode($response);
