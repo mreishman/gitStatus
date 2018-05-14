@@ -62,11 +62,11 @@ function tryHTTPForPollRequest(count)
 	name = name.replace(/\s/g, '_');
 	var doPollLogic = true;
 	var dateForEnd = null;
-	if((arrayOfWatchFilters && arrayOfWatchFilters[name] && (arrayOfWatchFilters[name]["enableBlockUntilDate"] == 'true'))
+	if(arrayOfWatchFilters && arrayOfWatchFilters[name] && arrayOfWatchFilters[name]["enableBlockUntilDate"] == 'true')
 	{
 		dateForEnd = arrayOfWatchFilters[name]["datePicker"];
 	}
-	else if(blocekdInnerObj[name]["enableBlockUntilDate"] == true)) || (blocekdInnerObj && blocekdInnerObj[name] && (blocekdInnerObj[name]["enableBlockUntilDate"] == 'true' || blocekdInnerObj[name]["enableBlockUntilDate"] == true))
+	else if(blocekdInnerObj && blocekdInnerObj[name] && blocekdInnerObj[name]["enableBlockUntilDate"] == 'true' )
 	{
 		dateForEnd = blocekdInnerObj[name]["datePicker"];
 	}
@@ -345,8 +345,13 @@ function pollSuccess(dataInner, dataInnerPass)
 		{
 			if("blocked" in dataInner["info"] && dataInner["info"]["blocked"] == "true")
 			{
+				if(!blocekdInnerObj[name])
+				{
+					blocekdInnerObj[name] = {};
+				}
 				blocekdInnerObj[name]["datePicker"] = dataInner["info"]["blocked"];
 				blocekdInnerObj[name]["enableBlockUntilDate"] = dataInner["info"]["blockedUntil"];
+				pollFailure("Error","Blocked Request", dataInnerPass);
 			}
 			else
 			{

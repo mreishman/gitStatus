@@ -169,7 +169,8 @@ else
 		'isHere' 		=> true,
 		'info'			=> array()
 	);
-	if($enableBlockUntilDate == "true" && strtotime($datePicker) < strtotime(now))
+	$datePicker = str_replace('/', '-', $datePicker);
+	if(($enableBlockUntilDate == "true" && strtotime($datePicker) < strtotime(date("d-m-Y"))) || $enableBlockUntilDate != "true" )
 	{
 		$blockedList = array();
 		foreach ($serverWatchList as $key => $value)
@@ -257,6 +258,8 @@ else
 	{
 		$response["info"]["blocked"] = "true";
 		$response["info"]["blockedUntil"] = $datePicker;
+		$response["info"]["dateStringTime"] = strtotime($datePicker);
+		$response["info"]["dateStringNow"]= strtotime(date("d-m-Y"));
 	}
 }
 echo json_encode($response);
