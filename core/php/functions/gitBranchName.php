@@ -240,7 +240,15 @@ else
 		<?php
 			$"."cachedStatusMainObject = '".json_encode($blockedList)."';
 		?>";
-		file_put_contents("lastRequestResults.php",$newInfoForConfig);
+		try
+		{
+			@file_put_contents("lastRequestResults.php",$newInfoForConfig);
+		}
+		catch (Exception $e)
+		{
+			
+		}
+		
 	}
 }
 echo json_encode($response);
