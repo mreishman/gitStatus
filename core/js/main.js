@@ -399,7 +399,12 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		var website = "#";
 		if("website" in dataInner)
 		{
-			website = dataInner["website"];
+			var websitePass = dataInner["website"];
+			if(dataInner["website"].indexOf("http") === -1)
+			{
+				websitePass = "http://"+dataInner["website"];
+			}
+			website = websitePass;
 		}
 		item = item.replace(/{{website}}/g,website);
 		item = item.replace(/{{branchView}}/g,branchView);
@@ -441,11 +446,12 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		var src = $(source)[0].href;
 		if(typeof dataInner["website"] !== "undefined" && src !== dataInner["website"])
 		{
+			var websitePass = dataInner["website"];
 			if(dataInner["website"].indexOf("http") === -1)
 			{
-				dataInner["website"] == "http://"+dataInner["website"];
+				websitePass = "http://"+dataInner["website"];
 			}
-			$(source)[0].href = dataInner["website"];
+			$(source)[0].href = websitePass;
 		}
 	}
 	document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
