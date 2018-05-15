@@ -4,33 +4,39 @@ require_once("../../../core/conf/config.php");
 require_once("../../../local/default/conf/config.php");
 require_once("../../../core/php/loadVars.php");
 
+function sendCurlInner($requestUrl)
+{
+	$curlInit = curl_init();
+	if (false === $curlInit)
+	{
+        throw new Exception('failed to initialize');
+	}
+	$headers["User-Agent"] = "Curl/1.0";
+
+	curl_setopt($curlInit, CURLOPT_URL, $requestUrl);
+	curl_setopt($curlInit, CURLOPT_HEADER, false);
+	curl_setopt($curlInit, CURLOPT_HTTPHEADER, $headers);
+	curl_setopt($curlInit, CURLOPT_CONNECTTIMEOUT, 3); //timeout in seconds
+	curl_setopt($curlInit, CURLOPT_TIMEOUT, 3); //timeout in seconds
+	curl_setopt($curlInit, CURLOPT_RETURNTRANSFER, true);
+
+	curl_setopt($curlInit, CURLOPT_SSL_VERIFYPEER, false);
+
+	$result = curl_exec($curlInit);
+	if (false === $result)
+	{
+    	throw new Exception(curl_error($curlInit), curl_errno($curlInit));
+    }
+
+    curl_close($curlInit);
+	return $result;
+}
+
 function sendCurl($requestUrl)
 {
 	try
 	{
-		$ch = curl_init();
-		if (false === $ch)
-		{
-	        throw new Exception('failed to initialize');
-		}
-		$headers["User-Agent"] = "Curl/1.0";
-
-		curl_setopt($ch, CURLOPT_URL, $requestUrl);
-		curl_setopt($ch, CURLOPT_HEADER, false);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3); //timeout in seconds
-		curl_setopt($ch, CURLOPT_TIMEOUT, 3); //timeout in seconds
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-		$result = curl_exec($ch);
-		if (false === $result)
-		{
-	    	throw new Exception(curl_error($ch), curl_errno($ch));
-	    }
-
-	    curl_close($ch);
+		$result = sendCurlInner($requestUrl);
 		return $result;
 	}
 	catch (Exception $e)
@@ -42,70 +48,67 @@ function sendCurl($requestUrl)
        		$e->getCode(), $e->getMessage()),
         	E_USER_ERROR);
 		}
+		return null;
 	}
 }
 
 function checkForSearch($baseWeb)
 {
+	$returnString = "";
 	if(is_dir("../../../../search"))
 	{
-		return $baseWeb."/search";
+		$returnString = $baseWeb."/search";
 	}
-	
-	if(is_dir("../../../../Log-Hog/search"))
+	elseif(is_dir("../../../../Log-Hog/search"))
 	{
-		return $baseWeb."/Log-Hog/search";
+		$returnString = $baseWeb."/Log-Hog/search";
 	}
-	
-	if(is_dir("../../../../loghog/search"))
+	elseif(is_dir("../../../../loghog/search"))
 	{
-		return $baseWeb."/loghog/search";
+		$returnString = $baseWeb."/loghog/search";
 	}
-
-	return "";
+	return $returnString;
 }
 
 function checkForMonitor($baseWeb)
 {
+	$returnString = "";
 	if(is_dir("../../../../monitor"))
 	{
-		return $baseWeb."/monitor";
+		$returnString = $baseWeb."/monitor";
+	}
+	elseif(is_dir("../../../../Log-Hog/top"))
+	{
+		$returnString = $baseWeb."/Log-Hog/top";
 	}
 	
-	if(is_dir("../../../../Log-Hog/top"))
+	elseif(is_dir("../../../../loghog/top"))
 	{
-		return $baseWeb."/Log-Hog/top";
+		$returnString = $baseWeb."/loghog/top";
 	}
-	
-	if(is_dir("../../../../loghog/top"))
+	elseif(is_dir("../../../../Log-Hog/monitor"))
 	{
-		return $baseWeb."/loghog/top";
+		$returnString = $baseWeb."/Log-Hog/monitor";
 	}
-	
-	if(is_dir("../../../../Log-Hog/monitor"))
+	elseif(is_dir("../../../../loghog/monitor"))
 	{
-		return $baseWeb."/Log-Hog/monitor";
+		$returnString = $baseWeb."/loghog/monitor";
 	}
-	
-	if(is_dir("../../../../loghog/monitor"))
-	{
-		return $baseWeb."/loghog/monitor";
-	}
-	return "";
+	return $returnString;
 }
 
 function checkForLogHog($baseWeb)
 {
+	$returnString = "";
 	if(is_dir("../../../../Log-Hog"))
 	{
-		return $baseWeb."/Log-Hog";
+		$returnString = $baseWeb."/Log-Hog";
 	}
-	
-	if(is_dir("../../../../loghog"))
+	elseif(is_dir("../../../../loghog"))
 	{
-		return $baseWeb."/loghog";
+		$returnString = $baseWeb."/loghog";
 	}
-	return "";
+	return $returnString;
 }
 
 function getBranchName($location)
@@ -178,7 +181,7 @@ else
 			if($value["type"] == "local")
 			{
 				$website = "#";
-				if($value["Website"])
+				if(isset($value["Website"]) && $value["Website"] !="")
 				{
 					$website = $value["Website"];
 				}

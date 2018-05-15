@@ -408,31 +408,44 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		addGroup(dataInner["groupInfo"]);
 		$("#main").append(item);
 	}
-	else if(typeof groupNames !== "undefined")
-	{
-		//check if all classes are there
-		var parentElementOfDiv = document.getElementById("innerFirstDevBox"+noSpaceName).parentElement;
-		var listOfClasses = parentElementOfDiv.classList;
-		var listOfClassesLength = listOfClasses.length;
-		var groupNamesArray = groupNames.split(" ");
-		var groupNamesArrayLength = groupNamesArray.length;
-		for(var i = 0; i < groupNamesArrayLength; i++)
+	else
+	{ 
+		if(typeof groupNames !== "undefined")
 		{
-			var grouName = groupNamesArray[i].trim();
-			var found = false;
-			for(var j = 0; j < listOfClassesLength; j++)
+			//check if all classes are there
+			var parentElementOfDiv = document.getElementById("innerFirstDevBox"+noSpaceName).parentElement;
+			var listOfClasses = parentElementOfDiv.classList;
+			var listOfClassesLength = listOfClasses.length;
+			var groupNamesArray = groupNames.split(" ");
+			var groupNamesArrayLength = groupNamesArray.length;
+			for(var i = 0; i < groupNamesArrayLength; i++)
 			{
-				var classNameTest = listOfClasses[j].trim();
-				if(classNameTest === grouName)
+				var grouName = groupNamesArray[i].trim();
+				var found = false;
+				for(var j = 0; j < listOfClassesLength; j++)
 				{
-					found = true;
-					break;
+					var classNameTest = listOfClasses[j].trim();
+					if(classNameTest === grouName)
+					{
+						found = true;
+						break;
+					}
+				}
+				if(!found)
+				{
+					parentElementOfDiv.className += parentElementOfDiv.className ? " "+grouName  : grouName;
 				}
 			}
-			if(!found)
+		}
+		var source = "#innerFirstDevBox"+noSpaceName+" .devBoxTitle a";
+		var src = $(source)[0].href;
+		if(typeof dataInner["website"] !== "undefined" && src !== dataInner["website"])
+		{
+			if(dataInner["website"].indexOf("http") === -1)
 			{
-				parentElementOfDiv.className += parentElementOfDiv.className ? " "+grouName  : grouName;
+				dataInner["website"] == "http://"+dataInner["website"];
 			}
+			$(source)[0].href = dataInner["website"];
 		}
 	}
 	document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
