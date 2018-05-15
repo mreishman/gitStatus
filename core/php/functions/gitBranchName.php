@@ -48,10 +48,7 @@ function sendCurl($requestUrl)
        		$e->getCode(), $e->getMessage()),
         	E_USER_ERROR);
 		}
-		else
-		{
-			return null;
-		}
+		return null;
 	}
 }
 
