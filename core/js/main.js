@@ -439,7 +439,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		}
 		var source = "#innerFirstDevBox"+noSpaceName+" .devBoxTitle a";
 		var src = $(source)[0].href;
-		if(src !== dataInner["website"])
+		if(typeof dataInner["website"] !== "undefined" && src !== dataInner["website"])
 		{
 			if(dataInner["website"].indexOf("http") === -1)
 			{
