@@ -178,7 +178,7 @@ else
 			if($value["type"] == "local")
 			{
 				$website = "#";
-				if($value["Website"])
+				if(isset($value["Website"]) && $value["Website"] !="")
 				{
 					$website = $value["Website"];
 				}
