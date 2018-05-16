@@ -6,14 +6,12 @@ function forEachAddVars($variable)
 	foreach ($variable as $key => $value)
 	{
 		$returnText .= " '".$key."' => ";
+		$returnReturn = "'".$value."',";
 		if(is_array($value) || is_object($value))
 		{
-			$returnText .= forEachAddVars($value);
+			$returnReturn = forEachAddVars($value);
 		}
-		else
-		{
-			$returnText .= "'".$value."',";
-		}
+		$returnText .= $returnReturn;
 	}
 	$returnText .= "),";
 	return $returnText;
@@ -28,7 +26,7 @@ while(!$boolForLoop)
 	{
 		$boolForLoop = true;
 	}
-	else
+	if(!$boolForLoop)
 	{
 		$varToIndexDir .= "../";
 		$countOfSlash++;
@@ -43,14 +41,12 @@ if(file_exists($varToIndexDir.'local/layout.php'))
   require_once($varToIndexDir.'local/layout.php');
   $baseUrl .= $currentSelectedTheme."/";
 }
+$config = array();
 if(file_exists($baseUrl.'conf/config.php'))
 {
 	require_once($baseUrl.'conf/config.php');
 }
-else
-{
-	$config = array();
-}
+
 require_once($varToIndexDir.'core/conf/config.php');
 
 $response = true;

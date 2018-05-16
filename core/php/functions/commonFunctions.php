@@ -16,6 +16,7 @@ function findUpdateValue($newestVersionCount, $versionCount, $newestVersion, $ve
 				{
 					break;
 				}
+				continue;
 			}
 			elseif($i == 1)
 			{
@@ -27,30 +28,23 @@ function findUpdateValue($newestVersionCount, $versionCount, $newestVersion, $ve
 				{
 					break;
 				}
+				continue;
 			}
-			else
+			if(!isset($newestVersion[$i]))
 			{
-				if(isset($newestVersion[$i]))
-				{
-					if($newestVersion[$i] > $version[$i])
-					{
-						return 1;
-					}
-					elseif($newestVersion[$i] < $version[$i])
-					{
-						break;
-					}
-				}
-				else
-				{
-					break;
-				}
+				break;
 			}
+			if($newestVersion[$i] > $version[$i])
+			{
+				return 1;
+			}
+			elseif($newestVersion[$i] < $version[$i])
+			{
+				break;
+			}
+			continue;
 		}
-		else
-		{
-			return 1;
-		}
+		return 1;
 	}
 	return 0;
 }
