@@ -110,7 +110,6 @@ function tryHttpActuallyPollLogic(count, name)
 	if(document.getElementById(name))
 	{
 		document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
-		document.getElementById(name+"spinnerDiv").style.display = "none";
 	}
 	var id = name.replace("branchNameDevBox1", "");
 	var subBoxes = document.getElementsByClassName(id);
@@ -125,7 +124,6 @@ function tryHttpActuallyPollLogic(count, name)
 			if(document.getElementById(noSpaceName))
 			{
 				document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "inline-block";
-				document.getElementById(noSpaceName+"spinnerDiv").style.display = "none";
 			}
 		}
 	}
@@ -289,7 +287,6 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 	document.getElementById(noSpaceName+'redwWarning').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
 	document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
 	document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
-    document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
     if(document.getElementById(noSpaceName+'Stats').innerHTML != JSON.stringify(error) && document.getElementById(noSpaceName+'Stats').innerHTML == "--Pending--")
 	{
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
@@ -328,7 +325,6 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 		arrayOfWatchFilters[noSpaceName]["groupInfo"] = "";
 	}
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
-	document.getElementById(noSpaceName+"spinnerDiv").style.display = "inline-block";
 	document.getElementById("refreshDiv").style.display = "inline-block";
 	pollCompleteLogic();
 }
@@ -454,7 +450,6 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			$(source)[0].href = websitePass;
 		}
 	}
-	document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
 	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
 		switchToColorLed(noSpaceName, "green");
@@ -709,7 +704,6 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				arrayOfWatchFilters[noSpaceName]["enableBlockUntilDate"] = true;
 				arrayOfWatchFilters[noSpaceName]["datePicker"] = dataInner['datePicker'];
 				document.getElementById(noSpaceName+'NoticeMessage').innerHTML += " Blocking poll requests untill: "+dataInner['datePicker'];
-				document.getElementById(noSpaceName+'spinnerDiv').style.display = "none";
 			}
 			else
 			{
@@ -794,7 +788,6 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
-	document.getElementById(noSpaceName+"spinnerDiv").style.display = "inline-block";
 	pollCompleteLogic();
 }
 
@@ -1320,16 +1313,21 @@ function actuallyInstallUpdates()
 function toggleDetailBar(e, key)
 {
 	var listLength = e.target.classListLength;
-	if(listLength < 1)
+	if(parseInt(listLength) < 1 || isNaN(parseInt(listLength)))
 	{
 		e.preventDefault();
         return;
 	}
 	var list = e.target.classList;
+	if(list === "")
+	{
+		e.preventDefault();
+        return;
+	}
 	var doIt = true;
 	list.forEach(
 	function(value, key, listObj) {
-		if(value === "expandMenu" || value === "menuImage")
+		if(value === "expandMenu" || value === "menuImage" || value === "")
 		{
 			doIt = false;
 		}
