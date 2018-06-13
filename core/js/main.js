@@ -411,7 +411,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 
 		item = item.replace(/{{groupInfo}}/g,groupNames);
 		addGroup(dataInner["groupInfo"]);
-		$("#main").append(item);
+		$("#windows").append(item);
 	}
 	else
 	{ 
@@ -1164,12 +1164,24 @@ function calcuateWidth()
 		innerWidthWindowCalc -= elementWidth;
 	}
 	var windowWidthText = ((innerWidthWindowCalcAdd)+40)+"px";
+	if(document.getElementById("sideBox").style.display !== "none")
+	{
+		windowWidthText = innerWidthWindow+"px";
+	}
 	document.getElementById("main").style.width = windowWidthText;
 	var remainingWidth = innerWidthWindow - ((innerWidthWindowCalcAdd)+40);
 	remainingWidth = remainingWidth / 2;
 	var windowWidthText = remainingWidth+"px";
+	if(document.getElementById("sideBox").style.display !== "none")
+	{
+		windowWidthText = "0px";
+	}
 	document.getElementById("main").style.marginLeft = windowWidthText;
 	document.getElementById("main").style.paddingRight = windowWidthText;
+	if(document.getElementById("sideBox").style.display !== "none")
+	{
+		document.getElementById("sideBox").style.width = ((innerWidthWindow)-410)+"px";
+	}
 }
 
 function showOrHideGroups(groupName)
@@ -1303,4 +1315,45 @@ function verifyChange()
 function actuallyInstallUpdates()
 {
     $("#settingsInstallUpdate").submit();
+}
+
+function toggleDetailBar(e, key)
+{
+	var listLength = e.target.classListLength;
+	if(listLength < 1)
+	{
+		e.preventDefault();
+        return;
+	}
+	var list = e.target.classList;
+	var doIt = true;
+	list.forEach(
+	function(value, key, listObj) {
+		if(value === "expandMenu" || value === "menuImage")
+		{
+			doIt = false;
+		}
+	}
+	);
+	if(!doIt)
+	{
+		e.preventDefault();
+        return;
+	}
+	$(".devBoxTitle").css("background-color","#aaaaaa");
+	$("#innerFirstDevBox"+key+" .devBoxTitle").css("background-color","#FFFFFF");
+	if(document.getElementById("sideBox").style.display == "none")
+	{
+		document.getElementById("sideBox").style.display = "inline-block";
+		document.getElementById("windows").style.width = "365px";
+	}
+	resizeFunction();
+}
+
+function closeDetailBar()
+{
+	$(".devBoxTitle").css("background-color","#aaaaaa");
+	document.getElementById("sideBox").style.display = "none";
+	document.getElementById("windows").style.width = "auto";
+	resizeFunction();
 }

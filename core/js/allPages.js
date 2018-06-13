@@ -43,10 +43,6 @@ function toggleMenuSideBar() {
 }
 
 
-
-var heightVar = (heightWindow-40)+"px";
-document.getElementById("main").style.height = heightVar;
-
 calcuateWidth();
 
 function resizeFunction()
@@ -55,6 +51,11 @@ function resizeFunction()
 	var heightWindow = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 	var heightVar = (heightWindow-40)+"px";
 	document.getElementById("main").style.height = heightVar;
+    if(document.getElementById("windows"))
+    {
+        document.getElementById("windows").style.height = heightVar;
+        document.getElementById("sideBox").style.height = (heightWindow-100)+"px";;
+    }
 }
 
 $(window).resize(function(){
