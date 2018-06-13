@@ -2,6 +2,24 @@ body{
 	background-color: #222222;
 	margin: 0;
 }
+
+.buttonList li
+{
+	display: inline-block;
+	padding: 10px;
+	cursor: pointer;
+}
+
+.buttonList li:hover
+{
+	background-color: white;
+}
+
+.selectedButton
+{
+	background-color: white;
+}
+
 .nav-toggle {
 	display: inline-block;
 	background-color: transparent;

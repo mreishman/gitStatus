@@ -1313,7 +1313,6 @@ function actuallyInstallUpdates()
 function toggleDetailBar(e, key)
 {
 	var list = e.target.classList;
-	console.log(list)
 	if(list === "")
 	{
 		e.preventDefault();

@@ -468,8 +468,15 @@ function generateWindow($data = array())
 			?>
 		</div>
 		<div id="sideBox" style="background-color: rgb(119, 119, 119); margin-left: 25px; top: 45px; border: 1px solid white; position: absolute; display: none;">
-			<div class="devBoxTitle">
-				<a onclick="closeDetailBar();" >X</a>
+			<div class="devBoxTitle" style="padding: 0;">
+				<ul class="buttonList" style="list-style: none; display: inline-block; margin: 0; padding: 0;">
+					<li>
+						<a onclick="closeDetailBar();" >Close</a>
+					</li>
+					<li class="selectedButton">
+						<a >Info</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
