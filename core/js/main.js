@@ -1312,28 +1312,26 @@ function actuallyInstallUpdates()
 
 function toggleDetailBar(e, key)
 {
-	var listLength = e.target.classListLength;
-	if(parseInt(listLength) < 1 || isNaN(parseInt(listLength)))
-	{
-		e.preventDefault();
-        return;
-	}
 	var list = e.target.classList;
+	console.log(list)
 	if(list === "")
 	{
 		e.preventDefault();
         return;
 	}
 	var doIt = true;
+	var inLoop = false;
 	list.forEach(
-	function(value, key, listObj) {
+	function(value, key, listObj)
+	{
+		inLoop = true;
 		if(value === "expandMenu" || value === "menuImage" || value === "")
 		{
 			doIt = false;
 		}
 	}
 	);
-	if(!doIt)
+	if(!doIt || !inLoop)
 	{
 		e.preventDefault();
         return;
