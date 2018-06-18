@@ -469,14 +469,35 @@ function generateWindow($data = array())
 		</div>
 		<div id="sideBox" style="background-color: rgb(119, 119, 119); margin-left: 25px; top: 45px; border: 1px solid white; position: absolute; display: none;">
 			<div class="devBoxTitle" style="padding: 0;">
-				<ul class="buttonList" style="list-style: none; display: inline-block; margin: 0; padding: 0;">
-					<li>
-						<a onclick="closeDetailBar();" >Close</a>
+				<ul class="buttonList">
+					<li onclick="closeDetailBar();" >
+						<a>Close</a>
 					</li>
-					<li class="selectedButton">
-						<a >Info</a>
+					<li onclick="getListOfCommits();" class="selectedButton">
+						<a>Info</a>
 					</li>
 				</ul>
+			</div>
+			<div>
+				<div id="sideBoxBoxForInfo">
+					<table width="100%" style="border-spacing: 0;">
+						<tr>
+							<td width="250px;" style="vertical-align: top;" >
+								<ul id="listOfCommitHistory" class="buttonListVert" style="width: 100%; border-right: 1px solid white; overflow: auto; ">
+									<li id="spinnerLiForSideBoxBoxForInfo">
+										<img style="width: 20px;" src="core/img/loading.gif"> 
+									</li>
+									<span id="otherCommitsFromPast" ></span>
+								</ul>
+							</td>
+							<td style="vertical-align: top;">
+								<h1 id="mainCommitDiffLoading" style="text-align: center;" ><img style="width: 20px;" src="core/img/loading.gif"> </h1>
+								<h1 style="text-align: center; display: none;" >No Changes to Display </h1>
+								<span id="spanForMainDiff" style="overflow: auto; display: block; " ></span>
+							</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

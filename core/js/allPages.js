@@ -54,7 +54,9 @@ function resizeFunction()
     if(document.getElementById("windows"))
     {
         document.getElementById("windows").style.height = heightVar;
-        document.getElementById("sideBox").style.height = (heightWindow-100)+"px";;
+        document.getElementById("sideBox").style.height = (heightWindow-100)+"px";
+        document.getElementById("listOfCommitHistory").style.height = (heightWindow-138)+"px";
+        document.getElementById("spanForMainDiff").style.height = (heightWindow-138)+"px";
     }
 }
 

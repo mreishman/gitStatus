@@ -3,6 +3,33 @@ body{
 	margin: 0;
 }
 
+.buttonListVert
+{
+	list-style: none;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}
+
+.buttonListVert li
+{
+	padding: 10px;
+	cursor: pointer;
+}
+
+.buttonListVert li:hover
+{
+	background-color: white;
+}
+
+.buttonList
+{
+	list-style: none;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}
+
 .buttonList li
 {
 	display: inline-block;

@@ -2,6 +2,7 @@ var counterForSave = numberOfLogs+1;
 var updating = false;
 var pollTimer = null;
 var blocekdInnerObj = {};
+var currentIdOfMainSidebar = "";
 
 function escapeHTML(unsafeStr)
 {
@@ -309,7 +310,9 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 				messageText: null,
 				enableBlockUntilDate: false,
 				datePicker: null,
-				groupInfo: ""
+				groupInfo: "",
+				location: null,
+				WebsiteBase: null
 			};
 	}
 	else
@@ -323,6 +326,14 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 		arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
 		arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
 		arrayOfWatchFilters[noSpaceName]["groupInfo"] = "";
+		if(!("location" in arrayOfWatchFilters[noSpaceName]))
+		{
+			arrayOfWatchFilters[noSpaceName]["location"] = null;
+		}
+		if(!("WebsiteBase" in arrayOfWatchFilters[noSpaceName]))
+		{
+			arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = null;
+		}
 	}
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
 	document.getElementById("refreshDiv").style.display = "inline-block";
@@ -647,7 +658,9 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				messageText: null,
 				enableBlockUntilDate: false,
 				datePicker: null,
-				groupInfo: groupNames
+				groupInfo: groupNames,
+				location: "location" in dataInner ? dataInner["location"] : null,
+				WebsiteBase: "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null
 			};
 		}
 		else
@@ -661,7 +674,8 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				arrayOfWatchFilters[noSpaceName]["errorStatus"] = false;
 			}
 			arrayOfWatchFilters[noSpaceName]["groupInfo"] = groupNames;
-
+			arrayOfWatchFilters[noSpaceName]["location"] = "location" in dataInner ? dataInner["location"] : null;
+			arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null;
 		}
 		
 		filterBGColor(dataToFilterBy, nameForBackground, 1);
@@ -770,7 +784,9 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				messageText: null,
 				enableBlockUntilDate: false,
 				datePicker: null,
-				groupInfo: ""
+				groupInfo: "",
+				location: null,
+				WebsiteBase: null
 			};
 		}
 		else
@@ -784,6 +800,14 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
 			arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
 			arrayOfWatchFilters[noSpaceName]["groupInfo"] = "";
+			if(!("location" in arrayOfWatchFilters[noSpaceName]))
+			{
+				arrayOfWatchFilters[noSpaceName]["location"] = null;
+			}
+			if(!("WebsiteBase" in arrayOfWatchFilters[noSpaceName]))
+			{
+				arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = null;
+			}
 		}
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
@@ -1342,7 +1366,11 @@ function toggleDetailBar(e, key)
 		document.getElementById("sideBox").style.display = "inline-block";
 		document.getElementById("windows").style.width = "365px";
 	}
+	currentIdOfMainSidebar = key;
 	resizeFunction();
+
+	//info
+	getListOfCommits();
 }
 
 function closeDetailBar()
@@ -1351,4 +1379,166 @@ function closeDetailBar()
 	document.getElementById("sideBox").style.display = "none";
 	document.getElementById("windows").style.width = "auto";
 	resizeFunction();
+}
+
+
+function getListOfCommits()
+{
+	var idName = currentIdOfMainSidebar;
+	document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "list-item";
+	$("#otherCommitsFromPast").html("");
+	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
+	{
+		//cant get data for commits, show correct message
+		return;
+	}
+	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
+	if(!(urlForSend.indexOf("http") > -1))
+	{
+		urlForSend = "https://"+urlForSend;
+	}
+	if(!(urlForSend.indexOf("core") > -1))
+	{
+		urlForSend += "/status/core/php/functions/";
+	}
+	urlForSend += "gitCommitHistory.php";
+	var data = {location: arrayOfWatchFilters[idName]["location"]};
+	(function(_data){
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data,
+			type: 'POST',
+			success: function(data)
+			{
+				commitListSuccess(data);
+			},
+			error: function(xhr, error)
+			{
+				//show appropriate error message
+				document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
+			}
+		});
+	}(data));
+}
+
+
+function commitListSuccess(data)
+{
+	//style and format commit history, display in left column
+	var htmlForCommits = "";
+	var counterOfData = data.length;
+	//find first commit id
+	var idForCommit = "";
+	for(var i = 0; i < counterOfData; i++)
+	{
+		if(data[i].indexOf("commit") > -1)
+		{
+			idForCommit = data[i].replace("commit","").trim();
+			break;
+		}
+	}
+	var idForFirstCommit = idForCommit;
+	htmlForCommits += "<li id=\""+idForCommit+"\" onclick=\"viewCommit('"+idForCommit+"');\" >";
+	for(var i = 0; i < counterOfData; i++)
+	{
+		if(data[i] === "")
+		{
+			continue;
+		}
+		htmlForCommits += data[i];
+		if(i+2 < counterOfData && data[i+1].indexOf("commit") > -1 && data[i+2].indexOf("Author") > -1)
+		{
+			idForCommit = data[i+1].replace("commit","").trim();
+			htmlForCommits += "</li><li id=\""+idForCommit+"\" onclick=\"viewCommit('"+idForCommit+"');\" >";
+		}
+		else
+		{
+			htmlForCommits += "<br>";
+		}
+	}
+	htmlForCommits += "</li>";
+	$("#otherCommitsFromPast").html(htmlForCommits);
+	document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
+	viewCommit(idForFirstCommit);
+}
+
+function viewCommit(idForCommit)
+{
+	$("#listOfCommitHistory li").removeClass("selectedButton");
+	$("#"+idForCommit).addClass("selectedButton");
+	var idName = currentIdOfMainSidebar;
+	document.getElementById("mainCommitDiffLoading").style.display = "block";
+	$("#spanForMainDiff").html("");
+	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
+	{
+		//cant get data for commits, show correct message
+		return;
+	}
+	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
+	if(!(urlForSend.indexOf("http") > -1))
+	{
+		urlForSend = "https://"+urlForSend;
+	}
+	if(!(urlForSend.indexOf("core") > -1))
+	{
+		urlForSend += "/status/core/php/functions/";
+	}
+	urlForSend += "gitShowCommitStuff.php";
+	var data = {location: arrayOfWatchFilters[idName]["location"], commit: idForCommit};
+	(function(_data){
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data,
+			type: 'POST',
+			success: function(data)
+			{
+				commitStuffSuccess(data);
+			},
+			error: function(xhr, error)
+			{
+				//show appropriate error message
+				document.getElementById("mainCommitDiffLoading").style.display = "none";
+			}
+		});
+	}(data));
+}
+
+
+function commitStuffSuccess(data)
+{
+	document.getElementById("mainCommitDiffLoading").style.display = "none";
+	var htmlForCommit = "";
+	var counterOfData = data.length;
+	for(var i = 0; i < counterOfData; i++)
+	{
+		if(data[i] === "")
+		{
+			continue;
+		}
+		htmlForCommit += "<div>"+escapeHTML(data[i])+"</div>";
+	}
+	$("#spanForMainDiff").html(htmlForCommit);
+}
+
+function escapeHTML(unsafeStr)
+{
+	try
+	{
+		return unsafeStr.toString()
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/\"/g, "&#34;")
+		.replace(/\'/g, "&#39;")
+		.replace(/\//g, "&#x2F;");
+	}
+	catch(e)
+	{
+		eventThrowException(e);
+	}
+	
 }

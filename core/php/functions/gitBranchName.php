@@ -136,19 +136,21 @@ if((isset($_POST['location']) && isset($_POST['name']) && isset($_POST['websiteB
 	if((strlen(escapeshellarg($postLocation)) < 500) && (strlen(escapeshellarg($postName)) < 500) && (strlen(escapeshellarg($postWebsiteBase)) < 500))
 	{
 		$response = array(
-			'branch' 	=> getBranchName($postLocation),
-			'idName'	=> preg_replace('/\s+/', '_', $postName ),
-			'date'		=> date('j m Y'),
-			'time'		=> trim(shell_exec('date')),
-			'stats'		=> getBranchStats($postLocation),
+			'branch' 				=> getBranchName($postLocation),
+			'idName'				=> preg_replace('/\s+/', '_', $postName ),
+			'date'					=> date('j m Y'),
+			'time'					=> trim(shell_exec('date')),
+			'stats'					=> getBranchStats($postLocation),
 			'messageTextEnabled'	=> $messageTextEnabled,
-			'messageText' => $messageText,
+			'messageText' 			=> $messageText,
 			'enableBlockUntilDate'	=> $enableBlockUntilDate,
-			'datePicker'	=> $datePicker,
-			'loghog'		=> checkForLogHog($postWebsiteBase),
-			'monitor'		=> checkForMonitor($postWebsiteBase),
-			'search'		=> checkForSearch($postWebsiteBase),
-			'otherFunctions'	=> ''
+			'datePicker'			=> $datePicker,
+			'loghog'				=> checkForLogHog($postWebsiteBase),
+			'monitor'				=> checkForMonitor($postWebsiteBase),
+			'search'				=> checkForSearch($postWebsiteBase),
+			'otherFunctions'		=> '',
+			'location'				=>	$postLocation,
+			'WebsiteBase'			=>	$postWebsiteBase
 		);
 	}
 	else
@@ -181,9 +183,18 @@ else
 			if($value["type"] == "local")
 			{
 				$website = "#";
-				if(isset($value["Website"]) && $value["Website"] !="")
+				if(isset($value["Website"]) && $value["Website"] !== "")
 				{
 					$website = $value["Website"];
+				}
+				$websiteBase = null;
+				if(isset($value["WebsiteBase"]) && $value["WebsiteBase"] !== "")
+				{
+					$websiteBase = $value["WebsiteBase"];
+				}
+				if(isset($value["urlHit"]) && $value["urlHit"] !== "")
+				{
+					$websiteBase = str_replace("gitBranchName.php", "", $value["urlHit"]);
 				}
 				$response["info"][$key] = array(
 					'isHere' => true,
@@ -203,7 +214,9 @@ else
 					'gitType'		=> $value['gitType'],
 					'githubRepo'	=> $value['githubRepo'],	
 					'otherFunctions'	=> '',
-					'website'		=> $website
+					'website'		=> $website,
+					'location'		=> $value['Folder'],
+					'WebsiteBase'	=> $websiteBase
 				);
 			}
 			else
@@ -214,7 +227,7 @@ else
 					continue;
 				}
 				$sendUrlHere = "".$value["WebsiteBase"]."/status/core/php/functions/gitBranchName.php";
-				if($value["urlHit"] !== "")
+				if(isset($value["urlHit"]) && $value["urlHit"] !== "")
 				{
 					$sendUrlHere = $value["urlHit"];
 				}
