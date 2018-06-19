@@ -1,4 +1,5 @@
 var counterForSave = numberOfLogs+1;
+var refreshing = false;
 var updating = false;
 var pollTimer = null;
 var blocekdInnerObj = {};
@@ -57,6 +58,25 @@ function poll(all = -1, counterForSaveNew = 1)
 	}
 }
 
+function getToday()
+{
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+
+	if(dd<10)
+	{
+	    dd='0'+dd
+	} 
+
+	if(mm<10)
+	{
+	    mm='0'+mm
+	} 
+	return mm+'/'+dd+'/'+yyyy;
+}
+
 function tryHTTPForPollRequest(count)
 {
 	var name = "branchNameDevBox1"+arrayOfFiles[count]["Name"];
@@ -73,20 +93,7 @@ function tryHTTPForPollRequest(count)
 	}
 	if(dateForEnd !== null)
 	{
-		var today = new Date();
-		var dd = today.getDate();
-		var mm = today.getMonth()+1; //January is 0!
-		var yyyy = today.getFullYear();
-
-		if(dd<10) {
-		    dd='0'+dd
-		} 
-
-		if(mm<10) {
-		    mm='0'+mm
-		} 
-
-		today = mm+'/'+dd+'/'+yyyy;
+		var today = getToday();
 		if (dateForEnd >= today)
 		{
 			doPollLogic = false;
@@ -101,6 +108,24 @@ function tryHTTPForPollRequest(count)
 		pollCompleteLogic();
 	}
 }
+
+function showLoadingSpinnerHeader(name)
+{
+	if(document.getElementById(name))
+	{
+		if(document.getElementById(name+'loadingSpinnerHeader').style.display !== "inline-block")
+		{
+			document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
+		}
+		if(document.getElementById(name+"spinnerDiv").style.display === "none")
+		{
+			document.getElementById(name+"spinnerDiv").style.display = "none";
+		}
+	}
+}
+
+
+
 function tryHttpActuallyPollLogic(count, name)
 {
 	var urlForSend = 'http://'+arrayOfFiles[count]["WebsiteBase"]+'/status/core/php/functions/gitBranchName.php?format=json';
@@ -108,10 +133,7 @@ function tryHttpActuallyPollLogic(count, name)
 	{
 		urlForSend = 'http://'+arrayOfFiles[count]["urlHit"]+'?format=json';
 	}
-	if(document.getElementById(name))
-	{
-		document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
-	}
+	showLoadingSpinnerHeader(name);
 	var id = name.replace("branchNameDevBox1", "");
 	var subBoxes = document.getElementsByClassName(id);
 	var countOfSubServers = subBoxes.length;
@@ -121,11 +143,7 @@ function tryHttpActuallyPollLogic(count, name)
 		{
 			var nameForBackground = subBoxes[i].getElementsByClassName("innerFirstDevBox")[0].id;
 			var noSpaceName = nameForBackground.replace("innerFirstDevBox", "");
-
-			if(document.getElementById(noSpaceName))
-			{
-				document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "inline-block";
-			}
+			showLoadingSpinnerHeader(noSpaceName);
 		}
 	}
 	loadingSpinnerText.innerHTML = (counterForSave);
@@ -199,7 +217,10 @@ function showPopupWithMessage(type, message)
 
 function decreaseSpinnerCounter()
 {
-	document.getElementById('loadingSpinnerMain').style.display = "block";
+	if(document.getElementById('loadingSpinnerMain').style.display !== "block")
+	{
+		document.getElementById('loadingSpinnerMain').style.display = "block";
+	}
 	var loadingSpinnerText = document.getElementById('loadingSpinnerText');
 	counterForSave--;
 	loadingSpinnerText.innerHTML = (counterForSave);
@@ -223,41 +244,41 @@ function addGroup(groupName)
 
 function pollCompleteLogic()
 {
-	document.getElementById('loadingSpinnerMain').style.display = "block";
 	var loadingSpinnerText = decreaseSpinnerCounter();
-	if(counterForSave < 1)
+	if(counterForSave >= 1)
 	{
-		if(cacheEnabled === "true")
+		return;
+	}
+	if(cacheEnabled === "true")
+	{
+		loadingSpinnerText.innerHTML = "Saving..."
+		if(!jQuery.isEmptyObject(arrayOfWatchFilters))
 		{
-			loadingSpinnerText.innerHTML = "Saving..."
-			if(!jQuery.isEmptyObject(arrayOfWatchFilters))
-			{
-				//save object after poll
-				var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
-				var data = {arrayOfdata: arrayOfWatchFilters};
-				(function(_data){
+			//save object after poll
+			var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
+			var data = {arrayOfdata: arrayOfWatchFilters};
+			(function(_data){
 
-					$.ajax({
-					url: urlForSend,
-					dataType: 'json',
-					global: false,
-					data: data,
-					type: 'POST',
-					complete: function(data)
-					{
-						document.getElementById('loadingSpinnerMain').style.display = "none";
-						loadingSpinnerText.innerHTML = "";
-						document.getElementById("refreshDiv").style.display = "inline-block";
-						}
-					});
-				}(data));
-			}
+				$.ajax({
+				url: urlForSend,
+				dataType: 'json',
+				global: false,
+				data: data,
+				type: 'POST',
+				complete: function(data)
+				{
+					document.getElementById('loadingSpinnerMain').style.display = "none";
+					loadingSpinnerText.innerHTML = "";
+					document.getElementById("refreshDiv").style.display = "inline-block";
+					}
+				});
+			}(data));
 		}
-		else
-		{
-			document.getElementById('loadingSpinnerMain').style.display = "none";
-		}
-	}		
+	}
+	else
+	{
+		document.getElementById('loadingSpinnerMain').style.display = "none";
+	}	
 }
 
 function pollFailure(xhr, error, dataInnerPass)
@@ -526,36 +547,30 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	    {
 		    if(checkForIssueInCommit == "true")
 		    {
-			    for (var i = 0, len = dataBranchForFileStats.length; i < len; i++) 
+			    for(var i = 0, len = dataBranchForFileStats.length; i < len; i++) 
 			    {
-				  if(dataBranchForFileStats[i] == "#")
-				  {
-				  	if(!isNaN(dataBranchForFileStats[i+1]))
-				  	{
-				  		if(dataBranchForFileStats[i-1] != "&")
+					if((dataBranchForFileStats[i] == "#") && (!isNaN(dataBranchForFileStats[i+1])) && (dataBranchForFileStats[i-1] != "&"))
+					{
+						var j = 1;
+				  		var num = "";
+				  		if(dataBranchForFileStats[i+j] != " " && (!isNaN(dataBranchForFileStats[i+j])))
 				  		{
-				  			var j = 1;
-					  		var num = "";
-					  		if(dataBranchForFileStats[i+j] != " " && (!isNaN(dataBranchForFileStats[i+j])))
+				  			while((!isNaN(dataBranchForFileStats[i+j])) && dataBranchForFileStats[i+j] != " ")
 					  		{
-					  			while((!isNaN(dataBranchForFileStats[i+j])) && dataBranchForFileStats[i+j] != " ")
-						  		{
-						  			num += dataBranchForFileStats[i+j];
-						  			j++;
-						  		}
-						  		if(!isNaN(num));
-						  		{
-					  				link = '<a style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
-						  			dataBranchForFile += " "+link;
-						  			linksFromCommitMessage.push(num.toString());
-							  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
-							  		len = dataBranchForFileStats.length;
-							  		i = i + link.length;
-						  		}
+					  			num += dataBranchForFileStats[i+j];
+					  			j++;
+					  		}
+					  		if(!isNaN(num));
+					  		{
+				  				link = '<a style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
+					  			dataBranchForFile += " "+link;
+					  			linksFromCommitMessage.push(num.toString());
+						  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
+						  		len = dataBranchForFileStats.length;
+						  		i = i + link.length;
 					  		}
 				  		}
-				  	}
-				  }
+					}
 				}
 			}
 			//loop through filters, if match -> get number, add to title if != link
@@ -817,26 +832,12 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 
 function switchToColorLed(noSpaceName, type)
 {
+	var typeArray = {red: {0: "inline-block", 1: "none", 2: "none"}, yellow: {0: "none", 1: "inline-block", 2: "none"}, green: {0: "none", 1: "none", 2: "inline-block"}};
 	if(document.getElementById(noSpaceName+'redwWarning'))
 	{
-		if(type === "red")
-		{
-			document.getElementById(noSpaceName+'redwWarning').style.display = "inline-block";
-			document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
-			document.getElementById(noSpaceName+'greenNotice').style.display = "none";
-		}
-		else if(type === "yellow")
-		{
-			document.getElementById(noSpaceName+'redwWarning').style.display = "none";
-			document.getElementById(noSpaceName+'yellowWarning').style.display = "inline-block";
-			document.getElementById(noSpaceName+'greenNotice').style.display = "none";
-		}
-		else
-		{
-			document.getElementById(noSpaceName+'redwWarning').style.display = "none";
-			document.getElementById(noSpaceName+'yellowWarning').style.display = "none";
-			document.getElementById(noSpaceName+'greenNotice').style.display = "inline-block";
-		}
+		document.getElementById(noSpaceName+'redwWarning').style.display = typeArray[type][0];
+		document.getElementById(noSpaceName+'yellowWarning').style.display = typeArray[type][1];
+		document.getElementById(noSpaceName+'greenNotice').style.display = typeArray[type][2];
 	}
 }
 
@@ -857,7 +858,7 @@ function reverseString(str)
 function filterBGColor(filterName, idName, opacity)
 {
 	var newBG = false;
-	var filterByThisArray = [];
+	var filterByThisArray = errorAndColorComitteeArray;
 	var defaultColor = "#777777";
 	if (branchColorFilter == "branchName")
 	{
@@ -867,45 +868,38 @@ function filterBGColor(filterName, idName, opacity)
 	{
 		filterByThisArray = errorAndColorAuthorArray;
 	}
-	else
-	{
-		filterByThisArray = errorAndColorComitteeArray;
-	}
 
 	for(var property in filterByThisArray)
 	{
-		if (filterByThisArray.hasOwnProperty(property)) 
+		if(!(filterByThisArray.hasOwnProperty(property)))
 		{
-			if(filterByThisArray[property].type == "includes")
+			continue;
+		}
+		if(filterByThisArray[property].type == "includes")
+		{
+			if(filterName.includes(property))
 			{
-				if(filterName.includes(property) && newBG != true)
-				{
-					if(opacity != 1)
-					{
-						document.getElementById(idName).style.backgroundColor = $.xcolor.opacity((filterByThisArray[property].color), (document.getElementById(idName).style.backgroundColor), opacity);
-					}
-					else
-					{
-						document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
-					}
-					newBG = true;
-				}
+				newBG = true;
+			}
+		}
+		else
+		{
+			if(filterName == property)
+			{
+				newBG = true;
+			}
+		}
+		if(newBG)
+		{
+			if(opacity != 1)
+			{
+				document.getElementById(idName).style.backgroundColor = $.xcolor.opacity((filterByThisArray[property].color), (document.getElementById(idName).style.backgroundColor), opacity);
 			}
 			else
 			{
-				if(filterName == property)
-				{
-					if(opacity != 1)
-					{
-						document.getElementById(idName).style.backgroundColor = $.xcolor.opacity((filterByThisArray[property].color), (document.getElementById(idName).style.backgroundColor), opacity);
-					}
-					else
-					{
-						document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
-					}
-					newBG = true;
-				}
+				document.getElementById(idName).style.backgroundColor = "#"+filterByThisArray[property].color;
 			}
+			break;
 		}
 	}
 	if(!newBG)
@@ -913,8 +907,6 @@ function filterBGColor(filterName, idName, opacity)
 		document.getElementById(idName).style.backgroundColor = defaultColor;
 	}
 }
-
-var refreshing = false;
 
 function refreshAction(all = -1, status = 'outer')
 {
@@ -1158,18 +1150,14 @@ function removeAllButtonSelectorClasses(ignore)
 function calcuateWidth()
 {
 	var innerWidthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+	var mainWidth = 0;
 	if(document.getElementById("sidebar").style.width == '100px')
 	{
 		innerWidthWindow -= 103;
+		mainWidth = 103;
 	}
-	if(document.getElementById("sidebar").style.width == '100px')
-	{
-		document.getElementById("main").style.left = "103px";
-	}
-	else
-	{
-		document.getElementById("main").style.left = "0px";
-	}
+	document.getElementById("main").style.left = ""+mainWidth+"px";
+
 	var innerWidthWindowCalc = innerWidthWindow;
 	var innerWidthWindowCalcAdd = 0;
 	var numOfWindows = 0;
@@ -1220,7 +1208,8 @@ function showOrHideGroups(groupName)
 	$('#Group'+groupName).addClass('groupTabSelected');
 }
 
-function dropdownShow(nameOfElem) {
+function dropdownShow(nameOfElem)
+{
     if(document.getElementById("dropdown-"+nameOfElem).style.display == 'block')
     {
     	$('.dropdown-content').hide();
