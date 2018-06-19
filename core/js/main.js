@@ -1542,7 +1542,31 @@ function commitStuffSuccess(data)
 		{
 			continue;
 		}
-		htmlForCommit += "<div>"+escapeHTML(data[i])+"</div>";
+		else if(data[i].indexOf("diff --git") === 0)
+		{
+			htmlForCommit += "<div style=\"background-color: rgb(170, 170, 170);\"  >"+escapeHTML(data[i])+"</div>";
+		}
+		else if(data[i].indexOf("+++") === 0)
+		{
+			htmlForCommit += "<div>"+escapeHTML(data[i])+"</div>";
+		}
+		else if(data[i].indexOf("+") === 0)
+		{
+			htmlForCommit += "<div style=\"background-color: rgb(50, 205, 50, 0.5);\" >"+escapeHTML(data[i])+"</div>";
+		}
+		else if(data[i].indexOf("---") === 0)
+		{
+			htmlForCommit += "<div>"+escapeHTML(data[i])+"</div>";
+		}
+		else if(data[i].indexOf("-") === 0)
+		{
+			htmlForCommit += "<div>"+escapeHTML(data[i])+"</div>";
+		}
+		else
+		{
+			htmlForCommit += "<div>"+escapeHTML(data[i])+"</div>";
+		}
+		
 	}
 	$("#spanForMainDiff").html(htmlForCommit);
 }
