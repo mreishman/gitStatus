@@ -3,6 +3,18 @@ body{
 	margin: 0;
 }
 
+.commitLi
+{
+	height: 55px;
+	overflow: hidden;
+}
+
+.buttonListVert .colorAltBG:not(.selectedButton)
+{
+	background-color: rgb(170, 170, 170);
+}
+
+
 .buttonListVert
 {
 	list-style: none;

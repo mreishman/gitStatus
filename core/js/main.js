@@ -1439,22 +1439,45 @@ function commitListSuccess(data)
 			break;
 		}
 	}
+	var extCounter = 0;
 	var idForFirstCommit = idForCommit;
-	htmlForCommits += "<li id=\""+idForCommit+"\" onclick=\"viewCommit('"+idForCommit+"');\" >";
+	htmlForCommits += "<li class=\"commitLi\" id=\""+idForCommit+"\" onclick=\"viewCommit('"+idForCommit+"');\" >";
 	for(var i = 0; i < counterOfData; i++)
 	{
 		if(data[i] === "")
 		{
 			continue;
 		}
-		htmlForCommits += data[i];
 		if(i+2 < counterOfData && data[i+1].indexOf("commit") > -1 && data[i+2].indexOf("Author") > -1)
 		{
+			extCounter++;
+			htmlForCommits += data[i];
 			idForCommit = data[i+1].replace("commit","").trim();
-			htmlForCommits += "</li><li id=\""+idForCommit+"\" onclick=\"viewCommit('"+idForCommit+"');\" >";
+			htmlForCommits += "</li><li class=\"commitLi ";
+			if(extCounter % 2 !== 0)
+			{
+				htmlForCommits += " colorAltBG ";
+			}
+			htmlForCommits += " \" id=\""+idForCommit+"\" onclick=\"viewCommit('"+idForCommit+"');\" >";
+		}
+		else if(i + 1 < counterOfData && data[i].indexOf("commit") > -1 && data[i+1].indexOf("Author") > -1)
+		{
+			continue;
+		}
+		else if(data[i-1].indexOf("commit") > -1 && data[i].indexOf("Author") > -1)
+		{
+			htmlForCommits += "<b>"+data[i].replace("Author:","").trim()+"</b>";
+		}
+		else if(data[i-1].indexOf("Author") > -1 && data[i].indexOf("Date") > -1)
+		{
+			var dataTmp = data[i].replace("Date:","").trim();
+			dataTmp = new Date(dataTmp);
+			htmlForCommits += "<span style=\"float:right;\" ><b>"+dataTmp.getMonth()+"/"+dataTmp.getDate()+"/"+dataTmp.getFullYear()+"</b></span>";
+			htmlForCommits += "<br>";
 		}
 		else
 		{
+			htmlForCommits += data[i];
 			htmlForCommits += "<br>";
 		}
 	}
