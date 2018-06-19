@@ -1528,11 +1528,27 @@ function commitStuffSuccess(data)
 	var current = "start";
 	var currentNumberMinus = 0;
 	var currentNumberPlus = 0;
+	var skip = 0;
 	for(var i = 0; i < counterOfData; i++)
 	{
-		if(data[i] === "" || data[i].indexOf("\ No newline at end of file") > -1)
+		if(data[i] === "" || data[i].indexOf("\ No newline at end of file") > -1 || data[i].indexOf("+++") === 0 || data[i].indexOf("---") === 0)
 		{
 			continue;
+		}
+		else if(skip > 0)
+		{
+			skip--;
+			continue;
+		}
+		else if(data[i].indexOf("@@ -") > -1)
+		{
+			var locations = data[i];
+			locations = locations.split("@@");
+			var locationNum = locations[1];
+			var extraData = locations[2];
+			locationNum = locationNum.split(",");
+			currentNumberMinus = parseInt(locationNum[0].substr(2));
+			currentNumberPlus = parseInt(locationNum[1].split(" ")[1].substr(1));
 		}
 		else if(data[i].indexOf("diff --git") === 0)
 		{
@@ -1547,14 +1563,11 @@ function commitStuffSuccess(data)
 			current = "commit";
 			currentNumberMinus = 0;
 			currentNumberPlus = 0;
+			skip = 1;
 		}
 		else  if(current === "start")
 		{
 			htmlForCommit += "<div style=\"background-color: rgb(170, 170, 170);\"  >"+escapeHTML(data[i])+"</div>";
-		}
-		else if(data[i].indexOf("+++") === 0 || data[i].indexOf("---") === 0)
-		{
-			continue;
 		}
 		else if(data[i].indexOf("-") === 0)
 		{
