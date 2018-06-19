@@ -113,11 +113,11 @@ function showLoadingSpinnerHeader(name)
 {
 	if(document.getElementById(name))
 	{
-		if(document.getElementById(name+'loadingSpinnerHeader').style.display !== "inline-block")
+		if(document.getElementById(name+'loadingSpinnerHeader') && document.getElementById(name+'loadingSpinnerHeader').style.display !== "inline-block")
 		{
 			document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
 		}
-		if(document.getElementById(name+"spinnerDiv").style.display === "none")
+		if(document.getElementById(name+"spinnerDiv") && document.getElementById(name+"spinnerDiv").style.display === "none")
 		{
 			document.getElementById(name+"spinnerDiv").style.display = "none";
 		}
@@ -1525,35 +1525,52 @@ function commitStuffSuccess(data)
 	document.getElementById("mainCommitDiffLoading").style.display = "none";
 	var htmlForCommit = "";
 	var counterOfData = data.length;
+	var current = "start";
+	var currentNumberMinus = 0;
+	var currentNumberPlus = 0;
 	for(var i = 0; i < counterOfData; i++)
 	{
-		if(data[i] === "")
+		if(data[i] === "" || data[i].indexOf("\ No newline at end of file") > -1)
 		{
 			continue;
 		}
 		else if(data[i].indexOf("diff --git") === 0)
 		{
+			if(current === "start")
+			{
+				htmlForCommit += "<div style=\"border-bottom: 1px solid black;\" ></div>";
+			}
+			var fileName = data[i].replace("diff --git a/","");
+			fileName = fileName.substring(0, fileName.indexOf(" b/"));
+			fileName = escapeHTML(fileName);
+			htmlForCommit += "<div style=\"background-color: rgb(170, 170, 170); padding: 10px;\"  >"+fileName+"</div>";
+			current = "commit";
+			currentNumberMinus = 0;
+			currentNumberPlus = 0;
+		}
+		else  if(current === "start")
+		{
 			htmlForCommit += "<div style=\"background-color: rgb(170, 170, 170);\"  >"+escapeHTML(data[i])+"</div>";
 		}
-		else if(data[i].indexOf("+++") === 0)
+		else if(data[i].indexOf("+++") === 0 || data[i].indexOf("---") === 0)
 		{
-			htmlForCommit += "<div>"+escapeHTML(data[i])+"</div>";
-		}
-		else if(data[i].indexOf("+") === 0)
-		{
-			htmlForCommit += "<div style=\"background-color: rgb(50, 205, 50, 0.5);\" >"+escapeHTML(data[i])+"</div>";
-		}
-		else if(data[i].indexOf("---") === 0)
-		{
-			htmlForCommit += "<div>"+escapeHTML(data[i])+"</div>";
+			continue;
 		}
 		else if(data[i].indexOf("-") === 0)
 		{
-			htmlForCommit += "<div>"+escapeHTML(data[i])+"</div>";
+			htmlForCommit += "<div style=\"background-color: rgb(205, 50, 50, 0.5);\" ><span style=\"width: 30px; display: inline-block;\" >"+currentNumberMinus+"</span><span style=\"width: 30px; display: inline-block;\" ></span>"+escapeHTML(data[i]).substr(1)+"</div>";
+			currentNumberMinus++;
+		}
+		else if(data[i].indexOf("+") === 0)
+		{
+			htmlForCommit += "<div style=\"background-color: rgb(50, 205, 50, 0.5);\" ><span style=\"width: 30px; display: inline-block;\" ></span><span style=\"width: 30px; display: inline-block;\" >"+currentNumberPlus+"</span>"+escapeHTML(data[i]).substr(1)+"</div>";
+			currentNumberPlus++;
 		}
 		else
 		{
-			htmlForCommit += "<div>"+escapeHTML(data[i])+"</div>";
+			htmlForCommit += "<div><span style=\"width: 30px; display: inline-block;\" >"+currentNumberMinus+"</span><span style=\"width: 30px; display: inline-block;\" >"+currentNumberPlus+"</span>"+escapeHTML(data[i])+"</div>";
+			currentNumberMinus++;
+			currentNumberPlus++;
 		}
 		
 	}
