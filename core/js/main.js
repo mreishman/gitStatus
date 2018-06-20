@@ -1535,12 +1535,7 @@ function commitStuffSuccess(data)
 		{
 			continue;
 		}
-		else if(skip > 0)
-		{
-			skip--;
-			continue;
-		}
-		else if(data[i].indexOf("@@ -") > -1)
+		else if(data[i].indexOf("@@ -") > -1 && skip > 0)
 		{
 			var locations = data[i];
 			locations = locations.split("@@");
@@ -1549,12 +1544,22 @@ function commitStuffSuccess(data)
 			locationNum = locationNum.split(",");
 			currentNumberMinus = parseInt(locationNum[0].substr(2));
 			currentNumberPlus = parseInt(locationNum[1].split(" ")[1].substr(1));
+			skip--;
+		}
+		else if(skip > 0)
+		{
+			skip--;
+			continue;
 		}
 		else if(data[i].indexOf("diff --git") === 0)
 		{
 			if(current === "start")
 			{
-				htmlForCommit += "<div style=\"border-bottom: 1px solid black;\" ></div>";
+				htmlForCommit += "<div style=\"border-bottom: 1px solid black; padding-top: 10px; background-color: rgb(170, 170, 170);\" ></div>";
+			}
+			else
+			{
+				htmlForCommit += "</table>";
 			}
 			var fileName = data[i].replace("diff --git a/","");
 			fileName = fileName.substring(0, fileName.indexOf(" b/"));
@@ -1563,30 +1568,49 @@ function commitStuffSuccess(data)
 			current = "commit";
 			currentNumberMinus = 0;
 			currentNumberPlus = 0;
-			skip = 1;
+			skip = 2;
+			htmlForCommit += "<table width=\"100%\" style=\"border-spacing: 0;\" ><tr><td style=\"width: 60px;\" ></td><td style=\"width: 60px;\" ></td><td></td></tr>";
 		}
-		else  if(current === "start")
+		else if(current === "start")
 		{
-			htmlForCommit += "<div style=\"background-color: rgb(170, 170, 170);\"  >"+escapeHTML(data[i])+"</div>";
+			if(data[i].indexOf("commit ") === 0)
+			{
+				htmlForCommit += "<div style=\"background-color: rgb(170, 170, 170); padding-top: 10px;\" ></div><div style=\"background-color: rgb(170, 170, 170); float: right;\"  >"+escapeHTML(data[i]).replace("commit","").trim()+"</div>";
+			}
+			else if(data[i].indexOf("Author: ") === 0)
+			{
+				htmlForCommit += "<div style=\"background-color: rgb(170, 170, 170); padding: 10px;\"  ><b>"+escapeHTML(data[i].substring(0, data[i].indexOf(" <"))).replace("Author: ","").trim()+":</b>";
+			}
+			else if(data[i].indexOf("Date: ") === 0)
+			{
+				var commitDate = data[i].replace("Date: ","").trim();
+				commitDate = new Date(commitDate);
+				htmlForCommit += " "+commitDate.getMonth()+"/"+commitDate.getDate()+"/"+commitDate.getFullYear()+" - "+commitDate.getHours()+":"+commitDate.getMinutes()+"</div>";
+			}
+			else
+			{
+				htmlForCommit += "<div style=\"background-color: rgb(170, 170, 170); padding-left: 10px;\"  >"+escapeHTML(data[i]).trim()+"</div>";
+			}
 		}
 		else if(data[i].indexOf("-") === 0)
 		{
-			htmlForCommit += "<div style=\"background-color: rgb(205, 50, 50, 0.5);\" ><span style=\"width: 30px; display: inline-block;\" >"+currentNumberMinus+"</span><span style=\"width: 30px; display: inline-block;\" ></span>"+escapeHTML(data[i]).substr(1)+"</div>";
+			htmlForCommit += "<tr style=\"background-color: rgb(205, 50, 50, 0.5);\" ><td>"+currentNumberMinus+"</td><td ></td><td>"+escapeHTML(data[i]).substr(1)+"</td></tr>";
 			currentNumberMinus++;
 		}
 		else if(data[i].indexOf("+") === 0)
 		{
-			htmlForCommit += "<div style=\"background-color: rgb(50, 205, 50, 0.5);\" ><span style=\"width: 30px; display: inline-block;\" ></span><span style=\"width: 30px; display: inline-block;\" >"+currentNumberPlus+"</span>"+escapeHTML(data[i]).substr(1)+"</div>";
+			htmlForCommit += "<tr style=\"background-color: rgb(50, 205, 50, 0.5);\" ><td></td><td>"+currentNumberPlus+"</td><td>"+escapeHTML(data[i]).substr(1)+"</td></tr>";
 			currentNumberPlus++;
 		}
 		else
 		{
-			htmlForCommit += "<div><span style=\"width: 30px; display: inline-block;\" >"+currentNumberMinus+"</span><span style=\"width: 30px; display: inline-block;\" >"+currentNumberPlus+"</span>"+escapeHTML(data[i])+"</div>";
+			htmlForCommit += "<tr><td>"+currentNumberMinus+"</td><td>"+currentNumberPlus+"</td><td>"+escapeHTML(data[i])+"</td></tr>";
 			currentNumberMinus++;
 			currentNumberPlus++;
 		}
 		
 	}
+	htmlForCommit += "</table>";
 	$("#spanForMainDiff").html(htmlForCommit);
 }
 
