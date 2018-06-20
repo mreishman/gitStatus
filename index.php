@@ -473,8 +473,11 @@ function generateWindow($data = array())
 					<li onclick="closeDetailBar();" >
 						<a>Close</a>
 					</li>
-					<li onclick="getListOfCommits();" class="selectedButton">
+					<li id="infoTab" onclick="toggleInfoTab();" class="selectedButton">
 						<a>Info</a>
+					</li>
+					<li id="LogHogTab" onclick="toggleIframe('loghog');" style="display: none;" >
+						<a>Log-Hog</a>
 					</li>
 				</ul>
 			</div>
@@ -500,6 +503,9 @@ function generateWindow($data = array())
 							</td>
 						</tr>
 					</table>
+				</div>
+				<div id="iframeHolder" style="display: none;">
+					<iframe id="iframeForStuff" src="./iframe.html"></iframe>
 				</div>
 			</div>
 		</div>

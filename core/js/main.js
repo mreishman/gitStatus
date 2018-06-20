@@ -1187,6 +1187,7 @@ function calcuateWidth()
 	{
 		document.getElementById("sideBox").style.width = ((innerWidthWindow)-410)+"px";
 	}
+	document.getElementById("iframeForStuff").style.width = ((innerWidthWindow)-415)+"px";
 }
 
 function showOrHideGroups(groupName)
@@ -1325,6 +1326,12 @@ function actuallyInstallUpdates()
 
 function toggleDetailBar(e, key)
 {
+	//hide ext links
+	hideAllSubFrames();
+
+	$("#infoTab").addClass("selectedButton");
+	document.getElementById("sideBoxBoxForInfo").style.display = "block";
+
 	var list = e.target.classList;
 	if(list === "")
 	{
@@ -1358,16 +1365,50 @@ function toggleDetailBar(e, key)
 	currentIdOfMainSidebar = key;
 	resizeFunction();
 
+	//external Links
+	if(document.getElementById(key+"LogHogInner").href != "#" && document.getElementById(key+"LogHogInner").href != "")
+	{
+		document.getElementById("LogHogTab").style.display = "inline-block";
+	}
+
 	//info
 	getListOfCommits();
 }
 
 function closeDetailBar()
 {
+	$('#iframeForStuff').prop('src', "./iframe.html");
 	$(".devBoxTitle").css("background-color","#aaaaaa");
 	document.getElementById("sideBox").style.display = "none";
 	document.getElementById("windows").style.width = "auto";
 	resizeFunction();
+}
+
+function hideAllSubFrames()
+{
+	$(".buttonList li").removeClass("selectedButton");
+	document.getElementById("sideBoxBoxForInfo").style.display = "none";
+	document.getElementById("iframeHolder").style.display = "none";
+	$('#iframeForStuff').prop('src', "./iframe.html");
+}
+
+function toggleInfoTab()
+{
+	hideAllSubFrames();
+	$("#infoTab").addClass("selectedButton");
+	document.getElementById("sideBoxBoxForInfo").style.display = "block";
+	getListOfCommits();
+}
+
+function toggleIframe(site)
+{
+	hideAllSubFrames();
+	if(site == "loghog")
+	{
+		$("#LogHogTab").addClass("selectedButton");
+		$('#iframeForStuff').prop('src', document.getElementById(currentIdOfMainSidebar+"LogHogInner").href);
+	}
+	document.getElementById("iframeHolder").style.display = "block";
 }
 
 
