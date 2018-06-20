@@ -1364,15 +1364,15 @@ function toggleDetailBar(e, key)
 	document.getElementById("LogHogTab").style.display = "none";
 	document.getElementById("MonitorTab").style.display = "none";
 	document.getElementById("SearchTab").style.display = "none";
-	if(document.getElementById(key+"LogHogInner").href != "#" && document.getElementById(key+"LogHogInner").href != "")
+	if(document.getElementById(key+"LogHogInner").href != window.location.href+"#" && document.getElementById(key+"LogHogInner").href != "#" && document.getElementById(key+"LogHogInner").href != "")
 	{
 		document.getElementById("LogHogTab").style.display = "inline-block";
 	}
-	if(document.getElementById(key+"MonitorInner").href != "#" && document.getElementById(key+"MonitorInner").href != "")
+	if(document.getElementById(key+"MonitorInner").href != window.location.href+"#" && document.getElementById(key+"MonitorInner").href != "#" && document.getElementById(key+"MonitorInner").href != "")
 	{
 		document.getElementById("MonitorTab").style.display = "inline-block";
 	}
-	if(document.getElementById(key+"SearchInner").href != "#" && document.getElementById(key+"SearchInner").href != "")
+	if(document.getElementById(key+"SearchInner").href != window.location.href+"#" && document.getElementById(key+"SearchInner").href != "#" && document.getElementById(key+"SearchInner").href != "")
 	{
 		document.getElementById("SearchTab").style.display = "inline-block";
 	}
