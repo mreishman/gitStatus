@@ -1361,9 +1361,20 @@ function toggleDetailBar(e, key)
 	resizeFunction();
 
 	//external Links
+	document.getElementById("LogHogTab").style.display = "none";
+	document.getElementById("MonitorTab").style.display = "none";
+	document.getElementById("SearchTab").style.display = "none";
 	if(document.getElementById(key+"LogHogInner").href != "#" && document.getElementById(key+"LogHogInner").href != "")
 	{
 		document.getElementById("LogHogTab").style.display = "inline-block";
+	}
+	if(document.getElementById(key+"MonitorInner").href != "#" && document.getElementById(key+"MonitorInner").href != "")
+	{
+		document.getElementById("MonitorTab").style.display = "inline-block";
+	}
+	if(document.getElementById(key+"SearchInner").href != "#" && document.getElementById(key+"SearchInner").href != "")
+	{
+		document.getElementById("SearchTab").style.display = "inline-block";
 	}
 
 	//info
@@ -1402,6 +1413,16 @@ function toggleIframe(site)
 	{
 		$("#LogHogTab").addClass("selectedButton");
 		$('#iframeForStuff').prop('src', document.getElementById(currentIdOfMainSidebar+"LogHogInner").href);
+	}
+	else if(site === "monitor")
+	{
+		$("#MonitorTab").addClass("selectedButton");
+		$('#iframeForStuff').prop('src', document.getElementById(currentIdOfMainSidebar+"MonitorInner").href);
+	}
+	else if(site === "search")
+	{
+		$("#SearchTab").addClass("selectedButton");
+		$('#iframeForStuff').prop('src', document.getElementById(currentIdOfMainSidebar+"SearchInner").href);
 	}
 	document.getElementById("iframeHolder").style.display = "block";
 }

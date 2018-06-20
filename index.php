@@ -479,6 +479,12 @@ function generateWindow($data = array())
 					<li id="LogHogTab" onclick="toggleIframe('loghog');" style="display: none;" >
 						<a>Log-Hog</a>
 					</li>
+					<li id="MonitorTab" onclick="toggleIframe('monitor');" style="display: none;" >
+						<a>Monitor</a>
+					</li>
+					<li id="SearchTab" onclick="toggleIframe('search');" style="display: none;" >
+						<a>Search</a>
+					</li>
 				</ul>
 			</div>
 			<div>
