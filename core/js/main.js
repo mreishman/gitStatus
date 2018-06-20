@@ -1373,12 +1373,15 @@ function closeDetailBar()
 
 function getListOfCommits()
 {
+	document.getElementById("noChangesToDisplay").style.display = "none";
 	var idName = currentIdOfMainSidebar;
 	document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "list-item";
 	$("#otherCommitsFromPast").html("");
 	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
 	{
 		//cant get data for commits, show correct message
+		document.getElementById("noChangesToDisplay").style.display = "block";
+		document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
 		return;
 	}
 	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
@@ -1407,6 +1410,7 @@ function getListOfCommits()
 			{
 				//show appropriate error message
 				document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
+				document.getElementById("noChangesToDisplay").style.display = "block";
 			}
 		});
 	}(data));
@@ -1478,6 +1482,7 @@ function commitListSuccess(data)
 
 function viewCommit(idForCommit)
 {
+	document.getElementById("noChangesToDisplay").style.display = "none";
 	$("#listOfCommitHistory li").removeClass("selectedButton");
 	$("#"+idForCommit).addClass("selectedButton");
 	var idName = currentIdOfMainSidebar;
@@ -1514,6 +1519,7 @@ function viewCommit(idForCommit)
 			{
 				//show appropriate error message
 				document.getElementById("mainCommitDiffLoading").style.display = "none";
+				document.getElementById("noChangesToDisplay").style.display = "block";
 			}
 		});
 	}(data));

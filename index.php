@@ -492,7 +492,7 @@ function generateWindow($data = array())
 							</td>
 							<td style="vertical-align: top;">
 								<h1 id="mainCommitDiffLoading" style="text-align: center;" ><img style="width: 20px;" src="core/img/loading.gif"> </h1>
-								<h1 style="text-align: center; display: none;" >No Changes to Display </h1>
+								<h1 id="noChangesToDisplay" style="text-align: center; display: none;" >No Changes to Display </h1>
 								<span id="spanForMainDiff" style="overflow: auto; display: block; white-space: pre-wrap;" ></span>
 							</td>
 						</tr>
