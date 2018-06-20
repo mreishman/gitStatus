@@ -487,6 +487,9 @@ function generateWindow($data = array())
 									<li id="spinnerLiForSideBoxBoxForInfo">
 										<img style="width: 20px;" src="core/img/loading.gif"> 
 									</li>
+									<li onclick="getListOfCommits();">
+										Refresh
+									</li>
 									<span id="otherCommitsFromPast" ></span>
 								</ul>
 							</td>
