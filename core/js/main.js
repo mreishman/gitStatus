@@ -1649,7 +1649,12 @@ function commitStuffSuccess(data)
 			{
 				var commitDate = data[i].replace("Date: ","").trim();
 				commitDate = new Date(commitDate);
-				htmlForCommit += " "+commitDate.getMonth()+"/"+commitDate.getDate()+"/"+commitDate.getFullYear()+" - "+commitDate.getHours()+":"+commitDate.getMinutes()+"</div>";
+				var minForCommit = commitDate.getMinutes();
+				if(minForCommit < 10)
+				{
+					minForCommit = "0"+minForCommit;
+				}
+				htmlForCommit += " "+commitDate.getMonth()+"/"+commitDate.getDate()+"/"+commitDate.getFullYear()+" - "+commitDate.getHours()+":"+minForCommit+"</div>";
 			}
 			else
 			{
