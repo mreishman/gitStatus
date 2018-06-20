@@ -1326,11 +1326,6 @@ function actuallyInstallUpdates()
 
 function toggleDetailBar(e, key)
 {
-	//hide ext links
-	hideAllSubFrames();
-
-	$("#infoTab").addClass("selectedButton");
-	document.getElementById("sideBoxBoxForInfo").style.display = "block";
 
 	var list = e.target.classList;
 	if(list === "")
@@ -1372,7 +1367,7 @@ function toggleDetailBar(e, key)
 	}
 
 	//info
-	getListOfCommits();
+	toggleInfoTab();
 }
 
 function closeDetailBar()
@@ -1416,6 +1411,7 @@ function getListOfCommits()
 {
 	document.getElementById("noChangesToDisplay").style.display = "none";
 	var idName = currentIdOfMainSidebar;
+	$("#spanForMainDiff").html("");
 	document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "list-item";
 	$("#otherCommitsFromPast").html("");
 	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
