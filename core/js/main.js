@@ -1469,6 +1469,42 @@ function getListOfCommits()
 				//show appropriate error message
 				document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
 				document.getElementById("noChangesToDisplay").style.display = "block";
+				getListOfCommitsHttp();
+			}
+		});
+	}(data));
+}
+
+function getListOfCommitsHttp()
+{
+	var idName = currentIdOfMainSidebar;
+	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
+	if(!(urlForSend.indexOf("http") > -1))
+	{
+		urlForSend = "http://"+urlForSend;
+	}
+	if(!(urlForSend.indexOf("core") > -1))
+	{
+		urlForSend += "/status/core/php/functions/";
+	}
+	urlForSend += "gitCommitHistory.php";
+	var data = {location: arrayOfWatchFilters[idName]["location"]};
+	(function(_data){
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data,
+			type: 'POST',
+			success: function(data)
+			{
+				commitListSuccess(data);
+			},
+			error: function(xhr, error)
+			{
+				//show appropriate error message
+				document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
+				document.getElementById("noChangesToDisplay").style.display = "block";
 			}
 		});
 	}(data));
@@ -1578,6 +1614,42 @@ function viewCommit(idForCommit)
 				//show appropriate error message
 				document.getElementById("mainCommitDiffLoading").style.display = "none";
 				document.getElementById("noChangesToDisplay").style.display = "block";
+				viewCommitHttp(idForCommit);
+			}
+		});
+	}(data));
+}
+
+function viewCommitHttp(idForCommit)
+{
+	var idName = currentIdOfMainSidebar;
+	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
+	if(!(urlForSend.indexOf("http") > -1))
+	{
+		urlForSend = "http://"+urlForSend;
+	}
+	if(!(urlForSend.indexOf("core") > -1))
+	{
+		urlForSend += "/status/core/php/functions/";
+	}
+	urlForSend += "gitShowCommitStuff.php";
+	var data = {location: arrayOfWatchFilters[idName]["location"], commit: idForCommit};
+	(function(_data){
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data,
+			type: 'POST',
+			success: function(data)
+			{
+				commitStuffSuccess(data);
+			},
+			error: function(xhr, error)
+			{
+				//show appropriate error message
+				document.getElementById("mainCommitDiffLoading").style.display = "none";
+				document.getElementById("noChangesToDisplay").style.display = "block";
 			}
 		});
 	}(data));
@@ -1586,6 +1658,7 @@ function viewCommit(idForCommit)
 
 function commitStuffSuccess(data)
 {
+	document.getElementById("noChangesToDisplay").style.display = "none";
 	document.getElementById("mainCommitDiffLoading").style.display = "none";
 	var htmlForCommit = "";
 	var counterOfData = data.length;
