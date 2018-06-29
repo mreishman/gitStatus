@@ -1378,7 +1378,7 @@ function toggleDetailBar(e, key)
 	}
 
 	//info
-	toggleInfoTab();
+	toggleCommitsTab();
 }
 
 function closeDetailBar()
@@ -1398,10 +1398,10 @@ function hideAllSubFrames()
 	$('#iframeForStuff').prop('src', "./iframe.html");
 }
 
-function toggleInfoTab()
+function toggleCommitsTab()
 {
 	hideAllSubFrames();
-	$("#infoTab").addClass("selectedButton");
+	$("#commitsTab").addClass("selectedButton");
 	document.getElementById("sideBoxBoxForInfo").style.display = "block";
 	getListOfCommits();
 }

@@ -475,8 +475,11 @@ function generateWindow($data = array())
 					<li onclick="closeDetailBar();" >
 						<a>Close</a>
 					</li>
-					<li id="infoTab" onclick="toggleInfoTab();" class="selectedButton">
+					<li style="display: none;" id="infoTab" onclick="toggleInfoTab();" >
 						<a>Info</a>
+					</li>
+					<li id="commitsTab" onclick="toggleCommitsTab();" class="selectedButton">
+						<a>Commits</a>
 					</li>
 					<li id="LogHogTab" onclick="toggleIframe('loghog');" style="display: none;" >
 						<a>Log-Hog</a>
@@ -490,6 +493,9 @@ function generateWindow($data = array())
 				</ul>
 			</div>
 			<div>
+				<div id="sideBoxForActualInfo" style="display: none;">
+					
+				</div>
 				<div id="sideBoxBoxForInfo">
 					<table width="100%" style="border-spacing: 0;">
 						<tr>
