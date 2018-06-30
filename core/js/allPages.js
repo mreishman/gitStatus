@@ -41,12 +41,23 @@ function toggleMenuSideBar()
     document.getElementById("closeMenuHamburger").style.display = objSett[selector]["closeMenuHamburger"];	
 }
 
+calcuateWidth();
+
 function resizeFunction()
 {
 	calcuateWidth();
 	var heightWindow = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 	var heightVar = (heightWindow-40)+"px";
 	document.getElementById("main").style.height = heightVar;
+    if(document.getElementById("windows"))
+    {
+        document.getElementById("windows").style.height = heightVar;
+        document.getElementById("sideBox").style.height = (heightWindow-100)+"px";
+        document.getElementById("iframeForStuff").style.height = (heightWindow-143)+"px";
+        document.getElementById("listOfCommitHistory").style.height = (heightWindow-138)+"px";
+        document.getElementById("spanForMainDiff").style.height = (heightWindow-138)+"px";
+
+    }
 }
 
 $(window).resize(function(){

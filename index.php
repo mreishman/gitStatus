@@ -191,7 +191,7 @@ function generateWindow($data = array())
 
 	$blockHTML =  "	<div class=\"firstBoxDev ".$groupInfo." \"  ".$groupInfoStyle." >";
 	$blockHTML .= "		<div class=\"innerFirstDevBox\" id=\"innerFirstDevBox".$keyNoSpace."\"  ".$backgroundColor." >";
-	$blockHTML .= "			<div class=\"devBoxTitle\">";
+	$blockHTML .= "			<div onclick=\"toggleDetailBar(event, '".$keyNoSpace."');\" class=\"devBoxTitle\" style=\"cursor: pointer;\" >";
 	$blockHTML .= "				<div class=\"led-red\" id=\"".$keyNoSpace."redwWarning\" style=\"display: inline-block; margin-bottom: -8px; display: ".$redLED." \">";
 	$blockHTML .= "				</div>";
 	$blockHTML .= "				<div class=\"led-yellow\" id=\"".$keyNoSpace."yellowWarning\" style=\"display: inline-block; margin-bottom: -8px; display: ".$yellowLED." \">";
@@ -199,13 +199,11 @@ function generateWindow($data = array())
 	$blockHTML .= "				<div class=\"led-green\" id=\"".$keyNoSpace."greenNotice\" style=\"display: inline-block; margin-bottom: -8px; display: ".$greenLED." \">";
 	$blockHTML .= "				</div>";
 	$blockHTML .= "				<a style=\"color: black;\" href=\"https://".$website."\"><b>".$name."</b></a>";
-	$blockHTML .= "				<div id=\"".$keyNoSpace."spinnerDiv\" onclick=\"refreshAction('".$keyNoSpace."','inner');\" style=\"display: ".$showRefresh.";cursor: pointer; height: 25px; width: 25px; \">";
-	$blockHTML .= "					<img style=\"margin-bottom: -5px;\" id=\"refreshImage".$keyNoSpace."\" class=\"menuImage\" src=\"core/img/Refresh2.png\" height=\"25px\">";
-	$blockHTML .= "				</div>";
 	$blockHTML .= "				<img id=\"".$keyNoSpace."loadingSpinnerHeader\" class=\"loadingSpinnerHeader\" style=\"width: 25px; margin-bottom: -5px; display: none;\" src=\"core/img/loading.gif\" >";
 	$blockHTML .= "				<div class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
 	$blockHTML .= "				<div id=\"dropdown-".$keyNoSpace."\" class=\"dropdown-content\">";
 	$blockHTML .= "			    	<a style=\"cursor: pointer\" onclick=\"refreshAction('".$keyNoSpace."','inner');\" >Refresh</a>";
+	$blockHTML .= "					<span style=\"display: none;\" >";
 	$blockHTML .= "			    	<div id=\"".$keyNoSpace."LogHogOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
 	$blockHTML .= "						<a id=\"".$keyNoSpace."LogHogInner\" style=\"color: black;\" href=\"#\">Log-Hog</a>";
 	$blockHTML .= "					</div>";
@@ -215,6 +213,7 @@ function generateWindow($data = array())
 	$blockHTML .= "					<div id=\"".$keyNoSpace."SearchOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
 	$blockHTML .= "						<a id=\"".$keyNoSpace."SearchInner\" style=\"color: black;\" href=\"#\">Search</a>";
 	$blockHTML .= "					</div>";
+	$blockHTML .= "					</span>";
 	$blockHTML .= "					<a id=\"".$keyNoSpace."errorMessageLink\" style=\"cursor: pointer; display: none;\">Error</a> ";
 	$blockHTML .= "					<a id=\"".$keyNoSpace."noticeMessageLink\" style=\"cursor: pointer; display: none;\">Notice</a> ";
 	$blockHTML .= "				</div>";
@@ -257,217 +256,273 @@ function generateWindow($data = array())
 <body>
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
 	<?php require_once('core/php/templateFiles/header.php'); ?>
-	<div id="main">
-		<?php
-		$arrayOfGroups = array();
-		$showTopBarOfGroups = false;
-		$count = 0;
-		foreach ($config['watchList'] as $key => $value)
-		{
-			if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
-			{
-				$count++;
-				if($count > 1)
-				{
-					$showTopBarOfGroups = true;
-				}
-				if(!in_array($value['groupInfo'], $arrayOfGroups))
-				{
-					array_push($arrayOfGroups, $value['groupInfo']);
-				}
-			}
-		}
-		if($cacheEnabled === "true")
-		{
-			foreach ($cachedStatusMainObject as $key => $value)
+	<div id="main" style="overflow: hidden;">
+		<div id="windows" style="display: inline-block; overflow: auto;" >
+			<?php
+			$arrayOfGroups = array();
+			$showTopBarOfGroups = false;
+			$count = 0;
+			foreach ($config['watchList'] as $key => $value)
 			{
 				if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
 				{
-					$groupInfoNew = $value["groupInfo"];
-					$innerGroupArray = array(
-						$groupInfoNew
+					$count++;
+					if($count > 1)
+					{
+						$showTopBarOfGroups = true;
+					}
+					if(!in_array($value['groupInfo'], $arrayOfGroups))
+					{
+						array_push($arrayOfGroups, $value['groupInfo']);
+					}
+				}
+			}
+			if($cacheEnabled === "true")
+			{
+				foreach ($cachedStatusMainObject as $key => $value)
+				{
+					if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
+					{
+						$groupInfoNew = $value["groupInfo"];
+						$innerGroupArray = array(
+							$groupInfoNew
+						);
+						if(strpos($groupInfoNew, " ") !== -1)
+						{
+							$innerGroupArray = explode(" ", $groupInfoNew);
+						}
+						foreach ($innerGroupArray as $groupName)
+						{
+							if(!isset($config["watchList"][$groupName]))
+							{
+								//check if it is still set with nameNoSpace logic @todo
+								$inArray = false;
+								foreach ($config["watchList"] as $key => $value)
+								{
+									$keyNoSpace = preg_replace('/\s+/', '_', $key);
+									if($keyNoSpace === $groupName)
+									{
+										$inArray = true;
+										break;
+									}
+								}
+								if(!$inArray)
+								{
+									$count++;
+									if($count > 1)
+									{
+										$showTopBarOfGroups = true;
+									}
+									if(!in_array($groupName, $arrayOfGroups))
+									{
+										array_push($arrayOfGroups, $groupName);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			array_push($arrayOfGroups, "All"); ?>
+			<div id="groupInfo" <?php if(!$showTopBarOfGroups):?> style="display: none;"<?php endif; ?> >
+			<?php
+			sort($arrayOfGroups);
+			foreach ($arrayOfGroups as $key => $value)
+			{
+				echo generateGroup(array(
+					"group"						=>	$value,
+					"defaultGroupViewOnLoad"	=>	$defaultGroupViewOnLoad
+				));
+			}
+			?>
+			</div>
+			<div id="groupInfoPlaceholder" >
+			</div>
+			<?php 
+			$h = -1;
+			$newArray = array();
+			if($pollType === 1)
+			{
+				$newArray = $config["watchList"];
+			}
+			if($cacheEnabled === "true")
+			{
+				$newArray = array_merge($cachedStatusMainObject, $newArray);
+			}
+			$alreadyShown = array();
+			foreach ($newArray as $key => $value)
+			{
+				if(strpos($key, "branchNameDevBox1") !== false)
+				{
+					$key = str_replace("branchNameDevBox1", "", $key);
+				}
+				$keyNoSpace = preg_replace('/\s+/', '_', $key);
+				$showCachedValue = false;
+				$enableBlockUntilDate = "";
+				$backgroundColor = "";
+				$messageTextEnabled = "";
+				$messageText = "";
+				$errorStatus = "";
+				$datePicker = "";
+				$data = "<span id=\"branchNameDevBox1".$keyNoSpace."\"><img style=\"width: 20px;\" src=\"core/img/loading.gif\"> Loading...</span>";
+				$time = "";
+				$status = "<span style=\"display: none;\" id=\"branchNameDevBox1".$keyNoSpace."Stats\"></span>";
+				$groupInfo = "";
+				$groupInfoStyle = "";
+				$website = "#";
+				$noticeMessageShow = "none";
+				$showRefresh = "inline-block";
+
+				if(!in_array($keyNoSpace, $alreadyShown))
+				{
+					$h++;
+					array_push($alreadyShown, $keyNoSpace);
+					if(!empty($cachedStatusMainObject) && $cachedStatusMainObject != array() && $cacheEnabled === "true")
+					{
+						if(isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace]))
+						{
+							if(isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace]["data"]))
+							{
+								$showCachedValue = true;
+
+								foreach ($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace] as $key2 => $value2)
+								{
+									if(isset($$key2))
+									{
+										$$key2 = $value2;
+									}
+								}
+							}
+						}
+					}
+
+					if(isset($value["groupInfo"]) && !empty($value["groupInfo"]) && strpos($groupInfo, $value["groupInfo"]) === -1)
+					{
+						$groupInfo .= " ".$value["groupInfo"]." ";
+					}
+
+					if(isset($value['Website']))
+					{
+						$website = $value["Website"];
+					}
+
+					if($showTopBarOfGroups && $defaultGroupViewOnLoad !== "All" && strpos($groupInfo, $defaultGroupViewOnLoad) > -1)
+					{
+						$groupInfoStyle = "style=\"display: none;\"";
+					}
+
+					if($backgroundColor !== "")
+					{
+						$backgroundColor = "style=\"background-color:".$backgroundColor."\"";
+					}
+
+					$redLED = "none";
+					$yellowLED = "none";
+					$greenLED = "none";
+					if($errorStatus !== "" && $errorStatus === false)
+					{
+						$redLED = "inline-block";
+					}
+					elseif(($messageTextEnabled !== "" && $messageTextEnabled === true) || ($enableBlockUntilDate !== "" && $enableBlockUntilDate === true))
+					{
+						$yellowLED = "inline-block";
+					}
+					else
+					{
+						$greenLED = "inline-block";
+					}
+
+					
+
+					if(($messageTextEnabled !== "" && $messageTextEnabled === true) || ($enableBlockUntilDate !== "" && $enableBlockUntilDate === true))
+					{
+						$noticeMessageShow = "inline-block";
+					}
+
+					if($enableBlockUntilDate !== "" && $enableBlockUntilDate === true)
+					{
+						$showRefresh = "none";
+					}
+
+					echo generateWindow(
+						array(
+							"groupInfo"				=>	$groupInfo,
+							"groupInfoStyle"		=>	$groupInfoStyle,
+							"backgroundColor"		=>	$backgroundColor,
+							"keyNoSpace"			=>	$keyNoSpace,
+							"website"				=>	$website,
+							"redLED"				=>	$redLED,
+							"yellowLED"				=>	$yellowLED,
+							"greenLED"				=>	$greenLED,
+							"branchView"			=>	$branchView,
+							"noticeMessageShow"		=>	$noticeMessageShow,
+							"messageText"			=>	$messageText,
+							"showRefresh"			=>	$showRefresh,
+							"status"				=>	$status,
+							"name"					=>	$key,
+							"branchData"			=>	$data,
+							"counter"				=>	$h
+						)
 					);
-					if(strpos($groupInfoNew, " ") !== -1)
-					{
-						$innerGroupArray = explode(" ", $groupInfoNew);
-					}
-					foreach ($innerGroupArray as $groupName)
-					{
-						if(!isset($config["watchList"][$groupName]))
-						{
-							//check if it is still set with nameNoSpace logic @todo
-							$inArray = false;
-							foreach ($config["watchList"] as $key => $value)
-							{
-								$keyNoSpace = preg_replace('/\s+/', '_', $key);
-								if($keyNoSpace === $groupName)
-								{
-									$inArray = true;
-									break;
-								}
-							}
-							if(!$inArray)
-							{
-								$count++;
-								if($count > 1)
-								{
-									$showTopBarOfGroups = true;
-								}
-								if(!in_array($groupName, $arrayOfGroups))
-								{
-									array_push($arrayOfGroups, $groupName);
-								}
-							}
-						}
-					}
+
 				}
 			}
-		}
-		array_push($arrayOfGroups, "All"); ?>
-		<div id="groupInfo" <?php if(!$showTopBarOfGroups):?> style="display: none;"<?php endif; ?> >
-		<?php
-		sort($arrayOfGroups);
-		foreach ($arrayOfGroups as $key => $value)
-		{
-			echo generateGroup(array(
-				"group"						=>	$value,
-				"defaultGroupViewOnLoad"	=>	$defaultGroupViewOnLoad
-			));
-		}
-		?>
+			?>
 		</div>
-		<div id="groupInfoPlaceholder" >
+		<div id="sideBox" style="background-color: rgb(119, 119, 119); margin-left: 25px; top: 45px; border: 1px solid white; position: absolute; display: none;">
+			<div class="devBoxTitle" style="padding: 0;">
+				<ul class="buttonList">
+					<li onclick="closeDetailBar();" >
+						<a>Close</a>
+					</li>
+					<li style="display: none;" id="infoTab" onclick="toggleInfoTab();" >
+						<a>Info</a>
+					</li>
+					<li id="commitsTab" onclick="toggleCommitsTab();" class="selectedButton">
+						<a>Commits</a>
+					</li>
+					<li id="LogHogTab" onclick="toggleIframe('loghog');" style="display: none;" >
+						<a>Log-Hog</a>
+					</li>
+					<li id="MonitorTab" onclick="toggleIframe('monitor');" style="display: none;" >
+						<a>Monitor</a>
+					</li>
+					<li id="SearchTab" onclick="toggleIframe('search');" style="display: none;" >
+						<a>Search</a>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<div id="sideBoxForActualInfo" style="display: none;">
+					
+				</div>
+				<div id="sideBoxBoxForInfo">
+					<table width="100%" style="border-spacing: 0;">
+						<tr>
+							<td width="250px;" style="vertical-align: top;" >
+								<ul id="listOfCommitHistory" class="buttonListVert" style="width: 100%; border-right: 1px solid white; overflow: auto; ">
+									<li id="spinnerLiForSideBoxBoxForInfo">
+										<img style="width: 20px;" src="core/img/loading.gif"> 
+									</li>
+									<li onclick="getListOfCommits();">
+										Refresh
+									</li>
+									<span id="otherCommitsFromPast" ></span>
+								</ul>
+							</td>
+							<td style="vertical-align: top;">
+								<h1 id="mainCommitDiffLoading" style="text-align: center;" ><img style="width: 20px;" src="core/img/loading.gif"> </h1>
+								<h1 id="noChangesToDisplay" style="text-align: center; display: none;" >No Changes to Display </h1>
+								<span id="spanForMainDiff" style="overflow: auto; display: block; white-space: pre-wrap;" ></span>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="iframeHolder" style="display: none;">
+					<iframe id="iframeForStuff" src="./iframe.html"></iframe>
+				</div>
+			</div>
 		</div>
-		<?php 
-		$h = -1;
-		$newArray = array();
-		if($pollType === 1)
-		{
-			$newArray = $config["watchList"];
-		}
-		if($cacheEnabled === "true")
-		{
-			$newArray = array_merge($cachedStatusMainObject, $newArray);
-		}
-		$alreadyShown = array();
-		foreach ($newArray as $key => $value)
-		{
-			if(strpos($key, "branchNameDevBox1") !== false)
-			{
-				$key = str_replace("branchNameDevBox1", "", $key);
-			}
-			$keyNoSpace = preg_replace('/\s+/', '_', $key);
-			$showCachedValue = false;
-			$enableBlockUntilDate = "";
-			$backgroundColor = "";
-			$messageTextEnabled = "";
-			$messageText = "";
-			$errorStatus = "";
-			$datePicker = "";
-			$data = "<span id=\"branchNameDevBox1".$keyNoSpace."\"><img style=\"width: 20px;\" src=\"core/img/loading.gif\"> Loading...</span>";
-			$time = "";
-			$status = "<span style=\"display: none;\" id=\"branchNameDevBox1".$keyNoSpace."Stats\"></span>";
-			$groupInfo = "";
-			$groupInfoStyle = "";
-			$website = "#";
-			$noticeMessageShow = "none";
-			$showRefresh = "inline-block";
-
-			if(!in_array($keyNoSpace, $alreadyShown))
-			{
-				$h++;
-				array_push($alreadyShown, $keyNoSpace);
-				if(!empty($cachedStatusMainObject) && $cachedStatusMainObject != array() && $cacheEnabled === "true")
-				{
-					if(isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace]))
-					{
-						if(isset($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace]["data"]))
-						{
-							$showCachedValue = true;
-
-							foreach ($cachedStatusMainObject["branchNameDevBox1".$keyNoSpace] as $key2 => $value2)
-							{
-								if(isset($$key2))
-								{
-									$$key2 = $value2;
-								}
-							}
-						}
-					}
-				}
-
-				if(isset($value["groupInfo"]) && !empty($value["groupInfo"]) && strpos($groupInfo, $value["groupInfo"]) === -1)
-				{
-					$groupInfo .= " ".$value["groupInfo"]." ";
-				}
-
-				if(isset($value['Website']))
-				{
-					$website = $value["Website"];
-				}
-
-				if($showTopBarOfGroups && $defaultGroupViewOnLoad !== "All" && strpos($groupInfo, $defaultGroupViewOnLoad) > -1)
-				{
-					$groupInfoStyle = "style=\"display: none;\"";
-				}
-
-				if($backgroundColor !== "")
-				{
-					$backgroundColor = "style=\"background-color:".$backgroundColor."\"";
-				}
-
-				$redLED = "none";
-				$yellowLED = "none";
-				$greenLED = "none";
-				if($errorStatus !== "" && $errorStatus === false)
-				{
-					$redLED = "inline-block";
-				}
-				elseif(($messageTextEnabled !== "" && $messageTextEnabled === true) || ($enableBlockUntilDate !== "" && $enableBlockUntilDate === true))
-				{
-					$yellowLED = "inline-block";
-				}
-				else
-				{
-					$greenLED = "inline-block";
-				}
-
-				
-
-				if(($messageTextEnabled !== "" && $messageTextEnabled === true) || ($enableBlockUntilDate !== "" && $enableBlockUntilDate === true))
-				{
-					$noticeMessageShow = "inline-block";
-				}
-
-				if($enableBlockUntilDate !== "" && $enableBlockUntilDate === true)
-				{
-					$showRefresh = "none";
-				}
-
-				echo generateWindow(
-					array(
-						"groupInfo"				=>	$groupInfo,
-						"groupInfoStyle"		=>	$groupInfoStyle,
-						"backgroundColor"		=>	$backgroundColor,
-						"keyNoSpace"			=>	$keyNoSpace,
-						"website"				=>	$website,
-						"redLED"				=>	$redLED,
-						"yellowLED"				=>	$yellowLED,
-						"greenLED"				=>	$greenLED,
-						"branchView"			=>	$branchView,
-						"noticeMessageShow"		=>	$noticeMessageShow,
-						"messageText"			=>	$messageText,
-						"showRefresh"			=>	$showRefresh,
-						"status"				=>	$status,
-						"name"					=>	$key,
-						"branchData"			=>	$data,
-						"counter"				=>	$h
-					)
-				);
-
-			}
-		}
-		?>
 	</div>
 
 	<div style="display: none;" id="storage">

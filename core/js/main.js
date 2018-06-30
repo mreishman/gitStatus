@@ -3,6 +3,7 @@ var refreshing = false;
 var updating = false;
 var pollTimer = null;
 var blocekdInnerObj = {};
+var currentIdOfMainSidebar = "";
 
 function escapeHTML(unsafeStr)
 {
@@ -112,11 +113,11 @@ function showLoadingSpinnerHeader(name)
 {
 	if(document.getElementById(name))
 	{
-		if(document.getElementById(name+'loadingSpinnerHeader').style.display !== "inline-block")
+		if(document.getElementById(name+'loadingSpinnerHeader') && document.getElementById(name+'loadingSpinnerHeader').style.display !== "inline-block")
 		{
 			document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
 		}
-		if(document.getElementById(name+"spinnerDiv").style.display === "none")
+		if(document.getElementById(name+"spinnerDiv") && document.getElementById(name+"spinnerDiv").style.display === "none")
 		{
 			document.getElementById(name+"spinnerDiv").style.display = "none";
 		}
@@ -308,7 +309,6 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 	document.getElementById(noSpaceName+'redwWarning').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
 	document.getElementById(noSpaceName+'errorMessageLink').style.display = "block";
 	document.getElementById(noSpaceName+'errorMessageLink').onclick = function(){showPopupWithMessage('Error','Could not connect to server')};
-    document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
     if(document.getElementById(noSpaceName+'Stats').innerHTML != JSON.stringify(error) && document.getElementById(noSpaceName+'Stats').innerHTML == "--Pending--")
 	{
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">Error</span>';
@@ -331,7 +331,9 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 				messageText: null,
 				enableBlockUntilDate: false,
 				datePicker: null,
-				groupInfo: ""
+				groupInfo: "",
+				location: null,
+				WebsiteBase: null
 			};
 	}
 	else
@@ -345,9 +347,16 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 		arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
 		arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
 		arrayOfWatchFilters[noSpaceName]["groupInfo"] = "";
+		if(!("location" in arrayOfWatchFilters[noSpaceName]))
+		{
+			arrayOfWatchFilters[noSpaceName]["location"] = null;
+		}
+		if(!("WebsiteBase" in arrayOfWatchFilters[noSpaceName]))
+		{
+			arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = null;
+		}
 	}
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
-	document.getElementById(noSpaceName+"spinnerDiv").style.display = "inline-block";
 	document.getElementById("refreshDiv").style.display = "inline-block";
 	pollCompleteLogic();
 }
@@ -430,7 +439,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 
 		item = item.replace(/{{groupInfo}}/g,groupNames);
 		addGroup(dataInner["groupInfo"]);
-		$("#main").append(item);
+		$("#windows").append(item);
 	}
 	else
 	{ 
@@ -473,7 +482,6 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			$(source)[0].href = websitePass;
 		}
 	}
-	document.getElementById(noSpaceName+'spinnerDiv').style.display = "inline-block";
 	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
 		switchToColorLed(noSpaceName, "green");
@@ -665,7 +673,9 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				messageText: null,
 				enableBlockUntilDate: false,
 				datePicker: null,
-				groupInfo: groupNames
+				groupInfo: groupNames,
+				location: "location" in dataInner ? dataInner["location"] : null,
+				WebsiteBase: "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null
 			};
 		}
 		else
@@ -679,7 +689,8 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				arrayOfWatchFilters[noSpaceName]["errorStatus"] = false;
 			}
 			arrayOfWatchFilters[noSpaceName]["groupInfo"] = groupNames;
-
+			arrayOfWatchFilters[noSpaceName]["location"] = "location" in dataInner ? dataInner["location"] : null;
+			arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null;
 		}
 		
 		filterBGColor(dataToFilterBy, nameForBackground, 1);
@@ -722,7 +733,6 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				arrayOfWatchFilters[noSpaceName]["enableBlockUntilDate"] = true;
 				arrayOfWatchFilters[noSpaceName]["datePicker"] = dataInner['datePicker'];
 				document.getElementById(noSpaceName+'NoticeMessage').innerHTML += " Blocking poll requests untill: "+dataInner['datePicker'];
-				document.getElementById(noSpaceName+'spinnerDiv').style.display = "none";
 			}
 			else
 			{
@@ -789,7 +799,9 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				messageText: null,
 				enableBlockUntilDate: false,
 				datePicker: null,
-				groupInfo: ""
+				groupInfo: "",
+				location: null,
+				WebsiteBase: null
 			};
 		}
 		else
@@ -803,11 +815,18 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
 			arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
 			arrayOfWatchFilters[noSpaceName]["groupInfo"] = "";
+			if(!("location" in arrayOfWatchFilters[noSpaceName]))
+			{
+				arrayOfWatchFilters[noSpaceName]["location"] = null;
+			}
+			if(!("WebsiteBase" in arrayOfWatchFilters[noSpaceName]))
+			{
+				arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = null;
+			}
 		}
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
 	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
-	document.getElementById(noSpaceName+"spinnerDiv").style.display = "inline-block";
 	pollCompleteLogic();
 }
 
@@ -1149,10 +1168,26 @@ function calcuateWidth()
 		numOfWindows++;
 		innerWidthWindowCalc -= elementWidth;
 	}
-	document.getElementById("main").style.width = ""+((innerWidthWindowCalcAdd)+40)+"px";
-	var remainingWidth = (innerWidthWindow - ((innerWidthWindowCalcAdd)+40))/2;
-	document.getElementById("main").style.marginLeft = ""+remainingWidth+"px";
-	document.getElementById("main").style.paddingRight = ""+remainingWidth+"px";
+	var windowWidthText = ((innerWidthWindowCalcAdd)+40)+"px";
+	if(document.getElementById("sideBox").style.display !== "none")
+	{
+		windowWidthText = innerWidthWindow+"px";
+	}
+	document.getElementById("main").style.width = windowWidthText;
+	var remainingWidth = innerWidthWindow - ((innerWidthWindowCalcAdd)+40);
+	remainingWidth = remainingWidth / 2;
+	var windowWidthText = remainingWidth+"px";
+	if(document.getElementById("sideBox").style.display !== "none")
+	{
+		windowWidthText = "0px";
+	}
+	document.getElementById("main").style.marginLeft = windowWidthText;
+	document.getElementById("main").style.paddingRight = windowWidthText;
+	if(document.getElementById("sideBox").style.display !== "none")
+	{
+		document.getElementById("sideBox").style.width = ((innerWidthWindow)-410)+"px";
+	}
+	document.getElementById("iframeForStuff").style.width = ((innerWidthWindow)-415)+"px";
 }
 
 function showOrHideGroups(groupName)
@@ -1287,4 +1322,455 @@ function verifyChange()
 function actuallyInstallUpdates()
 {
     $("#settingsInstallUpdate").submit();
+}
+
+function toggleDetailBar(e, key)
+{
+
+	var list = e.target.classList;
+	if(list === "")
+	{
+		e.preventDefault();
+        return;
+	}
+	var doIt = true;
+	var inLoop = false;
+	list.forEach(
+	function(value, key, listObj)
+	{
+		inLoop = true;
+		if(value === "expandMenu" || value === "menuImage" || value === "")
+		{
+			doIt = false;
+		}
+	}
+	);
+	if(!doIt || !inLoop)
+	{
+		e.preventDefault();
+        return;
+	}
+	$(".devBoxTitle").css("background-color","#aaaaaa");
+	$("#innerFirstDevBox"+key+" .devBoxTitle").css("background-color","#FFFFFF");
+	if(document.getElementById("sideBox").style.display == "none")
+	{
+		document.getElementById("sideBox").style.display = "inline-block";
+		document.getElementById("windows").style.width = "365px";
+	}
+	currentIdOfMainSidebar = key;
+	resizeFunction();
+
+	//external Links
+	document.getElementById("LogHogTab").style.display = "none";
+	document.getElementById("MonitorTab").style.display = "none";
+	document.getElementById("SearchTab").style.display = "none";
+	if(document.getElementById(key+"LogHogInner").href != window.location.href+"#" && document.getElementById(key+"LogHogInner").href != "#" && document.getElementById(key+"LogHogInner").href != "")
+	{
+		document.getElementById("LogHogTab").style.display = "inline-block";
+	}
+	if(document.getElementById(key+"MonitorInner").href != window.location.href+"#" && document.getElementById(key+"MonitorInner").href != "#" && document.getElementById(key+"MonitorInner").href != "")
+	{
+		document.getElementById("MonitorTab").style.display = "inline-block";
+	}
+	if(document.getElementById(key+"SearchInner").href != window.location.href+"#" && document.getElementById(key+"SearchInner").href != "#" && document.getElementById(key+"SearchInner").href != "")
+	{
+		document.getElementById("SearchTab").style.display = "inline-block";
+	}
+
+	//info
+	toggleCommitsTab();
+}
+
+function closeDetailBar()
+{
+	$('#iframeForStuff').prop('src', "./iframe.html");
+	$(".devBoxTitle").css("background-color","#aaaaaa");
+	document.getElementById("sideBox").style.display = "none";
+	document.getElementById("windows").style.width = "auto";
+	resizeFunction();
+}
+
+function hideAllSubFrames()
+{
+	$(".buttonList li").removeClass("selectedButton");
+	document.getElementById("sideBoxBoxForInfo").style.display = "none";
+	document.getElementById("iframeHolder").style.display = "none";
+	$('#iframeForStuff').prop('src', "./iframe.html");
+}
+
+function toggleCommitsTab()
+{
+	hideAllSubFrames();
+	$("#commitsTab").addClass("selectedButton");
+	document.getElementById("sideBoxBoxForInfo").style.display = "block";
+	getListOfCommits();
+}
+
+function toggleIframe(site)
+{
+	hideAllSubFrames();
+	if(site == "loghog")
+	{
+		$("#LogHogTab").addClass("selectedButton");
+		$('#iframeForStuff').prop('src', document.getElementById(currentIdOfMainSidebar+"LogHogInner").href);
+	}
+	else if(site === "monitor")
+	{
+		$("#MonitorTab").addClass("selectedButton");
+		$('#iframeForStuff').prop('src', document.getElementById(currentIdOfMainSidebar+"MonitorInner").href);
+	}
+	else if(site === "search")
+	{
+		$("#SearchTab").addClass("selectedButton");
+		$('#iframeForStuff').prop('src', document.getElementById(currentIdOfMainSidebar+"SearchInner").href);
+	}
+	document.getElementById("iframeHolder").style.display = "block";
+}
+
+
+function getListOfCommits()
+{
+	document.getElementById("noChangesToDisplay").style.display = "none";
+	var idName = currentIdOfMainSidebar;
+	$("#spanForMainDiff").html("");
+	document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "list-item";
+	$("#otherCommitsFromPast").html("");
+	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
+	{
+		//cant get data for commits, show correct message
+		document.getElementById("noChangesToDisplay").style.display = "block";
+		document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
+		return;
+	}
+	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
+	if(!(urlForSend.indexOf("http") > -1))
+	{
+		urlForSend = "https://"+urlForSend;
+	}
+	if(!(urlForSend.indexOf("core") > -1))
+	{
+		urlForSend += "/status/core/php/functions/";
+	}
+	urlForSend += "gitCommitHistory.php";
+	var data = {location: arrayOfWatchFilters[idName]["location"]};
+	(function(_data){
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data,
+			type: 'POST',
+			success: function(data)
+			{
+				commitListSuccess(data);
+			},
+			error: function(xhr, error)
+			{
+				//show appropriate error message
+				document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
+				document.getElementById("noChangesToDisplay").style.display = "block";
+				getListOfCommitsHttp();
+			}
+		});
+	}(data));
+}
+
+function getListOfCommitsHttp()
+{
+	var idName = currentIdOfMainSidebar;
+	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
+	if(!(urlForSend.indexOf("http") > -1))
+	{
+		urlForSend = "http://"+urlForSend;
+	}
+	if(!(urlForSend.indexOf("core") > -1))
+	{
+		urlForSend += "/status/core/php/functions/";
+	}
+	urlForSend += "gitCommitHistory.php";
+	var data = {location: arrayOfWatchFilters[idName]["location"]};
+	(function(_data){
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data,
+			type: 'POST',
+			success: function(data)
+			{
+				commitListSuccess(data);
+			},
+			error: function(xhr, error)
+			{
+				//show appropriate error message
+				document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
+				document.getElementById("noChangesToDisplay").style.display = "block";
+			}
+		});
+	}(data));
+}
+
+
+function commitListSuccess(data)
+{
+	//style and format commit history, display in left column
+	var htmlForCommits = "";
+	var counterOfData = data.length;
+	//find first commit id
+	var idForCommit = "";
+	for(var i = 0; i < counterOfData; i++)
+	{
+		if(data[i].indexOf("commit") > -1)
+		{
+			idForCommit = data[i].replace("commit","").trim();
+			break;
+		}
+	}
+	var extCounter = 0;
+	var idForFirstCommit = idForCommit;
+	htmlForCommits += "<li class=\"commitLi\" id=\""+idForCommit+"\" onclick=\"viewCommit('"+idForCommit+"');\" >";
+	for(var i = 0; i < counterOfData; i++)
+	{
+		if(data[i] === "")
+		{
+			continue;
+		}
+		if(i+2 < counterOfData && data[i+1].indexOf("commit") > -1 && data[i+2].indexOf("Author") > -1)
+		{
+			extCounter++;
+			htmlForCommits += data[i];
+			idForCommit = data[i+1].replace("commit","").trim();
+			htmlForCommits += "</li><li class=\"commitLi ";
+			if(extCounter % 2 !== 0)
+			{
+				htmlForCommits += " colorAltBG ";
+			}
+			htmlForCommits += " \" id=\""+idForCommit+"\" onclick=\"viewCommit('"+idForCommit+"');\" >";
+		}
+		else if(i + 1 < counterOfData && data[i].indexOf("commit") > -1 && data[i+1].indexOf("Author") > -1)
+		{
+			continue;
+		}
+		else if(data[i-1].indexOf("commit") > -1 && data[i].indexOf("Author") > -1)
+		{
+			htmlForCommits += "<b>"+data[i].replace("Author:","").trim()+"</b>";
+		}
+		else if(data[i-1].indexOf("Author") > -1 && data[i].indexOf("Date") > -1)
+		{
+			var dataTmp = data[i].replace("Date:","").trim();
+			dataTmp = new Date(dataTmp);
+			htmlForCommits += "<span style=\"float:right;\" ><b>"+dataTmp.getMonth()+"/"+dataTmp.getDate()+"/"+dataTmp.getFullYear()+"</b></span>";
+			htmlForCommits += "<br>";
+		}
+		else
+		{
+			htmlForCommits += data[i];
+			htmlForCommits += "<br>";
+		}
+	}
+	htmlForCommits += "</li>";
+	$("#otherCommitsFromPast").html(htmlForCommits);
+	document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
+	viewCommit(idForFirstCommit);
+}
+
+function viewCommit(idForCommit)
+{
+	document.getElementById("noChangesToDisplay").style.display = "none";
+	$("#listOfCommitHistory li").removeClass("selectedButton");
+	$("#"+idForCommit).addClass("selectedButton");
+	var idName = currentIdOfMainSidebar;
+	document.getElementById("mainCommitDiffLoading").style.display = "block";
+	$("#spanForMainDiff").html("");
+	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
+	{
+		//cant get data for commits, show correct message
+		return;
+	}
+	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
+	if(!(urlForSend.indexOf("http") > -1))
+	{
+		urlForSend = "https://"+urlForSend;
+	}
+	if(!(urlForSend.indexOf("core") > -1))
+	{
+		urlForSend += "/status/core/php/functions/";
+	}
+	urlForSend += "gitShowCommitStuff.php";
+	var data = {location: arrayOfWatchFilters[idName]["location"], commit: idForCommit};
+	(function(_data){
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data,
+			type: 'POST',
+			success: function(data)
+			{
+				commitStuffSuccess(data);
+			},
+			error: function(xhr, error)
+			{
+				//show appropriate error message
+				document.getElementById("mainCommitDiffLoading").style.display = "none";
+				document.getElementById("noChangesToDisplay").style.display = "block";
+				viewCommitHttp(idForCommit);
+			}
+		});
+	}(data));
+}
+
+function viewCommitHttp(idForCommit)
+{
+	var idName = currentIdOfMainSidebar;
+	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
+	if(!(urlForSend.indexOf("http") > -1))
+	{
+		urlForSend = "http://"+urlForSend;
+	}
+	if(!(urlForSend.indexOf("core") > -1))
+	{
+		urlForSend += "/status/core/php/functions/";
+	}
+	urlForSend += "gitShowCommitStuff.php";
+	var data = {location: arrayOfWatchFilters[idName]["location"], commit: idForCommit};
+	(function(_data){
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data,
+			type: 'POST',
+			success: function(data)
+			{
+				commitStuffSuccess(data);
+			},
+			error: function(xhr, error)
+			{
+				//show appropriate error message
+				document.getElementById("mainCommitDiffLoading").style.display = "none";
+				document.getElementById("noChangesToDisplay").style.display = "block";
+			}
+		});
+	}(data));
+}
+
+
+function commitStuffSuccess(data)
+{
+	document.getElementById("noChangesToDisplay").style.display = "none";
+	document.getElementById("mainCommitDiffLoading").style.display = "none";
+	var htmlForCommit = "";
+	var counterOfData = data.length;
+	var current = "start";
+	var currentNumberMinus = 0;
+	var currentNumberPlus = 0;
+	var skip = 0;
+	for(var i = 0; i < counterOfData; i++)
+	{
+		if(data[i] === "" || data[i].indexOf("\ No newline at end of file") > -1 || data[i].indexOf("+++") === 0 || data[i].indexOf("---") === 0)
+		{
+			continue;
+		}
+		else if(data[i].indexOf("@@ -") > -1 && skip > 0)
+		{
+			var locations = data[i];
+			locations = locations.split("@@");
+			var locationNum = locations[1];
+			var extraData = locations[2];
+			locationNum = locationNum.split(",");
+			currentNumberMinus = parseInt(locationNum[0].substr(2));
+			currentNumberPlus = parseInt(locationNum[1].split(" ")[1].substr(1));
+			skip--;
+		}
+		else if(skip > 0)
+		{
+			skip--;
+			continue;
+		}
+		else if(data[i].indexOf("diff --git") === 0)
+		{
+			if(current === "start")
+			{
+				htmlForCommit += "<div style=\"border-bottom: 1px solid black; padding-top: 10px; background-color: rgb(170, 170, 170);\" ></div>";
+			}
+			else
+			{
+				htmlForCommit += "</table>";
+			}
+			var fileName = data[i].replace("diff --git a/","");
+			fileName = fileName.substring(0, fileName.indexOf(" b/"));
+			fileName = escapeHTML(fileName);
+			htmlForCommit += "<div style=\"background-color: rgb(170, 170, 170); padding: 10px;\"  >"+fileName+"</div>";
+			current = "commit";
+			currentNumberMinus = 0;
+			currentNumberPlus = 0;
+			skip = 2;
+			htmlForCommit += "<table width=\"100%\" style=\"border-spacing: 0;\" ><tr><td style=\"width: 60px;\" ></td><td style=\"width: 60px;\" ></td><td></td></tr>";
+		}
+		else if(current === "start")
+		{
+			if(data[i].indexOf("commit ") === 0)
+			{
+				htmlForCommit += "<div style=\"background-color: rgb(170, 170, 170); padding-top: 10px;\" ></div><div style=\"background-color: rgb(170, 170, 170); float: right;\"  >"+escapeHTML(data[i]).replace("commit","").trim()+"</div>";
+			}
+			else if(data[i].indexOf("Author: ") === 0)
+			{
+				htmlForCommit += "<div style=\"background-color: rgb(170, 170, 170); padding: 10px;\"  ><b>"+escapeHTML(data[i].substring(0, data[i].indexOf(" <"))).replace("Author: ","").trim()+":</b>";
+			}
+			else if(data[i].indexOf("Date: ") === 0)
+			{
+				var commitDate = data[i].replace("Date: ","").trim();
+				commitDate = new Date(commitDate);
+				var minForCommit = commitDate.getMinutes();
+				if(minForCommit < 10)
+				{
+					minForCommit = "0"+minForCommit;
+				}
+				htmlForCommit += " "+commitDate.getMonth()+"/"+commitDate.getDate()+"/"+commitDate.getFullYear()+" - "+commitDate.getHours()+":"+minForCommit+"</div>";
+			}
+			else
+			{
+				htmlForCommit += "<div style=\"background-color: rgb(170, 170, 170); padding-left: 10px;\"  >"+escapeHTML(data[i]).trim()+"</div>";
+			}
+		}
+		else if(data[i].indexOf("-") === 0)
+		{
+			htmlForCommit += "<tr style=\"background-color: rgb(205, 50, 50, 0.5);\" ><td>"+currentNumberMinus+"</td><td ></td><td>"+escapeHTML(data[i]).substr(1)+"</td></tr>";
+			currentNumberMinus++;
+		}
+		else if(data[i].indexOf("+") === 0)
+		{
+			htmlForCommit += "<tr style=\"background-color: rgb(50, 205, 50, 0.5);\" ><td></td><td>"+currentNumberPlus+"</td><td>"+escapeHTML(data[i]).substr(1)+"</td></tr>";
+			currentNumberPlus++;
+		}
+		else
+		{
+			htmlForCommit += "<tr><td>"+currentNumberMinus+"</td><td>"+currentNumberPlus+"</td><td>"+escapeHTML(data[i])+"</td></tr>";
+			currentNumberMinus++;
+			currentNumberPlus++;
+		}
+		
+	}
+	htmlForCommit += "</table>";
+	$("#spanForMainDiff").html(htmlForCommit);
+}
+
+function escapeHTML(unsafeStr)
+{
+	try
+	{
+		return unsafeStr.toString()
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/\"/g, "&#34;")
+		.replace(/\'/g, "&#39;")
+		.replace(/\//g, "&#x2F;");
+	}
+	catch(e)
+	{
+		eventThrowException(e);
+	}
+	
 }
