@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '1.5.3',
+	'version'		=> '2.0.2',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -46,6 +46,18 @@ $versionCheckArray = array(
 		'1.5.3'		=> array(
 			'branchName'	=> '1.5.3Update',
 			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Fix with error display from poll request</li></ul></li></ul>'
+		),
+		'2.0'		=> array(
+			'branchName'	=> '2.0Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>Changed poll method (for server / node setup)</li><li>Added second watchlist (first is a list of servers, second is a list of watch folders)</li><li>Option to change between github to gitlab</li></ul></li><li>Bug Fixes<ul><li>Changed pause to clear timer</li><li>New groups added on first load</li></ul></li></ul>'
+		),
+		'2.0.1'		=> array(
+			'branchName'	=> '2.0.1Update',
+			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Fixed issue with poll logic and external servers</li><li>Fixed issue with saving on watchlist / watchlist server (for dropdown menu values)</li><li>Fixed setup bug with welcome page not redirecting correctly</li><li>Fixed issue with Dev Box Color Settings display not showing up correctly sometimes</li><li>Fixed issue with title links not correclty showing up for poll type 2</li><li>Fixed issue with block setting and poll type 2 requests for external servers</li></ul></li></ul>'
+		),
+		'2.0.2'		=> array(
+			'branchName'	=> '2.0.2Update',
+			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Actually fixed issue with names not linking correctly when cached</li></ul></li></ul>'
 		),
 	)
 );
