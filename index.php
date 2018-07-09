@@ -538,6 +538,7 @@ function generateWindow($data = array())
 		<?php
 
 			echo "var pollingRate = ".$pollingRate.";";
+			echo "var pollingRateBG = ".$pollingRateBG.";";
 			echo "var pausePollFromFile = ".$pausePoll.";";
 			echo "var pausePollOnNotFocus = ".$pauseOnNotFocus.";";
 			echo "var autoCheckUpdate = ".$autoCheckUpdate.";";
@@ -640,6 +641,10 @@ function generateWindow($data = array())
 	<script src="core/js/updateCommon.js"></script>
 	<script src="core/js/main.js"></script>
 	<script src="core/js/allPages.js"></script>
+	<script src="core/js/visibility.core.js"></script>
+	<script src="core/js/visibility.fallback.js"></script>
+	<script src="core/js/visibility.js"></script>
+	<script src="core/js/visibility.timers.js"></script>
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftMain").style.backgroundColor  = "#ffffff";
 	</script>

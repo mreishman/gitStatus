@@ -912,7 +912,7 @@ function refreshAction(all = -1, status = 'outer')
 {
 	if(refreshing == false)
 	{
-		clearInterval(pollTimer);
+		Visibility.stop(pollTimer);
 		startPoll();
 		clearTimeout(refreshActionVar);
 		var counterNew = 0;
@@ -1000,41 +1000,6 @@ function endRefreshAction()
 	}
 }
 
-$( document ).ready(function()
-{
-	poll();
-	pollingRate = pollingRate * 60000; 
-	
-
-	if (autoCheckUpdate == true)
-	{
-		var today = new Date();
-		var dd = today.getDate();
-		var mm = today.getMonth()+1; //January is 0!
-		var yyyy = today.getFullYear();
-
-		if(dd<10) {
-		    dd='0'+dd
-		} 
-
-		if(mm<10) {
-		    mm='0'+mm
-		} 
-
-		today = mm+'-'+dd+'-'+yyyy;
-		if(today != dateOfLastUpdate)
-		{
-			checkForUpdateDefinitely();
-		}
-	}
-
-	if(pausePollFromFile !== "true")
-	{
-		startPoll();
-	}
-
-});
-
 function togglePlayPause()
 {
 	if(!isPaused())
@@ -1075,15 +1040,15 @@ function pausePollFunction()
 {
 	togglePlayPause();
 	document.title = "Status | Paused";
-	clearInterval(pollTimer);
+	Visibility.stop(pollTimer);
 }
 
 function startPoll()
 {
-	pollTimer = setInterval(poll, pollingRate);
+	pollTimer = Visibility.every(pollingRate, pollingRateBG, function () { poll(); });
 }
 
-function switchToStandardView() 
+function switchToStandardView()
 {
 	if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
 	{
@@ -1104,7 +1069,7 @@ function switchToStandardView()
 	}
 }
 
-function switchToExpandedView() 
+function switchToExpandedView()
 {
 	if($('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
 	{
@@ -1772,5 +1737,41 @@ function escapeHTML(unsafeStr)
 	{
 		eventThrowException(e);
 	}
-	
 }
+
+/* KEEP AT BOTTOM OF FILE */
+
+$( document ).ready(function()
+{
+	poll();
+	pollingRate = pollingRate * 60000;
+
+
+	if (autoCheckUpdate == true)
+	{
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+
+		if(dd<10) {
+		    dd='0'+dd
+		}
+
+		if(mm<10) {
+		    mm='0'+mm
+		}
+
+		today = mm+'-'+dd+'-'+yyyy;
+		if(today != dateOfLastUpdate)
+		{
+			checkForUpdateDefinitely();
+		}
+	}
+
+	if(pausePollFromFile !== "true")
+	{
+		startPoll();
+	}
+
+});
