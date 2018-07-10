@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '2.0.2',
+	'version'		=> '3.0',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -58,6 +58,10 @@ $versionCheckArray = array(
 		'2.0.2'		=> array(
 			'branchName'	=> '2.0.2Update',
 			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Actually fixed issue with names not linking correctly when cached</li></ul></li></ul>'
+		),
+		'3.0'		=> array(
+			'branchName'	=> '3.0Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>Added expanded tab for commit history of current branch</li><li>Log-Hog and other apps installed on server will be displayed in an iframe on sidebar</li></ul></li></ul>'
 		),
 	)
 );
