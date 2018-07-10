@@ -249,7 +249,7 @@ function pollCompleteLogic()
 	{
 		return;
 	}
-	if(cacheEnabled === "true")
+	if(cacheEnabled === "true" || cacheEnabled === "write")
 	{
 		loadingSpinnerText.innerHTML = "Saving..."
 		if(!jQuery.isEmptyObject(arrayOfWatchFilters))

@@ -52,19 +52,19 @@
   						<option <?php if($defaultViewBranchCookie == 'false'){echo "selected";} ?> value="false">False</option>
 					</select>
 					<p class="description" >Set default view by cookie, overrides above</p>
-					
 				</li>
 				<li>
 					<span class="leftSpacingserverNames" > Enable Cache: </span>
 
 					<select name="cacheEnabled">
-  						<option <?php if($cacheEnabled == 'true'){echo "selected";} ?> value="true">True</option>
-  						<option <?php if($cacheEnabled == 'false'){echo "selected";} ?> value="false">False</option>
-					</select>					
+  						<option <?php if($cacheEnabled == 'true'){echo "selected";} ?> value="true">All</option>
+  						<option <?php if($cacheEnabled == 'read'){echo "selected";} ?> value="read">Read Only</option>
+  						<option <?php if($cacheEnabled == 'write'){echo "selected";} ?> value="write">Write Only</option>
+  						<option <?php if($cacheEnabled == 'false'){echo "selected";} ?> value="false">None</option>
+					</select>
 				</li>
 				<li>
 					<span class="leftSpacingserverNames"> Refresh Visible</span>
-					
 					<select name="onlyRefreshVisible">
 						<option <?php if ($onlyRefreshVisible == 'true'){echo "selected";}?> value="true">True</option>
 						<option <?php if ($onlyRefreshVisible == 'false'){echo "selected";}?> value="false">False</option>

@@ -277,7 +277,7 @@ function generateWindow($data = array())
 					}
 				}
 			}
-			if($cacheEnabled === "true")
+			if($cacheEnabled === "true" || $cacheEnabled == "read")
 			{
 				foreach ($cachedStatusMainObject as $key => $value)
 				{
