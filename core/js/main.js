@@ -1745,6 +1745,7 @@ $( document ).ready(function()
 {
 	poll();
 	pollingRate = pollingRate * 60000;
+	pollingRateBG = pollingRateBG * 60000;
 
 
 	if (autoCheckUpdate == true)
