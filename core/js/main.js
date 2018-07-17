@@ -1,5 +1,4 @@
 var counterForSave = numberOfLogs+1;
-var refreshing = false;
 var updating = false;
 var pollTimer = null;
 var blocekdInnerObj = {};
@@ -14,7 +13,6 @@ function escapeHTML(unsafeStr)
 	.replace(/\"/g, "&quot;")
 	.replace(/\'/g, "&#39;")
 	.replace(/\//g, "&#x2F;");
-	
 }
 
 function poll(all = -1, counterForSaveNew = 1)
@@ -910,86 +908,80 @@ function filterBGColor(filterName, idName, opacity)
 
 function refreshAction(all = -1, status = 'outer')
 {
-	if(refreshing == false)
+	clearTimeout(refreshActionVar);
+	var counterNew = 0;
+	var refreshNum = parseInt(all);
+	if(refreshNum !== -1)
 	{
-		Visibility.stop(pollTimer);
-		startPoll();
-		clearTimeout(refreshActionVar);
-		var counterNew = 0;
-		var refreshNum = parseInt(all);
-		if(refreshNum !== -1)
+		if(isNaN(refreshNum))
 		{
-			if(isNaN(refreshNum))
+			var refreshName = all;
+			//this is string, find in fileArray
+			var foundInFileArray = false;
+			var lengthOfFileArray = arrayOfFiles.length;
+			for(var i = 0; i < lengthOfFileArray; i++)
 			{
-				var refreshName = all;
-				//this is string, find in fileArray
-				var foundInFileArray = false;
-				var lengthOfFileArray = arrayOfFiles.length;
-				for(var i = 0; i < lengthOfFileArray; i++)
+				var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
+				if(noSpaceName === refreshName)
 				{
-					var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
-					if(noSpaceName === refreshName)
-					{
-						refreshNum = i;
-						foundInFileArray = true;
-						break;
-					}
+					refreshNum = i;
+					foundInFileArray = true;
+					break;
 				}
+			}
 
-				if(!foundInFileArray)
+			if(!foundInFileArray)
+			{
+				//look for groups with ID of master server
+				if(document.getElementById("innerFirstDevBox"+refreshName))
 				{
-					//look for groups with ID of master server
-					if(document.getElementById("innerFirstDevBox"+refreshName))
+					var listOfClasses = document.getElementById("innerFirstDevBox"+refreshName).parentElement.classList;
+					var classListLength = listOfClasses.length;
+					var found = false;
+					for(var i = 0; i < classListLength; i++)
 					{
-						var listOfClasses = document.getElementById("innerFirstDevBox"+refreshName).parentElement.classList;
-						var classListLength = listOfClasses.length;
-						var found = false;
-						for(var i = 0; i < classListLength; i++)
+						var lengthOfFileArray = arrayOfFiles.length;
+						for(var j = 0; j < lengthOfFileArray; j++)
 						{
-							var lengthOfFileArray = arrayOfFiles.length;
-							for(var j = 0; j < lengthOfFileArray; j++)
+							var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
+							if(noSpaceName === listOfClasses[j])
 							{
-								var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
-								if(noSpaceName === listOfClasses[j])
-								{
-									refreshNum = j;
-									found = true;
-									break;
-								}
-							}
-							if(found)
-							{
+								refreshNum = j;
+								found = true;
 								break;
 							}
 						}
-
 						if(found)
 						{
-							var classNameFound = arrayOfFiles[refreshNum]["Name"].replace(/\s/g, '');
-							listOfClasses = document.getElementsByClassName(classNameFound);
-							classListLength = listOfClasses.length;
-							for(var i = 0; i < classListLength; i++)
-							{
-								counterNew++;
-							} 
+							break;
 						}
+					}
+
+					if(found)
+					{
+						var classNameFound = arrayOfFiles[refreshNum]["Name"].replace(/\s/g, '');
+						listOfClasses = document.getElementsByClassName(classNameFound);
+						classListLength = listOfClasses.length;
+						for(var i = 0; i < classListLength; i++)
+						{
+							counterNew++;
+						} 
 					}
 				}
 			}
 		}
-		if(isNaN(refreshNum))
-		{
-			refreshNum = -1;
-		}
-		refreshing = true;
-		poll(refreshNum, counterNew);
-		refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
 	}
+	if(isNaN(refreshNum))
+	{
+		refreshNum = -1;
+	}
+	poll(refreshNum, counterNew);
+	refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
+	
 }
 
 function endRefreshAction()
 {	
-	refreshing = false;
 	if(isPaused())
 	{
 		document.title = "Git Status | Paused";
