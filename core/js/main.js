@@ -1489,10 +1489,32 @@ function showDiffCommits(data)
 {
 	var commitDiffMaster = data["compareMaster"].split(/\D/);
 	var commitDiffCurrent = data["compareCurrent"].split(/\D/);
+	var baseForLeft = commitDiffCurrent[0];
+	if(commitDiffCurrent[0] < commitDiffMaster[0])
+	{
+		baseForLeft = commitDiffMaster[0];
+	}
+	if(baseForLeft == 0)
+	{
+		baseForLeft = 1;
+	}
+	var baseForRight = commitDiffCurrent[1];
+	if(commitDiffCurrent[1] < commitDiffMaster[1])
+	{
+		baseForRight = commitDiffMaster[1];
+	}
+	if(baseForRight == 0)
+	{
+		baseForRight = 1;
+	}
 	$("#plusCurrent").html(commitDiffCurrent[1]);
+	document.getElementById("plusCurrentMeter").value = commitDiffCurrent[1]/baseForRight;
 	$("#minusCurrent").html(commitDiffCurrent[0]);
+	document.getElementById("minusCurrentMeter").value = commitDiffCurrent[0]/baseForLeft;
 	$("#plusMaster").html(commitDiffMaster[1]);
+	document.getElementById("plusMasterMeter").value = commitDiffMaster[1]/baseForRight;
 	$("#minusMaster").html(commitDiffMaster[0]);
+	document.getElementById("minusMasterMeter").value = commitDiffMaster[0]/baseForLeft;
 }
 
 function commitListGetError()

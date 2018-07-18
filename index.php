@@ -71,6 +71,30 @@ if($defaultViewBranch == 'Standard')
 	<script src="core/js/visibility.fallback.js"></script>
 	<script src="core/js/visibility.js"></script>
 	<script src="core/js/visibility.timers.js"></script>
+	<style type="text/css">
+		.meterCommit
+		{
+			height: 5px;
+			width: 100px;
+			margin-bottom: 5px;
+			background-color: rgb(119, 119, 119);
+		}
+
+		.meterCommitLeft
+		{
+			direction: rtl;
+		}
+
+		.meterCommit::-webkit-meter-bar
+		{
+			background: rgb(119, 119, 119);
+		}
+
+		.meterCommit::-webkit-meter-optimum-value
+		{
+			background: rgba(50,50,50);
+		}
+	</style>
 </head>
 <body>
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
@@ -310,18 +334,22 @@ if($defaultViewBranch == 'Standard')
 			</div>
 			<div>
 				<div id="sideBoxForActualInfo"">
-					<table width="100%" style="border-spacing: 0;">
+					<table width="100%" style="border-spacing: 0; padding-top: 10px;">
 						<tr>
-							<td>
+							<td width="50%">
 							</td>
-							<td>
-								<table>
+							<td width="50%" >
+								<table width="100%">
 									<tr>
 										<td>
 											Origin/CurrentBranch
 										</td>
 										<td>
-											-<span id="minusCurrent" ></span> | +<span id="plusCurrent" ></span>
+											-<span id="minusCurrent" ></span>
+											<meter id="minusCurrentMeter" min="0" max="1.2" class="meterCommit meterCommitLeft" ></meter>
+											|
+											<meter id="plusCurrentMeter" min="0" max="1.2"  class="meterCommit meterCommitRight" ></meter>
+											+<span id="plusCurrent" ></span>
 										</td>
 									</tr>
 									<tr>
@@ -329,7 +357,11 @@ if($defaultViewBranch == 'Standard')
 											Origin/Master
 										</td>
 										<td>
-											-<span id="minusMaster" ></span> | +<span id="plusMaster" ></span>
+											-<span id="minusMaster" ></span>
+											<meter id="minusMasterMeter" min="0" max="1.2" class="meterCommit meterCommitLeft" ></meter>
+											|
+											<meter id="plusMasterMeter" min="0" max="1.2" class="meterCommit meterCommitRight"></meter>
+											+<span id="plusMaster" ></span>
 										</td>
 									</tr>
 								</table>
