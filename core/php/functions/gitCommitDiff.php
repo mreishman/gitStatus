@@ -8,5 +8,4 @@ $function = "git --git-dir=".escapeshellarg($location).".git rev-list --left-rig
 $returnData["compareCurrent"] = trim(shell_exec($function));
 $function = "git --git-dir=".escapeshellarg($location).".git rev-list --left-right --count origin/master...".escapeshellarg($currentBranch);
 $returnData["compareMaster"] = trim(shell_exec($function));
-
 echo json_encode($returnData);
