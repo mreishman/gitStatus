@@ -291,10 +291,10 @@ if($defaultViewBranch == 'Standard')
 					<li onclick="closeDetailBar();" >
 						<a>Close</a>
 					</li>
-					<li style="display: none;" id="infoTab" onclick="toggleInfoTab();" >
+					<li id="infoTab" onclick="toggleInfoTab();"  class="selectedButton" >
 						<a>Info</a>
 					</li>
-					<li id="commitsTab" onclick="toggleCommitsTab();" class="selectedButton">
+					<li id="commitsTab" onclick="toggleCommitsTab();">
 						<a>Commits</a>
 					</li>
 					<li id="LogHogTab" onclick="toggleIframe('loghog');" style="display: none;" >
@@ -309,8 +309,35 @@ if($defaultViewBranch == 'Standard')
 				</ul>
 			</div>
 			<div>
-				<div id="sideBoxForActualInfo" style="display: none;"></div>
-				<div id="sideBoxBoxForInfo">
+				<div id="sideBoxForActualInfo"">
+					<table width="100%" style="border-spacing: 0;">
+						<tr>
+							<td>
+							</td>
+							<td>
+								<table>
+									<tr>
+										<td>
+											Origin/CurrentBranch
+										</td>
+										<td>
+											-<span id="minusCurrent" ></span> | +<span id="plusCurrent" ></span>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											Origin/Master
+										</td>
+										<td>
+											-<span id="minusMaster" ></span> | +<span id="plusMaster" ></span>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="sideBoxBoxForInfo" style="display: none;" >
 					<table width="100%" style="border-spacing: 0;">
 						<tr>
 							<td width="250px;" style="vertical-align: top;" >

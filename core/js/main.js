@@ -1335,7 +1335,7 @@ function toggleDetailBar(e, key)
 	}
 
 	//info
-	toggleCommitsTab();
+	getInfo();
 }
 
 function closeDetailBar()
@@ -1352,6 +1352,7 @@ function hideAllSubFrames()
 	$(".buttonList li").removeClass("selectedButton");
 	document.getElementById("sideBoxBoxForInfo").style.display = "none";
 	document.getElementById("iframeHolder").style.display = "none";
+	document.getElementById("sideBoxForActualInfo").style.display = "none";
 	$('#iframeForStuff').prop('src', "./iframe.html");
 }
 
@@ -1361,6 +1362,14 @@ function toggleCommitsTab()
 	$("#commitsTab").addClass("selectedButton");
 	document.getElementById("sideBoxBoxForInfo").style.display = "block";
 	getListOfCommits();
+}
+
+function toggleInfoTab()
+{
+	hideAllSubFrames();
+	$("#infoTab").addClass("selectedButton");
+	document.getElementById("sideBoxForActualInfo").style.display = "block";
+	getInfo();
 }
 
 function toggleIframe(site)
@@ -1384,6 +1393,114 @@ function toggleIframe(site)
 	document.getElementById("iframeHolder").style.display = "block";
 }
 
+function getInfo()
+{
+	getDiffCommits();
+}
+
+function getDiffCommits()
+{
+	var idName = currentIdOfMainSidebar;
+	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
+	{
+		//noot work
+	}
+
+	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
+	if(!(urlForSend.indexOf("http") > -1))
+	{
+		urlForSend = "https://"+urlForSend;
+	}
+	if(!(urlForSend.indexOf("core") > -1))
+	{
+		urlForSend += "/status/core/php/functions/";
+	}
+	urlForSend += "gitCommitDiff.php";
+	var branchName = $("#"+idName+" a").html();
+	if(branchName === undefined)
+	{
+		branchName = $("#branchNameDevBox1gitStatus").html();
+	}
+
+	var data = {location: arrayOfWatchFilters[idName]["location"], branchName};
+	(function(_data){
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data,
+			type: 'POST',
+			success: function(data)
+			{
+				showDiffCommits(data);
+			},
+			error: function(xhr, error)
+			{
+				//show appropriate error message
+				console.log(error);
+				getDiffCommitsHttp();
+			}
+		});
+	}(data));
+}
+
+function getDiffCommitsHttp()
+{
+	var idName = currentIdOfMainSidebar;
+
+	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
+	if(!(urlForSend.indexOf("http") > -1))
+	{
+		urlForSend = "http://"+urlForSend;
+	}
+	if(!(urlForSend.indexOf("core") > -1))
+	{
+		urlForSend += "/status/core/php/functions/";
+	}
+	urlForSend += "gitCommitDiff.php";
+	var branchName = $("#"+idName+" a").html();
+	if(branchName === undefined)
+	{
+		branchName = $("#branchNameDevBox1gitStatus").html();
+	}
+
+	var data = {location: arrayOfWatchFilters[idName]["location"], branchName};
+	(function(_data){
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data,
+			type: 'POST',
+			success: function(data)
+			{
+				showDiffCommits(data);
+			},
+			error: function(xhr, error)
+			{
+				//show appropriate error message
+				console.log(error);
+			}
+		});
+	}(data));
+}
+
+function showDiffCommits(data)
+{
+	var commitDiffMaster = data["compareMaster"].split(/\D/);
+	var commitDiffCurrent = data["compareCurrent"].split(/\D/);
+	$("#plusCurrent").html(commitDiffCurrent[1]);
+	$("#minusCurrent").html(commitDiffCurrent[0]);
+	$("#plusMaster").html(commitDiffMaster[1]);
+	$("#minusMaster").html(commitDiffMaster[0]);
+}
+
+function commitListGetError()
+{
+	document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
+	document.getElementById("noChangesToDisplay").style.display = "block";
+}
+
 
 function getListOfCommits()
 {
@@ -1395,8 +1512,7 @@ function getListOfCommits()
 	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
 	{
 		//cant get data for commits, show correct message
-		document.getElementById("noChangesToDisplay").style.display = "block";
-		document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
+		commitListGetError();
 		return;
 	}
 	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
@@ -1424,8 +1540,7 @@ function getListOfCommits()
 			error: function(xhr, error)
 			{
 				//show appropriate error message
-				document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
-				document.getElementById("noChangesToDisplay").style.display = "block";
+				commitListGetError();
 				getListOfCommitsHttp();
 			}
 		});
@@ -1460,8 +1575,7 @@ function getListOfCommitsHttp()
 			error: function(xhr, error)
 			{
 				//show appropriate error message
-				document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
-				document.getElementById("noChangesToDisplay").style.display = "block";
+				commitListGetError();
 			}
 		});
 	}(data));
