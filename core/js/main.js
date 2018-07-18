@@ -1395,16 +1395,20 @@ function toggleIframe(site)
 
 function getInfo()
 {
+	var idName = currentIdOfMainSidebar;
+	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
+	{
+		//noot work
+		return;
+	}
+	$("#infoBranchName").html($("#"+idName).html());
+	$("#infoMainLeft").html($("#innerFirstDevBox"+idName+" .devBoxContentSecondary").html());
 	getDiffCommits();
 }
 
 function getDiffCommits()
 {
 	var idName = currentIdOfMainSidebar;
-	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
-	{
-		//noot work
-	}
 
 	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
 	if(!(urlForSend.indexOf("http") > -1))

@@ -334,11 +334,15 @@ if($defaultViewBranch == 'Standard')
 			</div>
 			<div>
 				<div id="sideBoxForActualInfo"">
-					<table width="100%" style="border-spacing: 0; padding-top: 10px;">
+					<table width="100%" style="border-spacing: 0; padding: 10px;">
 						<tr>
-							<td width="50%">
+							<td width="50%" style="vertical-align: top;">
+								<h2>Info:</h2>
+								<span id="infoMainLeft"></span>
 							</td>
-							<td width="50%" >
+							<td width="50%"  style="vertical-align: top;" >
+								<h2>Git-Diff:</h2>
+								<span style="height: 29px; display: block;" ></span>
 								<table width="100%">
 									<tr>
 										<td>
