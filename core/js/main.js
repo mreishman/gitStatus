@@ -1395,9 +1395,14 @@ function toggleIframe(site)
 
 function getInfo()
 {
+	document.getElementById("gitDiffNoInfo").style.display = "none";
+	document.getElementById("gitDiffLoading").style.display = "table-row";
+	$(".branchInfoGitDiff").hide();
 	var idName = currentIdOfMainSidebar;
 	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
 	{
+		document.getElementById("gitDiffNoInfo").style.display = "table-row";
+		document.getElementById("gitDiffLoading").style.display = "none";
 		//noot work
 		return;
 	}
@@ -1440,8 +1445,6 @@ function getDiffCommits()
 			},
 			error: function(xhr, error)
 			{
-				//show appropriate error message
-				console.log(error);
 				getDiffCommitsHttp();
 			}
 		});
@@ -1482,8 +1485,8 @@ function getDiffCommitsHttp()
 			},
 			error: function(xhr, error)
 			{
-				//show appropriate error message
-				console.log(error);
+				document.getElementById("gitDiffNoInfo").style.display = "table-row";
+				document.getElementById("gitDiffLoading").style.display = "none";
 			}
 		});
 	}(data));
@@ -1519,6 +1522,8 @@ function showDiffCommits(data)
 	document.getElementById("plusMasterMeter").value = commitDiffMaster[1]/baseForRight;
 	$("#minusMaster").html(commitDiffMaster[0]);
 	document.getElementById("minusMasterMeter").value = commitDiffMaster[0]/baseForLeft;
+	document.getElementById("gitDiffLoading").style.display = "none";
+	$(".branchInfoGitDiff").css("display","table-row");
 }
 
 function commitListGetError()

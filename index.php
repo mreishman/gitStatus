@@ -71,30 +71,6 @@ if($defaultViewBranch == 'Standard')
 	<script src="core/js/visibility.fallback.js"></script>
 	<script src="core/js/visibility.js"></script>
 	<script src="core/js/visibility.timers.js"></script>
-	<style type="text/css">
-		.meterCommit
-		{
-			height: 5px;
-			width: 100px;
-			margin-bottom: 5px;
-			background-color: rgb(119, 119, 119);
-		}
-
-		.meterCommitLeft
-		{
-			direction: rtl;
-		}
-
-		.meterCommit::-webkit-meter-bar
-		{
-			background: rgb(119, 119, 119);
-		}
-
-		.meterCommit::-webkit-meter-optimum-value
-		{
-			background: rgba(50,50,50);
-		}
-	</style>
 </head>
 <body>
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
@@ -344,7 +320,17 @@ if($defaultViewBranch == 'Standard')
 								<h2>Git-Diff:</h2>
 								<span style="height: 29px; display: block;" ></span>
 								<table width="100%">
-									<tr>
+									<tr id="gitDiffLoading" style="display: none;">
+										<td colspan="2">
+											Loading ...
+										</td>
+									</tr>
+									<tr id="gitDiffNoInfo" style="display: none;">
+										<td colspan="2">
+											No Information Available
+										</td>
+									</tr>
+									<tr class="branchInfoGitDiff">
 										<td>
 											Origin/CurrentBranch
 										</td>
@@ -356,7 +342,7 @@ if($defaultViewBranch == 'Standard')
 											+<span id="plusCurrent" ></span>
 										</td>
 									</tr>
-									<tr>
+									<tr class="branchInfoGitDiff">
 										<td>
 											Origin/Master
 										</td>

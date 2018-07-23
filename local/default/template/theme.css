@@ -3,6 +3,29 @@ body{
 	margin: 0;
 }
 
+.meterCommit
+{
+	height: 5px;
+	width: 100px;
+	margin-bottom: 5px;
+	background-color: rgb(119, 119, 119);
+}
+
+.meterCommitLeft
+{
+	direction: rtl;
+}
+
+.meterCommit::-webkit-meter-bar
+{
+	background: rgb(119, 119, 119);
+}
+
+.meterCommit::-webkit-meter-optimum-value
+{
+	background: rgba(50,50,50);
+}
+
 .commitLi
 {
 	height: 55px;
