@@ -1,5 +1,4 @@
 var counterForSave = numberOfLogs+1;
-var refreshing = false;
 var updating = false;
 var pollTimer = null;
 var blocekdInnerObj = {};
@@ -14,7 +13,6 @@ function escapeHTML(unsafeStr)
 	.replace(/\"/g, "&quot;")
 	.replace(/\'/g, "&#39;")
 	.replace(/\//g, "&#x2F;");
-	
 }
 
 function poll(all = -1, counterForSaveNew = 1)
@@ -249,7 +247,7 @@ function pollCompleteLogic()
 	{
 		return;
 	}
-	if(cacheEnabled === "true")
+	if(cacheEnabled === "true" || cacheEnabled === "write")
 	{
 		loadingSpinnerText.innerHTML = "Saving..."
 		if(!jQuery.isEmptyObject(arrayOfWatchFilters))
@@ -910,86 +908,80 @@ function filterBGColor(filterName, idName, opacity)
 
 function refreshAction(all = -1, status = 'outer')
 {
-	if(refreshing == false)
+	clearTimeout(refreshActionVar);
+	var counterNew = 0;
+	var refreshNum = parseInt(all);
+	if(refreshNum !== -1)
 	{
-		clearInterval(pollTimer);
-		startPoll();
-		clearTimeout(refreshActionVar);
-		var counterNew = 0;
-		var refreshNum = parseInt(all);
-		if(refreshNum !== -1)
+		if(isNaN(refreshNum))
 		{
-			if(isNaN(refreshNum))
+			var refreshName = all;
+			//this is string, find in fileArray
+			var foundInFileArray = false;
+			var lengthOfFileArray = arrayOfFiles.length;
+			for(var i = 0; i < lengthOfFileArray; i++)
 			{
-				var refreshName = all;
-				//this is string, find in fileArray
-				var foundInFileArray = false;
-				var lengthOfFileArray = arrayOfFiles.length;
-				for(var i = 0; i < lengthOfFileArray; i++)
+				var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
+				if(noSpaceName === refreshName)
 				{
-					var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
-					if(noSpaceName === refreshName)
-					{
-						refreshNum = i;
-						foundInFileArray = true;
-						break;
-					}
+					refreshNum = i;
+					foundInFileArray = true;
+					break;
 				}
+			}
 
-				if(!foundInFileArray)
+			if(!foundInFileArray)
+			{
+				//look for groups with ID of master server
+				if(document.getElementById("innerFirstDevBox"+refreshName))
 				{
-					//look for groups with ID of master server
-					if(document.getElementById("innerFirstDevBox"+refreshName))
+					var listOfClasses = document.getElementById("innerFirstDevBox"+refreshName).parentElement.classList;
+					var classListLength = listOfClasses.length;
+					var found = false;
+					for(var i = 0; i < classListLength; i++)
 					{
-						var listOfClasses = document.getElementById("innerFirstDevBox"+refreshName).parentElement.classList;
-						var classListLength = listOfClasses.length;
-						var found = false;
-						for(var i = 0; i < classListLength; i++)
+						var lengthOfFileArray = arrayOfFiles.length;
+						for(var j = 0; j < lengthOfFileArray; j++)
 						{
-							var lengthOfFileArray = arrayOfFiles.length;
-							for(var j = 0; j < lengthOfFileArray; j++)
+							var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
+							if(noSpaceName === listOfClasses[j])
 							{
-								var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
-								if(noSpaceName === listOfClasses[j])
-								{
-									refreshNum = j;
-									found = true;
-									break;
-								}
-							}
-							if(found)
-							{
+								refreshNum = j;
+								found = true;
 								break;
 							}
 						}
-
 						if(found)
 						{
-							var classNameFound = arrayOfFiles[refreshNum]["Name"].replace(/\s/g, '');
-							listOfClasses = document.getElementsByClassName(classNameFound);
-							classListLength = listOfClasses.length;
-							for(var i = 0; i < classListLength; i++)
-							{
-								counterNew++;
-							} 
+							break;
 						}
+					}
+
+					if(found)
+					{
+						var classNameFound = arrayOfFiles[refreshNum]["Name"].replace(/\s/g, '');
+						listOfClasses = document.getElementsByClassName(classNameFound);
+						classListLength = listOfClasses.length;
+						for(var i = 0; i < classListLength; i++)
+						{
+							counterNew++;
+						} 
 					}
 				}
 			}
 		}
-		if(isNaN(refreshNum))
-		{
-			refreshNum = -1;
-		}
-		refreshing = true;
-		poll(refreshNum, counterNew);
-		refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
 	}
+	if(isNaN(refreshNum))
+	{
+		refreshNum = -1;
+	}
+	poll(refreshNum, counterNew);
+	refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
+	
 }
 
 function endRefreshAction()
 {	
-	refreshing = false;
 	if(isPaused())
 	{
 		document.title = "Git Status | Paused";
@@ -999,41 +991,6 @@ function endRefreshAction()
 		document.title = "Git Status | Index";
 	}
 }
-
-$( document ).ready(function()
-{
-	poll();
-	pollingRate = pollingRate * 60000; 
-	
-
-	if (autoCheckUpdate == true)
-	{
-		var today = new Date();
-		var dd = today.getDate();
-		var mm = today.getMonth()+1; //January is 0!
-		var yyyy = today.getFullYear();
-
-		if(dd<10) {
-		    dd='0'+dd
-		} 
-
-		if(mm<10) {
-		    mm='0'+mm
-		} 
-
-		today = mm+'-'+dd+'-'+yyyy;
-		if(today != dateOfLastUpdate)
-		{
-			checkForUpdateDefinitely();
-		}
-	}
-
-	if(pausePollFromFile !== "true")
-	{
-		startPoll();
-	}
-
-});
 
 function togglePlayPause()
 {
@@ -1075,15 +1032,15 @@ function pausePollFunction()
 {
 	togglePlayPause();
 	document.title = "Status | Paused";
-	clearInterval(pollTimer);
+	Visibility.stop(pollTimer);
 }
 
 function startPoll()
 {
-	pollTimer = setInterval(poll, pollingRate);
+	pollTimer = Visibility.every(pollingRate, pollingRateBG, function () { poll(); });
 }
 
-function switchToStandardView() 
+function switchToStandardView()
 {
 	if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
 	{
@@ -1104,7 +1061,7 @@ function switchToStandardView()
 	}
 }
 
-function switchToExpandedView() 
+function switchToExpandedView()
 {
 	if($('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
 	{
@@ -1378,7 +1335,7 @@ function toggleDetailBar(e, key)
 	}
 
 	//info
-	toggleCommitsTab();
+	getInfo();
 }
 
 function closeDetailBar()
@@ -1395,6 +1352,7 @@ function hideAllSubFrames()
 	$(".buttonList li").removeClass("selectedButton");
 	document.getElementById("sideBoxBoxForInfo").style.display = "none";
 	document.getElementById("iframeHolder").style.display = "none";
+	document.getElementById("sideBoxForActualInfo").style.display = "none";
 	$('#iframeForStuff').prop('src', "./iframe.html");
 }
 
@@ -1404,6 +1362,14 @@ function toggleCommitsTab()
 	$("#commitsTab").addClass("selectedButton");
 	document.getElementById("sideBoxBoxForInfo").style.display = "block";
 	getListOfCommits();
+}
+
+function toggleInfoTab()
+{
+	hideAllSubFrames();
+	$("#infoTab").addClass("selectedButton");
+	document.getElementById("sideBoxForActualInfo").style.display = "block";
+	getInfo();
 }
 
 function toggleIframe(site)
@@ -1427,6 +1393,145 @@ function toggleIframe(site)
 	document.getElementById("iframeHolder").style.display = "block";
 }
 
+function getInfo()
+{
+	document.getElementById("gitDiffNoInfo").style.display = "none";
+	document.getElementById("gitDiffLoading").style.display = "table-row";
+	$(".branchInfoGitDiff").hide();
+	var idName = currentIdOfMainSidebar;
+	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
+	{
+		document.getElementById("gitDiffNoInfo").style.display = "table-row";
+		document.getElementById("gitDiffLoading").style.display = "none";
+		//noot work
+		return;
+	}
+	$("#infoBranchName").html($("#"+idName).html());
+	$("#infoMainLeft").html($("#innerFirstDevBox"+idName+" .devBoxContentSecondary").html());
+	getDiffCommits();
+}
+
+function getDiffCommits()
+{
+	var idName = currentIdOfMainSidebar;
+
+	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
+	if(!(urlForSend.indexOf("http") > -1))
+	{
+		urlForSend = "https://"+urlForSend;
+	}
+	if(!(urlForSend.indexOf("core") > -1))
+	{
+		urlForSend += "/status/core/php/functions/";
+	}
+	urlForSend += "gitCommitDiff.php";
+	var branchName = $("#"+idName+" a").html();
+	if(branchName === undefined)
+	{
+		branchName = $("#branchNameDevBox1gitStatus").html();
+	}
+
+	var data = {location: arrayOfWatchFilters[idName]["location"], branchName};
+	(function(_data){
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data,
+			type: 'POST',
+			success: function(data)
+			{
+				showDiffCommits(data);
+			},
+			error: function(xhr, error)
+			{
+				getDiffCommitsHttp();
+			}
+		});
+	}(data));
+}
+
+function getDiffCommitsHttp()
+{
+	var idName = currentIdOfMainSidebar;
+
+	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
+	if(!(urlForSend.indexOf("http") > -1))
+	{
+		urlForSend = "http://"+urlForSend;
+	}
+	if(!(urlForSend.indexOf("core") > -1))
+	{
+		urlForSend += "/status/core/php/functions/";
+	}
+	urlForSend += "gitCommitDiff.php";
+	var branchName = $("#"+idName+" a").html();
+	if(branchName === undefined)
+	{
+		branchName = $("#branchNameDevBox1gitStatus").html();
+	}
+
+	var data = {location: arrayOfWatchFilters[idName]["location"], branchName};
+	(function(_data){
+			$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data,
+			type: 'POST',
+			success: function(data)
+			{
+				showDiffCommits(data);
+			},
+			error: function(xhr, error)
+			{
+				document.getElementById("gitDiffNoInfo").style.display = "table-row";
+				document.getElementById("gitDiffLoading").style.display = "none";
+			}
+		});
+	}(data));
+}
+
+function showDiffCommits(data)
+{
+	var commitDiffMaster = data["compareMaster"].split(/\D/);
+	var commitDiffCurrent = data["compareCurrent"].split(/\D/);
+	var baseForLeft = commitDiffCurrent[0];
+	if(commitDiffCurrent[0] < commitDiffMaster[0])
+	{
+		baseForLeft = commitDiffMaster[0];
+	}
+	if(baseForLeft == 0)
+	{
+		baseForLeft = 1;
+	}
+	var baseForRight = commitDiffCurrent[1];
+	if(commitDiffCurrent[1] < commitDiffMaster[1])
+	{
+		baseForRight = commitDiffMaster[1];
+	}
+	if(baseForRight == 0)
+	{
+		baseForRight = 1;
+	}
+	$("#plusCurrent").html(commitDiffCurrent[1]);
+	document.getElementById("plusCurrentMeter").value = commitDiffCurrent[1]/baseForRight;
+	$("#minusCurrent").html(commitDiffCurrent[0]);
+	document.getElementById("minusCurrentMeter").value = commitDiffCurrent[0]/baseForLeft;
+	$("#plusMaster").html(commitDiffMaster[1]);
+	document.getElementById("plusMasterMeter").value = commitDiffMaster[1]/baseForRight;
+	$("#minusMaster").html(commitDiffMaster[0]);
+	document.getElementById("minusMasterMeter").value = commitDiffMaster[0]/baseForLeft;
+	document.getElementById("gitDiffLoading").style.display = "none";
+	$(".branchInfoGitDiff").css("display","table-row");
+}
+
+function commitListGetError()
+{
+	document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
+	document.getElementById("noChangesToDisplay").style.display = "block";
+}
+
 
 function getListOfCommits()
 {
@@ -1438,8 +1543,7 @@ function getListOfCommits()
 	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
 	{
 		//cant get data for commits, show correct message
-		document.getElementById("noChangesToDisplay").style.display = "block";
-		document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
+		commitListGetError();
 		return;
 	}
 	var urlForSend = arrayOfWatchFilters[idName]["WebsiteBase"];
@@ -1467,8 +1571,7 @@ function getListOfCommits()
 			error: function(xhr, error)
 			{
 				//show appropriate error message
-				document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
-				document.getElementById("noChangesToDisplay").style.display = "block";
+				commitListGetError();
 				getListOfCommitsHttp();
 			}
 		});
@@ -1503,8 +1606,7 @@ function getListOfCommitsHttp()
 			error: function(xhr, error)
 			{
 				//show appropriate error message
-				document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
-				document.getElementById("noChangesToDisplay").style.display = "block";
+				commitListGetError();
 			}
 		});
 	}(data));
@@ -1772,5 +1874,42 @@ function escapeHTML(unsafeStr)
 	{
 		eventThrowException(e);
 	}
-	
 }
+
+/* KEEP AT BOTTOM OF FILE */
+
+$( document ).ready(function()
+{
+	poll();
+	pollingRate = pollingRate * 60000;
+	pollingRateBG = pollingRateBG * 60000;
+
+
+	if (autoCheckUpdate == true)
+	{
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+
+		if(dd<10) {
+		    dd='0'+dd
+		}
+
+		if(mm<10) {
+		    mm='0'+mm
+		}
+
+		today = mm+'-'+dd+'-'+yyyy;
+		if(today != dateOfLastUpdate)
+		{
+			checkForUpdateDefinitely();
+		}
+	}
+
+	if(pausePollFromFile !== "true")
+	{
+		startPoll();
+	}
+
+});

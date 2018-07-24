@@ -1,5 +1,6 @@
 <?php
 require_once("core/php/functions/commonFunctions.php");
+require_once("core/php/functions/indexFunctions.php");
 $baseUrl = "core/";
 if(file_exists('local/layout.php'))
 {
@@ -8,12 +9,6 @@ if(file_exists('local/layout.php'))
 	require_once('local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
-
-function clean_url($url) {
-    $parts = parse_url($url);
-    return $parts['path'];
-}
-
 
 if(!file_exists($baseUrl.'conf/config.php'))
 {
@@ -26,12 +21,12 @@ if(!file_exists($baseUrl.'conf/config.php'))
 	header('Location: ' . $url, true, 302);
 	exit();
 }
-require_once($baseUrl.'conf/config.php'); 
+require_once($baseUrl.'conf/config.php');
 require_once('core/conf/config.php');
-require_once('core/php/configStatic.php'); 
+require_once('core/php/configStatic.php');
 if(file_exists('core/conf/cachedStatus.php'))
-{ 
-	require_once('core/conf/cachedStatus.php');  
+{
+	require_once('core/conf/cachedStatus.php');
 }
 require_once('core/php/update/updateCheck.php');
 require_once('core/php/loadVars.php');
@@ -63,182 +58,6 @@ if($defaultViewBranch == 'Standard')
 {
 	$branchView =  "devBoxContentSecondary";
 }
-
-function generateGroup($data = array())
-{
-	$group = "{{group}}";
-	$selected = "";
-	if(isset($data["group"]))
-	{
-		$group = $data["group"];
-	}
-	if(isset($data["defaultGroupViewOnLoad"]))
-	{
-		if($group === $data["defaultGroupViewOnLoad"])
-		{
-			$selected = "groupTabSelected";
-		}
-	}
-	$groupBlock =  "<div class=\"groupTabShadow\">";
-	$groupBlock .= "	<div class=\"groupTab ".$selected." \" id=\"Group".$group."\" onclick=\"showOrHideGroups('".$group."');\" >";
-	$groupBlock .= 			$group;
-	$groupBlock .= "	</div>";
-	$groupBlock .= "</div>";
-	return $groupBlock;
-}
-
-function generateWindow($data = array())
-{
-
-	$groupInfo = "{{groupInfo}}";
-	$groupInfoStyle = "{{groupInfoStyle}}";
-	$backgroundColor = "{{backgroundColor}}";
-	$keyNoSpace = "{{keyNoSpace}}";
-	$website = "{{website}}";
-	$counter = "{{counter}}";
-	$name = "{{name}}";
-	$branchView = "{{branchView}}";
-
-	$greenLED = "inline-block";
-	$yellowLED = "none";
-	$redLED = "none";
-	$noticeMessageShow = "none";
-	$messageText = "";
-	$showRefresh = "inline-block";
-
-	if(isset($data['groupInfo']))
-	{
-		$groupInfo = $data["groupInfo"];
-	}
-
-	if(isset($data['groupInfoStyle']))
-	{
-		$groupInfoStyle = $data["groupInfoStyle"];
-	}
-
-	if(isset($data['backgroundColor']))
-	{
-		$backgroundColor = $data["backgroundColor"];
-	}
-
-	if(isset($data['keyNoSpace']))
-	{
-		$keyNoSpace = "branchNameDevBox1".$data["keyNoSpace"];
-	}
-
-	if(isset($data['website']))
-	{
-		$website = $data["website"];
-	}
-
-	if(isset($data['counter']))
-	{
-		$counter = $data["counter"];
-	}
-
-	if(isset($data['name']))
-	{
-		$name = $data["name"];
-	}
-
-	if(isset($data['branchView']))
-	{
-		$branchView = $data["branchView"];
-	}
-
-	if(isset($data['greenLED']))
-	{
-		$greenLED = $data["greenLED"];
-	}
-
-	if(isset($data['yellowLED']))
-	{
-		$yellowLED = $data["yellowLED"];
-	}
-
-	if(isset($data['redLED']))
-	{
-		$redLED = $data["redLED"];
-	}
-
-	if(isset($data['noticeMessageShow']))
-	{
-		$noticeMessageShow = $data["noticeMessageShow"];
-	}
-
-	if(isset($data['messageText']))
-	{
-		$messageText = $data["messageText"];
-	}
-
-	if(isset($data['showRefresh']))
-	{
-		$showRefresh = $data["showRefresh"];
-	}
-
-	$status = "<span style=\"display: none;\" id=\"".$keyNoSpace."Stats\"></span>";
-	$branchData = "<span id=\"".$keyNoSpace."\"><img style=\"width: 20px;\" src=\"core/img/loading.gif\"> Loading...</span>";
-
-	if(isset($data['status']))
-	{
-		$status = $data["status"];
-	}
-
-	if(isset($data['branchData']))
-	{
-		$branchData = $data["branchData"];
-	}
-
-	$blockHTML =  "	<div class=\"firstBoxDev ".$groupInfo." \"  ".$groupInfoStyle." >";
-	$blockHTML .= "		<div class=\"innerFirstDevBox\" id=\"innerFirstDevBox".$keyNoSpace."\"  ".$backgroundColor." >";
-	$blockHTML .= "			<div onclick=\"toggleDetailBar(event, '".$keyNoSpace."');\" class=\"devBoxTitle\" style=\"cursor: pointer;\" >";
-	$blockHTML .= "				<div class=\"led-red\" id=\"".$keyNoSpace."redwWarning\" style=\"display: inline-block; margin-bottom: -8px; display: ".$redLED." \">";
-	$blockHTML .= "				</div>";
-	$blockHTML .= "				<div class=\"led-yellow\" id=\"".$keyNoSpace."yellowWarning\" style=\"display: inline-block; margin-bottom: -8px; display: ".$yellowLED." \">";
-	$blockHTML .= "				</div>";
-	$blockHTML .= "				<div class=\"led-green\" id=\"".$keyNoSpace."greenNotice\" style=\"display: inline-block; margin-bottom: -8px; display: ".$greenLED." \">";
-	$blockHTML .= "				</div>";
-	$blockHTML .= "				<a style=\"color: black;\" href=\"https://".$website."\"><b>".$name."</b></a>";
-	$blockHTML .= "				<img id=\"".$keyNoSpace."loadingSpinnerHeader\" class=\"loadingSpinnerHeader\" style=\"width: 25px; margin-bottom: -5px; display: none;\" src=\"core/img/loading.gif\" >";
-	$blockHTML .= "				<div class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
-	$blockHTML .= "				<div id=\"dropdown-".$keyNoSpace."\" class=\"dropdown-content\">";
-	$blockHTML .= "			    	<a style=\"cursor: pointer\" onclick=\"refreshAction('".$keyNoSpace."','inner');\" >Refresh</a>";
-	$blockHTML .= "					<span style=\"display: none;\" >";
-	$blockHTML .= "			    	<div id=\"".$keyNoSpace."LogHogOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
-	$blockHTML .= "						<a id=\"".$keyNoSpace."LogHogInner\" style=\"color: black;\" href=\"#\">Log-Hog</a>";
-	$blockHTML .= "					</div>";
-	$blockHTML .= "					<div id=\"".$keyNoSpace."MonitorOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
-	$blockHTML .= "						<a id=\"".$keyNoSpace."MonitorInner\" style=\"color: black;\" href=\"#\">Monitor</a>";
-	$blockHTML .= "					</div>";
-	$blockHTML .= "					<div id=\"".$keyNoSpace."SearchOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
-	$blockHTML .= "						<a id=\"".$keyNoSpace."SearchInner\" style=\"color: black;\" href=\"#\">Search</a>";
-	$blockHTML .= "					</div>";
-	$blockHTML .= "					</span>";
-	$blockHTML .= "					<a id=\"".$keyNoSpace."errorMessageLink\" style=\"cursor: pointer; display: none;\">Error</a> ";
-	$blockHTML .= "					<a id=\"".$keyNoSpace."noticeMessageLink\" style=\"cursor: pointer; display: none;\">Notice</a> ";
-	$blockHTML .= "				</div>";
-	$blockHTML .= "			</div>";
-	$blockHTML .= "			<div class=\"devBoxContent\">";
-	$blockHTML .= "				<span style=\"display: ".$noticeMessageShow.";\" class=\"noticeMessage\" id=\"".$keyNoSpace."NoticeMessage\" >".$messageText."</span> ";
-	$blockHTML .= "				<b>";
-	$blockHTML .= 					$branchData;
-	$blockHTML .= "				</b>";
-	$blockHTML .= "				<div class=\"".$branchView."\">";
-	$blockHTML .= "					<span style=\"display: none;\" id=\"".$keyNoSpace."UpdateOuter\">";
-	$blockHTML .= "						<br><br>";
-	$blockHTML .= "						<b>Last Updated:</b>";
-	$blockHTML .= "						<span id=\"".$keyNoSpace."Update\"> --Pending-- </span>";
-	$blockHTML .= " 					<br>";
-	$blockHTML .= " 				</span>";
-	$blockHTML .= "					<br>";
-	$blockHTML .= 					$status;
-	$blockHTML .= "				</div>";
-	$blockHTML .= "			</div>";
-	$blockHTML .= "		</div>";
-	$blockHTML .= "	</div>";
-	return $blockHTML;
-}
-
 ?>
 <!doctype html>
 <head>
@@ -277,7 +96,7 @@ function generateWindow($data = array())
 					}
 				}
 			}
-			if($cacheEnabled === "true")
+			if($cacheEnabled === "true" || $cacheEnabled == "read")
 			{
 				foreach ($cachedStatusMainObject as $key => $value)
 				{
@@ -325,20 +144,19 @@ function generateWindow($data = array())
 			}
 			array_push($arrayOfGroups, "All"); ?>
 			<div id="groupInfo" <?php if(!$showTopBarOfGroups):?> style="display: none;"<?php endif; ?> >
+				<?php
+				sort($arrayOfGroups);
+				foreach ($arrayOfGroups as $key => $value)
+				{
+					echo generateGroup(array(
+						"group"						=>	$value,
+						"defaultGroupViewOnLoad"	=>	$defaultGroupViewOnLoad
+					));
+				}
+				?>
+			</div>
+			<div id="groupInfoPlaceholder" ></div>
 			<?php
-			sort($arrayOfGroups);
-			foreach ($arrayOfGroups as $key => $value)
-			{
-				echo generateGroup(array(
-					"group"						=>	$value,
-					"defaultGroupViewOnLoad"	=>	$defaultGroupViewOnLoad
-				));
-			}
-			?>
-			</div>
-			<div id="groupInfoPlaceholder" >
-			</div>
-			<?php 
 			$h = -1;
 			$newArray = array();
 			if($pollType === 1)
@@ -432,8 +250,6 @@ function generateWindow($data = array())
 						$greenLED = "inline-block";
 					}
 
-					
-
 					if(($messageTextEnabled !== "" && $messageTextEnabled === true) || ($enableBlockUntilDate !== "" && $enableBlockUntilDate === true))
 					{
 						$noticeMessageShow = "inline-block";
@@ -475,10 +291,10 @@ function generateWindow($data = array())
 					<li onclick="closeDetailBar();" >
 						<a>Close</a>
 					</li>
-					<li style="display: none;" id="infoTab" onclick="toggleInfoTab();" >
+					<li id="infoTab" onclick="toggleInfoTab();"  class="selectedButton" >
 						<a>Info</a>
 					</li>
-					<li id="commitsTab" onclick="toggleCommitsTab();" class="selectedButton">
+					<li id="commitsTab" onclick="toggleCommitsTab();">
 						<a>Commits</a>
 					</li>
 					<li id="LogHogTab" onclick="toggleIframe('loghog');" style="display: none;" >
@@ -493,10 +309,57 @@ function generateWindow($data = array())
 				</ul>
 			</div>
 			<div>
-				<div id="sideBoxForActualInfo" style="display: none;">
-					
+				<div id="sideBoxForActualInfo"">
+					<table width="100%" style="border-spacing: 0; padding: 10px;">
+						<tr>
+							<td width="50%" style="vertical-align: top;">
+								<h2>Info:</h2>
+								<span id="infoMainLeft"></span>
+							</td>
+							<td width="50%"  style="vertical-align: top;" >
+								<h2>Git-Diff:</h2>
+								<span style="height: 29px; display: block;" ></span>
+								<table width="100%">
+									<tr id="gitDiffLoading" style="display: none;">
+										<td colspan="2">
+											Loading ...
+										</td>
+									</tr>
+									<tr id="gitDiffNoInfo" style="display: none;">
+										<td colspan="2">
+											No Information Available
+										</td>
+									</tr>
+									<tr class="branchInfoGitDiff">
+										<td>
+											Origin/CurrentBranch
+										</td>
+										<td>
+											-<span id="minusCurrent" ></span>
+											<meter id="minusCurrentMeter" min="0" max="1.2" class="meterCommit meterCommitLeft" ></meter>
+											|
+											<meter id="plusCurrentMeter" min="0" max="1.2"  class="meterCommit meterCommitRight" ></meter>
+											+<span id="plusCurrent" ></span>
+										</td>
+									</tr>
+									<tr class="branchInfoGitDiff">
+										<td>
+											Origin/Master
+										</td>
+										<td>
+											-<span id="minusMaster" ></span>
+											<meter id="minusMasterMeter" min="0" max="1.2" class="meterCommit meterCommitLeft" ></meter>
+											|
+											<meter id="plusMasterMeter" min="0" max="1.2" class="meterCommit meterCommitRight"></meter>
+											+<span id="plusMaster" ></span>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
 				</div>
-				<div id="sideBoxBoxForInfo">
+				<div id="sideBoxBoxForInfo" style="display: none;" >
 					<table width="100%" style="border-spacing: 0;">
 						<tr>
 							<td width="250px;" style="vertical-align: top;" >
@@ -538,6 +401,7 @@ function generateWindow($data = array())
 		<?php
 
 			echo "var pollingRate = ".$pollingRate.";";
+			echo "var pollingRateBG = ".$pollingRateBG.";";
 			echo "var pausePollFromFile = ".$pausePoll.";";
 			echo "var pausePollOnNotFocus = ".$pauseOnNotFocus.";";
 			echo "var autoCheckUpdate = ".$autoCheckUpdate.";";
@@ -640,6 +504,10 @@ function generateWindow($data = array())
 	<script src="core/js/updateCommon.js"></script>
 	<script src="core/js/main.js"></script>
 	<script src="core/js/allPages.js"></script>
+	<script src="core/js/visibility.core.js"></script>
+	<script src="core/js/visibility.fallback.js"></script>
+	<script src="core/js/visibility.js"></script>
+	<script src="core/js/visibility.timers.js"></script>
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftMain").style.backgroundColor  = "#ffffff";
 	</script>

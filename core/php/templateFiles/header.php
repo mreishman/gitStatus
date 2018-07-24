@@ -69,6 +69,12 @@
 		<?php endif;?>
 	</div>
 	<div class="menuSections" >
-		
+		<?php $version = "";
+		if(isset($configStatic) && isset($configStatic['version']))
+		{
+			$version = $configStatic["version"];
+		}
+		?>
+		<span style="float: right; color: white; " > <?php echo "Version: ".$version ?> </span>
 	</div>
 </div>

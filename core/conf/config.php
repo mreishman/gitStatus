@@ -3,6 +3,7 @@
 $defaultConfig = array(
 	'sliceSize'		=> 500,
 	'pollingRate'	=> 1,
+	'pollingRateBG'	=>	5,
 	'pausePoll'		=> 'false',
 	'pauseOnNotFocus' => 'true',
 	'pollType'		=> 1,
