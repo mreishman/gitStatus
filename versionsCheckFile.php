@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.0',
+	'version'		=> '3.1',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -62,6 +62,10 @@ $versionCheckArray = array(
 		'3.0'		=> array(
 			'branchName'	=> '3.0Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>Added expanded tab for commit history of current branch</li><li>Log-Hog and other apps installed on server will be displayed in an iframe on sidebar</li></ul></li></ul>'
+		),
+		'3.1'		=> array(
+			'branchName'	=> '3.1Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>Added info page to sidebar</li><li>Added background refresh rate (polls less frequently if in background)</li><li>Added different cache options (only save or only read)</li></ul></li></ul>'
 		),
 	)
 );
