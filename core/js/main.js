@@ -1514,6 +1514,11 @@ function showDiffCommits(data)
 	{
 		baseForRight = 1;
 	}
+	if(baseForRight === undefined || baseForLeft === undefined)
+	{
+		commitListGetError();
+		return;
+	}
 	$("#plusCurrent").html(commitDiffCurrent[1]);
 	document.getElementById("plusCurrentMeter").value = commitDiffCurrent[1]/baseForRight;
 	$("#minusCurrent").html(commitDiffCurrent[0]);
