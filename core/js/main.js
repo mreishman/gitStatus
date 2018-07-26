@@ -1647,10 +1647,34 @@ function commitListSuccess(data)
 			extCounter++;
 			htmlForCommits += data[i];
 			idForCommit = data[i+1].replace("commit","").trim();
-			htmlForCommits += "</li><li class=\"commitLi ";
+			htmlForCommits += "</li>";
+			if(extCounter % 20 === 1 && extCounter !== 1)
+			{
+				htmlForCommits += "<li ";
+				if(extCounter > 30)
+				{
+					htmlForCommits += " style=\"display: none;\" ";
+				}
+				htmlForCommits += " id=\"commitShow"+parseInt(extCounter/20)+"\" class=\" ";
+				if(extCounter < 30)
+				{
+					htmlForCommits += " colorAltBG ";
+				}
+				htmlForCommits += " commitGroup"+((parseInt(extCounter/20))-1)+" \" onclick=\"showMoreCommits("+parseInt(extCounter/20)+")\" >Show More</li>";
+			}
+			htmlForCommits += "<li class=\"commitLi ";
 			if(extCounter % 2 !== 0)
 			{
 				htmlForCommits += " colorAltBG ";
+			}
+			if(extCounter > 20)
+			{
+				htmlForCommits += " commitGroup"+parseInt(extCounter/20)+" ";
+			}
+			htmlForCommits += " \" style=\" ";
+			if(extCounter > 20)
+			{
+				htmlForCommits += " display: none; "
 			}
 			htmlForCommits += " \" id=\""+idForCommit+"\" onclick=\"viewCommit('"+idForCommit+"');\" >";
 		}
@@ -1679,6 +1703,12 @@ function commitListSuccess(data)
 	$("#otherCommitsFromPast").html(htmlForCommits);
 	document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
 	viewCommit(idForFirstCommit);
+}
+
+function showMoreCommits(groupNumber)
+{
+	$(".commitGroup"+groupNumber).show();
+	$("#commitShow"+groupNumber).hide();
 }
 
 function viewCommit(idForCommit)

@@ -367,7 +367,7 @@ if($defaultViewBranch == 'Standard')
 									<li id="spinnerLiForSideBoxBoxForInfo">
 										<img style="width: 20px;" src="core/img/loading.gif"> 
 									</li>
-									<li onclick="getListOfCommits();">
+									<li class="colorAltBG" onclick="getListOfCommits();">
 										Refresh
 									</li>
 									<span id="otherCommitsFromPast" ></span>
