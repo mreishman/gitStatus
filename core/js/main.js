@@ -1335,7 +1335,18 @@ function toggleDetailBar(e, key)
 	}
 
 	//info
-	getInfo();
+	if($("#infoTab").hasClass("selectedButton"))
+	{
+		getInfo();
+	}
+	else if($("#commitsTab").hasClass("selectedButton"))
+	{
+		getListOfCommits();
+	}
+	else
+	{
+		toggleInfoTab();
+	}
 }
 
 function closeDetailBar()
