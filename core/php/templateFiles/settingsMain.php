@@ -71,7 +71,10 @@
 					</select>
 					<p class="description" >Only refresh data for visible sites</p>
 				</li>
-				<?php 
+				<li>
+					<span class="leftSpacingserverNames" > Commits: </span> <input style="width: 52px;" type="text" name="maxCommits" value="<?php echo $maxCommits;?>" > Max
+				</li>
+				<?php
 				$arrayOfGroups = array();
 				$showTopBarOfGroups = false;
 				foreach ($config['watchList'] as $key => $value)

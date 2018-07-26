@@ -1561,7 +1561,7 @@ function getListOfCommits()
 		urlForSend += "/status/core/php/functions/";
 	}
 	urlForSend += "gitCommitHistory.php";
-	var data = {location: arrayOfWatchFilters[idName]["location"]};
+	var data = {location: arrayOfWatchFilters[idName]["location"], maxCount: maxCommits};
 	(function(_data){
 			$.ajax({
 			url: urlForSend,
@@ -1596,7 +1596,7 @@ function getListOfCommitsHttp()
 		urlForSend += "/status/core/php/functions/";
 	}
 	urlForSend += "gitCommitHistory.php";
-	var data = {location: arrayOfWatchFilters[idName]["location"]};
+	var data = {location: arrayOfWatchFilters[idName]["location"], maxCount: maxCommits};
 	(function(_data){
 			$.ajax({
 			url: urlForSend,

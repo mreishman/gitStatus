@@ -419,6 +419,7 @@ if($defaultViewBranch == 'Standard')
 			echo "var pollType ='".$pollType."';";
 			echo "var branchView = '".$branchView."';";
 			echo "var arrayOfGroups = ".json_encode($arrayOfGroups).";";
+			echo "var maxCommits = ".$maxCommits.";";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";
