@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.1',
+	'version'		=> '3.1.1',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -66,6 +66,10 @@ $versionCheckArray = array(
 		'3.1'		=> array(
 			'branchName'	=> '3.1Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>Added info page to sidebar</li><li>Added background refresh rate (polls less frequently if in background)</li><li>Added different cache options (only save or only read)</li></ul></li></ul>'
+		),
+		'3.1.1'		=> array(
+			'branchName'	=> '3.1.1Update',
+			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Added better error check for git diff ajax call</li><li>Added git fetch command before check for difference</li><li>Fixed bug with switching sites not correctly upading commit tab</li></ul></li></ul>'
 		),
 	)
 );
