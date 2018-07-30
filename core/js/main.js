@@ -1335,7 +1335,18 @@ function toggleDetailBar(e, key)
 	}
 
 	//info
-	getInfo();
+	if($("#infoTab").hasClass("selectedButton"))
+	{
+		getInfo();
+	}
+	else if($("#commitsTab").hasClass("selectedButton"))
+	{
+		getListOfCommits();
+	}
+	else
+	{
+		toggleInfoTab();
+	}
 }
 
 function closeDetailBar()
@@ -1513,6 +1524,11 @@ function showDiffCommits(data)
 	if(baseForRight == 0)
 	{
 		baseForRight = 1;
+	}
+	if(baseForRight === undefined || baseForLeft === undefined)
+	{
+		commitListGetError();
+		return;
 	}
 	$("#plusCurrent").html(commitDiffCurrent[1]);
 	document.getElementById("plusCurrentMeter").value = commitDiffCurrent[1]/baseForRight;
