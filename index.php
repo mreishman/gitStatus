@@ -46,13 +46,6 @@ else
 	}
 }
 
-$sendPing = true;
-$pingResult = shell_exec("ping 127.0.0.1 -c 1");
-if(gettype($pingResult) == "null")
-{
-	$sendPing = false;
-}
-
 $branchView = "devBoxContentSecondaryExpanded";
 if($defaultViewBranch == 'Standard')
 {
