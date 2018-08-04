@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.1.1',
+	'version'		=> '3.1.2',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -70,6 +70,10 @@ $versionCheckArray = array(
 		'3.1.1'		=> array(
 			'branchName'	=> '3.1.1Update',
 			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Added better error check for git diff ajax call</li><li>Added git fetch command before check for difference</li><li>Fixed bug with switching sites not correctly upading commit tab</li></ul></li></ul>'
+		),
+		'3.1.2'		=> array(
+			'branchName'	=> '3.1.2Update',
+			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Fixed bug with get branchname logic for branches not in cache</li></ul></li></ul>'
 		),
 	)
 );
