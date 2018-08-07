@@ -222,7 +222,7 @@ else
 			else
 			{
 				
-				if($lastResult[$key]["enableBlockUntilDate"] == "true" && strtotime($lastResult[$key]["enableBlockUntilDate"]) >= strtotime(now))
+				if(isset($lastResult[$key]) && $lastResult[$key]["enableBlockUntilDate"] == "true" && strtotime($lastResult[$key]["enableBlockUntilDate"]) >= strtotime(now))
 				{
 					continue;
 				}
