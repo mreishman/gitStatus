@@ -37,7 +37,7 @@
 				</li>
 				<?php
 
-				$approvedArrayKeys = array("Name","WebsiteBase","Folder","Website","githubRepo","groupInfo","urlHit","gitType");
+				$approvedArrayKeys = array("Name","WebsiteBase","Folder","Website","githubRepo","groupInfo","urlHit","gitType","Archive");
 
 				$defaultArray = array(
 					'WebsiteBase' =>  '',
@@ -46,7 +46,8 @@
 					'githubRepo' =>  '',
 					'groupInfo' =>  '',
 					'urlHit' =>  '',
-					'gitType'	=>	'github'
+					'gitType'	=>	'github',
+					"Archive" => 'false'
 				);
 
 				?>
@@ -63,13 +64,14 @@
 				</li>
 				<?php
 
-				$approvedArrayKeys = array("Name","WebsiteBase","urlHit");
+				$approvedArrayKeys = array("Name","WebsiteBase","urlHit","Archive");
 
 				$defaultArray = array(
 					'WebsiteBase' =>  '',
 					'Folder' =>  '',
 					'urlHit' =>  '',
-					"type" => ""
+					"type" => "",
+					"Archive" => 'false'
 				);
 
 				?>
@@ -94,7 +96,12 @@
 		 				<input <?php if ($type === "external"){ echo "disabled= \"true\";";}?> class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
 		 				<?php
 		 				$j = 0;
+		 				$archived = "false";
 		 				foreach($defaultArray as $key2 => $item2):
+		 					if($key2 === "Archive")
+		 					{
+		 						$archived = $item2;
+		 					}
 		 					if(in_array($key2, $approvedArrayKeys)):
 			 					$j++;
 			 					?>
@@ -118,6 +125,13 @@
 					 					<option value="github" <?php if($gitType === "github"){echo "selected"; }?> >GitHub</option>
 					 					<option value="gitlab" <?php if($gitType === "gitlab"){echo "selected"; }?> >GitLab</option>
 					 				</select>
+					 			<?php elseif($key2 === "Archive"): ?>
+					 				<input class='inputWidth300'  type='hidden' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if(isset($item[$key2])){ echo $item[$key2]; }else{echo "false";}?>'>
+					 				<?php if ($archived === "true"): ?>
+										<a class="mainLinkClass" >Un-Archive</a>
+									<?php else: ?>
+										<a class="mainLinkClass" >Archive</a>
+									<?php endif; ?>
 				 				<?php else: ?>
 				 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if(isset($item[$key2])){ echo $item[$key2]; }?>'>
 				 				<?php endif;

@@ -76,9 +76,9 @@ $defaultConfig = array(
 	'defaultGroupViewOnLoad'	=> 'All',
 	'datePicker'	=> '07/04/2017',
 	'watchList' => array(
-			'Example Server' => array('WebsiteBase' =>  'website.com','urlHit' => 'location of file if not default')
+			'Example Server' => array('WebsiteBase' =>  'website.com','urlHit' => 'location of file if not default', "archive" => 'false')
 			),
 	'serverWatchList' => array(
-			'Example Server' => array('WebsiteBase' =>  'website.com','Folder' =>  '/var/www/html/', 'Website' =>  'website.com','githubRepo' => 'githubRepo', 'groupInfo'=> 'Group', 'urlHit' => 'location of file if not default', "type" => "local", "gitType" => "github")
+			'Example Server' => array('WebsiteBase' =>  'website.com','Folder' =>  '/var/www/html/', 'Website' =>  'website.com','githubRepo' => 'githubRepo', 'groupInfo'=> 'Group', 'urlHit' => 'location of file if not default', "type" => "local", "gitType" => "github", "archive" => 'false')
 			)
 );
