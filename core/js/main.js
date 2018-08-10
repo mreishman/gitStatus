@@ -1854,7 +1854,7 @@ function commitStuffSuccess(data)
 			currentNumberMinus = 0;
 			currentNumberPlus = 0;
 			skip = 2;
-			htmlForCommit += "<table width=\"100%\" style=\"border-spacing: 0;\" ><tr><td style=\"width: 60px;\" ></td><td style=\"width: 60px;\" ></td><td></td></tr>";
+			htmlForCommit += "<table width=\"100%\" style=\"border-spacing: 0; word-break: break-all;\" ><tr><td style=\"width: 60px;\" ></td><td style=\"width: 60px;\" ></td><td></td></tr>";
 		}
 		else if(current === "start")
 		{
