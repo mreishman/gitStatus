@@ -81,7 +81,6 @@ function checkForMonitor($baseWeb)
 	{
 		$returnString = $baseWeb."/Log-Hog/top";
 	}
-	
 	elseif(is_dir("../../../../loghog/top"))
 	{
 		$returnString = $baseWeb."/loghog/top";
@@ -216,7 +215,7 @@ else
 					'displayName'	=> $key,
 					'groupInfo'		=> $value['groupInfo'],
 					'gitType'		=> $value['gitType'],
-					'githubRepo'	=> $value['githubRepo'],	
+					'githubRepo'	=> $value['githubRepo'],
 					'otherFunctions'	=> '',
 					'website'		=> $website,
 					'location'		=> $value['Folder'],
@@ -225,7 +224,6 @@ else
 			}
 			else
 			{
-				
 				if(isset($lastResult[$key]) && $lastResult[$key]["enableBlockUntilDate"] == "true" && strtotime($lastResult[$key]["enableBlockUntilDate"]) >= strtotime(now))
 				{
 					continue;
