@@ -180,6 +180,10 @@ else
 		$blockedList = array();
 		foreach ($serverWatchList as $key => $value)
 		{
+			if(isset($value["Archive"]) && "true" === $value["Archive"])
+			{
+				continue;
+			}
 			if($value["type"] == "local")
 			{
 				$website = "#";

@@ -76,6 +76,10 @@ if($defaultViewBranch == 'Standard')
 			$count = 0;
 			foreach ($config['watchList'] as $key => $value)
 			{
+				if(isset($value["Archive"]) && "true" === $value["Archive"])
+				{
+					continue;
+				}
 				if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
 				{
 					$count++;
@@ -163,6 +167,10 @@ if($defaultViewBranch == 'Standard')
 			$alreadyShown = array();
 			foreach ($newArray as $key => $value)
 			{
+				if(isset($value["Archive"]) && "true" === $value["Archive"] && $pollType === 1)
+				{
+					continue;
+				}
 				if(strpos($key, "branchNameDevBox1") !== false)
 				{
 					$key = str_replace("branchNameDevBox1", "", $key);
@@ -476,6 +484,10 @@ if($defaultViewBranch == 'Standard')
 	<?php
 		foreach($config['watchList'] as $key => $item)
 		{
+			if(isset($item["Archive"]) && "true" === $item["Archive"])
+			{
+				continue;
+			}
 			echo "arrayOfFiles.push({'";
 			echo "Name' :'".$key;
 			echo "','";

@@ -97,11 +97,11 @@
 		 				</select>
 		 				<?php
 		 				elseif($key2 === "Archive"): ?>
-		 					<input class='inputWidth300'  type='hidden' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if (isset($item[$key2])){ echo $item[$key2]; }else{echo "false";} ?>'>
+		 					<input id="archiveInput<?php echo $i; ?>" class='inputWidth300'  type='hidden' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if (isset($item[$key2])){ echo $item[$key2]; }else{echo "false";} ?>'>
 		 					<?php if ($archived === "true"): ?>
-								<a class="mainLinkClass" >Un-Archive</a>
+								<a id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Un-Archive</a>
 							<?php else: ?>
-								<a class="mainLinkClass" >Archive</a>
+								<a id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Archive</a>
 							<?php endif; ?>
 		 				<?php
 		 				else: ?>
