@@ -1501,7 +1501,7 @@ function getDiffCommitsHttp()
 	var branchName = $("#"+idName+" a").html();
 	if(branchName === undefined)
 	{
-		branchName = $("#branchNameDevBox1gitStatus").html();
+		branchName = $("#"+idName).html();
 	}
 
 	var data = {location: arrayOfWatchFilters[idName]["location"], branchName};
