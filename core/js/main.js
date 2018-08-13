@@ -399,6 +399,25 @@ function pollSuccess(dataInner, dataInnerPass)
 	}
 }
 
+function generateBranchHistory(dataInner)
+{
+	if("branchHistoryList" in dataInner)
+	{
+		var htmlToReturn = "<table style=\"word-break; break-all; width: 100%;\" ><tr><th width=\"50%\" ></th><th width=\"50%\" ></th></tr>";
+		var BHLlength =  dataInner["branchHistoryList"].length;
+		for(var BHLcount = 0; BHLcount < BHLlength; BHLcount++)
+		{
+			htmlToReturn += "<tr><td>"+dataInner["branchHistoryList"][BHLcount]["name"]+"</td><td>"+dataInner["branchHistoryList"][BHLcount]["date"]+"</td></tr>";
+		}
+		htmlToReturn += "</table>";
+		return htmlToReturn;
+	}
+	else
+	{
+		return "No Branch History Available. Please make sure node is on version 3.2 or greater.";
+	}
+}
+
 function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 {
 	var dataToFilterBy = "error";
@@ -482,6 +501,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	}
 	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
+		$("#"+noSpaceName+"BranchHistory").html(generateBranchHistory(dataInner));
 		switchToColorLed(noSpaceName, "green");
 		document.getElementById(noSpaceName+'errorMessageLink').style.display = "none";
 		document.getElementById(noSpaceName+'noticeMessageLink').style.display = "none";
@@ -1414,11 +1434,13 @@ function getInfo()
 	{
 		document.getElementById("gitDiffNoInfo").style.display = "table-row";
 		document.getElementById("gitDiffLoading").style.display = "none";
+		$("#branchHistoryHolder").html("No Branch History Available.");
 		//noot work
 		return;
 	}
 	$("#infoBranchName").html($("#"+idName).html());
 	$("#infoMainLeft").html($("#innerFirstDevBox"+idName+" .devBoxContentSecondary").html());
+	$("#branchHistoryHolder").html($("#"+idName+"BranchHistory").html());
 	getDiffCommits();
 }
 
@@ -1439,7 +1461,7 @@ function getDiffCommits()
 	var branchName = $("#"+idName+" a").html();
 	if(branchName === undefined)
 	{
-		branchName = $("#branchNameDevBox1gitStatus").html();
+		branchName = $("#"+idName).html();
 	}
 
 	var data = {location: arrayOfWatchFilters[idName]["location"], branchName};
@@ -1479,7 +1501,7 @@ function getDiffCommitsHttp()
 	var branchName = $("#"+idName+" a").html();
 	if(branchName === undefined)
 	{
-		branchName = $("#branchNameDevBox1gitStatus").html();
+		branchName = $("#"+idName).html();
 	}
 
 	var data = {location: arrayOfWatchFilters[idName]["location"], branchName};
@@ -1572,7 +1594,7 @@ function getListOfCommits()
 		urlForSend += "/status/core/php/functions/";
 	}
 	urlForSend += "gitCommitHistory.php";
-	var data = {location: arrayOfWatchFilters[idName]["location"]};
+	var data = {location: arrayOfWatchFilters[idName]["location"], maxCount: maxCommits};
 	(function(_data){
 			$.ajax({
 			url: urlForSend,
@@ -1607,7 +1629,7 @@ function getListOfCommitsHttp()
 		urlForSend += "/status/core/php/functions/";
 	}
 	urlForSend += "gitCommitHistory.php";
-	var data = {location: arrayOfWatchFilters[idName]["location"]};
+	var data = {location: arrayOfWatchFilters[idName]["location"], maxCount: maxCommits};
 	(function(_data){
 			$.ajax({
 			url: urlForSend,
@@ -1658,10 +1680,34 @@ function commitListSuccess(data)
 			extCounter++;
 			htmlForCommits += data[i];
 			idForCommit = data[i+1].replace("commit","").trim();
-			htmlForCommits += "</li><li class=\"commitLi ";
+			htmlForCommits += "</li>";
+			if(extCounter % 20 === 1 && extCounter !== 1)
+			{
+				htmlForCommits += "<li ";
+				if(extCounter > 30)
+				{
+					htmlForCommits += " style=\"display: none;\" ";
+				}
+				htmlForCommits += " id=\"commitShow"+parseInt(extCounter/20)+"\" class=\" ";
+				if(extCounter < 30)
+				{
+					htmlForCommits += " colorAltBG ";
+				}
+				htmlForCommits += " commitGroup"+((parseInt(extCounter/20))-1)+" \" onclick=\"showMoreCommits("+parseInt(extCounter/20)+")\" >Show More</li>";
+			}
+			htmlForCommits += "<li class=\"commitLi ";
 			if(extCounter % 2 !== 0)
 			{
 				htmlForCommits += " colorAltBG ";
+			}
+			if(extCounter > 20)
+			{
+				htmlForCommits += " commitGroup"+parseInt(extCounter/20)+" ";
+			}
+			htmlForCommits += " \" style=\" ";
+			if(extCounter > 20)
+			{
+				htmlForCommits += " display: none; "
 			}
 			htmlForCommits += " \" id=\""+idForCommit+"\" onclick=\"viewCommit('"+idForCommit+"');\" >";
 		}
@@ -1690,6 +1736,12 @@ function commitListSuccess(data)
 	$("#otherCommitsFromPast").html(htmlForCommits);
 	document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
 	viewCommit(idForFirstCommit);
+}
+
+function showMoreCommits(groupNumber)
+{
+	$(".commitGroup"+groupNumber).show();
+	$("#commitShow"+groupNumber).hide();
 }
 
 function viewCommit(idForCommit)
@@ -1824,7 +1876,7 @@ function commitStuffSuccess(data)
 			currentNumberMinus = 0;
 			currentNumberPlus = 0;
 			skip = 2;
-			htmlForCommit += "<table width=\"100%\" style=\"border-spacing: 0;\" ><tr><td style=\"width: 60px;\" ></td><td style=\"width: 60px;\" ></td><td></td></tr>";
+			htmlForCommit += "<table width=\"100%\" style=\"border-spacing: 0; word-break: break-all;\" ><tr><td style=\"width: 60px;\" ></td><td style=\"width: 60px;\" ></td><td></td></tr>";
 		}
 		else if(current === "start")
 		{

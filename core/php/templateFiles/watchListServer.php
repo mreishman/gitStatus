@@ -52,7 +52,8 @@
 					'groupInfo' =>  '',
 					'urlHit' =>  '',
 					"type" => "",
-					"gitType"	=>	""
+					"gitType"	=>	"",
+					"Archive" => 'false'
 				);
 
 				$i = 0;
@@ -67,7 +68,9 @@
 	 				<input class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
 	 				<?php
 	 				$j = 0;
-	 				foreach($defaultArray as $key2 => $item2): $j++; ?>
+	 				foreach($defaultArray as $key2 => $item2):
+	 					$j++;
+	 					?>
 		 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span><input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
 		 				<?php
 			 				if(!in_array($key2, $arrayOfKeys))
@@ -87,7 +90,16 @@
 		 					<option value="github" <?php if($item[$key2] === "github"){echo "selected"; }?> >GitHub</option>
 		 					<option value="gitlab" <?php if($item[$key2] === "gitlab"){echo "selected"; }?> >GitLab</option>
 		 				</select>
-		 				<?php else: ?>
+		 				<?php
+		 				elseif($key2 === "Archive"): ?>
+		 					<input id="archiveInput<?php echo $i; ?>" class='inputWidth300'  type='hidden' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if (isset($item[$key2])){ echo $item[$key2]; }else{echo "false";} ?>'>
+		 					<?php if ($item[$key2] === "true"): ?>
+								<a id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Un-Archive</a>
+							<?php else: ?>
+								<a id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Archive</a>
+							<?php endif; ?>
+		 				<?php
+		 				else: ?>
 		 					<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if (isset($item[$key2])){ echo $item[$key2]; } ?>'>
 		 				<?php endif; ?>
 	 				<?php endforeach; 

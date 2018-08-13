@@ -1,5 +1,22 @@
 var urlForCurl = "./core/php/functions/sendCurl.php";
 
+function toggleArchive(currnetRow)
+{
+	var archiveButton = document.getElementById("archiveButton"+currnetRow);
+	if(archiveButton.innerHTML === "Archive")
+	{
+		//unarchive action (change to 1)
+		document.getElementById("archiveInput"+currnetRow).value = "true";
+		archiveButton.innerHTML = "Un-Archive";
+	}
+	else
+	{
+		//archive action (change to 0)
+		document.getElementById("archiveInput"+currnetRow).value = "false";
+		archiveButton.innerHTML = "Archive";
+	}
+}
+
 function addRowFunction()
 {
 	countOfWatchList++;

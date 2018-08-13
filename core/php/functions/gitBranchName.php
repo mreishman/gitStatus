@@ -81,7 +81,6 @@ function checkForMonitor($baseWeb)
 	{
 		$returnString = $baseWeb."/Log-Hog/top";
 	}
-	
 	elseif(is_dir("../../../../loghog/top"))
 	{
 		$returnString = $baseWeb."/loghog/top";
@@ -111,10 +110,67 @@ function checkForLogHog($baseWeb)
 	return $returnString;
 }
 
+function getBranchNameHistoryName($location)
+{
+	$newFileName = preg_replace('/\s+/', '_', $location );
+	if(strpos($newFileName, "/") > -1)
+	{
+		$newFileName = str_replace('/', '', $newFileName );
+	}
+	elseif(strpos($newFileName, "\\") > -1)
+	{
+		$newFileName = str_replace('\\', '', $newFileName );
+	}
+	return $newFileName;
+}
+
+function saveBranchNameHistory($branchNameNew, $location)
+{
+	$newFileName = getBranchNameHistoryName($location);
+	$branchHistoryList = array();
+	if(is_file("branchNameHistory".$newFileName.".php"))
+	{
+		include("branchNameHistory".$newFileName.".php");
+	}
+	if(empty($branchHistoryList) || (isset($branchHistoryList[0]) && $branchHistoryList[0]["name"] !== $branchNameNew))
+	{
+		//update file
+		$newInfoForHistory = "
+		<?php
+			$"."branchHistoryList = array(
+				0	=>	array(
+					\"name\"	=>	\"".$branchNameNew."\",
+					\"date\"	=>	\"".date("Y-m-d h:i:sa")."\",
+				),
+			";
+			if(!empty($branchHistoryList))
+			{
+				$counterForBHList = 1;
+				foreach ($branchHistoryList as $numberKey => $arrayValue)
+				{
+					if($counterForBHList < 10)
+					{
+						$newInfoForHistory = "
+							\"".$counterForBHList."\" =>	array(
+								\"name\"	=>	\"".$arrayValue["name"]."\",
+								\"date\"	=>	\"".$arrayValue["date"]."\",
+							),
+						";
+						$counterForBHList++;
+					}
+				}
+			}
+		$newInfoForHistory .= ");";
+		file_put_contents("branchNameHistory".$newFileName.".php", $newInfoForHistory);
+	}
+}
+
 function getBranchName($location)
 {
 	$function = "git --git-dir=".escapeshellarg($location).".git rev-parse --abbrev-ref HEAD";
-	return trim(shell_exec($function));
+	$branchNameNew = trim(shell_exec($function));
+	saveBranchNameHistory($branchNameNew, $location);
+	return $branchNameNew;
 }
 
 function getBranchStats($location)
@@ -152,6 +208,12 @@ if((isset($_POST['location']) && isset($_POST['name']) && isset($_POST['websiteB
 			'location'				=>	$postLocation,
 			'WebsiteBase'			=>	$postWebsiteBase
 		);
+		$newFileName = getBranchNameHistoryName($postLocation);
+		if(is_file("branchNameHistory".$newFileName.".php"))
+		{
+			include("branchNameHistory".$newFileName.".php");
+			$response["branchHistoryList"] = $branchHistoryList;
+		}
 	}
 	else
 	{
@@ -180,6 +242,10 @@ else
 		$blockedList = array();
 		foreach ($serverWatchList as $key => $value)
 		{
+			if(isset($value["Archive"]) && "true" === $value["Archive"])
+			{
+				continue;
+			}
 			if($value["type"] == "local")
 			{
 				$website = "#";
@@ -212,16 +278,21 @@ else
 					'displayName'	=> $key,
 					'groupInfo'		=> $value['groupInfo'],
 					'gitType'		=> $value['gitType'],
-					'githubRepo'	=> $value['githubRepo'],	
+					'githubRepo'	=> $value['githubRepo'],
 					'otherFunctions'	=> '',
 					'website'		=> $website,
 					'location'		=> $value['Folder'],
 					'WebsiteBase'	=> $websiteBase
 				);
+				$newFileName = getBranchNameHistoryName($value['Folder']);
+				if(is_file("branchNameHistory".$newFileName.".php"))
+				{
+					include("branchNameHistory".$newFileName.".php");
+					$response["info"][$key]["branchHistoryList"] = $branchHistoryList;
+				}
 			}
 			else
 			{
-				
 				if(isset($lastResult[$key]) && $lastResult[$key]["enableBlockUntilDate"] == "true" && strtotime($lastResult[$key]["enableBlockUntilDate"]) >= strtotime(now))
 				{
 					continue;

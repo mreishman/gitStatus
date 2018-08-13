@@ -76,6 +76,10 @@ if($defaultViewBranch == 'Standard')
 			$count = 0;
 			foreach ($config['watchList'] as $key => $value)
 			{
+				if(isset($value["Archive"]) && "true" === $value["Archive"])
+				{
+					continue;
+				}
 				if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
 				{
 					$count++;
@@ -163,6 +167,10 @@ if($defaultViewBranch == 'Standard')
 			$alreadyShown = array();
 			foreach ($newArray as $key => $value)
 			{
+				if(isset($value["Archive"]) && "true" === $value["Archive"] && $pollType === 1)
+				{
+					continue;
+				}
 				if(strpos($key, "branchNameDevBox1") !== false)
 				{
 					$key = str_replace("branchNameDevBox1", "", $key);
@@ -350,6 +358,15 @@ if($defaultViewBranch == 'Standard')
 								</table>
 							</td>
 						</tr>
+						<tr>
+							<td>
+							</td>
+							<td>
+								<h2>Branch History</h2>
+								<span style="height: 29px; display: block;" ></span>
+								<span id="branchHistoryHolder" ></span>
+							</td>
+						</tr>
 					</table>
 				</div>
 				<div id="sideBoxBoxForInfo" style="display: none;" >
@@ -360,7 +377,7 @@ if($defaultViewBranch == 'Standard')
 									<li id="spinnerLiForSideBoxBoxForInfo">
 										<img style="width: 20px;" src="core/img/loading.gif"> 
 									</li>
-									<li onclick="getListOfCommits();">
+									<li class="colorAltBG" onclick="getListOfCommits();">
 										Refresh
 									</li>
 									<span id="otherCommitsFromPast" ></span>
@@ -412,6 +429,7 @@ if($defaultViewBranch == 'Standard')
 			echo "var pollType ='".$pollType."';";
 			echo "var branchView = '".$branchView."';";
 			echo "var arrayOfGroups = ".json_encode($arrayOfGroups).";";
+			echo "var maxCommits = ".$maxCommits.";";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";
@@ -475,6 +493,10 @@ if($defaultViewBranch == 'Standard')
 	<?php
 		foreach($config['watchList'] as $key => $item)
 		{
+			if(isset($item["Archive"]) && "true" === $item["Archive"])
+			{
+				continue;
+			}
 			echo "arrayOfFiles.push({'";
 			echo "Name' :'".$key;
 			echo "','";

@@ -171,6 +171,7 @@ function generateWindow($data = array())
 	$blockHTML .= "			</div>";
 	$blockHTML .= "		</div>";
 	$blockHTML .= "	</div>";
+	$blockHTML .= "	<span style=\"display: none;\" id=\"".$keyNoSpace."BranchHistory\" ></span>";
 	return $blockHTML;
 }
 
