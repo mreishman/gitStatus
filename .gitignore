@@ -4,4 +4,4 @@ local/default/conf/config.php
 core/conf/cachedStatus.php
 core/conf/tmp-cachedStatus.php
 core/php/functions/lastRequestResults.php
-
+core/php/functions/branchNameHistory*

@@ -110,10 +110,58 @@ function checkForLogHog($baseWeb)
 	return $returnString;
 }
 
+function saveBranchNameHistory($branchNameNew, $location)
+{
+	$newFileName = preg_replace('/\s+/', '_', $location );
+	if(strpos($newFileName, "/") > -1)
+	{
+		$newFileName = str_replace('/', '', $newFileName );
+	}
+	elseif(strpos($newFileName, "\\") > -1)
+	{
+		$newFileName = str_replace('\\', '', $newFileName );
+	}
+	$branchHistoryList = array();
+	if(is_file("branchNameHistory".$newFileName.".php"))
+	{
+		require_once("branchNameHistory".$newFileName.".php");
+	}
+	if(empty($branchHistoryList) || (isset($branchHistoryList[0]) && $branchHistoryList[0]["name"] !== $branchNameNew))
+	{
+		//update file
+		$newInfoForHistory = "
+		<?php
+			$"."branchHistoryList = array(
+				0	=>	array(
+					\"name\"	=>	\"".$branchNameNew."\",
+					\"date\"	=>	\"".date("Y-m-d h:i:sa")."\",
+				),
+			";
+			if(!empty($branchHistoryList))
+			{
+				$counterForBHList = 1;
+				foreach ($branchHistoryList as $numberKey => $arrayValue)
+				{
+					$newInfoForHistory = "
+						\"".$counterForBHList."\" =>	array(
+							\"name\"	=>	\"".$arrayValue["name"]."\",
+							\"date\"	=>	\"".$arrayValue["date"]."\",
+						),
+					";
+					$counterForBHList++;
+				}
+			}
+		$newInfoForHistory .= ");";
+		file_put_contents("branchNameHistory".$newFileName.".php", $newInfoForHistory);
+	}
+}
+
 function getBranchName($location)
 {
 	$function = "git --git-dir=".escapeshellarg($location).".git rev-parse --abbrev-ref HEAD";
-	return trim(shell_exec($function));
+	$branchNameNew = trim(shell_exec($function));
+	saveBranchNameHistory($branchNameNew, $location);
+	return $branchNameNew;
 }
 
 function getBranchStats($location)
