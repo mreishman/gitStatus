@@ -148,13 +148,16 @@ function saveBranchNameHistory($branchNameNew, $location)
 				$counterForBHList = 1;
 				foreach ($branchHistoryList as $numberKey => $arrayValue)
 				{
-					$newInfoForHistory = "
-						\"".$counterForBHList."\" =>	array(
-							\"name\"	=>	\"".$arrayValue["name"]."\",
-							\"date\"	=>	\"".$arrayValue["date"]."\",
-						),
-					";
-					$counterForBHList++;
+					if($counterForBHList < 10)
+					{
+						$newInfoForHistory = "
+							\"".$counterForBHList."\" =>	array(
+								\"name\"	=>	\"".$arrayValue["name"]."\",
+								\"date\"	=>	\"".$arrayValue["date"]."\",
+							),
+						";
+						$counterForBHList++;
+					}
 				}
 			}
 		$newInfoForHistory .= ");";
