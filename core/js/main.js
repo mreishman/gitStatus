@@ -399,6 +399,25 @@ function pollSuccess(dataInner, dataInnerPass)
 	}
 }
 
+function generateBranchHistory(dataInner)
+{
+	if("branchHistoryList" in dataInner)
+	{
+		var htmlToReturn = "<table style=\"word-break; break-all; width: 100%;\" ><tr><th width=\"50%\" ></th><th width=\"50%\" ></th></tr>";
+		var BHLlength =  dataInner["branchHistoryList"].length;
+		for(var BHLcount = 0; BHLcount < BHLlength; BHLcount++)
+		{
+			htmlToReturn += "<tr><td>"+dataInner["branchHistoryList"][BHLcount]["name"]+"</td><td>"+dataInner["branchHistoryList"][BHLcount]["date"]+"</td></tr>";
+		}
+		htmlToReturn += "</table>";
+		return htmlToReturn;
+	}
+	else
+	{
+		return "No Branch History Available. Please make sure node is on version 3.2 or greater.";
+	}
+}
+
 function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 {
 	var dataToFilterBy = "error";
@@ -482,6 +501,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	}
 	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
+		$("#"+noSpaceName+"BranchHistory").html(generateBranchHistory(dataInner));
 		switchToColorLed(noSpaceName, "green");
 		document.getElementById(noSpaceName+'errorMessageLink').style.display = "none";
 		document.getElementById(noSpaceName+'noticeMessageLink').style.display = "none";
@@ -1414,11 +1434,13 @@ function getInfo()
 	{
 		document.getElementById("gitDiffNoInfo").style.display = "table-row";
 		document.getElementById("gitDiffLoading").style.display = "none";
+		$("#branchHistoryHolder").html("No Branch History Available.");
 		//noot work
 		return;
 	}
 	$("#infoBranchName").html($("#"+idName).html());
 	$("#infoMainLeft").html($("#innerFirstDevBox"+idName+" .devBoxContentSecondary").html());
+	$("#branchHistoryHolder").html($("#"+idName+"BranchHistory").html());
 	getDiffCommits();
 }
 

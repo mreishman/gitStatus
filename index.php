@@ -358,6 +358,15 @@ if($defaultViewBranch == 'Standard')
 								</table>
 							</td>
 						</tr>
+						<tr>
+							<td>
+							</td>
+							<td>
+								<h2>Branch History</h2>
+								<span style="height: 29px; display: block;" ></span>
+								<span id="branchHistoryHolder" ></span>
+							</td>
+						</tr>
 					</table>
 				</div>
 				<div id="sideBoxBoxForInfo" style="display: none;" >

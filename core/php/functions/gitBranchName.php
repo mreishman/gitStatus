@@ -110,7 +110,7 @@ function checkForLogHog($baseWeb)
 	return $returnString;
 }
 
-function saveBranchNameHistory($branchNameNew, $location)
+function getBranchNameHistoryName($location)
 {
 	$newFileName = preg_replace('/\s+/', '_', $location );
 	if(strpos($newFileName, "/") > -1)
@@ -121,10 +121,16 @@ function saveBranchNameHistory($branchNameNew, $location)
 	{
 		$newFileName = str_replace('\\', '', $newFileName );
 	}
+	return $newFileName;
+}
+
+function saveBranchNameHistory($branchNameNew, $location)
+{
+	$newFileName = getBranchNameHistoryName($location);
 	$branchHistoryList = array();
 	if(is_file("branchNameHistory".$newFileName.".php"))
 	{
-		require_once("branchNameHistory".$newFileName.".php");
+		include("branchNameHistory".$newFileName.".php");
 	}
 	if(empty($branchHistoryList) || (isset($branchHistoryList[0]) && $branchHistoryList[0]["name"] !== $branchNameNew))
 	{
@@ -199,6 +205,12 @@ if((isset($_POST['location']) && isset($_POST['name']) && isset($_POST['websiteB
 			'location'				=>	$postLocation,
 			'WebsiteBase'			=>	$postWebsiteBase
 		);
+		$newFileName = getBranchNameHistoryName($postLocation);
+		if(is_file("branchNameHistory".$newFileName.".php"))
+		{
+			include("branchNameHistory".$newFileName.".php");
+			$response["branchHistoryList"] = $branchHistoryList;
+		}
 	}
 	else
 	{
@@ -269,6 +281,12 @@ else
 					'location'		=> $value['Folder'],
 					'WebsiteBase'	=> $websiteBase
 				);
+				$newFileName = getBranchNameHistoryName($value['Folder']);
+				if(is_file("branchNameHistory".$newFileName.".php"))
+				{
+					include("branchNameHistory".$newFileName.".php");
+					$response["info"][$key]["branchHistoryList"] = $branchHistoryList;
+				}
 			}
 			else
 			{
