@@ -96,12 +96,7 @@
 		 				<input <?php if ($type === "external"){ echo "disabled= \"true\";";}?> class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
 		 				<?php
 		 				$j = 0;
-		 				$archived = "false";
 		 				foreach($defaultArray as $key2 => $item2):
-		 					if($key2 === "Archive")
-		 					{
-		 						$archived = $item2;
-		 					}
 		 					if(in_array($key2, $approvedArrayKeys)):
 			 					$j++;
 			 					?>
@@ -127,7 +122,7 @@
 					 				</select>
 					 			<?php elseif($key2 === "Archive"): ?>
 					 				<input id="archiveInput<?php echo $i; ?>" class='inputWidth300'  type='hidden' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if(isset($item[$key2])){ echo $item[$key2]; }else{echo "false";}?>'>
-					 				<?php if ($archived === "true"): ?>
+					 				<?php if ($item[$key2] === "true"): ?>
 										<a id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Un-Archive</a>
 									<?php else: ?>
 										<a id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Archive</a>
