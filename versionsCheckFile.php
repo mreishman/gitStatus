@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.2',
+	'version'		=> '3.2.1',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -78,6 +78,10 @@ $versionCheckArray = array(
 		'3.2'		=> array(
 			'branchName'	=> '3.2Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>Added show more button on commit history</li><li>Added archive button to tmporarly disable watch list or server watch list entries</li><li>Added history feature (shows branch history in info panel)</li></ul></li><li>Bug Fixes<ul><li>Fixed bug with commit display with very long lines breaking styles</li><li>Fixed bug with git diff not working with branches that do not have links</li></ul></li></ul>'
+		),
+		'3.2.1'		=> array(
+			'branchName'	=> '3.2.1Update',
+			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Fixed bug with new git branch logic</li></ul></li>/ul>'
 		),
 	)
 );
