@@ -150,7 +150,7 @@ function saveBranchNameHistory($branchNameNew, $location)
 				{
 					if($counterForBHList < 10)
 					{
-						$newInfoForHistory = "
+						$newInfoForHistory .= "
 							\"".$counterForBHList."\" =>	array(
 								\"name\"	=>	\"".$arrayValue["name"]."\",
 								\"date\"	=>	\"".$arrayValue["date"]."\",
