@@ -1527,6 +1527,14 @@ function getDiffCommitsHttp()
 
 function showDiffCommits(data)
 {
+	if(data["compareMaster"] === "")
+	{
+		data["compareMaster"] = "0\t0";
+	}
+	if(data["compareCurrent"] === "")
+	{
+		data["compareCurrent"] = "0\t0";
+	}
 	var commitDiffMaster = data["compareMaster"].split(/\D/);
 	var commitDiffCurrent = data["compareCurrent"].split(/\D/);
 	var baseForLeft = commitDiffCurrent[0];
