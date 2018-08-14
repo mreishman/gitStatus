@@ -81,7 +81,7 @@ $versionCheckArray = array(
 		),
 		'3.2.1'		=> array(
 			'branchName'	=> '3.2.1Update',
-			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Fixed bug with new git branch logic</li></ul></li>/ul>'
+			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Fixed bug with new git branch logic</li></ul></li></ul>'
 		),
 	)
 );
