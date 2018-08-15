@@ -360,6 +360,7 @@ if($defaultViewBranch == 'Standard')
 						</tr>
 						<tr>
 							<td>
+								<span onclick="getInfo();" class="mainLinkClass" >Refresh</span>
 							</td>
 							<td>
 								<h2>Branch History</h2>
