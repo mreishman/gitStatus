@@ -23,6 +23,7 @@ function poll(all = -1, counterForSaveNew = 1)
 		counterForSave = numberOfLogs+1;
 		var arrayOfFilesLength = arrayOfFiles.length
 		$(".loadingSpinnerHeader").css('display', 'inline-block');
+		$(".warningSpanHeader").css('display','none');
 		$(".refreshImageDevBox").css('display', 'none');
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
@@ -115,9 +116,24 @@ function showLoadingSpinnerHeader(name)
 		{
 			document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
 		}
-		if(document.getElementById(name+"spinnerDiv") && document.getElementById(name+"spinnerDiv").style.display === "none")
+		if(document.getElementById(name+"warningSpanHeader") && document.getElementById(name+"warningSpanHeader").style.display !== "none")
 		{
-			document.getElementById(name+"spinnerDiv").style.display = "none";
+			document.getElementById(name+"warningSpanHeader").style.display = "none";
+		}
+	}
+}
+
+function hideLoadingSpinnerHeader(name)
+{
+	if(document.getElementById(name))
+	{
+		if(document.getElementById(name+'loadingSpinnerHeader') && document.getElementById(name+'loadingSpinnerHeader').style.display !== "none")
+		{
+			document.getElementById(name+'loadingSpinnerHeader').style.display = "none";
+		}
+		if(document.getElementById(name+"warningSpanHeader") && document.getElementById(name+"warningSpanHeader").style.display !== "inline-block")
+		{
+			document.getElementById(name+"warningSpanHeader").style.display = "inline-block";
 		}
 	}
 }
@@ -354,7 +370,7 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 			arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = null;
 		}
 	}
-	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
+	hideLoadingSpinnerHeader(noSpaceName);
 	document.getElementById("refreshDiv").style.display = "inline-block";
 	pollCompleteLogic();
 }
@@ -844,7 +860,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		}
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
-	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
+	hideLoadingSpinnerHeader(noSpaceName);
 	pollCompleteLogic();
 }
 
