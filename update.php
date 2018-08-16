@@ -183,8 +183,8 @@ require_once('core/php/loadVars.php'); ?>
 			}
 		}
 	</script>
-	<script src="core/js/allPages.js"></script>
-	<script src="core/js/updateCommon.js"></script>
+	<script src="core/js/allPages.js?v=<?php echo $configStatic['version']; ?>"></script>
+	<script src="core/js/updateCommon.js?v=<?php echo $configStatic['version']; ?>"></script>
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftUpdate").style.backgroundColor  = "#ffffff";
 		var updating = false;

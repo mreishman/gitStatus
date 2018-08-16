@@ -123,12 +123,12 @@ var arrayOfKeysNonEnc = JSON.parse(arrayOfKeysJsonEncoded);
 
 
 	</script>
-	<script src="core/js/allPages.js"></script>
-	<script src="core/js/settingsAll.js"></script>
+	<script src="core/js/allPages.js?v=<?php echo $configStatic['version']; ?>"></script>
+	<script src="core/js/settingsAll.js?v=<?php echo $configStatic['version']; ?>"></script>
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftSettingsServerWatchList").style.backgroundColor  = "#ffffff";
 	</script>
-	<script src="core/js/watchlist.js"></script>
+	<script src="core/js/watchlist.js?v=<?php echo $configStatic['version']; ?>"></script>
 
 <?php require_once('core/php/templateFiles/allPages.php') ?>
 <?php readfile('core/html/popup.html') ?>
