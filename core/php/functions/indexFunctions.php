@@ -133,7 +133,7 @@ function generateWindow($data = array())
 	$blockHTML .= "					<div class=\"led-green\" id=\"".$keyNoSpace."greenNotice\" style=\"display: inline-block; margin-bottom: -8px; display: ".$greenLED." \"></div>";
 	$blockHTML .= "				</span>";
 	$blockHTML .= "				<img id=\"".$keyNoSpace."loadingSpinnerHeader\" class=\"loadingSpinnerHeader\" style=\"width: 20px; margin-bottom: -7px; display: none; margin-top: 3px; margin-left: 3px; margin-right: 1px;\" src=\"core/img/loading.gif\" >";
-	$blockHTML .= "				<a style=\"color: black;\" href=\"https://".$website."\"><b>".$name."</b></a>";
+	$blockHTML .= "				<a style=\"color: black;\" target=\"_blank\" href=\"https://".$website."\"><b>".$name."</b></a>";
 	$blockHTML .= "				<div class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
 	$blockHTML .= "				<div id=\"dropdown-".$keyNoSpace."\" class=\"dropdown-content\">";
 	$blockHTML .= "			    	<a style=\"cursor: pointer\" onclick=\"refreshAction('".$keyNoSpace."','inner');\" >Refresh</a>";

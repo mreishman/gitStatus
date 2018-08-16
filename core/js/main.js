@@ -578,7 +578,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">';
 	    if(repoDataPresent)
 	    {
-	    	dataBranchForFile += '<a style="color: black;" href="https://'+baseRepoUrl+'/'+repoName+'/tree/'+dataInner['branch']+'">';
+	    	dataBranchForFile += '<a style="color: black;" target="_blank" href="https://'+baseRepoUrl+'/'+repoName+'/tree/'+dataInner['branch']+'">';
 	    }
 	    dataBranchForFile += dataInner['branch'];
 	    if(repoDataPresent)
