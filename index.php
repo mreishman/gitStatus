@@ -55,7 +55,7 @@ if($defaultViewBranch == 'Standard')
 <!doctype html>
 <head>
 	<title>Git Status | Index</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css?v=<?php echo $configStatic['version']; ?>">
 	<link rel="icon" type="image/png" href="core/img/favicon.png" />
 	<script src="core/js/jquery.js"></script>
 	<script src="core/js/jquery.xcolor.min.js"></script>

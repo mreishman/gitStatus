@@ -25,7 +25,7 @@ require_once('core/php/loadVars.php'); ?>
 <!doctype html>
 <head>
 	<title>Git Status | Update</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css?v=<?php echo $configStatic['version']; ?>">
 	<link rel="icon" type="image/png" href="core/img/favicon.png" />
 	<script src="core/js/jquery.js"></script>
 	<script src="core/js/visibility.core.js"></script>
