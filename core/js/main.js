@@ -620,7 +620,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 					  		}
 					  		if(!isNaN(num));
 					  		{
-				  				link = '<a style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
+				  				link = '<a target="_blank" style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
 					  			dataBranchForFile += " "+link;
 					  			linksFromCommitMessage.push(num.toString());
 						  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
@@ -649,7 +649,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 
 				if(numForStart != "" && (linksFromCommitMessage.indexOf(numForStart) == -1))
 				{
-					link = '<a style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForStart+'">#'+numForStart+'</a>';
+					link = '<a target="_blank" style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForStart+'">#'+numForStart+'</a>';
 					dataBranchForFile += " "+link;
 				}
 			}
@@ -670,7 +670,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 
 				if(numForEnd != "" && (linksFromCommitMessage.indexOf(numForEnd) == -1) && numForEnd != numForStart)
 				{
-					link = '<a style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForEnd+'">#'+numForEnd+'</a>';
+					link = '<a target="_blank" style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForEnd+'">#'+numForEnd+'</a>';
 					dataBranchForFile += " "+link;
 				}
 			}
@@ -695,7 +695,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 
 						if(numForLinkIssue != "" && (linksFromCommitMessage.indexOf(numForLinkIssue) == -1) && numForLinkIssue != numForStart && numForLinkIssue != numForEnd)
 						{
-							link = '<a style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForLinkIssue+'">#'+numForLinkIssue+'</a>';
+							link = '<a target="_blank" style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForLinkIssue+'">#'+numForLinkIssue+'</a>';
 							dataBranchForFile += " "+link;
 						}
 						branchNameTMP = branchNameTMP.substring(numForcalc);
