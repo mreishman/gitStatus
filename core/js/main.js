@@ -1994,7 +1994,7 @@ function escapeHTML(unsafeStr)
 
 function versionCheckPoll()
 {
-	var urlForSend = "../core/php/versionCheck.php";
+	var urlForSend = "core/php/versionCheck.php";
 	var dataSend = {};
 	$.ajax({
 		url: urlForSend,
@@ -2012,7 +2012,7 @@ function versionCheckPoll()
 					pausePollFunction();
 				}
 				showPopup();
-				document.getElementById("popupContentInnerHTMLDiv").innerHTML = "<div class='settingsHeader' >gitStatus has been updated. Please Refresh</div><br><div style='width:100%;text-align:center;padding-left:10px;padding-right:10px;'>gitStatus has been updated, and is now on a new version. Please refresh the page.</div><div><div class='link' onclick='location.reload();' style='margin-left:165px; margin-right:50px;margin-top:35px;'>Reload</div></div>";
+				document.getElementById("popupContentInnerHTMLDiv").innerHTML = "<div class='devBoxTitle' ><b>gitStatus has been updated. Please Refresh</b></div><br><div style='width:100%;text-align:center;padding-left:10px;padding-right:10px;'>gitStatus has been updated, and is now on a new version. Please refresh the page.</div><div><div class='buttonButton' onclick='location.reload();' style='margin-left:50px; margin-right:50px;margin-top:35px;'>Reload</div></div>";
 			}
 		}
 	});
