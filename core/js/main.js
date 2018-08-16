@@ -1,6 +1,7 @@
 var counterForSave = numberOfLogs+1;
 var updating = false;
 var pollTimer = null;
+var pollVersionCheck = null;
 var blocekdInnerObj = {};
 var currentIdOfMainSidebar = "";
 
@@ -251,7 +252,30 @@ function addGroup(groupName)
 		$("#groupInfo").append(item);
 		if(document.getElementById("groupInfo").style.display === "none")
 		{
-			document.getElementById("groupInfo").style.display = "block";
+			var showGroupsCheck = false;
+			var arrayOfGroupsLength = arrayOfGroups.length;
+			if(arrayOfGroupsLength > 2)
+			{
+				showGroupsCheck = true;
+			}
+			else
+			{
+				for(var groupCount = 0; groupCount < arrayOfGroupsLength; groupCount++)
+				{
+					var groupCheck = arrayOfGroups[groupCount];
+					if(groupCheck !== "All")
+					{
+						if($("."+groupCheck).length < ($(".firstBoxDev").length - 1))
+						{
+							showGroupsCheck = true;
+						}
+					}
+				}
+			}
+			if(showGroupsCheck)
+			{
+				document.getElementById("groupInfo").style.display = "block";
+			}
 		}
 	}
 }
@@ -1968,14 +1992,40 @@ function escapeHTML(unsafeStr)
 	}
 }
 
+function versionCheckPoll()
+{
+	var urlForSend = "../core/php/versionCheck.php";
+	var dataSend = {};
+	$.ajax({
+		url: urlForSend,
+		dataType: "json",
+		data: dataSend,
+		type: "POST",
+		success: function(data)
+		{
+			if(String(data) !== String(currentVersion))
+			{
+				//version changed, stop polls and show message
+				clearInterval(pollVersionCheck);
+				if(!isPaused())
+				{
+					pausePollFunction();
+				}
+				showPopup();
+				document.getElementById("popupContentInnerHTMLDiv").innerHTML = "<div class='settingsHeader' >gitStatus has been updated. Please Refresh</div><br><div style='width:100%;text-align:center;padding-left:10px;padding-right:10px;'>gitStatus has been updated, and is now on a new version. Please refresh the page.</div><div><div class='link' onclick='location.reload();' style='margin-left:165px; margin-right:50px;margin-top:35px;'>Reload</div></div>";
+			}
+		}
+	});
+}
+
 /* KEEP AT BOTTOM OF FILE */
 
 $( document ).ready(function()
 {
-	poll();
 	pollingRate = pollingRate * 60000;
 	pollingRateBG = pollingRateBG * 60000;
 
+	pollVersionCheck = setInterval(versionCheckPoll, (1*60*60*1000));
 
 	if (autoCheckUpdate == true)
 	{
@@ -2001,6 +2051,7 @@ $( document ).ready(function()
 
 	if(pausePollFromFile !== "true")
 	{
+		poll();
 		startPoll();
 	}
 

@@ -80,17 +80,14 @@ if($defaultViewBranch == 'Standard')
 				{
 					continue;
 				}
-				if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
+				if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") && !in_array($value['groupInfo'], $arrayOfGroups))
 				{
 					$count++;
 					if($count > 1)
 					{
 						$showTopBarOfGroups = true;
 					}
-					if(!in_array($value['groupInfo'], $arrayOfGroups))
-					{
-						array_push($arrayOfGroups, $value['groupInfo']);
-					}
+					array_push($arrayOfGroups, $value['groupInfo']);
 				}
 			}
 			if($cacheEnabled === "true" || $cacheEnabled == "read")
@@ -122,17 +119,14 @@ if($defaultViewBranch == 'Standard')
 										break;
 									}
 								}
-								if(!$inArray)
+								if(!$inArray && !in_array($groupName, $arrayOfGroups))
 								{
 									$count++;
 									if($count > 1)
 									{
 										$showTopBarOfGroups = true;
 									}
-									if(!in_array($groupName, $arrayOfGroups))
-									{
-										array_push($arrayOfGroups, $groupName);
-									}
+									array_push($arrayOfGroups, $groupName);
 								}
 							}
 						}
