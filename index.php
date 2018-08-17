@@ -273,7 +273,8 @@ if($defaultViewBranch == 'Standard')
 							"name"					=>	$key,
 							"branchData"			=>	$data,
 							"counter"				=>	$h
-						)
+						),
+						$pollType
 					);
 
 				}
@@ -395,7 +396,7 @@ if($defaultViewBranch == 'Standard')
 
 	<div style="display: none;" id="storage">
 		<div class="container">
-			<?php echo generateWindow(); ?>
+			<?php echo generateWindow(array(),$pollType); ?>
 		</div>
 		<div class="groupEmpty">
 			<?php echo generateGroup(); ?>

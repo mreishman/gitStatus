@@ -22,7 +22,7 @@ function generateGroup($data = array())
 	return $groupBlock;
 }
 
-function generateWindow($data = array())
+function generateWindow($data = array(), $pollType)
 {
 
 	$groupInfo = "{{groupInfo}}";
@@ -134,8 +134,13 @@ function generateWindow($data = array())
 	$blockHTML .= "				</span>";
 	$blockHTML .= "				<img id=\"".$keyNoSpace."loadingSpinnerHeader\" class=\"loadingSpinnerHeader\" style=\"width: 20px; margin-bottom: -7px; display: none; margin-top: 3px; margin-left: 3px; margin-right: 1px;\" src=\"core/img/loading.gif\" >";
 	$blockHTML .= "				<a style=\"color: black;\" target=\"_blank\" href=\"https://".$website."\"><b>".$name."</b></a>";
-	$blockHTML .= "				<div class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
-	$blockHTML .= "				<div id=\"dropdown-".$keyNoSpace."\" class=\"dropdown-content\">";
+	$blockHTML .= "				<div ";
+	if($pollType !== "1")
+	{
+		$blockHTML .= "style = \"display: none;\"";
+	}
+	$blockHTML .= "                  class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
+	$blockHTML .= "				<div  id=\"dropdown-".$keyNoSpace."\" class=\"dropdown-content\">";
 	$blockHTML .= "			    	<a style=\"cursor: pointer\" onclick=\"refreshAction('".$keyNoSpace."','inner');\" >Refresh</a>";
 	$blockHTML .= "					<span style=\"display: none;\" >";
 	$blockHTML .= "			    	<div id=\"".$keyNoSpace."LogHogOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
