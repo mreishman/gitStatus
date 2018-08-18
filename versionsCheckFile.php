@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.2.1',
+	'version'		=> '3.2.2',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -82,6 +82,10 @@ $versionCheckArray = array(
 		'3.2.1'		=> array(
 			'branchName'	=> '3.2.1Update',
 			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Fixed bug with new git branch logic</li></ul></li></ul>'
+		),
+		'3.2.2'		=> array(
+			'branchName'	=> '3.2.2Update',
+			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Fixed bug with git diff logic not loading for master branch</li><li>Fixed styling to make individual loading spinners uniform with other elements</li><li>Added refresh button to info page</li><li>Fixed bug with pause poll from initial load not working exactly as specified</li><li>Added poll check for version update / refresh if version changed.</li><li>Fixed bug with groups showing up if only one group present</li><li>Clicking on links open in new tab (for branch name / website url / issue link)</li></ul></li></ul>'
 		),
 	)
 );
