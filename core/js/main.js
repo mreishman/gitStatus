@@ -1097,7 +1097,13 @@ function pausePollFunction()
 
 function startPoll()
 {
+	if(pollVersionCheck === null)
+	{
+		versionCheckPoll();
+		pollVersionCheck = setInterval(versionCheckPoll, (1*60*60*1000));
+	}
 	pollTimer = Visibility.every(pollingRate, pollingRateBG, function () { poll(); });
+	
 }
 
 function switchToStandardView()
@@ -2007,6 +2013,7 @@ function versionCheckPoll()
 			{
 				//version changed, stop polls and show message
 				clearInterval(pollVersionCheck);
+				pollVersionCheck = null;
 				if(!isPaused())
 				{
 					pausePollFunction();
