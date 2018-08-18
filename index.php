@@ -55,7 +55,7 @@ if($defaultViewBranch == 'Standard')
 <!doctype html>
 <head>
 	<title>Git Status | Index</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css?v=<?php echo $configStatic['version']; ?>">
 	<link rel="icon" type="image/png" href="core/img/favicon.png" />
 	<script src="core/js/jquery.js"></script>
 	<script src="core/js/jquery.xcolor.min.js"></script>
@@ -80,17 +80,14 @@ if($defaultViewBranch == 'Standard')
 				{
 					continue;
 				}
-				if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
+				if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") && !in_array($value['groupInfo'], $arrayOfGroups))
 				{
 					$count++;
 					if($count > 1)
 					{
 						$showTopBarOfGroups = true;
 					}
-					if(!in_array($value['groupInfo'], $arrayOfGroups))
-					{
-						array_push($arrayOfGroups, $value['groupInfo']);
-					}
+					array_push($arrayOfGroups, $value['groupInfo']);
 				}
 			}
 			if($cacheEnabled === "true" || $cacheEnabled == "read")
@@ -122,17 +119,14 @@ if($defaultViewBranch == 'Standard')
 										break;
 									}
 								}
-								if(!$inArray)
+								if(!$inArray && !in_array($groupName, $arrayOfGroups))
 								{
 									$count++;
 									if($count > 1)
 									{
 										$showTopBarOfGroups = true;
 									}
-									if(!in_array($groupName, $arrayOfGroups))
-									{
-										array_push($arrayOfGroups, $groupName);
-									}
+									array_push($arrayOfGroups, $groupName);
 								}
 							}
 						}
@@ -279,7 +273,8 @@ if($defaultViewBranch == 'Standard')
 							"name"					=>	$key,
 							"branchData"			=>	$data,
 							"counter"				=>	$h
-						)
+						),
+						$pollType
 					);
 
 				}
@@ -360,6 +355,7 @@ if($defaultViewBranch == 'Standard')
 						</tr>
 						<tr>
 							<td>
+								<span onclick="getInfo();" class="mainLinkClass" >Refresh</span>
 							</td>
 							<td>
 								<h2>Branch History</h2>
@@ -400,7 +396,7 @@ if($defaultViewBranch == 'Standard')
 
 	<div style="display: none;" id="storage">
 		<div class="container">
-			<?php echo generateWindow(); ?>
+			<?php echo generateWindow(array(),$pollType); ?>
 		</div>
 		<div class="groupEmpty">
 			<?php echo generateGroup(); ?>
@@ -516,13 +512,9 @@ if($defaultViewBranch == 'Standard')
 		}
 	?>
 	</script>
-	<script src="core/js/updateCommon.js"></script>
-	<script src="core/js/main.js"></script>
-	<script src="core/js/allPages.js"></script>
-	<script src="core/js/visibility.core.js"></script>
-	<script src="core/js/visibility.fallback.js"></script>
-	<script src="core/js/visibility.js"></script>
-	<script src="core/js/visibility.timers.js"></script>
+	<script src="core/js/updateCommon.js?v=<?php echo $configStatic['version']; ?>"></script>
+	<script src="core/js/main.js?v=<?php echo $configStatic['version']; ?>"></script>
+	<script src="core/js/allPages.js?v=<?php echo $configStatic['version']; ?>"></script>
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftMain").style.backgroundColor  = "#ffffff";
 	</script>

@@ -22,7 +22,7 @@ require_once('setup/setupProcessFile.php');
 <!doctype html>
 <head>
 	<title>Git Status | Settings</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css?v=<?php echo $configStatic['version']; ?>">
 	<link rel="stylesheet" type="text/css" href="core/css/jquery-ui.css">
 	<link rel="icon" type="image/png" href="core/img/favicon.png" />
 	<script src="core/js/jquery.js"></script>
@@ -122,9 +122,9 @@ require_once('setup/setupProcessFile.php');
 }
 
 	</script>
-	<script src="core/js/allPages.js"></script>
-	<script src="core/js/settings.js"></script>
-	<script src="core/js/settingsAll.js"></script>
+	<script src="core/js/allPages.js?v=<?php echo $configStatic['version']; ?>"></script>
+	<script src="core/js/settings.js?v=<?php echo $configStatic['version']; ?>"></script>
+	<script src="core/js/settingsAll.js?v=<?php echo $configStatic['version']; ?>"></script>
 <?php require_once('core/php/templateFiles/allPages.php') ?>
 <?php readfile('core/html/popup.html') ?>
 </body>

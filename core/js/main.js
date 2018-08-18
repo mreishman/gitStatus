@@ -1,6 +1,7 @@
 var counterForSave = numberOfLogs+1;
 var updating = false;
 var pollTimer = null;
+var pollVersionCheck = null;
 var blocekdInnerObj = {};
 var currentIdOfMainSidebar = "";
 
@@ -23,6 +24,7 @@ function poll(all = -1, counterForSaveNew = 1)
 		counterForSave = numberOfLogs+1;
 		var arrayOfFilesLength = arrayOfFiles.length
 		$(".loadingSpinnerHeader").css('display', 'inline-block');
+		$(".warningSpanHeader").css('display','none');
 		$(".refreshImageDevBox").css('display', 'none');
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
@@ -115,9 +117,24 @@ function showLoadingSpinnerHeader(name)
 		{
 			document.getElementById(name+'loadingSpinnerHeader').style.display = "inline-block";
 		}
-		if(document.getElementById(name+"spinnerDiv") && document.getElementById(name+"spinnerDiv").style.display === "none")
+		if(document.getElementById(name+"warningSpanHeader") && document.getElementById(name+"warningSpanHeader").style.display !== "none")
 		{
-			document.getElementById(name+"spinnerDiv").style.display = "none";
+			document.getElementById(name+"warningSpanHeader").style.display = "none";
+		}
+	}
+}
+
+function hideLoadingSpinnerHeader(name)
+{
+	if(document.getElementById(name))
+	{
+		if(document.getElementById(name+'loadingSpinnerHeader') && document.getElementById(name+'loadingSpinnerHeader').style.display !== "none")
+		{
+			document.getElementById(name+'loadingSpinnerHeader').style.display = "none";
+		}
+		if(document.getElementById(name+"warningSpanHeader") && document.getElementById(name+"warningSpanHeader").style.display !== "inline-block")
+		{
+			document.getElementById(name+"warningSpanHeader").style.display = "inline-block";
 		}
 	}
 }
@@ -235,7 +252,30 @@ function addGroup(groupName)
 		$("#groupInfo").append(item);
 		if(document.getElementById("groupInfo").style.display === "none")
 		{
-			document.getElementById("groupInfo").style.display = "block";
+			var showGroupsCheck = false;
+			var arrayOfGroupsLength = arrayOfGroups.length;
+			if(arrayOfGroupsLength > 2)
+			{
+				showGroupsCheck = true;
+			}
+			else
+			{
+				for(var groupCount = 0; groupCount < arrayOfGroupsLength; groupCount++)
+				{
+					var groupCheck = arrayOfGroups[groupCount];
+					if(groupCheck !== "All")
+					{
+						if($("."+groupCheck).length < ($(".firstBoxDev").length - 1))
+						{
+							showGroupsCheck = true;
+						}
+					}
+				}
+			}
+			if(showGroupsCheck)
+			{
+				document.getElementById("groupInfo").style.display = "block";
+			}
 		}
 	}
 }
@@ -354,7 +394,7 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 			arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = null;
 		}
 	}
-	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
+	hideLoadingSpinnerHeader(noSpaceName);
 	document.getElementById("refreshDiv").style.display = "inline-block";
 	pollCompleteLogic();
 }
@@ -538,7 +578,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">';
 	    if(repoDataPresent)
 	    {
-	    	dataBranchForFile += '<a style="color: black;" href="https://'+baseRepoUrl+'/'+repoName+'/tree/'+dataInner['branch']+'">';
+	    	dataBranchForFile += '<a style="color: black;" target="_blank" href="https://'+baseRepoUrl+'/'+repoName+'/tree/'+dataInner['branch']+'">';
 	    }
 	    dataBranchForFile += dataInner['branch'];
 	    if(repoDataPresent)
@@ -580,7 +620,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 					  		}
 					  		if(!isNaN(num));
 					  		{
-				  				link = '<a style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
+				  				link = '<a target="_blank" style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
 					  			dataBranchForFile += " "+link;
 					  			linksFromCommitMessage.push(num.toString());
 						  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
@@ -609,7 +649,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 
 				if(numForStart != "" && (linksFromCommitMessage.indexOf(numForStart) == -1))
 				{
-					link = '<a style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForStart+'">#'+numForStart+'</a>';
+					link = '<a target="_blank" style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForStart+'">#'+numForStart+'</a>';
 					dataBranchForFile += " "+link;
 				}
 			}
@@ -630,7 +670,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 
 				if(numForEnd != "" && (linksFromCommitMessage.indexOf(numForEnd) == -1) && numForEnd != numForStart)
 				{
-					link = '<a style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForEnd+'">#'+numForEnd+'</a>';
+					link = '<a target="_blank" style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForEnd+'">#'+numForEnd+'</a>';
 					dataBranchForFile += " "+link;
 				}
 			}
@@ -655,7 +695,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 
 						if(numForLinkIssue != "" && (linksFromCommitMessage.indexOf(numForLinkIssue) == -1) && numForLinkIssue != numForStart && numForLinkIssue != numForEnd)
 						{
-							link = '<a style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForLinkIssue+'">#'+numForLinkIssue+'</a>';
+							link = '<a target="_blank" style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForLinkIssue+'">#'+numForLinkIssue+'</a>';
 							dataBranchForFile += " "+link;
 						}
 						branchNameTMP = branchNameTMP.substring(numForcalc);
@@ -844,7 +884,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		}
 	}
 	displayDataFromPoll(noSpaceName,dataBranchForFile,dataBranchForFileUpdateTime,dataBranchForFileStats);
-	document.getElementById(noSpaceName+'loadingSpinnerHeader').style.display = "none";
+	hideLoadingSpinnerHeader(noSpaceName);
 	pollCompleteLogic();
 }
 
@@ -1527,6 +1567,14 @@ function getDiffCommitsHttp()
 
 function showDiffCommits(data)
 {
+	if(data["compareMaster"] === "")
+	{
+		data["compareMaster"] = "0\t0";
+	}
+	if(data["compareCurrent"] === "")
+	{
+		data["compareCurrent"] = "0\t0";
+	}
 	var commitDiffMaster = data["compareMaster"].split(/\D/);
 	var commitDiffCurrent = data["compareCurrent"].split(/\D/);
 	var baseForLeft = commitDiffCurrent[0];
@@ -1944,14 +1992,40 @@ function escapeHTML(unsafeStr)
 	}
 }
 
+function versionCheckPoll()
+{
+	var urlForSend = "core/php/versionCheck.php";
+	var dataSend = {};
+	$.ajax({
+		url: urlForSend,
+		dataType: "json",
+		data: dataSend,
+		type: "POST",
+		success: function(data)
+		{
+			if(String(data) !== String(currentVersion))
+			{
+				//version changed, stop polls and show message
+				clearInterval(pollVersionCheck);
+				if(!isPaused())
+				{
+					pausePollFunction();
+				}
+				showPopup();
+				document.getElementById("popupContentInnerHTMLDiv").innerHTML = "<div class='devBoxTitle' ><b>gitStatus has been updated. Please Refresh</b></div><br><div style='width:100%;text-align:center;padding-left:10px;padding-right:10px;'>gitStatus has been updated, and is now on a new version. Please refresh the page.</div><div><div class='buttonButton' onclick='location.reload();' style='margin-left:50px; margin-right:50px;margin-top:35px;'>Reload</div></div>";
+			}
+		}
+	});
+}
+
 /* KEEP AT BOTTOM OF FILE */
 
 $( document ).ready(function()
 {
-	poll();
 	pollingRate = pollingRate * 60000;
 	pollingRateBG = pollingRateBG * 60000;
 
+	pollVersionCheck = setInterval(versionCheckPoll, (1*60*60*1000));
 
 	if (autoCheckUpdate == true)
 	{
@@ -1977,6 +2051,7 @@ $( document ).ready(function()
 
 	if(pausePollFromFile !== "true")
 	{
+		poll();
 		startPoll();
 	}
 

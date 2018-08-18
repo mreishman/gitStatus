@@ -22,7 +22,7 @@ function generateGroup($data = array())
 	return $groupBlock;
 }
 
-function generateWindow($data = array())
+function generateWindow($data = array(), $pollType)
 {
 
 	$groupInfo = "{{groupInfo}}";
@@ -127,16 +127,20 @@ function generateWindow($data = array())
 	$blockHTML =  "	<div class=\"firstBoxDev ".$groupInfo." \"  ".$groupInfoStyle." >";
 	$blockHTML .= "		<div class=\"innerFirstDevBox\" id=\"innerFirstDevBox".$keyNoSpace."\"  ".$backgroundColor." >";
 	$blockHTML .= "			<div onclick=\"toggleDetailBar(event, '".$keyNoSpace."');\" class=\"devBoxTitle\" style=\"cursor: pointer;\" >";
-	$blockHTML .= "				<div class=\"led-red\" id=\"".$keyNoSpace."redwWarning\" style=\"display: inline-block; margin-bottom: -8px; display: ".$redLED." \">";
-	$blockHTML .= "				</div>";
-	$blockHTML .= "				<div class=\"led-yellow\" id=\"".$keyNoSpace."yellowWarning\" style=\"display: inline-block; margin-bottom: -8px; display: ".$yellowLED." \">";
-	$blockHTML .= "				</div>";
-	$blockHTML .= "				<div class=\"led-green\" id=\"".$keyNoSpace."greenNotice\" style=\"display: inline-block; margin-bottom: -8px; display: ".$greenLED." \">";
-	$blockHTML .= "				</div>";
-	$blockHTML .= "				<a style=\"color: black;\" href=\"https://".$website."\"><b>".$name."</b></a>";
-	$blockHTML .= "				<img id=\"".$keyNoSpace."loadingSpinnerHeader\" class=\"loadingSpinnerHeader\" style=\"width: 25px; margin-bottom: -5px; display: none;\" src=\"core/img/loading.gif\" >";
-	$blockHTML .= "				<div class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
-	$blockHTML .= "				<div id=\"dropdown-".$keyNoSpace."\" class=\"dropdown-content\">";
+	$blockHTML .= "				<span id=\"".$keyNoSpace."warningSpanHeader\" class=\"warningSpanHeader\"  >";
+	$blockHTML .= "					<div class=\"led-red\" id=\"".$keyNoSpace."redwWarning\" style=\"display: inline-block; margin-bottom: -8px; display: ".$redLED." \"></div>";
+	$blockHTML .= "					<div class=\"led-yellow\" id=\"".$keyNoSpace."yellowWarning\" style=\"display: inline-block; margin-bottom: -8px; display: ".$yellowLED." \"></div>";
+	$blockHTML .= "					<div class=\"led-green\" id=\"".$keyNoSpace."greenNotice\" style=\"display: inline-block; margin-bottom: -8px; display: ".$greenLED." \"></div>";
+	$blockHTML .= "				</span>";
+	$blockHTML .= "				<img id=\"".$keyNoSpace."loadingSpinnerHeader\" class=\"loadingSpinnerHeader\" style=\"width: 20px; margin-bottom: -7px; display: none; margin-top: 3px; margin-left: 3px; margin-right: 1px;\" src=\"core/img/loading.gif\" >";
+	$blockHTML .= "				<a style=\"color: black;\" target=\"_blank\" href=\"https://".$website."\"><b>".$name."</b></a>";
+	$blockHTML .= "				<div ";
+	if($pollType !== "1")
+	{
+		$blockHTML .= "style = \"display: none;\"";
+	}
+	$blockHTML .= "                  class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
+	$blockHTML .= "				<div  id=\"dropdown-".$keyNoSpace."\" class=\"dropdown-content\">";
 	$blockHTML .= "			    	<a style=\"cursor: pointer\" onclick=\"refreshAction('".$keyNoSpace."','inner');\" >Refresh</a>";
 	$blockHTML .= "					<span style=\"display: none;\" >";
 	$blockHTML .= "			    	<div id=\"".$keyNoSpace."LogHogOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
