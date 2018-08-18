@@ -105,16 +105,6 @@ require_once('core/php/loadVars.php'); ?>
 				</div>
 			</div>
 		</div>
-		<div class="firstBoxDev">
-			<div class="innerFirstDevBox" style=" width: 600px;"  >
-				<div class="devBoxTitle">
-					<b>Changelog</b>
-				</div>
-				<div class="devBoxContent">
-					<?php readfile('core/html/changelog.html') ?>
-				</div>
-			</div>
-		</div>
 	</div>
 		<script type="text/javascript">
 		<?php echo "var dontNotifyVersion = '".$dontNotifyVersion."';"; ?>
