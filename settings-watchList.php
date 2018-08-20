@@ -59,11 +59,8 @@ require_once('setup/setupProcessFile.php');
 		{
 			innerWidthWindowCalcAdd += elementWidth;
 			numOfWindows++;
-			
 			innerWidthWindowCalc -= elementWidth;
 		}
-		var windowWidthText = ((innerWidthWindowCalcAdd)+40)+"px";
-		document.getElementById("main").style.width = windowWidthText;
 		var remainingWidth = innerWidthWindow - ((innerWidthWindowCalcAdd)+40);
 		remainingWidth = remainingWidth / 2;
 		var windowWidthText = remainingWidth+"px";
@@ -121,15 +118,13 @@ var numberOfSubRows = <?php echo $numCount; ?>;
 var arrayOfKeysJsonEncoded = '<?php echo json_encode($arrayOfKeys); ?>';
 var arrayOfKeysNonEnc = JSON.parse(arrayOfKeysJsonEncoded);
 
+</script>
+<script src="core/js/allPages.js?v=<?php echo $configStatic['version']; ?>"></script>
+<script src="core/js/settingsAll.js?v=<?php echo $configStatic['version']; ?>"></script>
+<script type="text/javascript">
+	document.getElementById("menuBarLeftSettingsWatchList").style.backgroundColor  = "#ffffff";
+</script>
+<script src="core/js/watchlist.js?v=<?php echo $configStatic['version']; ?>"></script>
 
-	</script>
-	<script src="core/js/allPages.js?v=<?php echo $configStatic['version']; ?>"></script>
-	<script src="core/js/settingsAll.js?v=<?php echo $configStatic['version']; ?>"></script>
-	<script type="text/javascript">
-		document.getElementById("menuBarLeftSettingsWatchList").style.backgroundColor  = "#ffffff";
-	</script>
-	<script src="core/js/watchlist.js?v=<?php echo $configStatic['version']; ?>"></script>
-
-<?php require_once('core/php/templateFiles/allPages.php') ?>
 <?php readfile('core/html/popup.html') ?>
 </body>

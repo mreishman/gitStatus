@@ -80,5 +80,4 @@ require_once('core/php/loadVars.php'); ?>
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftAbout").style.backgroundColor  = "#ffffff";
 	</script>
-	<?php require_once('core/php/templateFiles/allPages.php') ?>
 </body>
