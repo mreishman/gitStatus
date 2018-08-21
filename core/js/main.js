@@ -294,7 +294,7 @@ function pollCompleteLogic()
 		{
 			//save object after poll
 			var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
-			var data = {arrayOfdata: arrayOfWatchFilters};
+			var data = {arrayOfdata: arrayOfWatchFilters, currentVersion};
 			(function(_data){
 
 				$.ajax({

@@ -8,15 +8,15 @@ if(file_exists('local/layout.php'))
 	require_once('local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
-require_once($baseUrl.'conf/config.php'); 
+require_once($baseUrl.'conf/config.php');
 require_once('core/conf/config.php');
-require_once('core/php/configStatic.php');  
+require_once('core/php/configStatic.php');
 if(file_exists('core/conf/cachedStatus.php'))
-{ 
-	require_once('core/conf/cachedStatus.php');  
+{
+	require_once('core/conf/cachedStatus.php');
 }
 require_once('core/php/update/updateCheck.php');
-require_once('core/php/loadVars.php'); 
+require_once('core/php/loadVars.php');
 require_once('setup/setupProcessFile.php');
 ?>
 <!doctype html>
@@ -34,7 +34,6 @@ require_once('setup/setupProcessFile.php');
 	<script src="core/js/jscolor.js"></script>
 </head>
 <body>
-	
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
 	<?php require_once('core/php/templateFiles/header.php'); ?>
 	<div id="main" style="overflow: auto; overflow-y: auto;" >
@@ -61,7 +60,9 @@ require_once('setup/setupProcessFile.php');
 	$( function() {
     	$( "#datepicker" ).datepicker();
   	} );
-
+	<?php
+		echo "var currentVersion = '".$configStatic['version']."';";
+	?>
 	var counfOfFiltersForbranchName = <?php echo $counfOfFiltersForbranchName; ?>;
 	var counfOfFiltersForAuthorName = <?php echo $counfOfFiltersForAuthorName; ?>;
 	var counfOfFiltersForComitteeName = <?php echo $counfOfFiltersForComitteeName; ?>;
