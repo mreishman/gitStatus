@@ -8,9 +8,9 @@ if(file_exists('local/layout.php'))
 	require_once('local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
-require_once($baseUrl.'conf/config.php'); 
+require_once($baseUrl.'conf/config.php');
 require_once('core/conf/config.php');
-require_once('core/php/configStatic.php');  
+require_once('core/php/configStatic.php');
 require_once('core/php/update/updateCheck.php');
 require_once('core/php/loadVars.php'); ?>
 <!doctype html>
@@ -25,11 +25,9 @@ require_once('core/php/loadVars.php'); ?>
 	<script src="core/js/visibility.timers.js"></script>
 </head>
 <body>
-	
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
 	<?php require_once('core/php/templateFiles/header.php'); ?>
-	<div id="main">
-		
+	<div id="main" style="overflow: auto; overflow-y: auto;" >
 		<div class="firstBoxDev">
 			<div class="innerFirstDevBox"  >
 				<div class="devBoxTitle">
@@ -56,56 +54,30 @@ require_once('core/php/loadVars.php'); ?>
 				</div>
 			</div>
 		</div>
+		<div class="firstBoxDev">
+			<div class="innerFirstDevBox" style=" width: 600px;"  >
+				<div class="devBoxTitle">
+					<b>Changelog</b>
+				</div>
+				<div class="devBoxContent">
+					<?php readfile('core/html/changelog.html') ?>
+				</div>
+			</div>
+		</div>
 	<div>
 	<script type="text/javascript">
-		function calcuateWidth()
-{
-	var innerWidthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-	if(document.getElementById("sidebar").style.width == '100px')
+	function calcuateWidth()
 	{
-		innerWidthWindow -= 103;
-	}
-	if(document.getElementById("sidebar").style.width == '100px')
-	{
-		document.getElementById("main").style.left = "103px";
-	}
-	else
-	{
-		document.getElementById("main").style.left = "0px";
-	}
-	var innerWidthWindowCalc = innerWidthWindow;
-	var innerWidthWindowCalcAdd = 0;
-	var numOfWindows = 0;
-	var elementWidth = 342;
-	while(innerWidthWindowCalc > elementWidth)
-	{
-		innerWidthWindowCalcAdd += elementWidth;
-		numOfWindows++;
-		if(numOfWindows == 1)
+		var left = "0px";
+		if(document.getElementById("sidebar").style.width == '100px')
 		{
-			elementWidth = 342;
+			left = "100px";
 		}
-		else if (numOfWindows == 2)
-		{
-			//change if adding more windows to about.php
-			elementWidth = 9000000;
-		}
-		innerWidthWindowCalc -= elementWidth;
+		document.getElementById("main").style.left = left;
 	}
-	var windowWidthText = ((innerWidthWindowCalcAdd)+40)+"px";
-	document.getElementById("main").style.width = windowWidthText;
-	var remainingWidth = innerWidthWindow - ((innerWidthWindowCalcAdd)+40);
-	remainingWidth = remainingWidth / 2;
-	var windowWidthText = remainingWidth+"px";
-	document.getElementById("main").style.marginLeft = windowWidthText;
-	document.getElementById("main").style.paddingRight = windowWidthText;
-}
-
 	</script>
 	<script src="core/js/allPages.js?v=<?php echo $configStatic['version']; ?>"></script>
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftAbout").style.backgroundColor  = "#ffffff";
 	</script>
-	<?php require_once('core/php/templateFiles/allPages.php') ?>
 </body>
-	

@@ -34,11 +34,9 @@ require_once('core/php/loadVars.php'); ?>
 	<script src="core/js/visibility.timers.js"></script>
 </head>
 <body>
-	
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
 	<?php require_once('core/php/templateFiles/header.php'); ?>
-	<div id="main">
-		
+	<div id="main" style="overflow: auto; overflow-y: auto;" >
 		<div class="firstBoxDev">
 			<div class="innerFirstDevBox"  >
 				<div class="devBoxTitle">
@@ -49,16 +47,15 @@ require_once('core/php/loadVars.php'); ?>
 					<br><br>
 					Last Check for updates -  <?php echo $configStatic['lastCheck'];?>
 					<br><br>
-					
 					<button class="buttonButton" onclick="checkForUpdateDefinitely(true);" >Check for Update</button>
-					
-					
 					<form id="settingsCheckForUpdate" action="update/updater.php" method="post">
 					<?php
-					if($levelOfUpdate != 0){echo '<br><br><button class="buttonButton" onclick="displayLoadingPopup();">Install '.$configStatic["newestVersion"].' Update</button>';}
+					if($levelOfUpdate != 0)
+					{
+						echo '<br><br><button class="buttonButton" onclick="displayLoadingPopup();">Install '.$configStatic["newestVersion"].' Update</button>';
+					}
 					?>
 					</form>
-					
 						<span id="noUpdate" <?php if($levelOfUpdate != 0){echo "style='display: none;'";} ?> >
 						<h2><img id="statusImage1" src="core/img/greenCheck.png" height="15px"> &nbsp; No new updates - You are on the current version!</h2>
 						</span>
@@ -71,7 +68,6 @@ require_once('core/php/loadVars.php'); ?>
 						<span id="NewXReleaseUpdate" <?php if($levelOfUpdate != 3){echo "style='display: none;'";} ?> >
 							<h2><img id="statusImage3" src="core/img/redWarning.png" height="15px"><img id="statusImage3" src="core/img/redWarning.png" height="15px"><img id="statusImage3" src="core/img/redWarning.png" height="15px"> &nbsp; Very Major Updates - <?php echo $configStatic['newestVersion'];?> - a lot of new features!</h2>
 						</span>
-					
 				</div>
 			</div>
 		</div>
@@ -105,73 +101,18 @@ require_once('core/php/loadVars.php'); ?>
 				</div>
 			</div>
 		</div>
-		<div class="firstBoxDev">
-			<div class="innerFirstDevBox" style=" width: 600px;"  >
-				<div class="devBoxTitle">
-					<b>Changelog</b>
-				</div>
-				<div class="devBoxContent">
-					<?php readfile('core/html/changelog.html') ?>
-				</div>
-			</div>
-		</div>
 	</div>
 		<script type="text/javascript">
 		<?php echo "var dontNotifyVersion = '".$dontNotifyVersion."';"; ?>
 
 		function calcuateWidth()
 		{
-			var innerWidthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+			var left = "0px";
 			if(document.getElementById("sidebar").style.width == '100px')
 			{
-				innerWidthWindow -= 103;
+				left = "100px";
 			}
-			if(document.getElementById("sidebar").style.width == '100px')
-			{
-				document.getElementById("main").style.left = "103px";
-			}
-			else
-			{
-				document.getElementById("main").style.left = "0px";
-			}
-			var innerWidthWindowCalc = innerWidthWindow;
-			var innerWidthWindowCalcAdd = 0;
-			var numOfWindows = 0;
-			var elementWidth = 342;
-			while(innerWidthWindowCalc > elementWidth)
-			{
-				innerWidthWindowCalcAdd += elementWidth;
-				numOfWindows++;
-				if(numOfWindows == 1)
-				{
-					elementWidth = 342;
-				}
-				<?php if($levelOfUpdate != 0): ?>
-				else if (numOfWindows == 2)
-				{
-					elementWidth = 642;
-				}
-				else if (numOfWindows == 3)
-				{
-					//change if adding more windows to update.php
-					elementWidth = 9000000;
-				}
-				<?php else: ?>
-				else if (numOfWindows == 2)
-				{
-					//change if adding more windows to update.php
-					elementWidth = 9000000;
-				}
-				<?php endif; ?>
-				innerWidthWindowCalc -= elementWidth;
-			}
-			var windowWidthText = ((innerWidthWindowCalcAdd)+40)+"px";
-			document.getElementById("main").style.width = windowWidthText;
-			var remainingWidth = innerWidthWindow - ((innerWidthWindowCalcAdd)+40);
-			remainingWidth = remainingWidth / 2;
-			var windowWidthText = remainingWidth+"px";
-			document.getElementById("main").style.marginLeft = windowWidthText;
-			document.getElementById("main").style.paddingRight = windowWidthText;
+			document.getElementById("main").style.left = left;
 		}
 
 
@@ -192,6 +133,5 @@ require_once('core/php/loadVars.php'); ?>
 		echo "var currentVersion = '".$configStatic['version']."';";
 		?>
 	</script>
-	<?php require_once('core/php/templateFiles/allPages.php') ?>
 	<?php readfile('core/html/popup.html') ?>
 </body>

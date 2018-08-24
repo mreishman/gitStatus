@@ -58,6 +58,16 @@ function resizeFunction()
         document.getElementById("spanForMainDiff").style.height = (heightWindow-138)+"px";
 
     }
+    if(document.getElementById("widthForWatchListSection"))
+    {
+        var newMaxHeight = (heightWindow - 130);
+        if(newMaxHeight < 500)
+        {
+            newMaxHeight = 500;
+        }
+        newMaxHeight = newMaxHeight+"px";
+        $(".devBoxContent").css("max-height",newMaxHeight);
+    }
 }
 
 $(window).resize(function(){

@@ -146,7 +146,7 @@ function clearCache()
 	//ajax to php to empty cache
 	displayLoadingPopup();
 	var urlForSend = 'core/php/saveFunctions/cachedStatus.php?format=json'
-	var data = {clearArray: true};
+	var data = {clearArray: true, currentVersion};
 	(function(_data)
 	{
 		$.ajax({

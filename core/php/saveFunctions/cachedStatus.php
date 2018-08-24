@@ -1,10 +1,15 @@
 <?php
 $baseUrl = "../../../core/";
 $fileName = ''.$baseUrl.'conf/cachedStatus.php';
-
 $string = "";
-
 $boolForSave = true;
+require_once('../configStatic.php');
+if((string)$_POST['currentVersion'] !== $configStatic["version"])
+{
+	echo "false";
+	die();
+}
+
 
 if(isset($_POST['arrayOfdata']))
 {
@@ -43,9 +48,7 @@ if($boolForSave)
 	file_put_contents($fileName, $newInfoForConfig);
 
 	echo "true";
+	die();
 }
-else
-{
-	echo "false";
-}
-?>
+
+echo "false";
