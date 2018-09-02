@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.2.3',
+	'version'		=> '3.2.4',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -90,6 +90,10 @@ $versionCheckArray = array(
 		'3.2.3'		=> array(
 			'branchName'	=> '3.2.3Update',
 			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Fixed bug with version check poll not starting again after pause</li><li>Fixed styles on header with version number</li><li>Updated styles on about / settings / update page to show more information at some resolutions without scrolling</li><li>Updated styles on watchlist pages to show more information without scrolling</li><li>Added version check to cache save (make sure local version is same as server version)</li></ul></li></ul>'
+		),
+		'3.2.4'		=> array(
+			'branchName'	=> '3.2.4Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>Added links to branch name history (if linked to repo)</li></ul></li><li>Bug Fixes<ul><li>Fixed bug with saving new colors in dev box color settings</li><li>Fixed update bug with versions greater than 10 (inclding x.10, x.x.10, etc)</li></ul></li></ul>'
 		),
 	)
 );
