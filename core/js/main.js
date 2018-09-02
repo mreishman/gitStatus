@@ -439,7 +439,7 @@ function pollSuccess(dataInner, dataInnerPass)
 	}
 }
 
-function generateBranchHistory(dataInner)
+function generateBranchHistory(dataInner, repoName, baseRepoUrl)
 {
 	if("branchHistoryList" in dataInner)
 	{
@@ -447,7 +447,17 @@ function generateBranchHistory(dataInner)
 		var BHLlength =  dataInner["branchHistoryList"].length;
 		for(var BHLcount = 0; BHLcount < BHLlength; BHLcount++)
 		{
-			htmlToReturn += "<tr><td>"+dataInner["branchHistoryList"][BHLcount]["name"]+"</td><td>"+dataInner["branchHistoryList"][BHLcount]["date"]+"</td></tr>";
+			htmlToReturn += "<tr><td>";
+			if(repoName !== "")
+			{
+				htmlToReturn += "<a style=\"color: black;\" target=\"_blank\" href=\"https://"+baseRepoUrl+"/"+repoName+"/tree/"+dataInner["branchHistoryList"][BHLcount]["name"]+"\">";
+			}
+			htmlToReturn += dataInner["branchHistoryList"][BHLcount]["name"]+"</td><td>"+dataInner["branchHistoryList"][BHLcount]["date"];
+			if(repoName !== "")
+			{
+				htmlToReturn += "</a>";
+			}
+			htmlToReturn += "</td></tr>";
 		}
 		htmlToReturn += "</table>";
 		return htmlToReturn;
@@ -541,7 +551,6 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	}
 	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
-		$("#"+noSpaceName+"BranchHistory").html(generateBranchHistory(dataInner));
 		switchToColorLed(noSpaceName, "green");
 		document.getElementById(noSpaceName+'errorMessageLink').style.display = "none";
 		document.getElementById(noSpaceName+'noticeMessageLink').style.display = "none";
@@ -561,7 +570,6 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	    {
 	    	repoName = dataInner["githubRepo"];
 	    }
-	    
 	    var baseRepoUrl = "github.com"
 	    if("gitType" in dataInner)
 	    {
@@ -575,6 +583,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	    		baseRepoUrl = "gitlab.com";
 	    	}
 	    }
+	    $("#"+noSpaceName+"BranchHistory").html(generateBranchHistory(dataInner, repoName, baseRepoUrl));
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">';
 	    if(repoDataPresent)
 	    {
