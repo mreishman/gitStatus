@@ -1224,22 +1224,30 @@ function calcuateWidth()
 
 function showOrHideGroups(groupName)
 {
+	//change tab to selected / unselected
+	$('.groupTab').removeClass('groupTabSelected');
+	$('#Group'+groupName).addClass('groupTabSelected');
+
 	//show / hide groups
-	if(groupName != "All")
+	updateGroupsShown();
+}
+
+function updateGroupsShown()
+{
+	if($(".groupTabSelected")[0].attributes["data-group"].value != "All")
 	{
 		$('.firstBoxDev').hide();
-		$('.'+groupName).show();
 		$('.pinned').show();
+		var lengthOfGroups = $(".groupTabSelected").length;
+		for(var counterOfGroups = 0; counterOfGroups < lengthOfGroups; counterOfGroups++)
+		{
+			$('.'+$(".groupTabSelected")[counterOfGroups].attributes["data-group"].value).show();
+		}
 	}
 	else
 	{
 		$('.firstBoxDev').show();
 	}
-	//change tab to selected / unselected
-
-	//unselect all
-	$('.groupTab').removeClass('groupTabSelected');
-	$('#Group'+groupName).addClass('groupTabSelected');
 }
 
 function dropdownShow(nameOfElem)
@@ -2053,6 +2061,7 @@ function togglePinStatus(keyNoSpace)
 		document.getElementById(keyNoSpace+"Pin").style.display = "inline";
 		$("#innerFirstDevBox"+keyNoSpace).parent().removeClass("pinned");
 	}
+	updateGroupsShown();
 }
 
 /* KEEP AT BOTTOM OF FILE */
