@@ -34,7 +34,7 @@ function addRowFunction()
 	documentUpdateText += "id='"+filterType+""+(highestRowCount+counter+1)+"'";
 	documentUpdateText += '><div class="colorSelectorDiv"><div class="inner-triangle" ></div><button id='+filterType+'button'+(highestRowCount+counter+1)+' class="backgroundButtonForColor"></button></div>';
 	documentUpdateText += '&nbsp;<input id="'+filterType+'Color'+(highestRowCount+counter+1)+'" style="display: none;" type="text" value="000"  name="'+filterType+'Color'+(highestRowCount+counter+1)+'">'
-	documentUpdateText += '&nbsp;&nbsp;<input type="text" value="" name="'+filterType+"Name"+(highestRowCount+1+counter)+'" >&nbsp;&nbsp;&nbsp;<select><option value="default" >Default(=)</option><option value="includes" >Includes</option></select>&nbsp;<a class="mainLinkClass"  onclick="deleteRowFunction('+(highestRowCount+1+counter)+', true)">Remove Filter</a></li>';
+	documentUpdateText += '&nbsp;&nbsp;<input type="text" name="'+filterType+"Name"+(highestRowCount+1+counter)+'" >&nbsp;&nbsp;&nbsp;<select name="'+filterType+"Select"+(highestRowCount+1+counter)+'" ><option value="default" >Default(=)</option><option value="includes" >Includes</option></select>&nbsp;<a class="mainLinkClass"  onclick="deleteRowFunction('+(highestRowCount+1+counter)+', true)">Remove Filter</a></li>';
 	documentUpdateText += '<div style="display: none;" id="'+filterType+'New'+(highestRowCount+1+counter)+'"></div>';
 	var newFilter = filterType + "New";
 	if(counter != 0)

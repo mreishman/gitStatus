@@ -8,11 +8,11 @@ function findUpdateValue($newestVersionCount, $versionCount, $newestVersion, $ve
 		{
 			if($i == 0)
 			{
-				if($newestVersion[$i] > $version[$i])
+				if(intval($newestVersion[$i]) > intval($version[$i]))
 				{
 					return 3;
 				}
-				elseif($newestVersion[$i] < $version[$i])
+				elseif(intval($newestVersion[$i]) < intval($version[$i]))
 				{
 					break;
 				}
@@ -20,11 +20,11 @@ function findUpdateValue($newestVersionCount, $versionCount, $newestVersion, $ve
 			}
 			elseif($i == 1)
 			{
-				if($newestVersion[$i] > $version[$i])
+				if(intval($newestVersion[$i]) > intval($version[$i]))
 				{
 					return 2;
 				}
-				elseif($newestVersion[$i] < $version[$i])
+				elseif(intval($newestVersion[$i]) < intval($version[$i]))
 				{
 					break;
 				}
@@ -34,11 +34,11 @@ function findUpdateValue($newestVersionCount, $versionCount, $newestVersion, $ve
 			{
 				break;
 			}
-			if($newestVersion[$i] > $version[$i])
+			if(intval($newestVersion[$i]) > intval($version[$i]))
 			{
 				return 1;
 			}
-			elseif($newestVersion[$i] < $version[$i])
+			elseif(intval($newestVersion[$i]) < intval($version[$i]))
 			{
 				break;
 			}

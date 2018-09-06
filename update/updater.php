@@ -39,39 +39,39 @@ if($configStatic['newestVersion'] != $configStatic['version'])
 			{
 				if($i == 0)
 				{
-					if($newestVersion[$i] > $version[$i])
+					if(intval($newestVersion[$i]) > intval($version[$i]))
 					{
 						$levelOfUpdate = 3;
 						$versionToUpdate = $key;
 						break;
 					}
-					elseif($newestVersion[$i] < $version[$i])
+					elseif(intval($newestVersion[$i]) < intval($version[$i]))
 					{
 						break;
 					}
 				}
 				elseif($i == 1)
 				{
-					if($newestVersion[$i] > $version[$i])
+					if(intval($newestVersion[$i]) > intval($version[$i]))
 					{
 						$levelOfUpdate = 2;
 						$versionToUpdate = $key;
 						break;
 					}
-					elseif($newestVersion[$i] < $version[$i])
+					elseif(intval($newestVersion[$i]) < intval($version[$i]))
 					{
 						break;
 					}
 				}
 				else
 				{
-					if($newestVersion[$i] > $version[$i])
+					if(intval($newestVersion[$i]) > intval($version[$i]))
 					{
 						$levelOfUpdate = 1;
 						$versionToUpdate = $key;
 						break;
 					}
-					elseif($newestVersion[$i] < $version[$i])
+					elseif(intval($newestVersion[$i]) < intval($version[$i]))
 					{
 						break;
 					}
