@@ -1713,8 +1713,12 @@ function getListOfCommitsHttp()
 	}(data));
 }
 
-
 function commitListSuccess(data)
+{
+	setTimeout(function(){commitListSuccessInner(data);}, 25);
+}
+
+function commitListSuccessInner(data)
 {
 	//style and format commit history, display in left column
 	var htmlForCommits = "";
@@ -1797,8 +1801,8 @@ function commitListSuccess(data)
 	}
 	htmlForCommits += "</li>";
 	$("#otherCommitsFromPast").html(htmlForCommits);
-	document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
 	viewCommit(idForFirstCommit);
+	document.getElementById("noChangesToDisplay").style.display = "none";
 }
 
 function showMoreCommits(groupNumber)
@@ -1809,7 +1813,6 @@ function showMoreCommits(groupNumber)
 
 function viewCommit(idForCommit)
 {
-	document.getElementById("noChangesToDisplay").style.display = "none";
 	$("#listOfCommitHistory li").removeClass("selectedButton");
 	$("#"+idForCommit).addClass("selectedButton");
 	var idName = currentIdOfMainSidebar;
@@ -1845,8 +1848,6 @@ function viewCommit(idForCommit)
 			error: function(xhr, error)
 			{
 				//show appropriate error message
-				document.getElementById("mainCommitDiffLoading").style.display = "none";
-				document.getElementById("noChangesToDisplay").style.display = "block";
 				viewCommitHttp(idForCommit);
 			}
 		});
@@ -1881,7 +1882,9 @@ function viewCommitHttp(idForCommit)
 			error: function(xhr, error)
 			{
 				//show appropriate error message
+				document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
 				document.getElementById("mainCommitDiffLoading").style.display = "none";
+				document.getElementById("noChangesToDisplay").style.display = "block";
 				document.getElementById("noChangesToDisplay").style.display = "block";
 			}
 		});
@@ -1891,6 +1894,7 @@ function viewCommitHttp(idForCommit)
 
 function commitStuffSuccess(data)
 {
+	document.getElementById("noChangesToDisplay").style.display = "block";
 	document.getElementById("noChangesToDisplay").style.display = "none";
 	document.getElementById("mainCommitDiffLoading").style.display = "none";
 	var htmlForCommit = "";
