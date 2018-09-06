@@ -1229,6 +1229,7 @@ function showOrHideGroups(groupName)
 	{
 		$('.firstBoxDev').hide();
 		$('.'+groupName).show();
+		$('.pinned').show();
 	}
 	else
 	{
@@ -2036,6 +2037,22 @@ function versionCheckPoll()
 			}
 		}
 	});
+}
+
+function togglePinStatus(keyNoSpace)
+{
+	if(document.getElementById(keyNoSpace+"PinPinned").style.display === "none")
+	{
+		document.getElementById(keyNoSpace+"PinPinned").style.display = "inline";
+		document.getElementById(keyNoSpace+"Pin").style.display = "none";
+		$("#innerFirstDevBox"+keyNoSpace).parent().addClass("pinned");
+	}
+	else
+	{
+		document.getElementById(keyNoSpace+"PinPinned").style.display = "none";
+		document.getElementById(keyNoSpace+"Pin").style.display = "inline";
+		$("#innerFirstDevBox"+keyNoSpace).parent().removeClass("pinned");
+	}
 }
 
 /* KEEP AT BOTTOM OF FILE */

@@ -136,8 +136,8 @@ function generateWindow($data = array(), $pollType)
 	$blockHTML .= "				<a style=\"color: black;\" target=\"_blank\" href=\"https://".$website."\"><b>".$name."</b></a>";
 	$blockHTML .= "			</div>";
 	$blockHTML .= "			<div style=\"background-color: white; padding-left: 5px;  padding-right: 5px;\" >";
-	$blockHTML .= "			<img id=\"".$keyNoSpace."Pin\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/pin.png\">";
-	$blockHTML .= "			<img style=\"display: none;\" id=\"".$keyNoSpace."PinPinned\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/pinPinned.png\">";
+	$blockHTML .= "			<img onclick=\"togglePinStatus('".$keyNoSpace."');\" id=\"".$keyNoSpace."Pin\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/pin.png\">";
+	$blockHTML .= "			<img onclick=\"togglePinStatus('".$keyNoSpace."');\" id=\"".$keyNoSpace."PinPinned\" style=\"cursor: pointer; height: 18px; display: none;\" src=\"core/img/pinPinned.png\">";
 	//$blockHTML .= "			<img style=\"cursor: pointer; height: 18px;\" src=\"core/img/externalLink.png\">";
 	$blockHTML .= "				<div class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
 	$blockHTML .= "			    	<a  style=\"cursor: pointer; ";
