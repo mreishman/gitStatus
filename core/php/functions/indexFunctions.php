@@ -135,24 +135,26 @@ function generateWindow($data = array(), $pollType)
 	$blockHTML .= "				<img id=\"".$keyNoSpace."loadingSpinnerHeader\" class=\"loadingSpinnerHeader\" style=\"width: 20px; margin-bottom: -7px; display: none; margin-top: 3px; margin-left: 3px; margin-right: 1px;\" src=\"core/img/loading.gif\" >";
 	$blockHTML .= "				<a style=\"color: black;\" target=\"_blank\" href=\"https://".$website."\"><b>".$name."</b></a>";
 	$blockHTML .= "			</div>";
-	$blockHTML .= "			<div style=\"background-color: white;\" >";
-	$blockHTML .= "			<img style=\"width: 20px;\" src=\"core/img/pin.png\">";
+	$blockHTML .= "			<div style=\"background-color: white; padding-left: 5px;  padding-right: 5px;\" >";
+	$blockHTML .= "			<img id=\"".$keyNoSpace."Pin\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/pin.png\">";
+	$blockHTML .= "			<img style=\"display: none;\" id=\"".$keyNoSpace."PinPinned\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/pinPinned.png\">";
+	//$blockHTML .= "			<img style=\"cursor: pointer; height: 18px;\" src=\"core/img/externalLink.png\">";
 	$blockHTML .= "				<div class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
-	$blockHTML .= "				<div  id=\"dropdown-".$keyNoSpace."\" class=\"dropdown-content\">";
 	$blockHTML .= "			    	<a  style=\"cursor: pointer; ";
 	if($pollType !== "1")
 	{
 		$blockHTML .= " display: none; ";
 	}
-	$blockHTML .= "					 \" onclick=\"refreshAction('".$keyNoSpace."','inner');\" >Refresh</a>";
+	$blockHTML .= "					 \" onclick=\"refreshAction('".$keyNoSpace."','inner');\" ><img style=\"height: 18px;\" src=\"core/img/Refresh2.png\"></a>";
+	$blockHTML .= "				<div  id=\"dropdown-".$keyNoSpace."\" class=\"dropdown-content\">";
 	$blockHTML .= "			    	<div id=\"".$keyNoSpace."LogHogOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
-	$blockHTML .= "						<a id=\"".$keyNoSpace."LogHogInner\" style=\"color: black;\" href=\"#\">Log-Hog</a>";
+	$blockHTML .= "						<a id=\"".$keyNoSpace."LogHogInner\" style=\"color: black;\" target=\"_blank\" href=\"#\">Log-Hog</a>";
 	$blockHTML .= "					</div>";
 	$blockHTML .= "					<div id=\"".$keyNoSpace."MonitorOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
-	$blockHTML .= "						<a id=\"".$keyNoSpace."MonitorInner\" style=\"color: black;\" href=\"#\">Monitor</a>";
+	$blockHTML .= "						<a id=\"".$keyNoSpace."MonitorInner\" style=\"color: black;\" target=\"_blank\" href=\"#\">Monitor</a>";
 	$blockHTML .= "					</div>";
 	$blockHTML .= "					<div id=\"".$keyNoSpace."SearchOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
-	$blockHTML .= "						<a id=\"".$keyNoSpace."SearchInner\" style=\"color: black;\" href=\"#\">Search</a>";
+	$blockHTML .= "						<a id=\"".$keyNoSpace."SearchInner\" style=\"color: black;\" target=\"_blank\" href=\"#\">Search</a>";
 	$blockHTML .= "					</div>";
 	$blockHTML .= "					<a id=\"".$keyNoSpace."errorMessageLink\" style=\"cursor: pointer; display: none;\">Error</a> ";
 	$blockHTML .= "					<a id=\"".$keyNoSpace."noticeMessageLink\" style=\"cursor: pointer; display: none;\">Notice</a> ";

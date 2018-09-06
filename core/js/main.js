@@ -1012,8 +1012,8 @@ function refreshAction(all = -1, status = 'outer')
 						var lengthOfFileArray = arrayOfFiles.length;
 						for(var j = 0; j < lengthOfFileArray; j++)
 						{
-							var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
-							if(noSpaceName === listOfClasses[j])
+							var noSpaceName = arrayOfFiles[j]["Name"].replace(/\s/g, '');
+							if(noSpaceName === listOfClasses[i])
 							{
 								refreshNum = j;
 								found = true;
