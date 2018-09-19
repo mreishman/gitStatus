@@ -728,6 +728,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	    	dataToFilterByArray = dataToFilterByArray[0].split("</b>");
 	    	dataToFilterBy = $.trim(dataToFilterByArray[1]); 
 	    }
+	    var setFadeBool = false;
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
 			arrayOfWatchFilters[noSpaceName] = {
@@ -750,7 +751,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			//check if new
 			if(arrayOfWatchFilters[noSpaceName]["data"] !== dataBranchForFile)
 			{
-				setFade(noSpaceName);
+				setFadeBool = true;
 			}
 			arrayOfWatchFilters[noSpaceName]["data"] = dataBranchForFile;
 			arrayOfWatchFilters[noSpaceName]["time"] = dataBranchForFileUpdateTime;
@@ -842,6 +843,11 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				document.getElementById(noSpaceName+"SearchOuter").style.display = "inline-block";
   				document.getElementById(noSpaceName+"SearchInner").href = "http://"+dataInner['search'];
 			}
+		}
+
+		if(setFadeBool)
+		{
+			setFade(noSpaceName);
 		}
 	}
 	else
