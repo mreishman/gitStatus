@@ -747,6 +747,11 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		}
 		else
 		{
+			//check if new
+			if(arrayOfWatchFilters[noSpaceName]["data"] !== dataBranchForFile)
+			{
+				setFade(noSpaceName);
+			}
 			arrayOfWatchFilters[noSpaceName]["data"] = dataBranchForFile;
 			arrayOfWatchFilters[noSpaceName]["time"] = dataBranchForFileUpdateTime;
 			arrayOfWatchFilters[noSpaceName]["status"] = dataBranchForFileStats;
@@ -2064,6 +2069,74 @@ function togglePinStatus(keyNoSpace)
 	updateGroupsShown();
 }
 
+function setFade(keyNoSpace)
+{
+	$("#innerFirstDevBox"+keyNoSpace).css("backgroundColor", "rgb(255,255,0)");
+	$("#innerFirstDevBox"+keyNoSpace).addClass("tmpHighlight");
+}
+
+function fadeColorToColor(keyNoSpace)
+{
+	keyNoSpace = keyNoSpace.split("innerFirstDevBox")[1];
+	var currentColor = arrayOfWatchFilters[keyNoSpace]["backgroundColor"];
+	currentColor = currentColor.split("(")[1];
+	currentColor = currentColor.substring(0, currentColor.indexOf(")")).split(",");
+	$("#innerFirstDevBox"+keyNoSpace).removeClass("tmpHighlight");
+	setTimeout(function(){
+		var d = 1000;
+		for(var i=0; i<=255; i=i+1){
+		    d  += 10;
+		    (function(ii,dd, cc, keyNoSpace){
+		        setTimeout(function(){
+		        	var r = (255-ii);
+		        	if(parseInt(cc[0]) > r)
+		        	{
+		        		r = parseInt(cc[0]);
+		        	}
+		        	var g = (255-ii);
+		        	if(parseInt(cc[1]) > g)
+		        	{
+		        		g = parseInt(cc[1]);
+		        	}
+		        	var b = (0+ii);
+		        	if(parseInt(cc[2]) < b)
+		        	{
+		        		b = parseInt(cc[2]);
+		        	}
+		            $("#innerFirstDevBox"+keyNoSpace).css('backgroundColor','rgb('+r+','+g+','+b+')');
+		        }, dd);
+		    })(i,d, currentColor, keyNoSpace);
+		}
+	}, 1500);
+}
+
+function startPauseOnNotFocus()
+{
+	Visibility.every(300, 3000, function () { checkIfPageHidden(); });
+}
+
+function isPageHidden()
+{
+	return document.hidden || document.msHidden || document.webkitHidden || document.mozHidden;
+}
+
+function checkIfPageHidden()
+{
+	if(isPageHidden())
+	{
+		return;
+	}
+	var currentHighlight = $(".tmpHighlight");
+	var currentHighlightLength = currentHighlight.length;
+	if(currentHighlightLength > 0)
+	{
+		for(var currentHighlightCount = 0; currentHighlightCount < currentHighlightLength; currentHighlightCount++)
+		{
+			fadeColorToColor(currentHighlight[currentHighlightCount].id)
+		}
+	}
+}
+
 /* KEEP AT BOTTOM OF FILE */
 
 $( document ).ready(function()
@@ -2100,5 +2173,7 @@ $( document ).ready(function()
 		poll();
 		startPoll();
 	}
+
+	startPauseOnNotFocus();
 
 });
