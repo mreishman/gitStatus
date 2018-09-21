@@ -125,7 +125,7 @@ foreach($files as $file){ // iterate files
     unlink($file); // delete file
 }
 
-file_put_contents("../configStatic.php", $newInfoForConfig);
+$result = @file_put_contents("../configStatic.php", $newInfoForConfig);
 
 rmdir("../../../update/downloads/versionCheck/extracted/");
 
@@ -141,5 +141,10 @@ $levelOfUpdate = $levelOfUpdate = findUpdateValue($newestVersionCount, $versionC
 
 $data['version'] = $levelOfUpdate;
 $data['versionNumber'] = $versionCheckArray['version'];
+
+if($result === false)
+{
+  $data['version'] = -1;
+}
 
 echo json_encode($data);

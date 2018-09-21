@@ -728,6 +728,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	    	dataToFilterByArray = dataToFilterByArray[0].split("</b>");
 	    	dataToFilterBy = $.trim(dataToFilterByArray[1]); 
 	    }
+	    var setFadeBool = false;
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
 			arrayOfWatchFilters[noSpaceName] = {
@@ -747,6 +748,11 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		}
 		else
 		{
+			//check if new
+			if(arrayOfWatchFilters[noSpaceName]["data"] !== dataBranchForFile)
+			{
+				setFadeBool = true;
+			}
 			arrayOfWatchFilters[noSpaceName]["data"] = dataBranchForFile;
 			arrayOfWatchFilters[noSpaceName]["time"] = dataBranchForFileUpdateTime;
 			arrayOfWatchFilters[noSpaceName]["status"] = dataBranchForFileStats;
@@ -837,6 +843,11 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				document.getElementById(noSpaceName+"SearchOuter").style.display = "inline-block";
   				document.getElementById(noSpaceName+"SearchInner").href = "http://"+dataInner['search'];
 			}
+		}
+
+		if(setFadeBool)
+		{
+			setFade(noSpaceName);
 		}
 	}
 	else
@@ -1012,8 +1023,8 @@ function refreshAction(all = -1, status = 'outer')
 						var lengthOfFileArray = arrayOfFiles.length;
 						for(var j = 0; j < lengthOfFileArray; j++)
 						{
-							var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
-							if(noSpaceName === listOfClasses[j])
+							var noSpaceName = arrayOfFiles[j]["Name"].replace(/\s/g, '');
+							if(noSpaceName === listOfClasses[i])
 							{
 								refreshNum = j;
 								found = true;
@@ -1224,21 +1235,30 @@ function calcuateWidth()
 
 function showOrHideGroups(groupName)
 {
+	//change tab to selected / unselected
+	$('.groupTab').removeClass('groupTabSelected');
+	$('#Group'+groupName).addClass('groupTabSelected');
+
 	//show / hide groups
-	if(groupName != "All")
+	updateGroupsShown();
+}
+
+function updateGroupsShown()
+{
+	if($(".groupTabSelected")[0].attributes["data-group"].value != "All")
 	{
 		$('.firstBoxDev').hide();
-		$('.'+groupName).show();
+		$('.pinned').show();
+		var lengthOfGroups = $(".groupTabSelected").length;
+		for(var counterOfGroups = 0; counterOfGroups < lengthOfGroups; counterOfGroups++)
+		{
+			$('.'+$(".groupTabSelected")[counterOfGroups].attributes["data-group"].value).show();
+		}
 	}
 	else
 	{
 		$('.firstBoxDev').show();
 	}
-	//change tab to selected / unselected
-
-	//unselect all
-	$('.groupTab').removeClass('groupTabSelected');
-	$('#Group'+groupName).addClass('groupTabSelected');
 }
 
 function dropdownShow(nameOfElem)
@@ -1713,8 +1733,12 @@ function getListOfCommitsHttp()
 	}(data));
 }
 
-
 function commitListSuccess(data)
+{
+	setTimeout(function(){commitListSuccessInner(data);}, 25);
+}
+
+function commitListSuccessInner(data)
 {
 	//style and format commit history, display in left column
 	var htmlForCommits = "";
@@ -1797,8 +1821,8 @@ function commitListSuccess(data)
 	}
 	htmlForCommits += "</li>";
 	$("#otherCommitsFromPast").html(htmlForCommits);
-	document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
 	viewCommit(idForFirstCommit);
+	document.getElementById("noChangesToDisplay").style.display = "none";
 }
 
 function showMoreCommits(groupNumber)
@@ -1809,7 +1833,6 @@ function showMoreCommits(groupNumber)
 
 function viewCommit(idForCommit)
 {
-	document.getElementById("noChangesToDisplay").style.display = "none";
 	$("#listOfCommitHistory li").removeClass("selectedButton");
 	$("#"+idForCommit).addClass("selectedButton");
 	var idName = currentIdOfMainSidebar;
@@ -1845,8 +1868,6 @@ function viewCommit(idForCommit)
 			error: function(xhr, error)
 			{
 				//show appropriate error message
-				document.getElementById("mainCommitDiffLoading").style.display = "none";
-				document.getElementById("noChangesToDisplay").style.display = "block";
 				viewCommitHttp(idForCommit);
 			}
 		});
@@ -1881,7 +1902,9 @@ function viewCommitHttp(idForCommit)
 			error: function(xhr, error)
 			{
 				//show appropriate error message
+				document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
 				document.getElementById("mainCommitDiffLoading").style.display = "none";
+				document.getElementById("noChangesToDisplay").style.display = "block";
 				document.getElementById("noChangesToDisplay").style.display = "block";
 			}
 		});
@@ -1891,6 +1914,7 @@ function viewCommitHttp(idForCommit)
 
 function commitStuffSuccess(data)
 {
+	document.getElementById("noChangesToDisplay").style.display = "block";
 	document.getElementById("noChangesToDisplay").style.display = "none";
 	document.getElementById("mainCommitDiffLoading").style.display = "none";
 	var htmlForCommit = "";
@@ -2034,6 +2058,91 @@ function versionCheckPoll()
 	});
 }
 
+function togglePinStatus(keyNoSpace)
+{
+	if(document.getElementById(keyNoSpace+"PinPinned").style.display === "none")
+	{
+		document.getElementById(keyNoSpace+"PinPinned").style.display = "inline";
+		document.getElementById(keyNoSpace+"Pin").style.display = "none";
+		$("#innerFirstDevBox"+keyNoSpace).parent().addClass("pinned");
+	}
+	else
+	{
+		document.getElementById(keyNoSpace+"PinPinned").style.display = "none";
+		document.getElementById(keyNoSpace+"Pin").style.display = "inline";
+		$("#innerFirstDevBox"+keyNoSpace).parent().removeClass("pinned");
+	}
+	updateGroupsShown();
+}
+
+function setFade(keyNoSpace)
+{
+	$("#innerFirstDevBox"+keyNoSpace).css("backgroundColor", "rgb(255,255,0)");
+	$("#innerFirstDevBox"+keyNoSpace).addClass("tmpHighlight");
+}
+
+function fadeColorToColor(keyNoSpace)
+{
+	keyNoSpace = keyNoSpace.split("innerFirstDevBox")[1];
+	var currentColor = arrayOfWatchFilters[keyNoSpace]["backgroundColor"];
+	currentColor = currentColor.split("(")[1];
+	currentColor = currentColor.substring(0, currentColor.indexOf(")")).split(",");
+	$("#innerFirstDevBox"+keyNoSpace).removeClass("tmpHighlight");
+	setTimeout(function(){
+		var d = 1000;
+		for(var i=0; i<=255; i=i+1){
+		    d  += 10;
+		    (function(ii,dd, cc, keyNoSpace){
+		        setTimeout(function(){
+		        	var r = (255-ii);
+		        	if(parseInt(cc[0]) > r)
+		        	{
+		        		r = parseInt(cc[0]);
+		        	}
+		        	var g = (255-ii);
+		        	if(parseInt(cc[1]) > g)
+		        	{
+		        		g = parseInt(cc[1]);
+		        	}
+		        	var b = (0+ii);
+		        	if(parseInt(cc[2]) < b)
+		        	{
+		        		b = parseInt(cc[2]);
+		        	}
+		            $("#innerFirstDevBox"+keyNoSpace).css('backgroundColor','rgb('+r+','+g+','+b+')');
+		        }, dd);
+		    })(i,d, currentColor, keyNoSpace);
+		}
+	}, 1500);
+}
+
+function startPauseOnNotFocus()
+{
+	Visibility.every(300, 3000, function () { checkIfPageHidden(); });
+}
+
+function isPageHidden()
+{
+	return document.hidden || document.msHidden || document.webkitHidden || document.mozHidden;
+}
+
+function checkIfPageHidden()
+{
+	if(isPageHidden())
+	{
+		return;
+	}
+	var currentHighlight = $(".tmpHighlight");
+	var currentHighlightLength = currentHighlight.length;
+	if(currentHighlightLength > 0)
+	{
+		for(var currentHighlightCount = 0; currentHighlightCount < currentHighlightLength; currentHighlightCount++)
+		{
+			fadeColorToColor(currentHighlight[currentHighlightCount].id)
+		}
+	}
+}
+
 /* KEEP AT BOTTOM OF FILE */
 
 $( document ).ready(function()
@@ -2070,5 +2179,7 @@ $( document ).ready(function()
 		poll();
 		startPoll();
 	}
+
+	startPauseOnNotFocus();
 
 });
