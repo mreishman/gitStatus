@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.2.4',
+	'version'		=> '3.3',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -94,6 +94,10 @@ $versionCheckArray = array(
 		'3.2.4'		=> array(
 			'branchName'	=> '3.2.4Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>Added links to branch name history (if linked to repo)</li></ul></li><li>Bug Fixes<ul><li>Fixed bug with saving new colors in dev box color settings</li><li>Fixed update bug with versions greater than 10 (inclding x.10, x.x.10, etc)</li></ul></li></ul>'
+		),
+		'3.3'		=> array(
+			'branchName'	=> '3.3Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>Added back submenu (with links to external stuff)</li><li>Added pinned containers (when going between groups, keep some pinned containers view)</li><li>Highlights updated branches (fades after a few seconds)</li></ul></li><li>Bug Fixes<ul><li>Fixed bug with loading spinner not showing up correctly for viewing commits</li><li>Changed default poll type to 2</li></ul></li></ul>'
 		),
 	)
 );
