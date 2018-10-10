@@ -29,16 +29,18 @@ function poll(all = -1, counterForSaveNew = 1)
 				var arrayOfFilesLength = arrayOfFiles.length;
 				var dataKeys = Object.keys(data);
 				var dataLength = dataKeys.length;
-				var modifier = 0;
 				for(var i = 0; i < arrayOfFilesLength; i++)
 				{
 					//check if arrayOfFile server is still in data
 					var iFound = false;
 					for(var j = 0; j < dataLength; j++)
 					{
-						if(arrayOfFiles[(i-modifier)]["Name"] === dataKeys[j])
+						if(arrayOfFiles[(i)]["Name"] === dataKeys[j])
 						{
-							iFound = true;
+							if((!("Archive" in arrayOfFiles[(i)])) || "Archive" in arrayOfFiles[(i)] && arrayOfFiles[(i)]["Archive"] === "false")
+							{
+								iFound = true;
+							}
 							break;
 						}
 					}
@@ -51,7 +53,7 @@ function poll(all = -1, counterForSaveNew = 1)
 							var arrayOfWatchFiltersKeysLength = arrayOfWatchFiltersKeys.length;
 							for(var j = 0; j < arrayOfWatchFiltersKeysLength; j++)
 							{
-								if(arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]]["groupInfo"].indexOf(arrayOfFiles[(i-modifier)]["Name"]))
+								if(arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]]["groupInfo"].indexOf(arrayOfFiles[(i)]["Name"]) > -1)
 								{
 									pollFailure("Error", "Server removed from watchlist", {location: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].location, name: arrayOfWatchFiltersKeys[j], githubRepo: "", websiteBase: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].websiteBase, id: "innerFirstDevBox"+arrayOfWatchFiltersKeys[j]});
 								}
@@ -59,10 +61,8 @@ function poll(all = -1, counterForSaveNew = 1)
 						}
 						else
 						{
-							pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[(i-modifier)].location, name: arrayOfFiles[(i-modifier)].name, githubRepo: arrayOfFiles[(i-modifier)].githubRepo, websiteBase: arrayOfFiles[(i-modifier)].websiteBase, id: arrayOfFiles[(i-modifier)].id});
+							pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[(i)].location, name: arrayOfFiles[(i)].name, githubRepo: arrayOfFiles[(i)].githubRepo, websiteBase: arrayOfFiles[(i)].websiteBase, id: arrayOfFiles[(i)].id});
 						}
-						arrayOfFiles.splice((i-modifier), 1);
-						modifier++;
 					}
 				}
 				//update arrayOfFiles
