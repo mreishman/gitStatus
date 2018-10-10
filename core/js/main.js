@@ -33,6 +33,7 @@ function poll(all = -1, counterForSaveNew = 1)
 				{
 					//check if arrayOfFile server is still in data
 					var iFound = false;
+					numberOfLogs = 0;
 					for(var j = 0; j < dataLength; j++)
 					{
 						if(arrayOfFiles[(i)]["Name"] === dataKeys[j])
@@ -55,12 +56,14 @@ function poll(all = -1, counterForSaveNew = 1)
 							{
 								if(arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]]["groupInfo"].indexOf(arrayOfFiles[(i)]["Name"]) > -1)
 								{
+									numberOfLogs--;
 									pollFailure("Error", "Server removed from watchlist", {location: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].location, name: arrayOfWatchFiltersKeys[j], githubRepo: "", websiteBase: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].websiteBase, id: "innerFirstDevBox"+arrayOfWatchFiltersKeys[j]});
 								}
 							}
 						}
 						else
 						{
+							numberOfLogs--;
 							pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[(i)].location, name: arrayOfFiles[(i)].name, githubRepo: arrayOfFiles[(i)].githubRepo, websiteBase: arrayOfFiles[(i)].websiteBase, id: arrayOfFiles[(i)].id});
 						}
 					}
@@ -73,7 +76,10 @@ function poll(all = -1, counterForSaveNew = 1)
 					var dataLength = dataKeys.length;
 					for(var j = 0; j < dataLength; j++)
 					{
-						arrayOfFiles.push({"Archive" : data[dataKeys[j]]["Archive"] , "Name" : dataKeys[j] , "WebsiteBase" : data[dataKeys[j]]["WebsiteBase"] , "urlHit" : data[dataKeys[j]]["urlHit"]})
+						if(data[dataKeys[j]]["Archive"] === "false")
+						{
+							arrayOfFiles.push({"Archive" : data[dataKeys[j]]["Archive"] , "Name" : dataKeys[j] , "WebsiteBase" : data[dataKeys[j]]["WebsiteBase"] , "urlHit" : data[dataKeys[j]]["urlHit"]})
+						}
 					}
 				}
 				else
@@ -96,11 +102,11 @@ function pollTwo(all, counterForSaveNew)
 	{
 		counterForSave = numberOfLogs+1;
 		var arrayOfFilesLength = arrayOfFiles.length
-		$(".loadingSpinnerHeader").css('display', 'inline-block');
-		$(".warningSpanHeader").css('display','none');
-		$(".refreshImageDevBox").css('display', 'none');
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
+			$("."+arrayOfFiles[i]["Name"]+" .loadingSpinnerHeader").css('display', 'inline-block');
+			$("."+arrayOfFiles[i]["Name"]+" .warningSpanHeader").css('display','none');
+			$("."+arrayOfFiles[i]["Name"]+" .refreshImageDevBox").css('display', 'none');
 			var boolForRun = true;
 			if(onlyRefreshVisible === "true")
 			{
