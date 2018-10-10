@@ -18,6 +18,79 @@ function escapeHTML(unsafeStr)
 
 function poll(all = -1, counterForSaveNew = 1)
 {
+	(function(_all, _counterForSaveNew){
+		$.ajax({
+			url: "./core/php/functions/getServerWatchlist.php",
+			dataType: 'json',
+			global: false,
+			data: {},
+			type: 'POST',
+			success: function(data){
+				var arrayOfFilesLength = arrayOfFiles.length;
+				var dataKeys = Object.keys(data);
+				var dataLength = dataKeys.length;
+				var modifier = 0;
+				for(var i = 0; i < arrayOfFilesLength; i++)
+				{
+					//check if arrayOfFile server is still in data
+					var iFound = false;
+					for(var j = 0; j < dataLength; j++)
+					{
+						if(arrayOfFiles[(i-modifier)]["Name"] === dataKeys[j])
+						{
+							iFound = true;
+							break;
+						}
+					}
+					if(!iFound)
+					{
+						if(pollType === "2")
+						{
+							//more info required
+							var arrayOfWatchFiltersKeys = Object.keys(arrayOfWatchFilters);
+							var arrayOfWatchFiltersKeysLength = arrayOfWatchFiltersKeys.length;
+							for(var j = 0; j < arrayOfWatchFiltersKeysLength; j++)
+							{
+								if(arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]]["groupInfo"].indexOf(arrayOfFiles[(i-modifier)]["Name"]))
+								{
+									pollFailure("Error", "Server removed from watchlist", {location: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].location, name: arrayOfWatchFiltersKeys[j], githubRepo: "", websiteBase: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].websiteBase, id: "innerFirstDevBox"+arrayOfWatchFiltersKeys[j]});
+								}
+							}
+						}
+						else
+						{
+							pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[(i-modifier)].location, name: arrayOfFiles[(i-modifier)].name, githubRepo: arrayOfFiles[(i-modifier)].githubRepo, websiteBase: arrayOfFiles[(i-modifier)].websiteBase, id: arrayOfFiles[(i-modifier)].id});
+						}
+						arrayOfFiles.splice((i-modifier), 1);
+						modifier++;
+					}
+				}
+				//update arrayOfFiles
+				if(pollType === "2")
+				{
+					arrayOfFiles = new Array();
+					var dataKeys = Object.keys(data);
+					var dataLength = dataKeys.length;
+					for(var j = 0; j < dataLength; j++)
+					{
+						arrayOfFiles.push({"Archive" : data[dataKeys[j]]["Archive"] , "Name" : dataKeys[j] , "WebsiteBase" : data[dataKeys[j]]["WebsiteBase"] , "urlHit" : data[dataKeys[j]]["urlHit"]})
+					}
+				}
+				else
+				{
+
+				}
+				pollTwo(_all, _counterForSaveNew)
+			},
+			error: function(xhr, error){
+
+			}
+		});
+	}(all, counterForSaveNew));
+}
+
+function pollTwo(all, counterForSaveNew)
+{
 	document.getElementById('loadingSpinnerMain').style.display = "block";
 	if(all === -1)
 	{
