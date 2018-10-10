@@ -13,4 +13,4 @@ require_once($baseDir.'core/conf/config.php');
 require_once($baseDir.'core/php/configStatic.php');
 require_once($baseDir.'core/php/loadVars.php');
 
-echo json_encode($watchList);
+echo json_encode(array("watchlist" => $watchList, "version" => $configStatic['version']));

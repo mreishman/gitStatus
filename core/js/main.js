@@ -1,7 +1,6 @@
 var counterForSave = numberOfLogs+1;
 var updating = false;
 var pollTimer = null;
-var pollVersionCheck = null;
 var blocekdInnerObj = {};
 var currentIdOfMainSidebar = "";
 
@@ -20,73 +19,88 @@ function poll(all = -1, counterForSaveNew = 1)
 {
 	(function(_all, _counterForSaveNew){
 		$.ajax({
-			url: "./core/php/functions/getServerWatchlist.php",
+			url: "./core/php/functions/getWatchlist.php",
 			dataType: 'json',
 			global: false,
 			data: {},
 			type: 'POST',
 			success: function(data){
-				var arrayOfFilesLength = arrayOfFiles.length;
-				var dataKeys = Object.keys(data);
-				var dataLength = dataKeys.length;
-				for(var i = 0; i < arrayOfFilesLength; i++)
+				var dataVersion = data["version"];
+				if(String(dataVersion) !== String(currentVersion))
 				{
-					//check if arrayOfFile server is still in data
-					var iFound = false;
-					numberOfLogs = 0;
-					for(var j = 0; j < dataLength; j++)
+					//version changed, stop polls and show message
+					if(!isPaused())
 					{
-						if(arrayOfFiles[(i)]["Name"] === dataKeys[j])
-						{
-							if((!("Archive" in arrayOfFiles[(i)])) || "Archive" in arrayOfFiles[(i)] && arrayOfFiles[(i)]["Archive"] === "false")
-							{
-								iFound = true;
-							}
-							break;
-						}
+						pausePollFunction();
 					}
-					if(!iFound)
-					{
-						if(pollType === "2")
-						{
-							//more info required
-							var arrayOfWatchFiltersKeys = Object.keys(arrayOfWatchFilters);
-							var arrayOfWatchFiltersKeysLength = arrayOfWatchFiltersKeys.length;
-							for(var j = 0; j < arrayOfWatchFiltersKeysLength; j++)
-							{
-								if(arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]]["groupInfo"].indexOf(arrayOfFiles[(i)]["Name"]) > -1)
-								{
-									numberOfLogs--;
-									pollFailure("Error", "Server removed from watchlist", {location: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].location, name: arrayOfWatchFiltersKeys[j], githubRepo: "", websiteBase: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].websiteBase, id: "innerFirstDevBox"+arrayOfWatchFiltersKeys[j]});
-								}
-							}
-						}
-						else
-						{
-							numberOfLogs--;
-							pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[(i)].location, name: arrayOfFiles[(i)].name, githubRepo: arrayOfFiles[(i)].githubRepo, websiteBase: arrayOfFiles[(i)].websiteBase, id: arrayOfFiles[(i)].id});
-						}
-					}
-				}
-				//update arrayOfFiles
-				if(pollType === "2")
-				{
-					arrayOfFiles = new Array();
-					var dataKeys = Object.keys(data);
-					var dataLength = dataKeys.length;
-					for(var j = 0; j < dataLength; j++)
-					{
-						if(data[dataKeys[j]]["Archive"] === "false")
-						{
-							arrayOfFiles.push({"Archive" : data[dataKeys[j]]["Archive"] , "Name" : dataKeys[j] , "WebsiteBase" : data[dataKeys[j]]["WebsiteBase"] , "urlHit" : data[dataKeys[j]]["urlHit"]})
-						}
-					}
+					showPopup();
+					document.getElementById("popupContentInnerHTMLDiv").innerHTML = "<div class='devBoxTitle' ><b>gitStatus has been updated. Please Refresh</b></div><br><div style='width:100%;text-align:center;padding-left:10px;padding-right:10px;'>gitStatus has been updated, and is now on a new version. Please refresh the page.</div><div><div class='buttonButton' onclick='location.reload();' style='margin-left:50px; margin-right:50px;margin-top:35px;'>Reload</div></div>";
 				}
 				else
 				{
+					var watchlistData = data["watchlist"];
+					var arrayOfFilesLength = arrayOfFiles.length;
+					var dataKeys = Object.keys(watchlistData);
+					var dataLength = dataKeys.length;
+					for(var i = 0; i < arrayOfFilesLength; i++)
+					{
+						//check if arrayOfFile server is still in data
+						var iFound = false;
+						numberOfLogs = 0;
+						for(var j = 0; j < dataLength; j++)
+						{
+							if(arrayOfFiles[(i)]["Name"] === dataKeys[j])
+							{
+								if((!("Archive" in arrayOfFiles[(i)])) || "Archive" in arrayOfFiles[(i)] && arrayOfFiles[(i)]["Archive"] === "false")
+								{
+									iFound = true;
+								}
+								break;
+							}
+						}
+						if(!iFound)
+						{
+							if(pollType === "2")
+							{
+								//more info required
+								var arrayOfWatchFiltersKeys = Object.keys(arrayOfWatchFilters);
+								var arrayOfWatchFiltersKeysLength = arrayOfWatchFiltersKeys.length;
+								for(var j = 0; j < arrayOfWatchFiltersKeysLength; j++)
+								{
+									if(arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]]["groupInfo"].indexOf(arrayOfFiles[(i)]["Name"]) > -1)
+									{
+										numberOfLogs--;
+										pollFailure("Error", "Server removed from watchlist", {location: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].location, name: arrayOfWatchFiltersKeys[j], githubRepo: "", websiteBase: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].websiteBase, id: "innerFirstDevBox"+arrayOfWatchFiltersKeys[j]});
+									}
+								}
+							}
+							else
+							{
+								numberOfLogs--;
+								pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[(i)].location, name: arrayOfFiles[(i)].name, githubRepo: arrayOfFiles[(i)].githubRepo, websiteBase: arrayOfFiles[(i)].websiteBase, id: arrayOfFiles[(i)].id});
+							}
+						}
+					}
+					//update arrayOfFiles
+					if(pollType === "2")
+					{
+						arrayOfFiles = new Array();
+						var dataKeys = Object.keys(watchlistData);
+						var dataLength = dataKeys.length;
+						for(var j = 0; j < dataLength; j++)
+						{
+							if(watchlistData[dataKeys[j]]["Archive"] === "false")
+							{
+								arrayOfFiles.push({"Archive" : watchlistData[dataKeys[j]]["Archive"] , "Name" : dataKeys[j] , "WebsiteBase" : watchlistData[dataKeys[j]]["WebsiteBase"] , "urlHit" : watchlistData[dataKeys[j]]["urlHit"]})
+							}
+						}
+					}
+					else
+					{
 
+					}
+					pollTwo(_all, _counterForSaveNew);
 				}
-				pollTwo(_all, _counterForSaveNew)
 			},
 			error: function(xhr, error){
 
@@ -1196,13 +1210,7 @@ function pausePollFunction()
 
 function startPoll()
 {
-	if(pollVersionCheck === null)
-	{
-		versionCheckPoll();
-		pollVersionCheck = setInterval(versionCheckPoll, (1*60*60*1000));
-	}
 	pollTimer = Visibility.every(pollingRate, pollingRateBG, function () { poll(); });
-	
 }
 
 function switchToStandardView()
@@ -2110,33 +2118,6 @@ function escapeHTML(unsafeStr)
 	}
 }
 
-function versionCheckPoll()
-{
-	var urlForSend = "core/php/versionCheck.php";
-	var dataSend = {};
-	$.ajax({
-		url: urlForSend,
-		dataType: "json",
-		data: dataSend,
-		type: "POST",
-		success: function(data)
-		{
-			if(String(data) !== String(currentVersion))
-			{
-				//version changed, stop polls and show message
-				clearInterval(pollVersionCheck);
-				pollVersionCheck = null;
-				if(!isPaused())
-				{
-					pausePollFunction();
-				}
-				showPopup();
-				document.getElementById("popupContentInnerHTMLDiv").innerHTML = "<div class='devBoxTitle' ><b>gitStatus has been updated. Please Refresh</b></div><br><div style='width:100%;text-align:center;padding-left:10px;padding-right:10px;'>gitStatus has been updated, and is now on a new version. Please refresh the page.</div><div><div class='buttonButton' onclick='location.reload();' style='margin-left:50px; margin-right:50px;margin-top:35px;'>Reload</div></div>";
-			}
-		}
-	});
-}
-
 function togglePinStatus(keyNoSpace)
 {
 	if(document.getElementById(keyNoSpace+"PinPinned").style.display === "none")
@@ -2228,8 +2209,6 @@ $( document ).ready(function()
 {
 	pollingRate = pollingRate * 60000;
 	pollingRateBG = pollingRateBG * 60000;
-
-	pollVersionCheck = setInterval(versionCheckPoll, (1*60*60*1000));
 
 	if (autoCheckUpdate == true)
 	{
