@@ -532,7 +532,9 @@ function pollSuccess(dataInner, dataInnerPass)
 					if(!iFound)
 					{
 						//show error on specific poll
-						pollFailure("Error", "Server removed from watchlist", {location: "", name: "", githubRepo: "", websiteBase: "", id: "" });
+						var failName = $("."+currentClass)[h].innerHTML.split("innerFirstDevBox")[2].split("\"")[0].trim();
+						var failId = $(".mreishman")[14].innerHTML.split("id=\"")[2].split("\"")[0].trim();
+						pollFailure("Error", "Server removed from watchlist", {location: "", name: failName, githubRepo: "", websiteBase: "", id: failId });
 					}
 				}
 				for(var i = 0; i < keysInfoLength; i++)
