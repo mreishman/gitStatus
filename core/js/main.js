@@ -118,9 +118,6 @@ function pollTwo(all, counterForSaveNew)
 		var arrayOfFilesLength = arrayOfFiles.length
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
-			$("."+arrayOfFiles[i]["Name"]+" .loadingSpinnerHeader").css('display', 'inline-block');
-			$("."+arrayOfFiles[i]["Name"]+" .warningSpanHeader").css('display','none');
-			$("."+arrayOfFiles[i]["Name"]+" .refreshImageDevBox").css('display', 'none');
 			var boolForRun = true;
 			if(onlyRefreshVisible === "true")
 			{
@@ -136,6 +133,9 @@ function pollTwo(all, counterForSaveNew)
 			}
 			if(boolForRun)
 			{
+				$("."+arrayOfFiles[i]["Name"]+" .loadingSpinnerHeader").css('display', 'inline-block');
+				$("."+arrayOfFiles[i]["Name"]+" .warningSpanHeader").css('display','none');
+				$("."+arrayOfFiles[i]["Name"]+" .refreshImageDevBox").css('display', 'none');
 				tryHTTPForPollRequest(i);
 			}
 			else
@@ -517,12 +517,51 @@ function pollSuccess(dataInner, dataInnerPass)
 				decreaseSpinnerCounter();
 				var keysInfo = Object.keys(dataInner["info"]);
 				var keysInfoLength = keysInfo.length;
+				var currentClass = dataInnerPass["id"];
+				var classObjects = $("."+currentClass);
+				var classObjectsKeysLength = classObjects.length;
+				for(var h = 0; h < classObjectsKeysLength; h++)
+				{
+					var iFound = false;
+					for(var i = 0; i < keysInfoLength; i++)
+					{
+						var name = "branchNameDevBox1"+keysInfo[i];
+						name = name.replace(/\s/g, '_');
+						if(classObjects[h].contains($("."+currentClass+" #"+name)[0]))
+						{
+							dataInner["info"][keysInfo[i]]["name"] = name;
+							pollSuccessInner(dataInner["info"][keysInfo[i]],dataInner["info"][keysInfo[i]], dataInnerPass);
+							iFound = true;
+							break;
+						}
+					}
+					if(!iFound)
+					{
+						//show error on specific poll
+						pollFailure("Error", "Server removed from watchlist", {location: "", name: "", githubRepo: "", websiteBase: "", id: "" });
+					}
+				}
 				for(var i = 0; i < keysInfoLength; i++)
 				{
 					var name = "branchNameDevBox1"+keysInfo[i];
-					dataInner["info"][keysInfo[i]]["name"] = name.replace(/\s/g, '_');
-					pollSuccessInner(dataInner["info"][keysInfo[i]],dataInner["info"][keysInfo[i]], dataInnerPass)
+					name = name.replace(/\s/g, '_');
+					var iFound = false;
+					for(var h = 0; h < classObjectsKeysLength; h++)
+					{
+						if(classObjects[h].contains($("."+currentClass+" #"+name)[0]))
+						{
+							iFound = true;
+							break;
+						}
+					}
+					if(!iFound)
+					{
+						//show error on specific poll
+						dataInner["info"][keysInfo[i]]["name"] = name;
+						pollSuccessInner(dataInner["info"][keysInfo[i]],dataInner["info"][keysInfo[i]], dataInnerPass);
+					}
 				}
+				//then check for new ones
 			}
 		}
 		else
