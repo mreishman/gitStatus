@@ -81,23 +81,17 @@ function poll(all = -1, counterForSaveNew = 1)
 							}
 						}
 					}
-					//update arrayOfFiles
-					if(pollType === "2")
+					//update arrayOfFiles (sname for both poll 1 and 2 because it's not specific except for name)
+					arrayOfFiles = new Array();
+					var dataKeys = Object.keys(watchlistData);
+					var dataLength = dataKeys.length;
+					for(var j = 0; j < dataLength; j++)
 					{
-						arrayOfFiles = new Array();
-						var dataKeys = Object.keys(watchlistData);
-						var dataLength = dataKeys.length;
-						for(var j = 0; j < dataLength; j++)
+						if(watchlistData[dataKeys[j]]["Archive"] === "false")
 						{
-							if(watchlistData[dataKeys[j]]["Archive"] === "false")
-							{
-								arrayOfFiles.push({"Archive" : watchlistData[dataKeys[j]]["Archive"] , "Name" : dataKeys[j] , "WebsiteBase" : watchlistData[dataKeys[j]]["WebsiteBase"] , "urlHit" : watchlistData[dataKeys[j]]["urlHit"]})
-							}
+							arrayOfFiles.push(watchlistData[dataKeys[j]]);
+							arrayOfFiles[(arrayOfFiles.length - 1)]["Name"] = dataKeys[j];
 						}
-					}
-					else
-					{
-
 					}
 					pollTwo(_all, _counterForSaveNew);
 				}
