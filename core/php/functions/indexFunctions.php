@@ -126,7 +126,7 @@ function generateWindow($data = array(), $pollType)
 
 	$blockHTML =  "	<div class=\"firstBoxDev ".$groupInfo." \"  ".$groupInfoStyle." >";
 	$blockHTML .= "		<div class=\"innerFirstDevBox\" id=\"innerFirstDevBox".$keyNoSpace."\"  ".$backgroundColor." >";
-	$blockHTML .= "			<div onclick=\"toggleDetailBar(event, '".$keyNoSpace."');\" class=\"devBoxTitle\" style=\"cursor: pointer;\" >";
+	$blockHTML .= "			<div  class=\"devBoxTitle\" >";
 	$blockHTML .= "				<span id=\"".$keyNoSpace."warningSpanHeader\" class=\"warningSpanHeader\"  >";
 	$blockHTML .= "					<div class=\"led-red\" id=\"".$keyNoSpace."redwWarning\" style=\"display: inline-block; margin-bottom: -8px; display: ".$redLED." \"></div>";
 	$blockHTML .= "					<div class=\"led-yellow\" id=\"".$keyNoSpace."yellowWarning\" style=\"display: inline-block; margin-bottom: -8px; display: ".$yellowLED." \"></div>";
@@ -138,7 +138,7 @@ function generateWindow($data = array(), $pollType)
 	$blockHTML .= "			<div style=\"background-color: white; padding-left: 5px;  padding-right: 5px;\" >";
 	$blockHTML .= "			<img onclick=\"togglePinStatus('".$keyNoSpace."');\" id=\"".$keyNoSpace."Pin\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/pin.png\">";
 	$blockHTML .= "			<img onclick=\"togglePinStatus('".$keyNoSpace."');\" id=\"".$keyNoSpace."PinPinned\" style=\"cursor: pointer; height: 18px; display: none;\" src=\"core/img/pinPinned.png\">";
-	//$blockHTML .= "			<img style=\"cursor: pointer; height: 18px;\" src=\"core/img/externalLink.png\">";
+	$blockHTML .= "			<img onclick=\"toggleDetailBar(event, '".$keyNoSpace."');\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/externalLink.png\">";
 	$blockHTML .= "				<div class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
 	$blockHTML .= "			    	<a  style=\"cursor: pointer; ";
 	if($pollType !== "1")

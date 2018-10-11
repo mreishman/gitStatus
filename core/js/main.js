@@ -1500,29 +1500,29 @@ function actuallyInstallUpdates()
 function toggleDetailBar(e, key)
 {
 
-	var list = e.target.classList;
-	if(list === "")
-	{
-		e.preventDefault();
-        return;
-	}
-	var doIt = true;
-	var inLoop = false;
-	list.forEach(
-	function(value, key, listObj)
-	{
-		inLoop = true;
-		if(value === "expandMenu" || value === "menuImage" || value === "")
-		{
-			doIt = false;
-		}
-	}
-	);
-	if(!doIt || !inLoop)
-	{
-		e.preventDefault();
-        return;
-	}
+	// var list = e.target.classList;
+	// if(list === "")
+	// {
+	// 	e.preventDefault();
+ //        return;
+	// }
+	// var doIt = true;
+	// var inLoop = false;
+	// list.forEach(
+	// function(value, key, listObj)
+	// {
+	// 	inLoop = true;
+	// 	if(value === "expandMenu" || value === "menuImage" || value === "")
+	// 	{
+	// 		doIt = false;
+	// 	}
+	// }
+	// );
+	// if(!doIt || !inLoop)
+	// {
+	// 	e.preventDefault();
+ //        return;
+	// }
 	$(".devBoxTitle").css("background-color","#aaaaaa");
 	$("#innerFirstDevBox"+key+" .devBoxTitle").css("background-color","#FFFFFF");
 	if(document.getElementById("sideBox").style.display == "none")
