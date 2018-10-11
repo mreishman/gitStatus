@@ -49,9 +49,9 @@ function poll(all = -1, counterForSaveNew = 1)
 						numberOfLogs = 0;
 						for(var j = 0; j < dataLength; j++)
 						{
-							if(arrayOfFiles[(i)]["Name"] === dataKeys[j])
+							if(arrayOfFiles[i]["Name"] === dataKeys[j])
 							{
-								if((!("Archive" in arrayOfFiles[(i)])) || "Archive" in arrayOfFiles[(i)] && arrayOfFiles[(i)]["Archive"] === "false")
+								if(watchlistData[dataKeys[j]]["Archive"] === "false")
 								{
 									iFound = true;
 								}
@@ -67,7 +67,7 @@ function poll(all = -1, counterForSaveNew = 1)
 								var arrayOfWatchFiltersKeysLength = arrayOfWatchFiltersKeys.length;
 								for(var j = 0; j < arrayOfWatchFiltersKeysLength; j++)
 								{
-									if(arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]]["groupInfo"].indexOf(arrayOfFiles[(i)]["Name"]) > -1)
+									if(arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]]["groupInfo"].indexOf(arrayOfFiles[i]["Name"]) > -1)
 									{
 										numberOfLogs--;
 										pollFailure("Error", "Server removed from watchlist", {location: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].location, name: arrayOfWatchFiltersKeys[j], githubRepo: "", websiteBase: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].websiteBase, id: "innerFirstDevBox"+arrayOfWatchFiltersKeys[j]});
@@ -77,7 +77,7 @@ function poll(all = -1, counterForSaveNew = 1)
 							else
 							{
 								numberOfLogs--;
-								pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[(i)].location, name: arrayOfFiles[(i)].name, githubRepo: arrayOfFiles[(i)].githubRepo, websiteBase: arrayOfFiles[(i)].websiteBase, id: arrayOfFiles[(i)].id});
+								pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[i].location, name: arrayOfFiles[i].name, githubRepo: arrayOfFiles[i].githubRepo, websiteBase: arrayOfFiles[i].websiteBase, id: arrayOfFiles[i].id});
 							}
 						}
 					}
@@ -556,12 +556,11 @@ function pollSuccess(dataInner, dataInnerPass)
 					}
 					if(!iFound)
 					{
-						//show error on specific poll
+						//new thing, show
 						dataInner["info"][keysInfo[i]]["name"] = name;
 						pollSuccessInner(dataInner["info"][keysInfo[i]],dataInner["info"][keysInfo[i]], dataInnerPass);
 					}
 				}
-				//then check for new ones
 			}
 		}
 		else
