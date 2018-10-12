@@ -77,7 +77,8 @@ function poll(all = -1, counterForSaveNew = 1)
 										}
 										else
 										{
-											document.getElementById("innerFirstDevBox"+arrayOfWatchFiltersKeys[j]).style.display = "none";
+											document.getElementById("innerFirstDevBox"+arrayOfWatchFiltersKeys[j]).parentNode.id = "removeThis";
+											$("#removeThis").remove();
 										}
 										//remove from archive
 										var noSpaceName = arrayOfWatchFiltersKeys[j].name.replace(/\s/g, '');
@@ -95,7 +96,8 @@ function poll(all = -1, counterForSaveNew = 1)
 								}
 								else
 								{
-									document.getElementById(arrayOfFiles[i].id).style.display = "none";
+									document.getElementById(arrayOfFiles[i].id).parentNode.id = "removeThis";
+									$("#removeThis").remove();
 								}
 								//remove from archive
 								var noSpaceName = arrayOfFiles[i].name.replace(/\s/g, '');
@@ -562,7 +564,8 @@ function pollSuccess(dataInner, dataInnerPass)
 						}
 						else
 						{
-							$("."+currentClass)[h].style.display = "none";
+							$("."+currentClass)[h].id = "removeThis";
+							$("#removeThis").remove();
 						}
 						//remove from archive
 						var noSpaceName = failName.replace(/\s/g, '');
