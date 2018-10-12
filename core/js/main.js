@@ -81,7 +81,7 @@ function poll(all = -1, counterForSaveNew = 1)
 											$("#removeThis").remove();
 										}
 										//remove from archive
-										var noSpaceName = arrayOfWatchFiltersKeys[j].name.replace(/\s/g, '');
+										var noSpaceName = arrayOfWatchFiltersKeys[j].replace(/\s/g, '');
 										delete arrayOfWatchFilters[noSpaceName];
 									}
 								}
@@ -100,7 +100,7 @@ function poll(all = -1, counterForSaveNew = 1)
 									$("#removeThis").remove();
 								}
 								//remove from archive
-								var noSpaceName = arrayOfFiles[i].name.replace(/\s/g, '');
+								var noSpaceName = arrayOfFiles[i].replace(/\s/g, '');
 								delete arrayOfWatchFilters[noSpaceName];
 							}
 						}
