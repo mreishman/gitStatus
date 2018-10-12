@@ -71,6 +71,7 @@ $defaultConfig = array(
 	'checkForIssueCustom'	=> 'true',
 	'checkForIssueInCommit'	=> 'true',
 	'messageTextEnabled'	=> 'false',
+	'onServerRemoveRemoveNotError'	=>	'false',
 	'messageText' => 'Example Message',
 	'enableBlockUntilDate'	=> 'false',
 	'defaultGroupViewOnLoad'	=> 'All',

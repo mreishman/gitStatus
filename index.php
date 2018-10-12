@@ -426,6 +426,7 @@ if($defaultViewBranch == 'Standard')
 			echo "var branchView = '".$branchView."';";
 			echo "var arrayOfGroups = ".json_encode($arrayOfGroups).";";
 			echo "var maxCommits = ".$maxCommits.";";
+			echo "var onServerRemoveRemoveNotError = ".$onServerRemoveRemoveNotError.";";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";

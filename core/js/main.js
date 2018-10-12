@@ -70,14 +70,36 @@ function poll(all = -1, counterForSaveNew = 1)
 									if(arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]]["groupInfo"].indexOf(arrayOfFiles[i]["Name"]) > -1)
 									{
 										numberOfLogs--;
-										pollFailure("Error", "Server removed from watchlist", {location: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].location, name: arrayOfWatchFiltersKeys[j], githubRepo: "", websiteBase: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].websiteBase, id: "innerFirstDevBox"+arrayOfWatchFiltersKeys[j]});
+										if(onServerRemoveRemoveNotError)
+										{
+											//show error on specific poll
+											pollFailure("Error", "Server removed from watchlist", {location: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].location, name: arrayOfWatchFiltersKeys[j], githubRepo: "", websiteBase: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].websiteBase, id: "innerFirstDevBox"+arrayOfWatchFiltersKeys[j]});
+										}
+										else
+										{
+											document.getElementById("innerFirstDevBox"+arrayOfWatchFiltersKeys[j]).style.display = "none";
+										}
+										//remove from archive
+										var noSpaceName = arrayOfWatchFiltersKeys[j].name.replace(/\s/g, '');
+										delete arrayOfWatchFilters[noSpaceName];
 									}
 								}
 							}
 							else
 							{
 								numberOfLogs--;
-								pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[i].location, name: arrayOfFiles[i].name, githubRepo: arrayOfFiles[i].githubRepo, websiteBase: arrayOfFiles[i].websiteBase, id: arrayOfFiles[i].id});
+								if(onServerRemoveRemoveNotError)
+								{
+									//show error on specific poll
+									pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[i].location, name: arrayOfFiles[i].name, githubRepo: arrayOfFiles[i].githubRepo, websiteBase: arrayOfFiles[i].websiteBase, id: arrayOfFiles[i].id});
+								}
+								else
+								{
+									document.getElementById(arrayOfFiles[i].id).style.display = "none";
+								}
+								//remove from archive
+								var noSpaceName = arrayOfFiles[i].name.replace(/\s/g, '');
+								delete arrayOfWatchFilters[noSpaceName];
 							}
 						}
 					}
@@ -531,10 +553,21 @@ function pollSuccess(dataInner, dataInnerPass)
 					}
 					if(!iFound)
 					{
-						//show error on specific poll
 						var failName = $("."+currentClass)[h].innerHTML.split("innerFirstDevBox")[2].split("\"")[0].trim();
-						var failId = $(".mreishman")[14].innerHTML.split("id=\"")[2].split("\"")[0].trim();
-						pollFailure("Error", "Server removed from watchlist", {location: "", name: failName, githubRepo: "", websiteBase: "", id: failId });
+						var failId = $("."+currentClass)[h].innerHTML.split("id=\"")[2].split("\"")[0].trim();
+						if(onServerRemoveRemoveNotError)
+						{
+							//show error on specific poll
+							pollFailure("Error", "Server removed from watchlist", {location: "", name: failName, githubRepo: "", websiteBase: "", id: failId });
+						}
+						else
+						{
+							$("."+currentClass)[h].style.display = "none";
+						}
+						//remove from archive
+						var noSpaceName = failName.replace(/\s/g, '');
+						delete arrayOfWatchFilters[noSpaceName];
+
 					}
 				}
 				for(var i = 0; i < keysInfoLength; i++)
@@ -1499,30 +1532,6 @@ function actuallyInstallUpdates()
 
 function toggleDetailBar(e, key)
 {
-
-	// var list = e.target.classList;
-	// if(list === "")
-	// {
-	// 	e.preventDefault();
- //        return;
-	// }
-	// var doIt = true;
-	// var inLoop = false;
-	// list.forEach(
-	// function(value, key, listObj)
-	// {
-	// 	inLoop = true;
-	// 	if(value === "expandMenu" || value === "menuImage" || value === "")
-	// 	{
-	// 		doIt = false;
-	// 	}
-	// }
-	// );
-	// if(!doIt || !inLoop)
-	// {
-	// 	e.preventDefault();
- //        return;
-	// }
 	$(".devBoxTitle").css("background-color","#aaaaaa");
 	$("#innerFirstDevBox"+key+" .devBoxTitle").css("background-color","#FFFFFF");
 	if(document.getElementById("sideBox").style.display == "none")
