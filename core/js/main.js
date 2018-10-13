@@ -1,7 +1,6 @@
 var counterForSave = numberOfLogs+1;
 var updating = false;
 var pollTimer = null;
-var pollVersionCheck = null;
 var blocekdInnerObj = {};
 var currentIdOfMainSidebar = "";
 
@@ -18,14 +17,123 @@ function escapeHTML(unsafeStr)
 
 function poll(all = -1, counterForSaveNew = 1)
 {
+	(function(_all, _counterForSaveNew){
+		$.ajax({
+			url: "./core/php/functions/getWatchlist.php",
+			dataType: 'json',
+			global: false,
+			data: {},
+			type: 'POST',
+			success: function(data){
+				var dataVersion = data["version"];
+				if(String(dataVersion) !== String(currentVersion))
+				{
+					//version changed, stop polls and show message
+					if(!isPaused())
+					{
+						pausePollFunction();
+					}
+					showPopup();
+					document.getElementById("popupContentInnerHTMLDiv").innerHTML = "<div class='devBoxTitle' ><b>gitStatus has been updated. Please Refresh</b></div><br><div style='width:100%;text-align:center;padding-left:10px;padding-right:10px;'>gitStatus has been updated, and is now on a new version. Please refresh the page.</div><div><div class='buttonButton' onclick='location.reload();' style='margin-left:50px; margin-right:50px;margin-top:35px;'>Reload</div></div>";
+				}
+				else
+				{
+					var watchlistData = data["watchlist"];
+					var arrayOfFilesLength = arrayOfFiles.length;
+					var dataKeys = Object.keys(watchlistData);
+					var dataLength = dataKeys.length;
+					for(var i = 0; i < arrayOfFilesLength; i++)
+					{
+						//check if arrayOfFile server is still in data
+						var iFound = false;
+						numberOfLogs = 0;
+						for(var j = 0; j < dataLength; j++)
+						{
+							if(arrayOfFiles[i]["Name"] === dataKeys[j])
+							{
+								if(watchlistData[dataKeys[j]]["Archive"] === "false")
+								{
+									iFound = true;
+								}
+								break;
+							}
+						}
+						if(!iFound)
+						{
+							if(pollType === "2")
+							{
+								//more info required
+								var arrayOfWatchFiltersKeys = Object.keys(arrayOfWatchFilters);
+								var arrayOfWatchFiltersKeysLength = arrayOfWatchFiltersKeys.length;
+								for(var j = 0; j < arrayOfWatchFiltersKeysLength; j++)
+								{
+									if(arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]]["groupInfo"].indexOf(arrayOfFiles[i]["Name"]) > -1)
+									{
+										numberOfLogs--;
+										if(onServerRemoveRemoveNotError)
+										{
+											//show error on specific poll
+											pollFailure("Error", "Server removed from watchlist", {location: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].location, name: arrayOfWatchFiltersKeys[j], githubRepo: "", websiteBase: arrayOfWatchFilters[arrayOfWatchFiltersKeys[j]].websiteBase, id: "innerFirstDevBox"+arrayOfWatchFiltersKeys[j]});
+										}
+										else
+										{
+											document.getElementById("innerFirstDevBox"+arrayOfWatchFiltersKeys[j]).parentNode.id = "removeThis";
+											$("#removeThis").remove();
+										}
+										//remove from archive
+										var noSpaceName = arrayOfWatchFiltersKeys[j].replace(/\s/g, '');
+										delete arrayOfWatchFilters[noSpaceName];
+									}
+								}
+							}
+							else
+							{
+								numberOfLogs--;
+								if(onServerRemoveRemoveNotError)
+								{
+									//show error on specific poll
+									pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[i].location, name: arrayOfFiles[i].name, githubRepo: arrayOfFiles[i].githubRepo, websiteBase: arrayOfFiles[i].websiteBase, id: arrayOfFiles[i].id});
+								}
+								else
+								{
+									document.getElementById(arrayOfFiles[i].id).parentNode.id = "removeThis";
+									$("#removeThis").remove();
+								}
+								//remove from archive
+								var noSpaceName = arrayOfFiles[i].replace(/\s/g, '');
+								delete arrayOfWatchFilters[noSpaceName];
+							}
+						}
+					}
+					//update arrayOfFiles (sname for both poll 1 and 2 because it's not specific except for name)
+					arrayOfFiles = new Array();
+					var dataKeys = Object.keys(watchlistData);
+					var dataLength = dataKeys.length;
+					for(var j = 0; j < dataLength; j++)
+					{
+						if(watchlistData[dataKeys[j]]["Archive"] === "false")
+						{
+							arrayOfFiles.push(watchlistData[dataKeys[j]]);
+							arrayOfFiles[(arrayOfFiles.length - 1)]["Name"] = dataKeys[j];
+						}
+					}
+					pollTwo(_all, _counterForSaveNew);
+				}
+			},
+			error: function(xhr, error){
+
+			}
+		});
+	}(all, counterForSaveNew));
+}
+
+function pollTwo(all, counterForSaveNew)
+{
 	document.getElementById('loadingSpinnerMain').style.display = "block";
 	if(all === -1)
 	{
 		counterForSave = numberOfLogs+1;
 		var arrayOfFilesLength = arrayOfFiles.length
-		$(".loadingSpinnerHeader").css('display', 'inline-block');
-		$(".warningSpanHeader").css('display','none');
-		$(".refreshImageDevBox").css('display', 'none');
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
 			var boolForRun = true;
@@ -43,6 +151,9 @@ function poll(all = -1, counterForSaveNew = 1)
 			}
 			if(boolForRun)
 			{
+				$("."+arrayOfFiles[i]["Name"]+" .loadingSpinnerHeader").css('display', 'inline-block');
+				$("."+arrayOfFiles[i]["Name"]+" .warningSpanHeader").css('display','none');
+				$("."+arrayOfFiles[i]["Name"]+" .refreshImageDevBox").css('display', 'none');
 				tryHTTPForPollRequest(i);
 			}
 			else
@@ -424,11 +535,63 @@ function pollSuccess(dataInner, dataInnerPass)
 				decreaseSpinnerCounter();
 				var keysInfo = Object.keys(dataInner["info"]);
 				var keysInfoLength = keysInfo.length;
+				var currentClass = dataInnerPass["id"];
+				var classObjects = $("."+currentClass);
+				var classObjectsKeysLength = classObjects.length;
+				for(var h = 0; h < classObjectsKeysLength; h++)
+				{
+					var iFound = false;
+					for(var i = 0; i < keysInfoLength; i++)
+					{
+						var name = "branchNameDevBox1"+keysInfo[i];
+						name = name.replace(/\s/g, '_');
+						if(classObjects[h].contains($("."+currentClass+" #"+name)[0]))
+						{
+							dataInner["info"][keysInfo[i]]["name"] = name;
+							pollSuccessInner(dataInner["info"][keysInfo[i]],dataInner["info"][keysInfo[i]], dataInnerPass);
+							iFound = true;
+							break;
+						}
+					}
+					if(!iFound)
+					{
+						var failName = $("."+currentClass)[h].innerHTML.split("innerFirstDevBox")[2].split("\"")[0].trim();
+						var failId = $("."+currentClass)[h].innerHTML.split("id=\"")[2].split("\"")[0].trim();
+						if(onServerRemoveRemoveNotError)
+						{
+							//show error on specific poll
+							pollFailure("Error", "Server removed from watchlist", {location: "", name: failName, githubRepo: "", websiteBase: "", id: failId });
+						}
+						else
+						{
+							$("."+currentClass)[h].id = "removeThis";
+							$("#removeThis").remove();
+						}
+						//remove from archive
+						var noSpaceName = failName.replace(/\s/g, '');
+						delete arrayOfWatchFilters[noSpaceName];
+
+					}
+				}
 				for(var i = 0; i < keysInfoLength; i++)
 				{
 					var name = "branchNameDevBox1"+keysInfo[i];
-					dataInner["info"][keysInfo[i]]["name"] = name.replace(/\s/g, '_');
-					pollSuccessInner(dataInner["info"][keysInfo[i]],dataInner["info"][keysInfo[i]], dataInnerPass)
+					name = name.replace(/\s/g, '_');
+					var iFound = false;
+					for(var h = 0; h < classObjectsKeysLength; h++)
+					{
+						if(classObjects[h].contains($("."+currentClass+" #"+name)[0]))
+						{
+							iFound = true;
+							break;
+						}
+					}
+					if(!iFound)
+					{
+						//new thing, show
+						dataInner["info"][keysInfo[i]]["name"] = name;
+						pollSuccessInner(dataInner["info"][keysInfo[i]],dataInner["info"][keysInfo[i]], dataInnerPass);
+					}
 				}
 			}
 		}
@@ -1117,13 +1280,7 @@ function pausePollFunction()
 
 function startPoll()
 {
-	if(pollVersionCheck === null)
-	{
-		versionCheckPoll();
-		pollVersionCheck = setInterval(versionCheckPoll, (1*60*60*1000));
-	}
 	pollTimer = Visibility.every(pollingRate, pollingRateBG, function () { poll(); });
-	
 }
 
 function switchToStandardView()
@@ -1378,30 +1535,6 @@ function actuallyInstallUpdates()
 
 function toggleDetailBar(e, key)
 {
-
-	var list = e.target.classList;
-	if(list === "")
-	{
-		e.preventDefault();
-        return;
-	}
-	var doIt = true;
-	var inLoop = false;
-	list.forEach(
-	function(value, key, listObj)
-	{
-		inLoop = true;
-		if(value === "expandMenu" || value === "menuImage" || value === "")
-		{
-			doIt = false;
-		}
-	}
-	);
-	if(!doIt || !inLoop)
-	{
-		e.preventDefault();
-        return;
-	}
 	$(".devBoxTitle").css("background-color","#aaaaaa");
 	$("#innerFirstDevBox"+key+" .devBoxTitle").css("background-color","#FFFFFF");
 	if(document.getElementById("sideBox").style.display == "none")
@@ -2031,33 +2164,6 @@ function escapeHTML(unsafeStr)
 	}
 }
 
-function versionCheckPoll()
-{
-	var urlForSend = "core/php/versionCheck.php";
-	var dataSend = {};
-	$.ajax({
-		url: urlForSend,
-		dataType: "json",
-		data: dataSend,
-		type: "POST",
-		success: function(data)
-		{
-			if(String(data) !== String(currentVersion))
-			{
-				//version changed, stop polls and show message
-				clearInterval(pollVersionCheck);
-				pollVersionCheck = null;
-				if(!isPaused())
-				{
-					pausePollFunction();
-				}
-				showPopup();
-				document.getElementById("popupContentInnerHTMLDiv").innerHTML = "<div class='devBoxTitle' ><b>gitStatus has been updated. Please Refresh</b></div><br><div style='width:100%;text-align:center;padding-left:10px;padding-right:10px;'>gitStatus has been updated, and is now on a new version. Please refresh the page.</div><div><div class='buttonButton' onclick='location.reload();' style='margin-left:50px; margin-right:50px;margin-top:35px;'>Reload</div></div>";
-			}
-		}
-	});
-}
-
 function togglePinStatus(keyNoSpace)
 {
 	if(document.getElementById(keyNoSpace+"PinPinned").style.display === "none")
@@ -2149,8 +2255,6 @@ $( document ).ready(function()
 {
 	pollingRate = pollingRate * 60000;
 	pollingRateBG = pollingRateBG * 60000;
-
-	pollVersionCheck = setInterval(versionCheckPoll, (1*60*60*1000));
 
 	if (autoCheckUpdate == true)
 	{

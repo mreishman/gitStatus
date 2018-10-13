@@ -38,6 +38,13 @@
 					</select>
 				</li>
 				<li>
+					<span class="leftSpacingserverNames" >On Remove of server: </span>
+					<select name="onServerRemoveRemoveNotError">
+  						<option <?php if($onServerRemoveRemoveNotError == 'true'){echo "selected";} ?> value="true">Show Errorr</option>
+  						<option <?php if($onServerRemoveRemoveNotError == 'false'){echo "selected";} ?> value="false">Hide Server</option>
+					</select>
+				</li>
+				<li>
 					<span class="leftSpacingserverNames" > Default View: </span>
 					<select name="defaultViewBranch">
   						<option <?php if($defaultViewBranch == 'Standard'){echo "selected";} ?> value="Standard">Standard</option>
