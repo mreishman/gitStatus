@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.3',
+	'version'		=> '3.3.1',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -98,6 +98,10 @@ $versionCheckArray = array(
 		'3.3'		=> array(
 			'branchName'	=> '3.3Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>Added back submenu (with links to external stuff)</li><li>Added pinned containers (when going between groups, keep some pinned containers view)</li><li>Highlights updated branches (fades after a few seconds)</li></ul></li><li>Bug Fixes<ul><li>Fixed bug with loading spinner not showing up correctly for viewing commits</li><li>Changed default poll type to 2</li></ul></li></ul>'
+		),
+		'3.3.1'		=> array(
+			'branchName'	=> '3.3.1Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>Moved sidebar click to icon instead of just clicking on title bar (easier to click, less misclicks)</li></ul></li><li>Bug Fixes<ul><li>Poll logic now updates server watchlist before poll</li><li>Poll logic respects archvie if changed since initial load</li><li>Poll logic better manages changes in watchlist</li><li>Poll logic now gets version status each request</li></ul></li></ul>'
 		),
 	)
 );
