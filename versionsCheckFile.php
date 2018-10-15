@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.3.1',
+	'version'		=> '3.3.1.1',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -102,6 +102,10 @@ $versionCheckArray = array(
 		'3.3.1'		=> array(
 			'branchName'	=> '3.3.1Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>Moved sidebar click to icon instead of just clicking on title bar (easier to click, less misclicks)</li></ul></li><li>Bug Fixes<ul><li>Poll logic now updates server watchlist before poll</li><li>Poll logic respects archvie if changed since initial load</li><li>Poll logic better manages changes in watchlist</li><li>Poll logic now gets version status each request</li></ul></li></ul>'
+		),
+		'3.3.1.1'		=> array(
+			'branchName'	=> '3.3.1.1Update',
+			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Fixed bug with new poll logic (if less than one server is not marked as archive)</li></ul></li></ul>'
 		),
 	)
 );
