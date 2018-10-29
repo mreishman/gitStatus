@@ -1956,6 +1956,7 @@ function commitListSuccessInner(data)
 	$("#otherCommitsFromPast").html(htmlForCommits);
 	viewCommit(idForFirstCommit);
 	document.getElementById("noChangesToDisplay").style.display = "none";
+	document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
 }
 
 function showMoreCommits(groupNumber)
