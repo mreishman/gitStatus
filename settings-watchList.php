@@ -117,9 +117,12 @@ var locationInsert = "newRowLocationForWatchList";
 var numberOfSubRows = <?php echo $numCount; ?>;
 var arrayOfKeysJsonEncoded = '<?php echo json_encode($arrayOfKeys); ?>';
 var arrayOfKeysNonEnc = JSON.parse(arrayOfKeysJsonEncoded);
-
+<?php
+	echo "var currentVersion = '".$configStatic['version']."';";
+?>
 </script>
 <script src="core/js/allPages.js?v=<?php echo $configStatic['version']; ?>"></script>
+<script src="core/js/cacheClear.js?v=<?php echo $configStatic['version']; ?>"></script>
 <script src="core/js/settingsAll.js?v=<?php echo $configStatic['version']; ?>"></script>
 <script type="text/javascript">
 	document.getElementById("menuBarLeftSettingsWatchList").style.backgroundColor  = "#ffffff";
