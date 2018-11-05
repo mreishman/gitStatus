@@ -355,7 +355,7 @@ function decreaseSpinnerCounter()
 
 function addGroup(groupName)
 {
-	if(arrayOfGroups.indexOf(groupName) === -1)
+	if(arrayOfGroups.indexOf(groupName) === -1 && groupName !== "")
 	{
 		arrayOfGroups.push(groupName);
 		var item = $("#storage .groupEmpty").html();
@@ -668,11 +668,10 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		item = item.replace(/{{branchView}}/g,branchView);
 
 		item = item.replace(/{{groupInfo}}/g,groupNames);
-		addGroup(dataInner["groupInfo"]);
 		$("#windows").append(item);
 	}
 	else
-	{ 
+	{
 		if(typeof groupNames !== "undefined")
 		{
 			//check if all classes are there
@@ -712,6 +711,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			$(source)[0].href = websitePass;
 		}
 	}
+	addGroup(dataInner["groupInfo"]);
 	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
 		switchToColorLed(noSpaceName, "green");
