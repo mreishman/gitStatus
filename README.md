@@ -1,6 +1,8 @@
 # gitStatus
 A simple and easy way to check git status on different branches and machines
 
+![Index Screenshot](https://raw.githubusercontent.com/mreishman/gitStatus/master/gitStatus.png)
+
 # Install
 
 Copy the main folder into the main directory i.e. /html/status/
