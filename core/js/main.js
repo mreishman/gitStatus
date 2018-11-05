@@ -391,6 +391,50 @@ function addGroup(groupName)
 	}
 }
 
+function removeGroup(groupName)
+{
+	arrayOfGroups.splice(arrayOfGroups.indexOf(groupName),1);
+	$("#Group"+groupName).remove();
+}
+
+function cleanUpGroups()
+{
+	var newArrayOfGroups = ["All"];
+	var arrayOfWatchFiltersKey = Object.keys(arrayOfWatchFilters);
+	var arrayOfWatchFiltersKeylength = arrayOfWatchFiltersKey.length;
+	for(var i = 0; i < arrayOfWatchFiltersKeylength; i++)
+	{
+		var listOfGroupNames = arrayOfWatchFilters[arrayOfWatchFiltersKey[i]]["groupInfo"].split(" ");
+		var listOfGroupNamesLength = listOfGroupNames.length;
+		for(var j = 0; j < listOfGroupNamesLength; j++)
+		{
+			var groupName = listOfGroupNames[j];
+			if(arrayOfGroups.indexOf(groupName) !== -1 && groupName !== "")
+			{
+				newArrayOfGroups.push(groupName);
+			}
+		}
+	}
+	var arrayOfGroupsToRemove = [];
+	var lengthOfOldGroups = arrayOfGroups.length;
+	for(var i = 0; i < lengthOfOldGroups; i++)
+	{
+		//check if in old group and not new one
+		if(newArrayOfGroups.indexOf(arrayOfGroups[i]) === -1)
+		{
+			arrayOfGroupsToRemove.push(arrayOfGroups[i])
+		}
+	}
+	var lengthOfGroupsToRemove = arrayOfGroupsToRemove.length;
+	if(lengthOfGroupsToRemove > 0)
+	{
+		for(var i = 0; i < lengthOfGroupsToRemove; i ++)
+		{
+			removeGroup(arrayOfGroupsToRemove[i]);
+		}
+	}
+}
+
 function pollCompleteLogic()
 {
 	var loadingSpinnerText = decreaseSpinnerCounter();
@@ -427,7 +471,8 @@ function pollCompleteLogic()
 	else
 	{
 		document.getElementById('loadingSpinnerMain').style.display = "none";
-	}	
+	}
+	cleanUpGroups();
 }
 
 function pollFailure(xhr, error, dataInnerPass)
