@@ -355,7 +355,7 @@ function decreaseSpinnerCounter()
 
 function addGroup(groupName)
 {
-	if(arrayOfGroups.indexOf(groupName) === -1)
+	if(arrayOfGroups.indexOf(groupName) === -1 && groupName !== "")
 	{
 		arrayOfGroups.push(groupName);
 		var item = $("#storage .groupEmpty").html();
@@ -387,6 +387,50 @@ function addGroup(groupName)
 			{
 				document.getElementById("groupInfo").style.display = "block";
 			}
+		}
+	}
+}
+
+function removeGroup(groupName)
+{
+	arrayOfGroups.splice(arrayOfGroups.indexOf(groupName),1);
+	$("#Group"+groupName).remove();
+}
+
+function cleanUpGroups()
+{
+	var newArrayOfGroups = ["All"];
+	var arrayOfWatchFiltersKey = Object.keys(arrayOfWatchFilters);
+	var arrayOfWatchFiltersKeylength = arrayOfWatchFiltersKey.length;
+	for(var i = 0; i < arrayOfWatchFiltersKeylength; i++)
+	{
+		var listOfGroupNames = arrayOfWatchFilters[arrayOfWatchFiltersKey[i]]["groupInfo"].split(" ");
+		var listOfGroupNamesLength = listOfGroupNames.length;
+		for(var j = 0; j < listOfGroupNamesLength; j++)
+		{
+			var groupName = listOfGroupNames[j];
+			if(arrayOfGroups.indexOf(groupName) !== -1 && groupName !== "")
+			{
+				newArrayOfGroups.push(groupName);
+			}
+		}
+	}
+	var arrayOfGroupsToRemove = [];
+	var lengthOfOldGroups = arrayOfGroups.length;
+	for(var i = 0; i < lengthOfOldGroups; i++)
+	{
+		//check if in old group and not new one
+		if(newArrayOfGroups.indexOf(arrayOfGroups[i]) === -1)
+		{
+			arrayOfGroupsToRemove.push(arrayOfGroups[i])
+		}
+	}
+	var lengthOfGroupsToRemove = arrayOfGroupsToRemove.length;
+	if(lengthOfGroupsToRemove > 0)
+	{
+		for(var i = 0; i < lengthOfGroupsToRemove; i ++)
+		{
+			removeGroup(arrayOfGroupsToRemove[i]);
 		}
 	}
 }
@@ -427,7 +471,8 @@ function pollCompleteLogic()
 	else
 	{
 		document.getElementById('loadingSpinnerMain').style.display = "none";
-	}	
+	}
+	cleanUpGroups();
 }
 
 function pollFailure(xhr, error, dataInnerPass)
@@ -668,11 +713,10 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		item = item.replace(/{{branchView}}/g,branchView);
 
 		item = item.replace(/{{groupInfo}}/g,groupNames);
-		addGroup(dataInner["groupInfo"]);
 		$("#windows").append(item);
 	}
 	else
-	{ 
+	{
 		if(typeof groupNames !== "undefined")
 		{
 			//check if all classes are there
@@ -712,6 +756,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			$(source)[0].href = websitePass;
 		}
 	}
+	addGroup(dataInner["groupInfo"]);
 	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
 		switchToColorLed(noSpaceName, "green");
@@ -1956,6 +2001,7 @@ function commitListSuccessInner(data)
 	$("#otherCommitsFromPast").html(htmlForCommits);
 	viewCommit(idForFirstCommit);
 	document.getElementById("noChangesToDisplay").style.display = "none";
+	document.getElementById("spinnerLiForSideBoxBoxForInfo").style.display = "none";
 }
 
 function showMoreCommits(groupNumber)

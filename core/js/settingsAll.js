@@ -40,7 +40,15 @@ function timerVerifySave()
 				if(data === true)
 				{
 					clearInterval(pollCheckForUpdate);
-					saveVerified();
+					if(idForFormMain === "settingsMainWatch")
+					{
+						showPopupForCacheClear = false;
+						clearCache();
+					}
+					else
+					{
+						saveVerified();
+					}
 				}
 			},
 		});

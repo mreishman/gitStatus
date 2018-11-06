@@ -80,6 +80,7 @@ require_once('setup/setupProcessFile.php');
 	</script>
 	<script src="core/js/allPages.js?v=<?php echo $configStatic['version']; ?>"></script>
 	<script src="core/js/settings.js?v=<?php echo $configStatic['version']; ?>"></script>
+	<script src="core/js/cacheClear.js?v=<?php echo $configStatic['version']; ?>"></script>
 	<script src="core/js/settingsAll.js?v=<?php echo $configStatic['version']; ?>"></script>
 <?php readfile('core/html/popup.html') ?>
 </body>
