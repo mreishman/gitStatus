@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.3.1.1',
+	'version'		=> '3.3.2',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -106,6 +106,10 @@ $versionCheckArray = array(
 		'3.3.1.1'		=> array(
 			'branchName'	=> '3.3.1.1Update',
 			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Fixed bug with new poll logic (if less than one server is not marked as archive)</li></ul></li></ul>'
+		),
+		'3.3.2'		=> array(
+			'branchName'	=> '3.3.2Update',
+			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Now clears cache on watchlist save / watchlist server save</li><li>Fixed display issue with loading spinner on commits after commits finished loading</li><li>New groups should be added on success of new poll requests if any groups are new</li><li>Groups now are removed on end of poll request if not needed anymore</li></ul></li></ul>'
 		),
 	)
 );
