@@ -1328,6 +1328,12 @@ function startPoll()
 	pollTimer = Visibility.every(pollingRate, pollingRateBG, function () { poll(); });
 }
 
+function singleSwitchToStandardView(idOfBlock)
+{
+	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').addClass('devBoxContentSecondary');
+	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
+}
+
 function switchToStandardView()
 {
 	if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
@@ -1347,6 +1353,12 @@ function switchToStandardView()
 			$('.devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
 		}
 	}
+}
+
+function singleSwitchToExpandView(idOfBlock)
+{
+	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
+	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondary').removeClass('devBoxContentSecondary');
 }
 
 function switchToExpandedView()
