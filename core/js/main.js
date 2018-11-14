@@ -690,14 +690,6 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		//no there, add
 		var item = $("#storage .container").html();
 		item = item.replace(/{{keyNoSpace}}/g, noSpaceName);
-		if(!$('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
-		{
-			item = item.replace(/{{branchView}}/g, "devBoxContentSecondary");
-		}
-		if(!$('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
-		{
-			item = item.replace(/{{branchView}}/g, "devBoxContentSecondaryExpanded");
-		}
 		item = item.replace(/{{name}}/g,dataInner["displayName"]);
 		var website = "#";
 		if("website" in dataInner)
@@ -711,7 +703,21 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		}
 		item = item.replace(/{{website}}/g,website);
 		item = item.replace(/{{branchView}}/g,branchView);
-
+		if(branchView === "devBoxContentSecondary")
+		{
+			item = item.replace(/{{upArrow}}/g,"display: none;");
+			item = item.replace(/{{downArrow}}/g,"");
+		}
+		else if(branchView === "devBoxContentSecondaryExpanded")
+		{
+			item = item.replace(/{{upArrow}}/g,"");
+			item = item.replace(/{{downArrow}}/g,"display: none;");
+		}
+		else
+		{
+			item = item.replace(/{{upArrow}}/g,"");
+			item = item.replace(/{{downArrow}}/g,"");
+		}
 		item = item.replace(/{{groupInfo}}/g,groupNames);
 		$("#windows").append(item);
 	}
@@ -1332,6 +1338,8 @@ function singleSwitchToStandardView(idOfBlock)
 {
 	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').addClass('devBoxContentSecondary');
 	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
+	document.getElementById(idOfBlock+"DownArrow").style.display = "inline-block";
+	document.getElementById(idOfBlock+"UpArrow").style.display = "none";
 }
 
 function switchToStandardView()
@@ -1345,7 +1353,7 @@ function switchToStandardView()
 				document.cookie = "defaultViewBranchCookie=Standard";
 			}
 			removeAllButtonSelectorClasses('standardViewButtonMainSection');
-
+			branchView = "devBoxContentSecondary";
 			$('#standardViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
 			$('#standardViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
 
@@ -1359,6 +1367,8 @@ function singleSwitchToExpandView(idOfBlock)
 {
 	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
 	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondary').removeClass('devBoxContentSecondary');
+	document.getElementById(idOfBlock+"DownArrow").style.display = "none";
+	document.getElementById(idOfBlock+"UpArrow").style.display = "inline-block";
 }
 
 function switchToExpandedView()
@@ -1372,7 +1382,7 @@ function switchToExpandedView()
 				document.cookie = "defaultViewBranchCookie=Expanded";
 			}
 			removeAllButtonSelectorClasses('expandedViewButtonMainSection');
-
+			branchView = "devBoxContentSecondaryExpanded";
 			$('#expandedViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
 			$('#expandedViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
 
