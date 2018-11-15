@@ -11,37 +11,10 @@
 		<div class="devBoxContent">
 			<ul class="settingsUl">
 				<li>
-					<span class="leftSpacingserverNames" > Polling Rate: </span> <input style="width: 52px;" type="text" name="pollingRate" value="<?php echo $pollingRate;?>" > Minutes
-				</li>
-				<li>
-					<span class="leftSpacingserverNames" > BG Poll Rate: </span> <input style="width: 52px;" type="text" name="pollingRateBG" value="<?php echo $pollingRateBG;?>" > Minutes
-				</li>
-				<li>
-					<span class="leftSpacingserverNames" > Pause Poll: </span>
-					<select name="pausePoll">
-  						<option <?php if($pausePoll == 'true'){echo "selected";} ?> value="true">True</option>
-  						<option <?php if($pausePoll == 'false'){echo "selected";} ?> value="false">False</option>
-					</select>
-				</li>
-				<li>
-					<span class="leftSpacingserverNames" > Poll Type: </span>
-					<select name="pollType">
-  						<option <?php if($pollType == 1){echo "selected";} ?> value="1">Version 1 [backwards compatable]</option>
-  						<option <?php if($pollType == 2){echo "selected";} ?> value="2">Version 2 [more secure]</option>
-					</select>
-				</li>
-				<li>
 					<span class="leftSpacingserverNames" > Check Update: </span>
 					<select name="autoCheckUpdate">
   						<option <?php if($autoCheckUpdate == 'true'){echo "selected";} ?> value="true">Auto</option>
   						<option <?php if($autoCheckUpdate == 'false'){echo "selected";} ?> value="false">Manual</option>
-					</select>
-				</li>
-				<li>
-					<span class="leftSpacingserverNames" >On Remove of server: </span>
-					<select name="onServerRemoveRemoveNotError">
-  						<option <?php if($onServerRemoveRemoveNotError == 'true'){echo "selected";} ?> value="true">Show Errorr</option>
-  						<option <?php if($onServerRemoveRemoveNotError == 'false'){echo "selected";} ?> value="false">Hide Server</option>
 					</select>
 				</li>
 				<li>
@@ -70,17 +43,6 @@
   						<option <?php if($cacheEnabled == 'false'){echo "selected";} ?> value="false">None</option>
 					</select>
 				</li>
-				<li>
-					<span class="leftSpacingserverNames"> Refresh Visible</span>
-					<select name="onlyRefreshVisible">
-						<option <?php if ($onlyRefreshVisible == 'true'){echo "selected";}?> value="true">True</option>
-						<option <?php if ($onlyRefreshVisible == 'false'){echo "selected";}?> value="false">False</option>
-					</select>
-					<p class="description" >Only refresh data for visible sites</p>
-				</li>
-				<li>
-					<span class="leftSpacingserverNames" > Commits: </span> <input style="width: 52px;" type="text" name="maxCommits" value="<?php echo $maxCommits;?>" > Max
-				</li>
 				<?php
 				$arrayOfGroups = array();
 				$showTopBarOfGroups = false;
@@ -105,7 +67,6 @@
 								foreach ($arrayOfGroups as $key => $value):
 								?>
 								<option <?php if ($defaultGroupViewOnLoad == $value){echo "selected";}?> value="<?php echo $value; ?>"><?php echo $value; ?></option>
-										
 								<?php
 								endforeach;
 								?>

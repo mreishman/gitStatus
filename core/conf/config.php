@@ -20,6 +20,7 @@ $defaultConfig = array(
 	'onlyRefreshVisible'	=> 'true',
 	'defaultViewBranchCookie'	=> 'false',
 	'loginAuthType'	=> 'disabled',
+	'defaultBranchList'	=> 'master',
 	'errorAndColorArray'	=> array(
 		'error'	=> array(
 			'color'	=> 'C33',

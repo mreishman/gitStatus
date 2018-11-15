@@ -34,6 +34,8 @@
  					<option value="local" >github</option>
  					<option value="external" >gitlab</option>
  				</select>
+ 				<br>
+ 				<span class="leftSpacingserverNames" > branchList:</span> <input disabled="true" class='inputWidth300' type='text' value='Compare branches list example: master , develop'>
 				</li>
 				<?php
 
@@ -47,6 +49,7 @@
 					'groupInfo' =>  '',
 					'urlHit' =>  '',
 					'gitType'	=>	'github',
+					'branchList'	=> 'master',
 					"Archive" => 'false'
 				);
 
