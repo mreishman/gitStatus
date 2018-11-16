@@ -84,7 +84,7 @@
 				<?php
 				$arrayOfGroups = array();
 				$showTopBarOfGroups = false;
-				$watchlistConfig = $config["watchlist"];
+				$watchlistConfig = $config["watchList"];
 				if($pollType === "2")
 				{
 					$watchlistConfig = $config["serverWatchList"];
