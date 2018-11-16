@@ -84,7 +84,12 @@
 				<?php
 				$arrayOfGroups = array();
 				$showTopBarOfGroups = false;
-				foreach ($config['watchList'] as $key => $value)
+				$watchlistConfig = $config["watchList"];
+				if($pollType === "2")
+				{
+					$watchlistConfig = $config["serverWatchList"];
+				}
+				foreach ($watchlistConfig as $key => $value)
 				{
 					if(isset($value['groupInfo']) && !is_null($value['groupInfo']) && ($value['groupInfo'] != "") )
 					{
