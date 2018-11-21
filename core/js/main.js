@@ -1359,6 +1359,9 @@ function switchToStandardView()
 
 			$('.devBoxContentSecondaryExpanded').addClass('devBoxContentSecondary');
 			$('.devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
+
+			$(".downArrow").css("display","inline-block");
+			$(".upArrow").css("display","none");
 		}
 	}
 }
@@ -1388,6 +1391,9 @@ function switchToExpandedView()
 
 			$('.devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
 			$('.devBoxContentSecondary').removeClass('devBoxContentSecondary');
+
+			$(".downArrow").css("display","none");
+			$(".upArrow").css("display","inline-block");
 		}
 	}
 }
