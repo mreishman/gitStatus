@@ -343,11 +343,11 @@ if($defaultViewBranch == 'Standard')
 											Origin/Master
 										</td>
 										<td>
-											-<span id="minusMaster" ></span>
-											<meter id="minusMasterMeter" min="0" max="1.2" class="meterCommit meterCommitLeft" ></meter>
+											-<span id="minusmaster" ></span>
+											<meter id="minusmasterMeter" min="0" max="1.2" class="meterCommit meterCommitLeft" ></meter>
 											|
-											<meter id="plusMasterMeter" min="0" max="1.2" class="meterCommit meterCommitRight"></meter>
-											+<span id="plusMaster" ></span>
+											<meter id="plusmasterMeter" min="0" max="1.2" class="meterCommit meterCommitRight"></meter>
+											+<span id="plusmaster" ></span>
 										</td>
 									</tr>
 								</table>
@@ -427,6 +427,7 @@ if($defaultViewBranch == 'Standard')
 			echo "var arrayOfGroups = ".json_encode($arrayOfGroups).";";
 			echo "var maxCommits = ".$maxCommits.";";
 			echo "var onServerRemoveRemoveNotError = ".$onServerRemoveRemoveNotError.";";
+			echo "var defaultBranchList = '".$defaultBranchList."';";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";

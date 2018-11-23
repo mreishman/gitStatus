@@ -1744,8 +1744,9 @@ function getDiffCommits()
 	{
 		branchName = $("#"+idName).html();
 	}
+	var branchList = defaultBranchList;
 
-	var data = {location: arrayOfWatchFilters[idName]["location"], branchName};
+	var data = {location: arrayOfWatchFilters[idName]["location"], branchName, branchList};
 	(function(_data){
 			$.ajax({
 			url: urlForSend,
@@ -1808,15 +1809,15 @@ function getDiffCommitsHttp()
 
 function showDiffCommits(data)
 {
-	if(data["compareMaster"] === "")
+	if(data["comparemaster"] === "")
 	{
-		data["compareMaster"] = "0\t0";
+		data["comparemaster"] = "0\t0";
 	}
 	if(data["compareCurrent"] === "")
 	{
 		data["compareCurrent"] = "0\t0";
 	}
-	var commitDiffMaster = data["compareMaster"].split(/\D/);
+	var commitDiffMaster = data["comparemaster"].split(/\D/);
 	var commitDiffCurrent = data["compareCurrent"].split(/\D/);
 	var baseForLeft = commitDiffCurrent[0];
 	if(commitDiffCurrent[0] < commitDiffMaster[0])
@@ -1845,10 +1846,10 @@ function showDiffCommits(data)
 	document.getElementById("plusCurrentMeter").value = commitDiffCurrent[1]/baseForRight;
 	$("#minusCurrent").html(commitDiffCurrent[0]);
 	document.getElementById("minusCurrentMeter").value = commitDiffCurrent[0]/baseForLeft;
-	$("#plusMaster").html(commitDiffMaster[1]);
-	document.getElementById("plusMasterMeter").value = commitDiffMaster[1]/baseForRight;
-	$("#minusMaster").html(commitDiffMaster[0]);
-	document.getElementById("minusMasterMeter").value = commitDiffMaster[0]/baseForLeft;
+	$("#plusmaster").html(commitDiffMaster[1]);
+	document.getElementById("plusmasterMeter").value = commitDiffMaster[1]/baseForRight;
+	$("#minusmaster").html(commitDiffMaster[0]);
+	document.getElementById("minusmasterMeter").value = commitDiffMaster[0]/baseForLeft;
 	document.getElementById("gitDiffLoading").style.display = "none";
 	$(".branchInfoGitDiff").css("display","table-row");
 }
