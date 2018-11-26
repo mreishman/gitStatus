@@ -1785,8 +1785,9 @@ function getDiffCommitsHttp()
 	{
 		branchName = $("#"+idName).html();
 	}
+	var branchList = defaultBranchList;
 
-	var data = {location: arrayOfWatchFilters[idName]["location"], branchName};
+	var data = {location: arrayOfWatchFilters[idName]["location"], branchName, branchList};
 	(function(_data){
 			$.ajax({
 			url: urlForSend,
