@@ -1809,29 +1809,41 @@ function getDiffCommitsHttp()
 
 function showDiffCommits(data)
 {
-	if(data["comparemaster"] === "")
+	while(document.getElementById("tableForCommitHistory").rows.length > 0)
 	{
-		data["comparemaster"] = "0\t0";
+		document.getElementById("tableForCommitHistory").deleteRow(0);
 	}
-	if(data["compareCurrent"] === "")
+	var dataKeys = Object.keys(data);
+	var dataKeysLength = dataKeys.length;
+	for(var branchNameCount = 0; branchNameCount < dataKeysLength; branchNameCount++)
 	{
-		data["compareCurrent"] = "0\t0";
+		var currentBranchName = dataKeys[branchNameCount];
+		var currentBranchStats= data[dataKeys[branchNameCount]];
+		if(currentBranchStats === "")
+		{
+			currentBranchStats = "0\t0";
+		}
+		data[currentBranchName] = {};
+		data[currentBranchName]["currentData"] = currentBranchStats;
+		data[currentBranchName]["commitDiff"] = currentBranchStats.split(/\D/);
 	}
-	var commitDiffMaster = data["comparemaster"].split(/\D/);
-	var commitDiffCurrent = data["compareCurrent"].split(/\D/);
-	var baseForLeft = commitDiffCurrent[0];
-	if(commitDiffCurrent[0] < commitDiffMaster[0])
+	var baseForLeft = 0;
+	var baseForRight = 0;
+	for(var branchNameCount = 0; branchNameCount < dataKeysLength; branchNameCount++)
 	{
-		baseForLeft = commitDiffMaster[0];
+		var currentBranchName = dataKeys[branchNameCount];
+		if(baseForLeft < data[currentBranchName]["commitDiff"][0])
+		{
+			baseForLeft = data[currentBranchName]["commitDiff"][0];
+		}
+		if(baseForRight < data[currentBranchName]["commitDiff"][1])
+		{
+			baseForLeft = data[currentBranchName]["commitDiff"][1];
+		}
 	}
 	if(baseForLeft == 0)
 	{
 		baseForLeft = 1;
-	}
-	var baseForRight = commitDiffCurrent[1];
-	if(commitDiffCurrent[1] < commitDiffMaster[1])
-	{
-		baseForRight = commitDiffMaster[1];
 	}
 	if(baseForRight == 0)
 	{
@@ -1842,14 +1854,19 @@ function showDiffCommits(data)
 		commitListGetError();
 		return;
 	}
-	$("#plusCurrent").html(commitDiffCurrent[1]);
-	document.getElementById("plusCurrentMeter").value = commitDiffCurrent[1]/baseForRight;
-	$("#minusCurrent").html(commitDiffCurrent[0]);
-	document.getElementById("minusCurrentMeter").value = commitDiffCurrent[0]/baseForLeft;
-	$("#plusmaster").html(commitDiffMaster[1]);
-	document.getElementById("plusmasterMeter").value = commitDiffMaster[1]/baseForRight;
-	$("#minusmaster").html(commitDiffMaster[0]);
-	document.getElementById("minusmasterMeter").value = commitDiffMaster[0]/baseForLeft;
+	for(var branchNameCount = 0; branchNameCount < dataKeysLength; branchNameCount++)
+	{
+		var currentBranchName = dataKeys[branchNameCount];
+		var table = document.getElementById("tableForCommitHistory");
+		var newRow = table.rows.length - 1;
+		var row = table.insertRow(newRow);
+		var cell1 = row.insertCell(0);
+	    var cell2 = row.insertCell(1);
+	    cell1.innerHTML = "Origin/"+currentBranchName;
+	    var commitDiffLeft = data[currentBranchName]["commitDiff"][0];
+	    var commitDiffRight = data[currentBranchName]["commitDiff"][1];
+	    cell2.innerHTML = "- "+commitDiffLeft+"<meter min=\"0\" max=\"1.2\" value=\""+(commitDiffLeft/baseForLeft)+"\" class=\"meterCommit meterCommitLeft\" ></meter> | <meter min=\"0\" max=\"1.2\" value=\""+(commitDiffRight/baseForRight)+"\"  class=\"meterCommit meterCommitRight\" ></meter>	+ "+commitDiffRight;
+	}
 	document.getElementById("gitDiffLoading").style.display = "none";
 	$(".branchInfoGitDiff").css("display","table-row");
 }

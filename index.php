@@ -327,28 +327,7 @@ if($defaultViewBranch == 'Standard')
 										</td>
 									</tr>
 									<tr class="branchInfoGitDiff">
-										<td>
-											Origin/CurrentBranch
-										</td>
-										<td>
-											-<span id="minusCurrent" ></span>
-											<meter id="minusCurrentMeter" min="0" max="1.2" class="meterCommit meterCommitLeft" ></meter>
-											|
-											<meter id="plusCurrentMeter" min="0" max="1.2"  class="meterCommit meterCommitRight" ></meter>
-											+<span id="plusCurrent" ></span>
-										</td>
-									</tr>
-									<tr class="branchInfoGitDiff">
-										<td>
-											Origin/Master
-										</td>
-										<td>
-											-<span id="minusmaster" ></span>
-											<meter id="minusmasterMeter" min="0" max="1.2" class="meterCommit meterCommitLeft" ></meter>
-											|
-											<meter id="plusmasterMeter" min="0" max="1.2" class="meterCommit meterCommitRight"></meter>
-											+<span id="plusmaster" ></span>
-										</td>
+										<table id="tableForCommitHistory" width="100%"></table>
 									</tr>
 								</table>
 							</td>
