@@ -2331,7 +2331,10 @@ $( document ).ready(function()
 	if(pausePollFromFile !== "true")
 	{
 		poll();
-		startPoll();
+		if(pausePollFromFile !== "almostTrue")
+		{
+			startPoll();
+		}
 	}
 
 	startPauseOnNotFocus();

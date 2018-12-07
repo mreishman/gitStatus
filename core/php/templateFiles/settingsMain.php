@@ -19,8 +19,9 @@
 				<li>
 					<span class="leftSpacingserverNames" > Pause Poll: </span>
 					<select name="pausePoll">
-  						<option <?php if($pausePoll == 'true'){echo "selected";} ?> value="true">True</option>
-  						<option <?php if($pausePoll == 'false'){echo "selected";} ?> value="false">False</option>
+  						<option <?php if($pausePoll == 'true'){echo "selected";} ?> value="true">Yes</option>
+  						<option <?php if($pausePoll == 'almostTrue'){echo "selected";} ?> value="almostTrue">After First</option>
+  						<option <?php if($pausePoll == 'false'){echo "selected";} ?> value="false">No</option>
 					</select>
 				</li>
 				<li>
