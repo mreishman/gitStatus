@@ -408,7 +408,7 @@ if($defaultViewBranch == 'Standard')
 
 			echo "var pollingRate = ".$pollingRate.";";
 			echo "var pollingRateBG = ".$pollingRateBG.";";
-			echo "var pausePollFromFile = ".$pausePoll.";";
+			echo "var pausePollFromFile = '".$pausePoll."';";
 			echo "var pausePollOnNotFocus = ".$pauseOnNotFocus.";";
 			echo "var autoCheckUpdate = ".$autoCheckUpdate.";";
 			echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
