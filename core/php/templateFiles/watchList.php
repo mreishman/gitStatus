@@ -10,7 +10,7 @@
 		</div>
 		<div class="devBoxContent">
 			<ul class="settingsUl">
-			<?php if((int)$pollType === 1): ?>
+			<?php if($pollType === "1"): ?>
 				<li><h2>Example:</h2></li>
 				<li class="watchFolderGroups">
 				<span>Poll Version 1</span>
@@ -54,7 +54,7 @@
 				);
 
 				?>
-			<?php elseif((int)$pollType === 2): ?>
+			<?php elseif($pollType === "2"): ?>
 				<li class="watchFolderGroups">
 				<span>Poll Version 2</span>
 				<br>
@@ -86,7 +86,7 @@
 				$arrayOfKeys = array();
 				foreach($config['watchList'] as $key => $item): $i++;
 					$type = "internal";
-					if(isset($item["type"]) && $pollType === 2)
+					if(isset($item["type"]) && $pollType === "2")
 					{
 						$type = $item["type"];
 					}
