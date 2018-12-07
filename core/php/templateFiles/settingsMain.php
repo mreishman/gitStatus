@@ -26,8 +26,8 @@
 				<li>
 					<span class="leftSpacingserverNames" > Poll Type: </span>
 					<select name="pollType">
-  						<option <?php if($pollType == 1){echo "selected";} ?> value="1">Version 1 [backwards compatable]</option>
-  						<option <?php if($pollType == 2){echo "selected";} ?> value="2">Version 2 [more secure]</option>
+  						<option <?php if($pollType == "1"){echo "selected";} ?> value="1">Version 1 [backwards compatable]</option>
+  						<option <?php if($pollType == "2"){echo "selected";} ?> value="2">Version 2 [more secure]</option>
 					</select>
 				</li>
 				<li>

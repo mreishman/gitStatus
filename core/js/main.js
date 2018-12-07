@@ -286,7 +286,7 @@ function tryHttpActuallyPollLogic(count, name)
 	}
 	var data = {location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"]};
 	var innerData = {};
-	if(pollType == 1)
+	if(pollType == "1")
 	{
 		innerData = data;
 	}
@@ -314,7 +314,7 @@ function tryHTTPSForPollRequest(_data)
 	urlForSend = urlForSend.replace("http","https");
 	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase, id: _data.id};
 	var innerData = {};
-	if(pollType == 1)
+	if(pollType == "1")
 	{
 		innerData = data;
 	}
@@ -404,14 +404,18 @@ function cleanUpGroups()
 	var arrayOfWatchFiltersKeylength = arrayOfWatchFiltersKey.length;
 	for(var i = 0; i < arrayOfWatchFiltersKeylength; i++)
 	{
-		var listOfGroupNames = arrayOfWatchFilters[arrayOfWatchFiltersKey[i]]["groupInfo"].split(" ");
-		var listOfGroupNamesLength = listOfGroupNames.length;
-		for(var j = 0; j < listOfGroupNamesLength; j++)
+		var listOfGroupNames = arrayOfWatchFilters[arrayOfWatchFiltersKey[i]]["groupInfo"];
+		if(typeof listOfGroupNames !== "undefined" && listOfGroupNames !== "" && listOfGroupNames !== null)
 		{
-			var groupName = listOfGroupNames[j];
-			if(arrayOfGroups.indexOf(groupName) !== -1 && groupName !== "")
+			var listOfGroupNames = listOfGroupNames.split(" ");
+			var listOfGroupNamesLength = listOfGroupNames.length;
+			for(var j = 0; j < listOfGroupNamesLength; j++)
 			{
-				newArrayOfGroups.push(groupName);
+				var groupName = listOfGroupNames[j];
+				if(arrayOfGroups.indexOf(groupName) !== -1 && groupName !== "")
+				{
+					newArrayOfGroups.push(groupName);
+				}
 			}
 		}
 	}

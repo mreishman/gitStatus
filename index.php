@@ -150,18 +150,18 @@ if($defaultViewBranch == 'Standard')
 			<?php
 			$h = -1;
 			$newArray = array();
-			if($pollType === 1)
+			if($pollType === "1")
 			{
 				$newArray = $config["watchList"];
 			}
-			if($cacheEnabled === "true")
+			if(($cacheEnabled === "true" || $cacheEnabled == "read" ) && count($cachedStatusMainObject) > 0)
 			{
 				$newArray = array_merge($cachedStatusMainObject, $newArray);
 			}
 			$alreadyShown = array();
 			foreach ($newArray as $key => $value)
 			{
-				if(isset($value["Archive"]) && "true" === $value["Archive"] && $pollType === 1)
+				if(isset($value["Archive"]) && "true" === $value["Archive"] && $pollType === "1")
 				{
 					continue;
 				}
