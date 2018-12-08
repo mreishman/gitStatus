@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.3.3',
+	'version'		=> '3.3.4',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -114,6 +114,10 @@ $versionCheckArray = array(
 		'3.3.3'		=> array(
 			'branchName'	=> '3.3.3Update',
 			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Fixed default group dropdown for poll type 2</li></ul></li></ul>'
+		),
+		'3.3.4'		=> array(
+			'branchName'	=> '3.3.4Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>Added third option for pause poll (only pause after initial load)</li></ul></li><li>Bug Fixes<ul><li>Fixed js bug on index page with entries where no group was set</li><li>Fixed issue with poll type 1 not loading correct information on page load</li><li>Fixed issue with pause poll on load not working correctly</li><li>Fixed small bug where watchlist data would not properly show up if cacheEnabled was set to readOnly</li></ul></li></ul>'
 		),
 	)
 );
