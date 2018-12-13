@@ -276,6 +276,11 @@ function tryHttpActuallyPollLogic(count, name)
 	document.getElementById("refreshDiv").style.display = "none";
 	var folder = "";
 	var githubRepo = "";
+	var branchList = "";
+	if("branchList" in arrayOfFiles[count])
+	{
+		branchList = arrayOfFiles[count]["branchList"];
+	}
 	if("Folder" in arrayOfFiles[count])
 	{
 		folder = arrayOfFiles[count]["Folder"];
@@ -284,7 +289,7 @@ function tryHttpActuallyPollLogic(count, name)
 	{
 		githubRepo = arrayOfFiles[count]["githubRepo"];
 	}
-	var data = {location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"]};
+	var data = {location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"],branchList};
 	var innerData = {};
 	if(pollType == "1")
 	{
@@ -312,7 +317,7 @@ function tryHTTPSForPollRequest(_data)
 {
 	var urlForSend = _data.urlForSend;
 	urlForSend = urlForSend.replace("http","https");
-	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase, id: _data.id};
+	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase, id: _data.id, branchList: _data.branchList};
 	var innerData = {};
 	if(pollType == "1")
 	{
