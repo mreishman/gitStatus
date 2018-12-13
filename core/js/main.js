@@ -685,6 +685,11 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	var dataToFilterBy = "error";
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
 	var groupNames = dataInner["groupInfo"];
+	var branchList = false;
+	if("branchList" in dataInnerPass && dataInnerPass["branchList"] !== "")
+	{
+		branchList = dataInnerPass["branchList"];
+	}
 	if("id" in dataInnerPassMaster)
 	{
 		groupNames	+= " " + dataInnerPassMaster["id"];
@@ -961,7 +966,8 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				datePicker: null,
 				groupInfo: groupNames,
 				location: "location" in dataInner ? dataInner["location"] : null,
-				WebsiteBase: "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null
+				WebsiteBase: "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null,
+				branchList: branchList
 			};
 		}
 		else
@@ -982,6 +988,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			arrayOfWatchFilters[noSpaceName]["groupInfo"] = groupNames;
 			arrayOfWatchFilters[noSpaceName]["location"] = "location" in dataInner ? dataInner["location"] : null;
 			arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null;
+			arrayOfWatchFilters[noSpaceName]["branchList"] = branchList;
 		}
 		
 		filterBGColor(dataToFilterBy, nameForBackground, 1);
@@ -1097,7 +1104,8 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				datePicker: null,
 				groupInfo: "",
 				location: null,
-				WebsiteBase: null
+				WebsiteBase: null,
+				branchList: false
 			};
 		}
 		else
@@ -1111,6 +1119,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
 			arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
 			arrayOfWatchFilters[noSpaceName]["groupInfo"] = "";
+			arrayOfWatchFilters[noSpaceName]["branchList"] = false;
 			if(!("location" in arrayOfWatchFilters[noSpaceName]))
 			{
 				arrayOfWatchFilters[noSpaceName]["location"] = null;
@@ -1749,7 +1758,10 @@ function getDiffCommits()
 		branchName = $("#"+idName).html();
 	}
 	var branchList = defaultBranchList;
-
+	if(idName in arrayOfWatchFilters && "branchList" in arrayOfWatchFilters[idName] && arrayOfWatchFilters[idName]["branchList"] !== false && arrayOfWatchFilters[idName]["branchList"] !== "")
+	{
+		branchList = arrayOfWatchFilters[idName]["branchList"];
+	}
 	var data = {location: arrayOfWatchFilters[idName]["location"], branchName, branchList};
 	(function(_data){
 			$.ajax({

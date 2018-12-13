@@ -282,7 +282,8 @@ else
 					'otherFunctions'	=> '',
 					'website'		=> $website,
 					'location'		=> $value['Folder'],
-					'WebsiteBase'	=> $websiteBase
+					'WebsiteBase'	=> $websiteBase,
+					'branchList'	=> $value["branchList"]
 				);
 				$newFileName = getBranchNameHistoryName($value['Folder']);
 				if(is_file("branchNameHistory".$newFileName.".php"))
