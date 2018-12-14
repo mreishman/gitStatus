@@ -1737,6 +1737,7 @@ function getInfo()
 {
 	document.getElementById("gitDiffNoInfo").style.display = "none";
 	document.getElementById("gitDiffLoading").style.display = "table-row";
+	document.getElementById("tableForCommitHistory").style.display = "none";
 	$(".branchInfoGitDiff").hide();
 	var idName = currentIdOfMainSidebar;
 	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
@@ -1900,6 +1901,7 @@ function showDiffCommits(data)
 	    cell2.innerHTML = "- "+commitDiffLeft+"<meter min=\"0\" max=\"1.2\" value=\""+(commitDiffLeft/baseForLeft)+"\" class=\"meterCommit meterCommitLeft\" ></meter> | <meter min=\"0\" max=\"1.2\" value=\""+(commitDiffRight/baseForRight)+"\"  class=\"meterCommit meterCommitRight\" ></meter>	+ "+commitDiffRight;
 	}
 	document.getElementById("gitDiffLoading").style.display = "none";
+	document.getElementById("tableForCommitHistory").style.display = "table";
 	$(".branchInfoGitDiff").css("display","table-row");
 }
 
