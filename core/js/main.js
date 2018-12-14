@@ -77,8 +77,11 @@ function poll(all = -1, counterForSaveNew = 1)
 										}
 										else
 										{
-											document.getElementById("innerFirstDevBox"+arrayOfWatchFiltersKeys[j]).parentNode.id = "removeThis";
-											$("#removeThis").remove();
+											if(document.getElementById("innerFirstDevBox"+arrayOfWatchFiltersKeys[j]))
+											{
+												document.getElementById("innerFirstDevBox"+arrayOfWatchFiltersKeys[j]).parentNode.id = "removeThis";
+												$("#removeThis").remove();
+											}
 										}
 										//remove from archive
 										var noSpaceName = arrayOfWatchFiltersKeys[j].replace(/\s/g, '');
@@ -96,12 +99,18 @@ function poll(all = -1, counterForSaveNew = 1)
 								}
 								else
 								{
-									document.getElementById(arrayOfFiles[i].id).parentNode.id = "removeThis";
-									$("#removeThis").remove();
+									if(document.getElementById(arrayOfFiles[i].id))
+									{
+										document.getElementById(arrayOfFiles[i].id).parentNode.id = "removeThis";
+										$("#removeThis").remove();
+									}
 								}
 								//remove from archive
-								var noSpaceName = arrayOfFiles[i].replace(/\s/g, '');
-								delete arrayOfWatchFilters[noSpaceName];
+								var noSpaceName = "branchName"+arrayOfFiles[i]["name"].replace(/\s/g, '');
+								if(noSpaceName in arrayOfWatchFilters)
+								{
+									delete arrayOfWatchFilters[noSpaceName];
+								}
 							}
 						}
 					}
