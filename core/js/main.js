@@ -51,7 +51,7 @@ function poll(all = -1, counterForSaveNew = 1)
 						{
 							if(arrayOfFiles[i]["Name"] === dataKeys[j])
 							{
-								if((!("Archive" in watchlistData[dataKeys[j]])) || (watchlistData[dataKeys[j]]["Archive"] === "false"))
+								if((!("Archive" in watchlistData[dataKeys[j]])) || (watchlistData[dataKeys[j]]["Archive"] === "false" || watchlistData[dataKeys[j]]["Archive"] === ""))
 								{
 									iFound = true;
 								}
@@ -92,21 +92,22 @@ function poll(all = -1, counterForSaveNew = 1)
 							else
 							{
 								numberOfLogs--;
+								var htmlId = "innerFirstDevBoxbranchNameDevBox1"+(arrayOfFiles[i]["Name"].replace(/\s/g, '_'));
 								if(onServerRemoveRemoveNotError)
 								{
 									//show error on specific poll
-									pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[i].location, name: arrayOfFiles[i].name, githubRepo: arrayOfFiles[i].githubRepo, websiteBase: arrayOfFiles[i].websiteBase, id: arrayOfFiles[i].id});
+									pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[i].location, name: arrayOfFiles[i].name, githubRepo: arrayOfFiles[i].githubRepo, websiteBase: arrayOfFiles[i].websiteBase, id: htmlId});
 								}
 								else
 								{
-									if(document.getElementById(arrayOfFiles[i].id))
+									if(document.getElementById(htmlId))
 									{
-										document.getElementById(arrayOfFiles[i].id).parentNode.id = "removeThis";
+										document.getElementById(htmlId).parentNode.id = "removeThis";
 										$("#removeThis").remove();
 									}
 								}
 								//remove from archive
-								var noSpaceName = "branchName"+arrayOfFiles[i]["name"].replace(/\s/g, '');
+								var noSpaceName = "branchNameDevBox1"+(arrayOfFiles[i]["Name"].replace(/\s/g, ''));
 								if(noSpaceName in arrayOfWatchFilters)
 								{
 									delete arrayOfWatchFilters[noSpaceName];
