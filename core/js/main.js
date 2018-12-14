@@ -121,7 +121,7 @@ function poll(all = -1, counterForSaveNew = 1)
 					var dataLength = dataKeys.length;
 					for(var j = 0; j < dataLength; j++)
 					{
-						if((!("Archive" in watchlistData[dataKeys[j]])) || (watchlistData[dataKeys[j]]["Archive"] === "false"))
+						if((!("Archive" in watchlistData[dataKeys[j]])) || (watchlistData[dataKeys[j]]["Archive"] === "false" || watchlistData[dataKeys[j]]["Archive"] === ""))
 						{
 							arrayOfFiles.push(watchlistData[dataKeys[j]]);
 							arrayOfFiles[(arrayOfFiles.length - 1)]["Name"] = dataKeys[j];
