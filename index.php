@@ -327,28 +327,7 @@ if($defaultViewBranch == 'Standard')
 										</td>
 									</tr>
 									<tr class="branchInfoGitDiff">
-										<td>
-											Origin/CurrentBranch
-										</td>
-										<td>
-											-<span id="minusCurrent" ></span>
-											<meter id="minusCurrentMeter" min="0" max="1.2" class="meterCommit meterCommitLeft" ></meter>
-											|
-											<meter id="plusCurrentMeter" min="0" max="1.2"  class="meterCommit meterCommitRight" ></meter>
-											+<span id="plusCurrent" ></span>
-										</td>
-									</tr>
-									<tr class="branchInfoGitDiff">
-										<td>
-											Origin/Master
-										</td>
-										<td>
-											-<span id="minusMaster" ></span>
-											<meter id="minusMasterMeter" min="0" max="1.2" class="meterCommit meterCommitLeft" ></meter>
-											|
-											<meter id="plusMasterMeter" min="0" max="1.2" class="meterCommit meterCommitRight"></meter>
-											+<span id="plusMaster" ></span>
-										</td>
+										<table id="tableForCommitHistory" width="100%"></table>
 									</tr>
 								</table>
 							</td>
@@ -427,6 +406,7 @@ if($defaultViewBranch == 'Standard')
 			echo "var arrayOfGroups = ".json_encode($arrayOfGroups).";";
 			echo "var maxCommits = ".$maxCommits.";";
 			echo "var onServerRemoveRemoveNotError = ".$onServerRemoveRemoveNotError.";";
+			echo "var defaultBranchList = '".$defaultBranchList."';";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";

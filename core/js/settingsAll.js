@@ -47,6 +47,17 @@ function timerVerifySave()
 					}
 					else
 					{
+						if(document.getElementsByName("pollType")[0])
+						{
+							if(document.getElementsByName("pollType")[0].value !== "2")
+							{
+								document.getElementById("menuBarLeftSettingsServerWatchList").style.display = "none";
+							}
+							else
+							{
+								document.getElementById("menuBarLeftSettingsServerWatchList").style.display = "block";
+							}
+						}
 						saveVerified();
 					}
 				}

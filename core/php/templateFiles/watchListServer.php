@@ -15,45 +15,61 @@
 				<li class="watchFolderGroups">
 				<span class="leftSpacingserverNames" > Name:</span> <input disabled="true" class='inputWidth300' type='text' value='Name you want to call website'> 
 				<br>
-				<span class="leftSpacingserverNames" > WebsiteBase:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'> 
+				<span class="leftSpacingserverNames" > Website Base:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'> 
 				<br>
 				<span class="leftSpacingserverNames" > Folder:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of github repo on server'> 
 				<br>
 				<span class="leftSpacingserverNames" > Website:</span> <input disabled="true" class='inputWidth300' type='text' value='Specific directory of website'> 
 				<br>
-				<span class="leftSpacingserverNames" > githubRepo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'> 
+				<span class="leftSpacingserverNames" > Git Repo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'> 
 				<br>
-				<span class="leftSpacingserverNames" > groupInfo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of group'> 
+				<span class="leftSpacingserverNames" > Group Info:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of group'> 
 				<br>
-				<span class="leftSpacingserverNames" > urlHit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'> 
+				<span class="leftSpacingserverNames" > URL Hit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'> 
 				<br>
-				<span class="leftSpacingserverNames" > type:</span>
+				<span class="leftSpacingserverNames" > Type:</span>
 				<select disabled="true" class='inputWidth300' >
  					<option value="local" >Local</option>
  					<option value="external" >External</option>
  				</select>
  				<br>
- 				<span class="leftSpacingserverNames" > gitType:</span>
+ 				<span class="leftSpacingserverNames" > Git Type:</span>
 				<select disabled="true" class='inputWidth300' >
  					<option value="local" >github</option>
  					<option value="external" >gitlab</option>
  				</select>
+ 				<br>
+ 				<span class="leftSpacingserverNames" > Branch List:</span> <input disabled="true" class='inputWidth300' type='text' value='Compare branches list example: master , develop'>
 				</li>
 
 
 				<li><h2>Your Watch List: </h2></li>
 				<?php
 
+				$arrayKeys = array(
+					'WebsiteBase'		=> 'Website Base',
+					'Folder'			=> 'Folder',
+					'Website'			=> 'Website',
+					'githubRepo'		=> 'Git Repo',
+					'groupInfo'			=> 'Group Info',
+					'urlHit'			=> 'URL Hit',
+					'type'				=> 'Type',
+					'gitType'			=> 'Git Type',
+					'branchList'		=> 'Branch List',
+					'Archive'			=> 'Archive'
+				);
+
 				$defaultArray = array(
-					'WebsiteBase' =>  '',
-					'Folder' =>  '',
-					'Website' =>  '',
-					'githubRepo' =>  '',
-					'groupInfo' =>  '',
-					'urlHit' =>  '',
-					"type" => "",
-					"gitType"	=>	"",
-					"Archive" => 'false'
+					'WebsiteBase'		=>  '',
+					'Folder'			=>  '',
+					'Website'			=>  '',
+					'githubRepo'		=>  '',
+					'groupInfo'			=>  '',
+					'urlHit'			=>  '',
+					"type"				=> "",
+					"gitType"			=>	"",
+					'branchList'		=> 'master',
+					"Archive"			=> 'false'
 				);
 
 				$i = 0;
@@ -71,7 +87,7 @@
 	 				foreach($defaultArray as $key2 => $item2):
 	 					$j++;
 	 					?>
-		 				<br> <span class="leftSpacingserverNames" > <?php echo $key2; ?>: </span><input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
+		 				<br> <span class="leftSpacingserverNames" > <?php echo $arrayKeys[$key2]; ?>: </span><input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
 		 				<?php
 			 				if(!in_array($key2, $arrayOfKeys))
 			 				{

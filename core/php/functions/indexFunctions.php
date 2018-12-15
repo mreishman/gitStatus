@@ -33,6 +33,8 @@ function generateWindow($data = array(), $pollType)
 	$counter = "{{counter}}";
 	$name = "{{name}}";
 	$branchView = "{{branchView}}";
+	$upArrow = "{{upArrow}}";
+	$downArrow = "{{downArrow}}";
 
 	$greenLED = "inline-block";
 	$yellowLED = "none";
@@ -111,6 +113,17 @@ function generateWindow($data = array(), $pollType)
 		$showRefresh = $data["showRefresh"];
 	}
 
+	if($branchView === "devBoxContentSecondary")
+	{
+		$upArrow = "display: none;";
+		$downArrow = "";
+	}
+	elseif($branchView === "devBoxContentSecondaryExpanded")
+	{
+		$upArrow = "";
+		$downArrow = "display: none;";
+	}
+
 	$status = "<span style=\"display: none;\" id=\"".$keyNoSpace."Stats\"></span>";
 	$branchData = "<span id=\"".$keyNoSpace."\"><img style=\"width: 20px;\" src=\"core/img/loading.gif\"> Loading...</span>";
 
@@ -139,6 +152,8 @@ function generateWindow($data = array(), $pollType)
 	$blockHTML .= "			<img onclick=\"togglePinStatus('".$keyNoSpace."');\" id=\"".$keyNoSpace."Pin\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/pin.png\">";
 	$blockHTML .= "			<img onclick=\"togglePinStatus('".$keyNoSpace."');\" id=\"".$keyNoSpace."PinPinned\" style=\"cursor: pointer; height: 18px; display: none;\" src=\"core/img/pinPinned.png\">";
 	$blockHTML .= "			<img onclick=\"toggleDetailBar(event, '".$keyNoSpace."');\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/externalLink.png\">";
+	$blockHTML .= "			<img class=\"downArrow\" onclick=\"singleSwitchToExpandView('".$keyNoSpace."');\" id=\"".$keyNoSpace."DownArrow\" style=\"cursor: pointer; height: 18px; ".$downArrow." \" src=\"core/img/downarrow.png\">";
+	$blockHTML .= "			<img class=\"upArrow\" onclick=\"singleSwitchToStandardView('".$keyNoSpace."');\" id=\"".$keyNoSpace."UpArrow\" style=\"cursor: pointer; height: 18px; ".$upArrow."  \" src=\"core/img/uparrow.png\">";
 	$blockHTML .= "				<div class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
 	$blockHTML .= "			    	<a  style=\"cursor: pointer; ";
 	if($pollType !== "1")

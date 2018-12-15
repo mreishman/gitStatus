@@ -41,6 +41,12 @@ function addRowFunction()
 		 	documentUpdateText += "		<option value=\"gitlab\" >GitLab</option>";
 		 	documentUpdateText += " </select>";
 		}
+		else if(arrayOfKeysNonEnc[i] === "Archive")
+		{
+			documentUpdateText += " <br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>";
+			documentUpdateText += " <a id=\"archiveButton"+countOfWatchList+"\" onclick=\"toggleArchive("+countOfWatchList+");\" class=\"mainLinkClass\" >Archive</a>";
+			documentUpdateText += "<input id=\"archiveInput"+countOfWatchList+"\" class='inputWidth300'  type='hidden' name='watchListItem"+countOfWatchList+"-"+(i+1)+"' value='false'>";
+		}
 		else
 		{
 			documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>  <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >"

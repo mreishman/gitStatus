@@ -51,7 +51,7 @@ function poll(all = -1, counterForSaveNew = 1)
 						{
 							if(arrayOfFiles[i]["Name"] === dataKeys[j])
 							{
-								if((!("Archive" in watchlistData[dataKeys[j]])) || (watchlistData[dataKeys[j]]["Archive"] === "false"))
+								if((!("Archive" in watchlistData[dataKeys[j]])) || (watchlistData[dataKeys[j]]["Archive"] === "false" || watchlistData[dataKeys[j]]["Archive"] === ""))
 								{
 									iFound = true;
 								}
@@ -77,8 +77,11 @@ function poll(all = -1, counterForSaveNew = 1)
 										}
 										else
 										{
-											document.getElementById("innerFirstDevBox"+arrayOfWatchFiltersKeys[j]).parentNode.id = "removeThis";
-											$("#removeThis").remove();
+											if(document.getElementById("innerFirstDevBox"+arrayOfWatchFiltersKeys[j]))
+											{
+												document.getElementById("innerFirstDevBox"+arrayOfWatchFiltersKeys[j]).parentNode.id = "removeThis";
+												$("#removeThis").remove();
+											}
 										}
 										//remove from archive
 										var noSpaceName = arrayOfWatchFiltersKeys[j].replace(/\s/g, '');
@@ -89,19 +92,26 @@ function poll(all = -1, counterForSaveNew = 1)
 							else
 							{
 								numberOfLogs--;
+								var htmlId = "innerFirstDevBoxbranchNameDevBox1"+(arrayOfFiles[i]["Name"].replace(/\s/g, '_'));
 								if(onServerRemoveRemoveNotError)
 								{
 									//show error on specific poll
-									pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[i].location, name: arrayOfFiles[i].name, githubRepo: arrayOfFiles[i].githubRepo, websiteBase: arrayOfFiles[i].websiteBase, id: arrayOfFiles[i].id});
+									pollFailure("Error", "Server removed from watchlist", {location: arrayOfFiles[i].location, name: arrayOfFiles[i].name, githubRepo: arrayOfFiles[i].githubRepo, websiteBase: arrayOfFiles[i].websiteBase, id: htmlId});
 								}
 								else
 								{
-									document.getElementById(arrayOfFiles[i].id).parentNode.id = "removeThis";
-									$("#removeThis").remove();
+									if(document.getElementById(htmlId))
+									{
+										document.getElementById(htmlId).parentNode.id = "removeThis";
+										$("#removeThis").remove();
+									}
 								}
 								//remove from archive
-								var noSpaceName = arrayOfFiles[i].replace(/\s/g, '');
-								delete arrayOfWatchFilters[noSpaceName];
+								var noSpaceName = "branchNameDevBox1"+(arrayOfFiles[i]["Name"].replace(/\s/g, ''));
+								if(noSpaceName in arrayOfWatchFilters)
+								{
+									delete arrayOfWatchFilters[noSpaceName];
+								}
 							}
 						}
 					}
@@ -111,7 +121,7 @@ function poll(all = -1, counterForSaveNew = 1)
 					var dataLength = dataKeys.length;
 					for(var j = 0; j < dataLength; j++)
 					{
-						if((!("Archive" in watchlistData[dataKeys[j]])) || (watchlistData[dataKeys[j]]["Archive"] === "false"))
+						if((!("Archive" in watchlistData[dataKeys[j]])) || (watchlistData[dataKeys[j]]["Archive"] === "false" || watchlistData[dataKeys[j]]["Archive"] === ""))
 						{
 							arrayOfFiles.push(watchlistData[dataKeys[j]]);
 							arrayOfFiles[(arrayOfFiles.length - 1)]["Name"] = dataKeys[j];
@@ -276,6 +286,11 @@ function tryHttpActuallyPollLogic(count, name)
 	document.getElementById("refreshDiv").style.display = "none";
 	var folder = "";
 	var githubRepo = "";
+	var branchList = "";
+	if("branchList" in arrayOfFiles[count])
+	{
+		branchList = arrayOfFiles[count]["branchList"];
+	}
 	if("Folder" in arrayOfFiles[count])
 	{
 		folder = arrayOfFiles[count]["Folder"];
@@ -284,7 +299,7 @@ function tryHttpActuallyPollLogic(count, name)
 	{
 		githubRepo = arrayOfFiles[count]["githubRepo"];
 	}
-	var data = {location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"]};
+	var data = {location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"],branchList};
 	var innerData = {};
 	if(pollType == "1")
 	{
@@ -312,7 +327,7 @@ function tryHTTPSForPollRequest(_data)
 {
 	var urlForSend = _data.urlForSend;
 	urlForSend = urlForSend.replace("http","https");
-	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase, id: _data.id};
+	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase, id: _data.id, branchList: _data.branchList};
 	var innerData = {};
 	if(pollType == "1")
 	{
@@ -685,6 +700,11 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	var dataToFilterBy = "error";
 	var noSpaceName = dataInnerPass['name'].replace(/\s/g, '');
 	var groupNames = dataInner["groupInfo"];
+	var branchList = false;
+	if("branchList" in dataInnerPass && dataInnerPass["branchList"] !== "")
+	{
+		branchList = dataInnerPass["branchList"];
+	}
 	if("id" in dataInnerPassMaster)
 	{
 		groupNames	+= " " + dataInnerPassMaster["id"];
@@ -694,14 +714,6 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		//no there, add
 		var item = $("#storage .container").html();
 		item = item.replace(/{{keyNoSpace}}/g, noSpaceName);
-		if(!$('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
-		{
-			item = item.replace(/{{branchView}}/g, "devBoxContentSecondary");
-		}
-		if(!$('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
-		{
-			item = item.replace(/{{branchView}}/g, "devBoxContentSecondaryExpanded");
-		}
 		item = item.replace(/{{name}}/g,dataInner["displayName"]);
 		var website = "#";
 		if("website" in dataInner)
@@ -715,7 +727,21 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		}
 		item = item.replace(/{{website}}/g,website);
 		item = item.replace(/{{branchView}}/g,branchView);
-
+		if(branchView === "devBoxContentSecondary")
+		{
+			item = item.replace(/{{upArrow}}/g,"display: none;");
+			item = item.replace(/{{downArrow}}/g,"");
+		}
+		else if(branchView === "devBoxContentSecondaryExpanded")
+		{
+			item = item.replace(/{{upArrow}}/g,"");
+			item = item.replace(/{{downArrow}}/g,"display: none;");
+		}
+		else
+		{
+			item = item.replace(/{{upArrow}}/g,"");
+			item = item.replace(/{{downArrow}}/g,"");
+		}
 		item = item.replace(/{{groupInfo}}/g,groupNames);
 		$("#windows").append(item);
 	}
@@ -955,7 +981,8 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				datePicker: null,
 				groupInfo: groupNames,
 				location: "location" in dataInner ? dataInner["location"] : null,
-				WebsiteBase: "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null
+				WebsiteBase: "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null,
+				branchList: branchList
 			};
 		}
 		else
@@ -976,6 +1003,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			arrayOfWatchFilters[noSpaceName]["groupInfo"] = groupNames;
 			arrayOfWatchFilters[noSpaceName]["location"] = "location" in dataInner ? dataInner["location"] : null;
 			arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null;
+			arrayOfWatchFilters[noSpaceName]["branchList"] = branchList;
 		}
 		
 		filterBGColor(dataToFilterBy, nameForBackground, 1);
@@ -1091,7 +1119,8 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				datePicker: null,
 				groupInfo: "",
 				location: null,
-				WebsiteBase: null
+				WebsiteBase: null,
+				branchList: false
 			};
 		}
 		else
@@ -1105,6 +1134,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
 			arrayOfWatchFilters[noSpaceName]["messageTextEnabled"] = false;
 			arrayOfWatchFilters[noSpaceName]["groupInfo"] = "";
+			arrayOfWatchFilters[noSpaceName]["branchList"] = false;
 			if(!("location" in arrayOfWatchFilters[noSpaceName]))
 			{
 				arrayOfWatchFilters[noSpaceName]["location"] = null;
@@ -1332,6 +1362,14 @@ function startPoll()
 	pollTimer = Visibility.every(pollingRate, pollingRateBG, function () { poll(); });
 }
 
+function singleSwitchToStandardView(idOfBlock)
+{
+	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').addClass('devBoxContentSecondary');
+	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
+	document.getElementById(idOfBlock+"DownArrow").style.display = "inline-block";
+	document.getElementById(idOfBlock+"UpArrow").style.display = "none";
+}
+
 function switchToStandardView()
 {
 	if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
@@ -1343,14 +1381,25 @@ function switchToStandardView()
 				document.cookie = "defaultViewBranchCookie=Standard";
 			}
 			removeAllButtonSelectorClasses('standardViewButtonMainSection');
-
+			branchView = "devBoxContentSecondary";
 			$('#standardViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
 			$('#standardViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
 
 			$('.devBoxContentSecondaryExpanded').addClass('devBoxContentSecondary');
 			$('.devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
+
+			$(".downArrow").css("display","inline-block");
+			$(".upArrow").css("display","none");
 		}
 	}
+}
+
+function singleSwitchToExpandView(idOfBlock)
+{
+	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
+	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondary').removeClass('devBoxContentSecondary');
+	document.getElementById(idOfBlock+"DownArrow").style.display = "none";
+	document.getElementById(idOfBlock+"UpArrow").style.display = "inline-block";
 }
 
 function switchToExpandedView()
@@ -1364,12 +1413,15 @@ function switchToExpandedView()
 				document.cookie = "defaultViewBranchCookie=Expanded";
 			}
 			removeAllButtonSelectorClasses('expandedViewButtonMainSection');
-
+			branchView = "devBoxContentSecondaryExpanded";
 			$('#expandedViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
 			$('#expandedViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
 
 			$('.devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
 			$('.devBoxContentSecondary').removeClass('devBoxContentSecondary');
+
+			$(".downArrow").css("display","none");
+			$(".upArrow").css("display","inline-block");
 		}
 	}
 }
@@ -1685,6 +1737,7 @@ function getInfo()
 {
 	document.getElementById("gitDiffNoInfo").style.display = "none";
 	document.getElementById("gitDiffLoading").style.display = "table-row";
+	document.getElementById("tableForCommitHistory").style.display = "none";
 	$(".branchInfoGitDiff").hide();
 	var idName = currentIdOfMainSidebar;
 	if((!(idName in arrayOfWatchFilters)) || (!("WebsiteBase" in arrayOfWatchFilters[idName])) || (arrayOfWatchFilters[idName]["WebsiteBase"] === "") || arrayOfWatchFilters[idName]["location"] === null)
@@ -1720,8 +1773,12 @@ function getDiffCommits()
 	{
 		branchName = $("#"+idName).html();
 	}
-
-	var data = {location: arrayOfWatchFilters[idName]["location"], branchName};
+	var branchList = defaultBranchList;
+	if(idName in arrayOfWatchFilters && "branchList" in arrayOfWatchFilters[idName] && arrayOfWatchFilters[idName]["branchList"] !== false && arrayOfWatchFilters[idName]["branchList"] !== "")
+	{
+		branchList = arrayOfWatchFilters[idName]["branchList"];
+	}
+	var data = {location: arrayOfWatchFilters[idName]["location"], branchName, branchList};
 	(function(_data){
 			$.ajax({
 			url: urlForSend,
@@ -1760,8 +1817,9 @@ function getDiffCommitsHttp()
 	{
 		branchName = $("#"+idName).html();
 	}
+	var branchList = defaultBranchList;
 
-	var data = {location: arrayOfWatchFilters[idName]["location"], branchName};
+	var data = {location: arrayOfWatchFilters[idName]["location"], branchName, branchList};
 	(function(_data){
 			$.ajax({
 			url: urlForSend,
@@ -1784,29 +1842,41 @@ function getDiffCommitsHttp()
 
 function showDiffCommits(data)
 {
-	if(data["compareMaster"] === "")
+	while(document.getElementById("tableForCommitHistory").rows.length > 0)
 	{
-		data["compareMaster"] = "0\t0";
+		document.getElementById("tableForCommitHistory").deleteRow(0);
 	}
-	if(data["compareCurrent"] === "")
+	var dataKeys = Object.keys(data);
+	var dataKeysLength = dataKeys.length;
+	for(var branchNameCount = 0; branchNameCount < dataKeysLength; branchNameCount++)
 	{
-		data["compareCurrent"] = "0\t0";
+		var currentBranchName = dataKeys[branchNameCount];
+		var currentBranchStats= data[dataKeys[branchNameCount]];
+		if(currentBranchStats === "")
+		{
+			currentBranchStats = "0\t0";
+		}
+		data[currentBranchName] = {};
+		data[currentBranchName]["currentData"] = currentBranchStats;
+		data[currentBranchName]["commitDiff"] = currentBranchStats.split(/\D/);
 	}
-	var commitDiffMaster = data["compareMaster"].split(/\D/);
-	var commitDiffCurrent = data["compareCurrent"].split(/\D/);
-	var baseForLeft = commitDiffCurrent[0];
-	if(commitDiffCurrent[0] < commitDiffMaster[0])
+	var baseForLeft = 0;
+	var baseForRight = 0;
+	for(var branchNameCount = 0; branchNameCount < dataKeysLength; branchNameCount++)
 	{
-		baseForLeft = commitDiffMaster[0];
+		var currentBranchName = dataKeys[branchNameCount];
+		if(baseForLeft < data[currentBranchName]["commitDiff"][0])
+		{
+			baseForLeft = data[currentBranchName]["commitDiff"][0];
+		}
+		if(baseForRight < data[currentBranchName]["commitDiff"][1])
+		{
+			baseForLeft = data[currentBranchName]["commitDiff"][1];
+		}
 	}
 	if(baseForLeft == 0)
 	{
 		baseForLeft = 1;
-	}
-	var baseForRight = commitDiffCurrent[1];
-	if(commitDiffCurrent[1] < commitDiffMaster[1])
-	{
-		baseForRight = commitDiffMaster[1];
 	}
 	if(baseForRight == 0)
 	{
@@ -1817,15 +1887,21 @@ function showDiffCommits(data)
 		commitListGetError();
 		return;
 	}
-	$("#plusCurrent").html(commitDiffCurrent[1]);
-	document.getElementById("plusCurrentMeter").value = commitDiffCurrent[1]/baseForRight;
-	$("#minusCurrent").html(commitDiffCurrent[0]);
-	document.getElementById("minusCurrentMeter").value = commitDiffCurrent[0]/baseForLeft;
-	$("#plusMaster").html(commitDiffMaster[1]);
-	document.getElementById("plusMasterMeter").value = commitDiffMaster[1]/baseForRight;
-	$("#minusMaster").html(commitDiffMaster[0]);
-	document.getElementById("minusMasterMeter").value = commitDiffMaster[0]/baseForLeft;
+	for(var branchNameCount = 0; branchNameCount < dataKeysLength; branchNameCount++)
+	{
+		var currentBranchName = dataKeys[branchNameCount];
+		var table = document.getElementById("tableForCommitHistory");
+		var newRow = table.rows.length - 1;
+		var row = table.insertRow(newRow);
+		var cell1 = row.insertCell(0);
+	    var cell2 = row.insertCell(1);
+	    cell1.innerHTML = "Origin/"+currentBranchName;
+	    var commitDiffLeft = data[currentBranchName]["commitDiff"][0];
+	    var commitDiffRight = data[currentBranchName]["commitDiff"][1];
+	    cell2.innerHTML = "- "+commitDiffLeft+"<meter min=\"0\" max=\"1.2\" value=\""+(commitDiffLeft/baseForLeft)+"\" class=\"meterCommit meterCommitLeft\" ></meter> | <meter min=\"0\" max=\"1.2\" value=\""+(commitDiffRight/baseForRight)+"\"  class=\"meterCommit meterCommitRight\" ></meter>	+ "+commitDiffRight;
+	}
 	document.getElementById("gitDiffLoading").style.display = "none";
+	document.getElementById("tableForCommitHistory").style.display = "table";
 	$(".branchInfoGitDiff").css("display","table-row");
 }
 

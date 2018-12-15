@@ -41,6 +41,12 @@ require_once('setup/setupProcessFile.php');
 			<?php require_once('core/php/templateFiles/settingsMain.php');?>
 		</div>
 		<div class="firstBoxDev">
+			<?php require_once('core/php/templateFiles/settingsPoll.php');?>
+		</div>
+		<div class="firstBoxDev">
+			<?php require_once('core/php/templateFiles/settingsPopup.php');?>
+		</div>
+		<div class="firstBoxDev">
 			<?php require_once('core/php/templateFiles/devBoxSettings.php');?>
 		</div>
 		<div class="firstBoxDev">

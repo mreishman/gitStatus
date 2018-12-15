@@ -188,6 +188,7 @@ if((isset($_POST['location']) && isset($_POST['name']) && isset($_POST['websiteB
 	$postLocation = $_POST['location'];
 	$postName = $_POST['name'];
 	$postWebsiteBase = $_POST['websiteBase'];
+	$postBranchList = $_POST['branchList'];
 
 	if((strlen(escapeshellarg($postLocation)) < 500) && (strlen(escapeshellarg($postName)) < 500) && (strlen(escapeshellarg($postWebsiteBase)) < 500))
 	{
@@ -206,7 +207,8 @@ if((isset($_POST['location']) && isset($_POST['name']) && isset($_POST['websiteB
 			'search'				=> checkForSearch($postWebsiteBase),
 			'otherFunctions'		=> '',
 			'location'				=>	$postLocation,
-			'WebsiteBase'			=>	$postWebsiteBase
+			'WebsiteBase'			=>	$postWebsiteBase,
+			'branchList'			=> 	escapeshellarg($postBranchList)
 		);
 		$newFileName = getBranchNameHistoryName($postLocation);
 		if(is_file("branchNameHistory".$newFileName.".php"))
@@ -282,7 +284,8 @@ else
 					'otherFunctions'	=> '',
 					'website'		=> $website,
 					'location'		=> $value['Folder'],
-					'WebsiteBase'	=> $websiteBase
+					'WebsiteBase'	=> $websiteBase,
+					'branchList'	=> $value["branchList"]
 				);
 				$newFileName = getBranchNameHistoryName($value['Folder']);
 				if(is_file("branchNameHistory".$newFileName.".php"))
