@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.3.4',
+	'version'		=> '3.4',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -118,6 +118,10 @@ $versionCheckArray = array(
 		'3.3.4'		=> array(
 			'branchName'	=> '3.3.4Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>Added third option for pause poll (only pause after initial load)</li></ul></li><li>Bug Fixes<ul><li>Fixed js bug on index page with entries where no group was set</li><li>Fixed issue with poll type 1 not loading correct information on page load</li><li>Fixed issue with pause poll on load not working correctly</li><li>Fixed small bug where watchlist data would not properly show up if cacheEnabled was set to readOnly</li></ul></li></ul>'
+		),
+		'3.4'		=> array(
+			'branchName'	=> '3.4Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>Added button to toggle expanded view for individual watchlist items</li><li>Added option to specify branches to show diff of (default or per site configuration)</li></ul></li><li>Bug Fixes<ul><li>Poll Type 1 Bug Fixes<ul><li>Fixed bug with cache object remove on server ping error</li><li>Hides watchlist server tab if poll type is 1</li></ul></li><li>Added checks for server display before remove on error</li><li>Seperated settings into blocks on settings page</li><li>Fixed names in watchlist for input fields</li><li>Fixed issue when adding new servers where archvie was a text field and not a button</li><li>Fixed bug with archive filter on initial poll request</li><li>Fixed bug with not hiding old results when switching between server Git-Diff info tables</li></ul></li></ul>'
 		),
 	)
 );
