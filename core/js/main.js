@@ -1763,6 +1763,7 @@ function getInfo()
 		return;
 	}
 	$("#infoBranchName").html($("#"+idName).html());
+	$("#nameMainLeft").html("<b>Name: </b>"+idName.split("branchNameDevBox1")[1]);
 	$("#infoMainLeft").html($("#innerFirstDevBox"+idName+" .devBoxContentSecondary").html());
 	$("#branchHistoryHolder").html($("#"+idName+"BranchHistory").html());
 	getDiffCommits();

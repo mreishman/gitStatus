@@ -310,6 +310,7 @@ if($defaultViewBranch == 'Standard')
 						<tr>
 							<td width="50%" style="vertical-align: top;">
 								<h2>Info:</h2>
+								<span id="nameMainLeft"></span>
 								<span id="infoMainLeft"></span>
 							</td>
 							<td width="50%"  style="vertical-align: top;" >
