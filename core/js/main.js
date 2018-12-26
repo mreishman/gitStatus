@@ -1895,10 +1895,19 @@ function showDiffCommits(data)
 		var row = table.insertRow(newRow);
 		var cell1 = row.insertCell(0);
 	    var cell2 = row.insertCell(1);
+	    var cell3 = row.insertCell(2);
+	    var cell4 = row.insertCell(3);
+	    var cell5 = row.insertCell(4);
+	    var cell6 = row.insertCell(5);
 	    cell1.innerHTML = "Origin/"+currentBranchName;
 	    var commitDiffLeft = data[currentBranchName]["commitDiff"][0];
 	    var commitDiffRight = data[currentBranchName]["commitDiff"][1];
-	    cell2.innerHTML = "- "+commitDiffLeft+"<meter min=\"0\" max=\"1.2\" value=\""+(commitDiffLeft/baseForLeft)+"\" class=\"meterCommit meterCommitLeft\" ></meter> | <meter min=\"0\" max=\"1.2\" value=\""+(commitDiffRight/baseForRight)+"\"  class=\"meterCommit meterCommitRight\" ></meter>	+ "+commitDiffRight;
+		cell2.innerHTML = "- "+commitDiffLeft;
+		cell3.innerHTML = "<meter min=\"0\" max=\"1.2\" value=\""+(commitDiffLeft/baseForLeft)+"\" class=\"meterCommit meterCommitLeft\" ></meter>";
+		cell4.innerHTML = " | ";
+		cell5.innerHTML = "<meter min=\"0\" max=\"1.2\" value=\""+(commitDiffRight/baseForRight)+"\"  class=\"meterCommit meterCommitRight\" ></meter>";
+		cell6.innerHTML = "+ "+commitDiffRight;
+
 	}
 	document.getElementById("gitDiffLoading").style.display = "none";
 	document.getElementById("tableForCommitHistory").style.display = "table";
