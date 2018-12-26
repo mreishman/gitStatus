@@ -668,12 +668,26 @@ function pollSuccess(dataInner, dataInnerPass)
 
 function generateBranchHistory(dataInner, repoName, baseRepoUrl)
 {
-	if("branchHistoryList" in dataInner)
+	if("branchHistoryList" in dataInner && dataInner["branchHistoryList"].length > 0)
 	{
-		var htmlToReturn = "<table style=\"word-break; break-all; width: 100%;\" ><tr><th width=\"50%\" ></th><th width=\"50%\" ></th></tr>";
+		var htmlToReturn = "<table style=\"word-break; break-all; width: 100%;\" ><tr><th width=\"50%\" ></th><th width=\"50%\" ></th></tr><tr><td>";
+		if(repoName !== "")
+		{
+			htmlToReturn += "<a style=\"color: black;\" target=\"_blank\" href=\"https://"+baseRepoUrl+"/"+repoName+"/tree/"+dataInner["branch"]+"\">";
+		}
+		htmlToReturn += dataInner["branch"];
+		if(repoName !== "")
+		{
+			htmlToReturn += "</a>";
+		}
+		htmlToReturn += "</td><td>Current</td></tr>";
 		var BHLlength =  dataInner["branchHistoryList"].length;
 		for(var BHLcount = 0; BHLcount < BHLlength; BHLcount++)
 		{
+			if(BHLcount === 0 && dataInner["branchHistoryList"][0]["name"] === dataInner["branch"])
+			{
+				continue;
+			}
 			htmlToReturn += "<tr><td>";
 			if(repoName !== "")
 			{
