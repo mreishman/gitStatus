@@ -2105,7 +2105,7 @@ function commitListSuccessInner(data)
 		{
 			var dataTmp = data[i].replace("Date:","").trim();
 			dataTmp = new Date(dataTmp);
-			htmlForCommits += "<span style=\"float:right;\" ><b>"+dataTmp.getMonth()+"/"+dataTmp.getDate()+"/"+dataTmp.getFullYear()+"</b></span>";
+			htmlForCommits += "<span style=\"float:right;\" ><b>"+(dataTmp.getMonth()+1)+"/"+dataTmp.getDate()+"/"+dataTmp.getFullYear()+"</b></span>";
 			htmlForCommits += "<br>";
 		}
 		else
