@@ -180,10 +180,20 @@ function getBranchStats($location)
 	return substr($branchStats, 0, strpos($branchStats, "}"));
 }
 
-
-if((isset($_POST['location']) && isset($_POST['name']) && isset($_POST['websiteBase'])) && $disablePostRequestWithPostData === "false")
+$pollType = null;
+if(isset($_POST['pollType']))
 {
-	//old version!!!! (prior to 2.0)
+	$pollType = 1;
+	if(2 === intval($_POST['pollType']))
+	{
+		$pollType = 2;
+	}
+}
+
+
+if(($pollType === 1) || ($pollType === null && isset($_POST['location']) && isset($_POST['name']) && isset($_POST['websiteBase'])) && $disablePostRequestWithPostData === "false")
+{
+	//Poll Type 1
 
 	$postLocation = $_POST['location'];
 	$postName = $_POST['name'];
@@ -233,7 +243,7 @@ else
 		$lastResult = json_decode($cachedStatusMainObject, true);
 	}
 
-	//new version (2.0 or greater) or just checking
+	//Poll Type 2 (or just check)
 	$response = array(
 		'isHere' 		=> true,
 		'info'			=> array()
@@ -339,9 +349,9 @@ else
 			}
 			catch (Exception $e)
 			{
-				
+
 			}
-			
+
 		}
 	}
 	else
