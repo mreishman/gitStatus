@@ -191,7 +191,7 @@ if(isset($_POST['pollType']))
 }
 
 
-if(($pollType === 1) || ($pollType === null && isset($_POST['location']) && isset($_POST['name']) && isset($_POST['websiteBase'])) && $disablePostRequestWithPostData === "false")
+if($disablePostRequestWithPostData === "false" && ($pollType === 1 || ($pollType === null && isset($_POST['location']) && isset($_POST['name']) && isset($_POST['websiteBase']))))
 {
 	//Poll Type 1
 
