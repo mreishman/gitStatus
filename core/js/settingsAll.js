@@ -9,7 +9,7 @@ function saveAndVerifyMain(idForForm, modifier = "")
 	data = $(idForm).serializeArray();
 	$.ajax({
         type: "post",
-        url: "core/php/saveFunctions/settingsSaveMain.php",
+        url: modiferUrl+"core/php/saveFunctions/settingsSaveMain.php",
         data,
         complete()
         {
