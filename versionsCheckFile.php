@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.4',
+	'version'		=> '3.4.1',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -122,6 +122,10 @@ $versionCheckArray = array(
 		'3.4'		=> array(
 			'branchName'	=> '3.4Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>Added button to toggle expanded view for individual watchlist items</li><li>Added option to specify branches to show diff of (default or per site configuration)</li></ul></li><li>Bug Fixes<ul><li>Poll Type 1 Bug Fixes<ul><li>Fixed bug with cache object remove on server ping error</li><li>Hides watchlist server tab if poll type is 1</li></ul></li><li>Added checks for server display before remove on error</li><li>Seperated settings into blocks on settings page</li><li>Fixed names in watchlist for input fields</li><li>Fixed issue when adding new servers where archvie was a text field and not a button</li><li>Fixed bug with archive filter on initial poll request</li><li>Fixed bug with not hiding old results when switching between server Git-Diff info tables</li></ul></li></ul>'
+		),
+		'3.4.1'		=> array(
+			'branchName'	=> '3.4.1Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>Added extra verification to git requests (commit, commit history, branch diff) for poll type version 2</li></ul></li><li>Bug Fixes<ul><li>Fixed style issue with git diff in info tab</li><li>Added missing info to sidebar panel<ul><li>Added missing current branch in branch history section of info tab</li><li>Node name now shows up in info section of info tab</li></ul></li><li>Fixed date issue in commit history tab</li><li>Added poll type 1 block to all git requests (commit, commit history, branch diff)</li></ul></li></ul>'
 		),
 	)
 );
