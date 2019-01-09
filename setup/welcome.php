@@ -63,4 +63,5 @@ if(file_exists($baseUrl.'conf/config.php'))
 	}
 </script>
 <script src="stepsJavascript.js"></script>
+<script src="../core/js/settingsAll.js"></script>
 </html>
