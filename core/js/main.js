@@ -789,15 +789,18 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			}
 		}
 		var source = "#innerFirstDevBox"+noSpaceName+" .devBoxTitle a";
-		var src = $(source)[0].href;
-		if(typeof dataInner["website"] !== "undefined" && src !== dataInner["website"])
+		if(source && $(source) && $(source)[0] && src)
 		{
-			var websitePass = dataInner["website"];
-			if(dataInner["website"].indexOf("http") === -1)
+			var src = $(source)[0].href;
+			if(typeof dataInner["website"] !== "undefined" && src !== dataInner["website"])
 			{
-				websitePass = "http://"+dataInner["website"];
+				var websitePass = dataInner["website"];
+				if(dataInner["website"].indexOf("http") === -1)
+				{
+					websitePass = "http://"+dataInner["website"];
+				}
+				$(source)[0].href = websitePass;
 			}
-			$(source)[0].href = websitePass;
 		}
 	}
 	addGroup(dataInner["groupInfo"]);
