@@ -299,7 +299,7 @@ function tryHttpActuallyPollLogic(count, name)
 	{
 		githubRepo = arrayOfFiles[count]["githubRepo"];
 	}
-	var data = {location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"],branchList};
+	var data = {pollType, location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"],branchList};
 	var innerData = {};
 	if(pollType == "1")
 	{
@@ -327,7 +327,7 @@ function tryHTTPSForPollRequest(_data)
 {
 	var urlForSend = _data.urlForSend;
 	urlForSend = urlForSend.replace("http","https");
-	var data = {location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase, id: _data.id, branchList: _data.branchList};
+	var data = {pollType, location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase, id: _data.id, branchList: _data.branchList};
 	var innerData = {};
 	if(pollType == "1")
 	{
@@ -668,12 +668,26 @@ function pollSuccess(dataInner, dataInnerPass)
 
 function generateBranchHistory(dataInner, repoName, baseRepoUrl)
 {
-	if("branchHistoryList" in dataInner)
+	if("branchHistoryList" in dataInner && dataInner["branchHistoryList"].length > 0)
 	{
-		var htmlToReturn = "<table style=\"word-break; break-all; width: 100%;\" ><tr><th width=\"50%\" ></th><th width=\"50%\" ></th></tr>";
+		var htmlToReturn = "<table style=\"word-break; break-all; width: 100%;\" ><tr><th width=\"50%\" ></th><th width=\"50%\" ></th></tr><tr><td>";
+		if(repoName !== "")
+		{
+			htmlToReturn += "<a style=\"color: black;\" target=\"_blank\" href=\"https://"+baseRepoUrl+"/"+repoName+"/tree/"+dataInner["branch"]+"\">";
+		}
+		htmlToReturn += dataInner["branch"];
+		if(repoName !== "")
+		{
+			htmlToReturn += "</a>";
+		}
+		htmlToReturn += "</td><td>Current</td></tr>";
 		var BHLlength =  dataInner["branchHistoryList"].length;
 		for(var BHLcount = 0; BHLcount < BHLlength; BHLcount++)
 		{
+			if(BHLcount === 0 && dataInner["branchHistoryList"][0]["name"] === dataInner["branch"])
+			{
+				continue;
+			}
 			htmlToReturn += "<tr><td>";
 			if(repoName !== "")
 			{
@@ -1749,6 +1763,7 @@ function getInfo()
 		return;
 	}
 	$("#infoBranchName").html($("#"+idName).html());
+	$("#nameMainLeft").html("<b>Name: </b>"+idName.split("branchNameDevBox1")[1]);
 	$("#infoMainLeft").html($("#innerFirstDevBox"+idName+" .devBoxContentSecondary").html());
 	$("#branchHistoryHolder").html($("#"+idName+"BranchHistory").html());
 	getDiffCommits();
@@ -1778,7 +1793,7 @@ function getDiffCommits()
 	{
 		branchList = arrayOfWatchFilters[idName]["branchList"];
 	}
-	var data = {location: arrayOfWatchFilters[idName]["location"], branchName, branchList};
+	var data = {pollType, location: arrayOfWatchFilters[idName]["location"], branchName, branchList};
 	(function(_data){
 			$.ajax({
 			url: urlForSend,
@@ -1819,7 +1834,7 @@ function getDiffCommitsHttp()
 	}
 	var branchList = defaultBranchList;
 
-	var data = {location: arrayOfWatchFilters[idName]["location"], branchName, branchList};
+	var data = {pollType, location: arrayOfWatchFilters[idName]["location"], branchName, branchList};
 	(function(_data){
 			$.ajax({
 			url: urlForSend,
@@ -1858,20 +1873,26 @@ function showDiffCommits(data)
 		}
 		data[currentBranchName] = {};
 		data[currentBranchName]["currentData"] = currentBranchStats;
-		data[currentBranchName]["commitDiff"] = currentBranchStats.split(/\D/);
+		if(currentBranchStats !== "Branch Not Found")
+		{
+			data[currentBranchName]["commitDiff"] = currentBranchStats.split(/\D/);
+		}
 	}
 	var baseForLeft = 0;
 	var baseForRight = 0;
 	for(var branchNameCount = 0; branchNameCount < dataKeysLength; branchNameCount++)
 	{
 		var currentBranchName = dataKeys[branchNameCount];
-		if(baseForLeft < data[currentBranchName]["commitDiff"][0])
+		if("commitDiff" in data[currentBranchName])
 		{
-			baseForLeft = data[currentBranchName]["commitDiff"][0];
-		}
-		if(baseForRight < data[currentBranchName]["commitDiff"][1])
-		{
-			baseForLeft = data[currentBranchName]["commitDiff"][1];
+			if(baseForLeft < data[currentBranchName]["commitDiff"][0])
+			{
+				baseForLeft = data[currentBranchName]["commitDiff"][0];
+			}
+			if(baseForRight < data[currentBranchName]["commitDiff"][1])
+			{
+				baseForLeft = data[currentBranchName]["commitDiff"][1];
+			}
 		}
 	}
 	if(baseForLeft == 0)
@@ -1895,10 +1916,26 @@ function showDiffCommits(data)
 		var row = table.insertRow(newRow);
 		var cell1 = row.insertCell(0);
 	    var cell2 = row.insertCell(1);
+	    var cell3 = row.insertCell(2);
+	    var cell4 = row.insertCell(3);
+	    var cell5 = row.insertCell(4);
+	    var cell6 = row.insertCell(5);
 	    cell1.innerHTML = "Origin/"+currentBranchName;
-	    var commitDiffLeft = data[currentBranchName]["commitDiff"][0];
-	    var commitDiffRight = data[currentBranchName]["commitDiff"][1];
-	    cell2.innerHTML = "- "+commitDiffLeft+"<meter min=\"0\" max=\"1.2\" value=\""+(commitDiffLeft/baseForLeft)+"\" class=\"meterCommit meterCommitLeft\" ></meter> | <meter min=\"0\" max=\"1.2\" value=\""+(commitDiffRight/baseForRight)+"\"  class=\"meterCommit meterCommitRight\" ></meter>	+ "+commitDiffRight;
+	    if("commitDiff" in data[currentBranchName])
+	    {
+	    	var commitDiffLeft = data[currentBranchName]["commitDiff"][0];
+	    	var commitDiffRight = data[currentBranchName]["commitDiff"][1];
+			cell2.innerHTML = "- "+commitDiffLeft;
+			cell3.innerHTML = "<meter min=\"0\" max=\"1.2\" value=\""+(commitDiffLeft/baseForLeft)+"\" class=\"meterCommit meterCommitLeft\" ></meter>";
+			cell4.innerHTML = " | ";
+			cell5.innerHTML = "<meter min=\"0\" max=\"1.2\" value=\""+(commitDiffRight/baseForRight)+"\"  class=\"meterCommit meterCommitRight\" ></meter>";
+			cell6.innerHTML = "+ "+commitDiffRight;
+		}
+		else
+		{
+			cell3.innerHTML = data[currentBranchName]["currentData"];
+		}
+
 	}
 	document.getElementById("gitDiffLoading").style.display = "none";
 	document.getElementById("tableForCommitHistory").style.display = "table";
@@ -1935,7 +1972,7 @@ function getListOfCommits()
 		urlForSend += "/status/core/php/functions/";
 	}
 	urlForSend += "gitCommitHistory.php";
-	var data = {location: arrayOfWatchFilters[idName]["location"], maxCount: maxCommits};
+	var data = {pollType, location: arrayOfWatchFilters[idName]["location"], maxCount: maxCommits};
 	(function(_data){
 			$.ajax({
 			url: urlForSend,
@@ -1970,7 +2007,7 @@ function getListOfCommitsHttp()
 		urlForSend += "/status/core/php/functions/";
 	}
 	urlForSend += "gitCommitHistory.php";
-	var data = {location: arrayOfWatchFilters[idName]["location"], maxCount: maxCommits};
+	var data = {pollType, location: arrayOfWatchFilters[idName]["location"], maxCount: maxCommits};
 	(function(_data){
 			$.ajax({
 			url: urlForSend,
@@ -2068,7 +2105,7 @@ function commitListSuccessInner(data)
 		{
 			var dataTmp = data[i].replace("Date:","").trim();
 			dataTmp = new Date(dataTmp);
-			htmlForCommits += "<span style=\"float:right;\" ><b>"+dataTmp.getMonth()+"/"+dataTmp.getDate()+"/"+dataTmp.getFullYear()+"</b></span>";
+			htmlForCommits += "<span style=\"float:right;\" ><b>"+(dataTmp.getMonth()+1)+"/"+dataTmp.getDate()+"/"+dataTmp.getFullYear()+"</b></span>";
 			htmlForCommits += "<br>";
 		}
 		else
@@ -2112,7 +2149,7 @@ function viewCommit(idForCommit)
 		urlForSend += "/status/core/php/functions/";
 	}
 	urlForSend += "gitShowCommitStuff.php";
-	var data = {location: arrayOfWatchFilters[idName]["location"], commit: idForCommit};
+	var data = {pollType, location: arrayOfWatchFilters[idName]["location"], commit: idForCommit};
 	(function(_data){
 			$.ajax({
 			url: urlForSend,
@@ -2146,7 +2183,7 @@ function viewCommitHttp(idForCommit)
 		urlForSend += "/status/core/php/functions/";
 	}
 	urlForSend += "gitShowCommitStuff.php";
-	var data = {location: arrayOfWatchFilters[idName]["location"], commit: idForCommit};
+	var data = {pollType, location: arrayOfWatchFilters[idName]["location"], commit: idForCommit};
 	(function(_data){
 			$.ajax({
 			url: urlForSend,
