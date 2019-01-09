@@ -1,5 +1,8 @@
-function saveAndVerifyMain(idForForm)
+var modiferUrl = "";
+
+function saveAndVerifyMain(idForForm, modifier = "")
 {
+	modiferUrl = modifier;
 	idForFormMain = idForForm;
 	idForm = "#"+idForForm;
 	displayLoadingPopup();
@@ -28,7 +31,7 @@ function timerVerifySave()
 	countForVerifySave++;
 	if(countForVerifySave < 20)
 	{
-		var urlForSend = "core/php/saveFunctions/saveCheck.php?format=json";
+		var urlForSend = modiferUrl+"core/php/saveFunctions/saveCheck.php?format=json";
 		$.ajax(
 		{
 			url: urlForSend,
