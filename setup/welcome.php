@@ -53,13 +53,13 @@ if(file_exists($baseUrl.'conf/config.php'))
 	function defaultSettings()
 	{
 		//change setupProcess to finished
-		saveAndVerifyMain("defaultVarsForm");
+		saveAndVerifyMain("defaultVarsForm","../");
 	}
 
 	function customSettings()
 	{
 		//change setupProcess to page1
-		saveAndVerifyMain("defaultVarsForm");
+		saveAndVerifyMain("defaultVarsForm","../");
 	}
 </script>
 <script src="stepsJavascript.js"></script>
