@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.4.1',
+	'version'		=> '3.4.1.1',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -126,6 +126,10 @@ $versionCheckArray = array(
 		'3.4.1'		=> array(
 			'branchName'	=> '3.4.1Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>Added extra verification to git requests (commit, commit history, branch diff) for poll type version 2</li></ul></li><li>Bug Fixes<ul><li>Fixed style issue with git diff in info tab</li><li>Added missing info to sidebar panel<ul><li>Added missing current branch in branch history section of info tab</li><li>Node name now shows up in info section of info tab</li></ul></li><li>Fixed date issue in commit history tab</li><li>Added poll type 1 block to all git requests (commit, commit history, branch diff)</li></ul></li></ul>'
+		),
+		'3.4.1.1'		=> array(
+			'branchName'	=> '3.4.1.1Update',
+			'releaseNotes'  => '<ul><li>Bug Fixes<ul><li>Fixed setup bug</li><li>Fixed bug with cache status missing on initial load causing errors</li><li>Fixed bug with default values in config for archive</li><li>Fixed js bug on pages about href for windows</li></ul></li></ul>'
 		),
 	)
 );
