@@ -4,6 +4,12 @@ require_once("../../../core/conf/config.php");
 require_once("../../../local/default/conf/config.php");
 require_once("../../../core/php/loadVars.php");
 
+if($blockGitCommitHistory !== "false")
+{
+	echo json_encode(array());
+	die();
+}
+
 $newArrayOfData = array("","");
 $location = (string)$_POST['location'];
 $maxCount = 100;
