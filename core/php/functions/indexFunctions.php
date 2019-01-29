@@ -155,12 +155,7 @@ function generateWindow($data = array(), $pollType)
 	$blockHTML .= "			<img class=\"downArrow\" onclick=\"singleSwitchToExpandView('".$keyNoSpace."');\" id=\"".$keyNoSpace."DownArrow\" style=\"cursor: pointer; height: 18px; ".$downArrow." \" src=\"core/img/downarrow.png\">";
 	$blockHTML .= "			<img class=\"upArrow\" onclick=\"singleSwitchToStandardView('".$keyNoSpace."');\" id=\"".$keyNoSpace."UpArrow\" style=\"cursor: pointer; height: 18px; ".$upArrow."  \" src=\"core/img/uparrow.png\">";
 	$blockHTML .= "				<div class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
-	$blockHTML .= "			    	<a  style=\"cursor: pointer; ";
-	if($pollType !== "1")
-	{
-		$blockHTML .= " display: none; ";
-	}
-	$blockHTML .= "					 \" onclick=\"refreshAction('".$keyNoSpace."','inner');\" ><img style=\"height: 18px;\" src=\"core/img/Refresh2.png\"></a>";
+	$blockHTML .= "			    	<a  style=\"cursor: pointer;\" onclick=\"refreshAction('".$keyNoSpace."','inner');\" ><img style=\"height: 18px;\" src=\"core/img/Refresh2.png\"></a>";
 	$blockHTML .= "				<div  id=\"dropdown-".$keyNoSpace."\" class=\"dropdown-content\">";
 	$blockHTML .= "			    	<div id=\"".$keyNoSpace."LogHogOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
 	$blockHTML .= "						<a id=\"".$keyNoSpace."LogHogInner\" style=\"color: black;\" target=\"_blank\" href=\"#\">Log-Hog</a>";

@@ -198,9 +198,12 @@ function getToday()
 	return mm+'/'+dd+'/'+yyyy;
 }
 
-function tryHTTPForPollRequest(count)
+function tryHTTPForPollRequest(count, name = null)
 {
-	var name = "branchNameDevBox1"+arrayOfFiles[count]["Name"];
+	if(!name)
+	{
+		name = "branchNameDevBox1"+arrayOfFiles[count]["Name"];
+	}
 	name = name.replace(/\s/g, '_');
 	var doPollLogic = true;
 	var dateForEnd = null;
@@ -222,7 +225,15 @@ function tryHTTPForPollRequest(count)
 	}
 	if(doPollLogic)
 	{
-		tryHttpActuallyPollLogic(count, name);
+		if(count !== null)
+		{
+			tryHttpActuallyPollLogic(count, name);
+		}
+		else
+		{
+			//other function
+			console.log("@TODO add refresh logic");
+		}
 	}
 	else
 	{
@@ -1254,69 +1265,16 @@ function refreshAction(all = -1, status = 'outer')
 	{
 		if(isNaN(refreshNum))
 		{
-			var refreshName = all;
-			//this is string, find in fileArray
-			var foundInFileArray = false;
-			var lengthOfFileArray = arrayOfFiles.length;
-			for(var i = 0; i < lengthOfFileArray; i++)
-			{
-				var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
-				if(noSpaceName === refreshName)
-				{
-					refreshNum = i;
-					foundInFileArray = true;
-					break;
-				}
-			}
-
-			if(!foundInFileArray)
-			{
-				//look for groups with ID of master server
-				if(document.getElementById("innerFirstDevBox"+refreshName))
-				{
-					var listOfClasses = document.getElementById("innerFirstDevBox"+refreshName).parentElement.classList;
-					var classListLength = listOfClasses.length;
-					var found = false;
-					for(var i = 0; i < classListLength; i++)
-					{
-						var lengthOfFileArray = arrayOfFiles.length;
-						for(var j = 0; j < lengthOfFileArray; j++)
-						{
-							var noSpaceName = arrayOfFiles[j]["Name"].replace(/\s/g, '');
-							if(noSpaceName === listOfClasses[i])
-							{
-								refreshNum = j;
-								found = true;
-								break;
-							}
-						}
-						if(found)
-						{
-							break;
-						}
-					}
-
-					if(found)
-					{
-						var classNameFound = arrayOfFiles[refreshNum]["Name"].replace(/\s/g, '');
-						listOfClasses = document.getElementsByClassName(classNameFound);
-						classListLength = listOfClasses.length;
-						for(var i = 0; i < classListLength; i++)
-						{
-							counterNew++;
-						} 
-					}
-				}
-			}
+			counterForSave = counterNew;
+			tryHTTPForPollRequest(null, all);
+			refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
 		}
 	}
-	if(isNaN(refreshNum))
+	else
 	{
-		refreshNum = -1;
+		poll();
+		refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
 	}
-	poll(refreshNum, counterNew);
-	refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
-	
 }
 
 function endRefreshAction()
