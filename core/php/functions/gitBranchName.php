@@ -260,7 +260,7 @@ else
 		$blockedList = array();
 		foreach ($serverWatchList as $key => $value)
 		{
-			if(isset($value["Archive"]) && "true" === $value["Archive"])
+			if((isset($value["Archive"]) && "true" === $value["Archive"]) || (isset($_POST['id']) && $_POST['id'] !== str_replace(' ', '_', $key)))
 			{
 				continue;
 			}

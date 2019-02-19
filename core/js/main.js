@@ -225,15 +225,7 @@ function tryHTTPForPollRequest(count, name = null)
 	}
 	if(doPollLogic)
 	{
-		if(count !== null)
-		{
-			tryHttpActuallyPollLogic(count, name);
-		}
-		else
-		{
-			//other function
-			console.log("@TODO add refresh logic");
-		}
+		tryHttpActuallyPollLogic(count, name);
 	}
 	else
 	{
@@ -271,16 +263,38 @@ function hideLoadingSpinnerHeader(name)
 	}
 }
 
+function getPollDataTypeTwo(name)
+{
+	var urlForSend = 'http://'+arrayOfWatchFilters[name]["WebsiteBase"]+'/status/core/php/functions/gitBranchName.php?format=json';
+	if("urlHit" in arrayOfWatchFilters[name] && arrayOfWatchFilters[name]["urlHit"] !== "")
+	{
+		urlForSend = 'http://'+arrayOfWatchFilters[name]["urlHit"]+'?format=json';
+	}
+	var folder = "";
+	var githubRepo = "";
+	var branchList = "";
+	if("branchList" in arrayOfWatchFilters[name])
+	{
+		branchList = arrayOfWatchFilters[name]["branchList"];
+	}
+	if("Folder" in arrayOfWatchFilters[name])
+	{
+		folder = arrayOfWatchFilters[name]["Folder"];
+	}
+	if("githubRepo" in arrayOfWatchFilters[name])
+	{
+		githubRepo = arrayOfWatchFilters[name]["githubRepo"];
+	}
+	return {pollType, location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfWatchFilters[name]["WebsiteBase"], id: name.replace("branchNameDevBox1", ""),branchList};
+}
 
-
-function tryHttpActuallyPollLogic(count, name)
+function getPollData(count, name)
 {
 	var urlForSend = 'http://'+arrayOfFiles[count]["WebsiteBase"]+'/status/core/php/functions/gitBranchName.php?format=json';
 	if(arrayOfFiles[count]["urlHit"] !== "")
 	{
 		urlForSend = 'http://'+arrayOfFiles[count]["urlHit"]+'?format=json';
 	}
-	showLoadingSpinnerHeader(name);
 	var id = name.replace("branchNameDevBox1", "");
 	var subBoxes = document.getElementsByClassName(id);
 	var countOfSubServers = subBoxes.length;
@@ -293,8 +307,6 @@ function tryHttpActuallyPollLogic(count, name)
 			showLoadingSpinnerHeader(noSpaceName);
 		}
 	}
-	loadingSpinnerText.innerHTML = (counterForSave);
-	document.getElementById("refreshDiv").style.display = "none";
 	var folder = "";
 	var githubRepo = "";
 	var branchList = "";
@@ -310,13 +322,32 @@ function tryHttpActuallyPollLogic(count, name)
 	{
 		githubRepo = arrayOfFiles[count]["githubRepo"];
 	}
-	var data = {pollType, location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"],branchList};
+	return {pollType, location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"],branchList};
+}
+
+
+function tryHttpActuallyPollLogic(count, name)
+{
+	var data = {};
 	var innerData = {};
-	if(pollType == "1")
+	if(count !== null)
 	{
+		data = getPollData(count, name);
+		if(pollType == "1")
+		{
+			innerData = data;
+		}
+	}
+	else
+	{
+		data = getPollDataTypeTwo(name);
 		innerData = data;
 	}
-	(function(_data){
+	var urlForSend = data["urlForSend"];
+	showLoadingSpinnerHeader(name);
+	loadingSpinnerText.innerHTML = (counterForSave);
+	document.getElementById("refreshDiv").style.display = "none";
+	(function(_data, _innerData){
 			$.ajax({
 			url: urlForSend,
 			dataType: 'json',
@@ -327,38 +358,33 @@ function tryHttpActuallyPollLogic(count, name)
 				pollSuccess(data, _data);
 			},
 			error: function(xhr, error){
-				tryHTTPSForPollRequest(_data);
+				tryHTTPSForPollRequest(_data, _innerData);
 			}
 		});
-	}(data));
+	}(data, innerData));
 }
 
 
-function tryHTTPSForPollRequest(_data)
+function tryHTTPSForPollRequest(_data, _innerData)
 {
 	var urlForSend = _data.urlForSend;
 	urlForSend = urlForSend.replace("http","https");
-	var data = {pollType, location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase, id: _data.id, branchList: _data.branchList};
-	var innerData = {};
-	if(pollType == "1")
-	{
-		innerData = data;
-	}
-		(function(_data){
-			$.ajax({
-				url: urlForSend,
-				dataType: 'json',
-				global: false,
-				data: innerData,
-				type: 'POST',
-				success: function(data){
-					pollSuccess(data, _data);
-				},
-				error: function(xhr, error){
-					pollFailure(xhr.status, error, _data);
-				}
-			});
-		}(data));
+	var data = _innerData;
+	(function(_data){
+		$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data: data,
+			type: 'POST',
+			success: function(data){
+				pollSuccess(data, _data);
+			},
+			error: function(xhr, error){
+				pollFailure(xhr.status, error, _data);
+			}
+		});
+	}(data));
 }
 
 function showPopupWithMessage(type, message)
