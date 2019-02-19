@@ -583,7 +583,8 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 				datePicker: null,
 				groupInfo: "",
 				location: null,
-				WebsiteBase: null
+				WebsiteBase: null,
+				urlHit: ""
 			};
 	}
 	else
@@ -604,6 +605,10 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 		if(!("WebsiteBase" in arrayOfWatchFilters[noSpaceName]))
 		{
 			arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = null;
+		}
+		if(!("urlHit" in arrayOfWatchFilters[noSpaceName]))
+		{
+			arrayOfWatchFilters[noSpaceName]["urlHit"] = "";
 		}
 	}
 	hideLoadingSpinnerHeader(noSpaceName);
@@ -1021,6 +1026,15 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	    	dataToFilterBy = $.trim(dataToFilterByArray[1]); 
 	    }
 	    var setFadeBool = false;
+	    var urlHit = "";
+	    if("urlForSend" in dataInnerPassMaster)
+	    {
+	    	let urlCheck = dataInnerPassMaster["urlForSend"] + "/core/php/functions/gitBranchName.php?format=json";
+	    	if(dataInnerPassMaster["urlForSend"] !== "http://"+urlCheck || dataInnerPassMaster["urlForSend"] !== "https://"+urlCheck)
+	    	{
+	    		urlHit = dataInnerPassMaster["urlForSend"];
+	    	}
+	    }
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
 			arrayOfWatchFilters[noSpaceName] = {
@@ -1036,7 +1050,8 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				groupInfo: groupNames,
 				location: "location" in dataInner ? dataInner["location"] : null,
 				WebsiteBase: "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null,
-				branchList: branchList
+				branchList: branchList,
+				urlHit: urlHit
 			};
 		}
 		else
@@ -1058,6 +1073,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			arrayOfWatchFilters[noSpaceName]["location"] = "location" in dataInner ? dataInner["location"] : null;
 			arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null;
 			arrayOfWatchFilters[noSpaceName]["branchList"] = branchList;
+			arrayOfWatchFilters[noSpaceName]["urlHit"] = urlHit;
 		}
 		
 		filterBGColor(dataToFilterBy, nameForBackground, 1);
