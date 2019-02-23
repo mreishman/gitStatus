@@ -198,9 +198,12 @@ function getToday()
 	return mm+'/'+dd+'/'+yyyy;
 }
 
-function tryHTTPForPollRequest(count)
+function tryHTTPForPollRequest(count, name = null)
 {
-	var name = "branchNameDevBox1"+arrayOfFiles[count]["Name"];
+	if(!name)
+	{
+		name = "branchNameDevBox1"+arrayOfFiles[count]["Name"];
+	}
 	name = name.replace(/\s/g, '_');
 	var doPollLogic = true;
 	var dateForEnd = null;
@@ -260,16 +263,38 @@ function hideLoadingSpinnerHeader(name)
 	}
 }
 
+function getPollDataTypeTwo(name)
+{
+	var urlForSend = 'http://'+arrayOfWatchFilters[name]["WebsiteBase"]+'/status/core/php/functions/gitBranchName.php?format=json';
+	if("urlHit" in arrayOfWatchFilters[name] && arrayOfWatchFilters[name]["urlHit"] !== "")
+	{
+		urlForSend = 'http://'+arrayOfWatchFilters[name]["urlHit"]+'?format=json';
+	}
+	var folder = "";
+	var githubRepo = "";
+	var branchList = "";
+	if("branchList" in arrayOfWatchFilters[name])
+	{
+		branchList = arrayOfWatchFilters[name]["branchList"];
+	}
+	if("Folder" in arrayOfWatchFilters[name])
+	{
+		folder = arrayOfWatchFilters[name]["Folder"];
+	}
+	if("githubRepo" in arrayOfWatchFilters[name])
+	{
+		githubRepo = arrayOfWatchFilters[name]["githubRepo"];
+	}
+	return {pollType, location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfWatchFilters[name]["WebsiteBase"], id: name.replace("branchNameDevBox1", ""),branchList};
+}
 
-
-function tryHttpActuallyPollLogic(count, name)
+function getPollData(count, name)
 {
 	var urlForSend = 'http://'+arrayOfFiles[count]["WebsiteBase"]+'/status/core/php/functions/gitBranchName.php?format=json';
 	if(arrayOfFiles[count]["urlHit"] !== "")
 	{
 		urlForSend = 'http://'+arrayOfFiles[count]["urlHit"]+'?format=json';
 	}
-	showLoadingSpinnerHeader(name);
 	var id = name.replace("branchNameDevBox1", "");
 	var subBoxes = document.getElementsByClassName(id);
 	var countOfSubServers = subBoxes.length;
@@ -282,8 +307,6 @@ function tryHttpActuallyPollLogic(count, name)
 			showLoadingSpinnerHeader(noSpaceName);
 		}
 	}
-	loadingSpinnerText.innerHTML = (counterForSave);
-	document.getElementById("refreshDiv").style.display = "none";
 	var folder = "";
 	var githubRepo = "";
 	var branchList = "";
@@ -299,13 +322,32 @@ function tryHttpActuallyPollLogic(count, name)
 	{
 		githubRepo = arrayOfFiles[count]["githubRepo"];
 	}
-	var data = {pollType, location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"],branchList};
+	return {pollType, location: folder, name, githubRepo, urlForSend ,websiteBase: arrayOfFiles[count]["WebsiteBase"], id: arrayOfFiles[count]["Name"],branchList};
+}
+
+
+function tryHttpActuallyPollLogic(count, name)
+{
+	var data = {};
 	var innerData = {};
-	if(pollType == "1")
+	if(count !== null)
 	{
+		data = getPollData(count, name);
+		if(pollType == "1")
+		{
+			innerData = data;
+		}
+	}
+	else
+	{
+		data = getPollDataTypeTwo(name);
 		innerData = data;
 	}
-	(function(_data){
+	var urlForSend = data["urlForSend"];
+	showLoadingSpinnerHeader(name);
+	loadingSpinnerText.innerHTML = (counterForSave);
+	document.getElementById("refreshDiv").style.display = "none";
+	(function(_data, _innerData){
 			$.ajax({
 			url: urlForSend,
 			dataType: 'json',
@@ -316,38 +358,33 @@ function tryHttpActuallyPollLogic(count, name)
 				pollSuccess(data, _data);
 			},
 			error: function(xhr, error){
-				tryHTTPSForPollRequest(_data);
+				tryHTTPSForPollRequest(_data, _innerData);
 			}
 		});
-	}(data));
+	}(data, innerData));
 }
 
 
-function tryHTTPSForPollRequest(_data)
+function tryHTTPSForPollRequest(_data, _innerData)
 {
 	var urlForSend = _data.urlForSend;
 	urlForSend = urlForSend.replace("http","https");
-	var data = {pollType, location: _data.location, name: _data.name, githubRepo: _data.githubRepo, websiteBase: _data.websiteBase, id: _data.id, branchList: _data.branchList};
-	var innerData = {};
-	if(pollType == "1")
-	{
-		innerData = data;
-	}
-		(function(_data){
-			$.ajax({
-				url: urlForSend,
-				dataType: 'json',
-				global: false,
-				data: innerData,
-				type: 'POST',
-				success: function(data){
-					pollSuccess(data, _data);
-				},
-				error: function(xhr, error){
-					pollFailure(xhr.status, error, _data);
-				}
-			});
-		}(data));
+	var data = _innerData;
+	(function(_data){
+		$.ajax({
+			url: urlForSend,
+			dataType: 'json',
+			global: false,
+			data: data,
+			type: 'POST',
+			success: function(data){
+				pollSuccess(data, _data);
+			},
+			error: function(xhr, error){
+				pollFailure(xhr.status, error, _data);
+			}
+		});
+	}(data));
 }
 
 function showPopupWithMessage(type, message)
@@ -546,7 +583,8 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 				datePicker: null,
 				groupInfo: "",
 				location: null,
-				WebsiteBase: null
+				WebsiteBase: null,
+				urlHit: ""
 			};
 	}
 	else
@@ -567,6 +605,10 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 		if(!("WebsiteBase" in arrayOfWatchFilters[noSpaceName]))
 		{
 			arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = null;
+		}
+		if(!("urlHit" in arrayOfWatchFilters[noSpaceName]))
+		{
+			arrayOfWatchFilters[noSpaceName]["urlHit"] = "";
 		}
 	}
 	hideLoadingSpinnerHeader(noSpaceName);
@@ -984,6 +1026,15 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	    	dataToFilterBy = $.trim(dataToFilterByArray[1]); 
 	    }
 	    var setFadeBool = false;
+	    var urlHit = "";
+	    if("urlForSend" in dataInnerPassMaster)
+	    {
+	    	let urlCheck = dataInnerPassMaster["urlForSend"] + "/core/php/functions/gitBranchName.php?format=json";
+	    	if(dataInnerPassMaster["urlForSend"] !== "http://"+urlCheck || dataInnerPassMaster["urlForSend"] !== "https://"+urlCheck)
+	    	{
+	    		urlHit = dataInnerPassMaster["urlForSend"];
+	    	}
+	    }
 	    if(arrayOfWatchFilters && !arrayOfWatchFilters[noSpaceName])
 		{
 			arrayOfWatchFilters[noSpaceName] = {
@@ -999,7 +1050,8 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				groupInfo: groupNames,
 				location: "location" in dataInner ? dataInner["location"] : null,
 				WebsiteBase: "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null,
-				branchList: branchList
+				branchList: branchList,
+				urlHit: urlHit
 			};
 		}
 		else
@@ -1021,6 +1073,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			arrayOfWatchFilters[noSpaceName]["location"] = "location" in dataInner ? dataInner["location"] : null;
 			arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null;
 			arrayOfWatchFilters[noSpaceName]["branchList"] = branchList;
+			arrayOfWatchFilters[noSpaceName]["urlHit"] = urlHit;
 		}
 		
 		filterBGColor(dataToFilterBy, nameForBackground, 1);
@@ -1254,69 +1307,16 @@ function refreshAction(all = -1, status = 'outer')
 	{
 		if(isNaN(refreshNum))
 		{
-			var refreshName = all;
-			//this is string, find in fileArray
-			var foundInFileArray = false;
-			var lengthOfFileArray = arrayOfFiles.length;
-			for(var i = 0; i < lengthOfFileArray; i++)
-			{
-				var noSpaceName = arrayOfFiles[i]["Name"].replace(/\s/g, '');
-				if(noSpaceName === refreshName)
-				{
-					refreshNum = i;
-					foundInFileArray = true;
-					break;
-				}
-			}
-
-			if(!foundInFileArray)
-			{
-				//look for groups with ID of master server
-				if(document.getElementById("innerFirstDevBox"+refreshName))
-				{
-					var listOfClasses = document.getElementById("innerFirstDevBox"+refreshName).parentElement.classList;
-					var classListLength = listOfClasses.length;
-					var found = false;
-					for(var i = 0; i < classListLength; i++)
-					{
-						var lengthOfFileArray = arrayOfFiles.length;
-						for(var j = 0; j < lengthOfFileArray; j++)
-						{
-							var noSpaceName = arrayOfFiles[j]["Name"].replace(/\s/g, '');
-							if(noSpaceName === listOfClasses[i])
-							{
-								refreshNum = j;
-								found = true;
-								break;
-							}
-						}
-						if(found)
-						{
-							break;
-						}
-					}
-
-					if(found)
-					{
-						var classNameFound = arrayOfFiles[refreshNum]["Name"].replace(/\s/g, '');
-						listOfClasses = document.getElementsByClassName(classNameFound);
-						classListLength = listOfClasses.length;
-						for(var i = 0; i < classListLength; i++)
-						{
-							counterNew++;
-						} 
-					}
-				}
-			}
+			counterForSave = counterNew;
+			tryHTTPForPollRequest(null, all);
+			refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
 		}
 	}
-	if(isNaN(refreshNum))
+	else
 	{
-		refreshNum = -1;
+		poll();
+		refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
 	}
-	poll(refreshNum, counterNew);
-	refreshActionVar = setTimeout(function(){endRefreshAction()}, 1500);
-	
 }
 
 function endRefreshAction()

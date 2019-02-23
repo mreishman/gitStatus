@@ -4,6 +4,12 @@ require_once("../../../core/conf/config.php");
 require_once("../../../local/default/conf/config.php");
 require_once("../../../core/php/loadVars.php");
 
+if($blockGitShowCommitStuff !== "false")
+{
+	echo json_encode(array());
+	die();
+}
+
 $location = (string)$_POST['location'];
 $commit = (string)trim($_POST['commit']);
 $newArrayOfData = array();

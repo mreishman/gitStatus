@@ -8,10 +8,10 @@
 			<ul class="settingsUl">
 				<li>
 					<span class="leftSpacingserverNames" >Dev Branches:</span>
-						<select name="enableDevBranchDownload">
-	  						<option <?php if($enableDevBranchDownload == 'true'){echo "selected";} ?> value="true">True</option>
-	  						<option <?php if($enableDevBranchDownload == 'false'){echo "selected";} ?> value="false">False</option>
-						</select>
+					<select name="enableDevBranchDownload">
+  						<option <?php if($enableDevBranchDownload == 'true'){echo "selected";} ?> value="true">True</option>
+  						<option <?php if($enableDevBranchDownload == 'false'){echo "selected";} ?> value="false">False</option>
+					</select>
 				</li>
 				<li>
 					<span class="leftSpacingserverNames" >Allow PT  V1:</span>
@@ -21,17 +21,39 @@
 						</select>
 					<p class="description" >Allows/Disallows the use of other status instances to send V1 requests to this current instance</p>
 				</li>
-				<!-- 
 				<li>
-					<span class="leftSpacingserverNames" >Login Auth:</span>
-						<select name="loginAuthType">
-	  						<option <?php if($loginAuthType == 'disabled'){echo "selected";} ?> value="disabled">Disabled</option>
-	  						<option <?php if($loginAuthType == 'LAPD'){echo "selected";} ?> value="LAPD">LAPD</option>
-	  						<option <?php if($loginAuthType == 'PHP'){echo "selected";} ?> value="PHP">PHP</option>
-	  						<option <?php if($loginAuthType == 'GitHub'){echo "selected";} ?> value="GitHub">GitHub</option>
-						</select>
+					Block:
+					<ul style="list-style: none; margin: 0; padding: 0;">
+						<li>
+							<span>gitBranchName</span>
+							<select name="blockGitBranchName">
+		  						<option <?php if($blockGitBranchName == 'true'){echo "selected";} ?> value="true">True</option>
+		  						<option <?php if($blockGitBranchName == 'false'){echo "selected";} ?> value="false">False</option>
+							</select>
+						</li>
+						<li>
+							<span>gitCommitDiff</span>
+							<select name="blockGitCommitDiff">
+		  						<option <?php if($blockGitCommitDiff == 'true'){echo "selected";} ?> value="true">True</option>
+		  						<option <?php if($blockGitCommitDiff == 'false'){echo "selected";} ?> value="false">False</option>
+							</select>
+						</li>
+						<li>
+							<span>gitCommitHistory</span>
+							<select name="blockGitCommitHistory">
+		  						<option <?php if($blockGitCommitHistory == 'true'){echo "selected";} ?> value="true">True</option>
+		  						<option <?php if($blockGitCommitHistory == 'false'){echo "selected";} ?> value="false">False</option>
+							</select>
+						</li>
+						<li>
+							<span>gitShowCommitStuff</span>
+							<select name="blockGitShowCommitStuff">
+		  						<option <?php if($blockGitShowCommitStuff == 'true'){echo "selected";} ?> value="true">True</option>
+		  						<option <?php if($blockGitShowCommitStuff == 'false'){echo "selected";} ?> value="false">False</option>
+							</select>
+						</li>
+					</ul>
 				</li>
-				-->
 			</ul>
 		</div>
 	</div>

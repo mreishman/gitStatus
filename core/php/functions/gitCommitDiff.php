@@ -4,6 +4,12 @@ require_once("../../../core/conf/config.php");
 require_once("../../../local/default/conf/config.php");
 require_once("../../../core/php/loadVars.php");
 
+if($blockGitCommitDiff !== "false")
+{
+	echo json_encode(array());
+	die();
+}
+
 $location = (string)$_POST['location'];
 $branchListCompare = "master";
 if(isset($_POST['branchList']))
