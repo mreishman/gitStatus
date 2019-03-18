@@ -13,33 +13,36 @@
 
 				<li><h2>Example:</h2></li>
 				<li class="watchFolderGroups">
-				<span class="leftSpacingserverNames" > Name:</span> <input disabled="true" class='inputWidth300' type='text' value='Name you want to call website'> 
+				<span class="leftSpacingserverNames" > Name:</span> <input disabled="true" class='inputWidth300' type='text' value='Name you want to call website'>
 				<br>
-				<span class="leftSpacingserverNames" > Website Base:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'> 
+				<span class="leftSpacingserverNames" > Website Base:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'>
 				<br>
-				<span class="leftSpacingserverNames" > Folder:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of github repo on server'> 
+				<span class="leftSpacingserverNames" > Folder:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of github repo on server'>
 				<br>
-				<span class="leftSpacingserverNames" > Website:</span> <input disabled="true" class='inputWidth300' type='text' value='Specific directory of website'> 
+				<span class="leftSpacingserverNames" > Website:</span> <input disabled="true" class='inputWidth300' type='text' value='Specific directory of website'>
 				<br>
-				<span class="leftSpacingserverNames" > Git Repo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'> 
+				<span class="leftSpacingserverNames" > Git Repo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'>
 				<br>
-				<span class="leftSpacingserverNames" > Group Info:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of group'> 
+ 				<span class="leftSpacingserverNames" > Branch List:</span> <input disabled="true" class='inputWidth300' type='text' value='Compare branches list example: master , develop'>
 				<br>
-				<span class="leftSpacingserverNames" > URL Hit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'> 
+				<span class="leftSpacingserverNames" > Git Type:</span>
+				<select disabled="true" class='inputWidth300' >
+ 					<option value="local" >github</option>
+ 					<option value="external" >gitlab</option>
+ 				</select>
+ 				<br>
+ 				<span class="leftSpacingserverNames" > Custom Git:</span> <input disabled="true" class='inputWidth300' type='text' value='Custom url for git. Empty = default'>
+ 				<br>
+				<span class="leftSpacingserverNames" > Group Info:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of group'>
+				<br>
+				<span class="leftSpacingserverNames" > URL Hit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'>
 				<br>
 				<span class="leftSpacingserverNames" > Type:</span>
 				<select disabled="true" class='inputWidth300' >
  					<option value="local" >Local</option>
  					<option value="external" >External</option>
  				</select>
- 				<br>
- 				<span class="leftSpacingserverNames" > Git Type:</span>
-				<select disabled="true" class='inputWidth300' >
- 					<option value="local" >github</option>
- 					<option value="external" >gitlab</option>
- 				</select>
- 				<br>
- 				<span class="leftSpacingserverNames" > Branch List:</span> <input disabled="true" class='inputWidth300' type='text' value='Compare branches list example: master , develop'>
+
 				</li>
 
 
@@ -51,11 +54,12 @@
 					'Folder'			=> 'Folder',
 					'Website'			=> 'Website',
 					'githubRepo'		=> 'Git Repo',
+					'branchList'		=> 'Branch List',
+					'gitType'			=> 'Git Type',
+					'customGit'			=> 'Custom Git',
 					'groupInfo'			=> 'Group Info',
 					'urlHit'			=> 'URL Hit',
 					'type'				=> 'Type',
-					'gitType'			=> 'Git Type',
-					'branchList'		=> 'Branch List',
 					'Archive'			=> 'Archive'
 				);
 
@@ -64,12 +68,13 @@
 					'Folder'			=>  '',
 					'Website'			=>  '',
 					'githubRepo'		=>  '',
+					'branchList'		=>  'master',
+					'gitType'			=>	'',
+					'customGit'			=>  '',
 					'groupInfo'			=>  '',
 					'urlHit'			=>  '',
-					"type"				=> "",
-					"gitType"			=>	"",
-					'branchList'		=> 'master',
-					"Archive"			=> 'false'
+					'type'				=>  '',
+					'Archive'			=>  'false'
 				);
 
 				$i = 0;
@@ -118,13 +123,13 @@
 		 				else: ?>
 		 					<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if (isset($item[$key2])){ echo $item[$key2]; } ?>'>
 		 				<?php endif; ?>
-	 				<?php endforeach; 
+	 				<?php endforeach;
 	 				if($numCount < $j)
 	 				{
 	 					$numCount = $j;
 	 				}
 	 				?>
-	 				<br> <input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'> 
+	 				<br> <input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'>
 	 				<span class="leftSpacingserverNames" ></span>
 					<a class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $i; ?>, true);">Remove</a>
 					<span> | </span>

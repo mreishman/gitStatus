@@ -37,6 +37,9 @@
  				</select>
  				<br>
  				<span class="leftSpacingserverNames" > Branch List:</span> <input disabled="true" class='inputWidth300' type='text' value='Compare branches list example: master , develop'>
+ 				<br>
+ 				<span class="leftSpacingserverNames" > Custom Git:</span> <input disabled="true" class='inputWidth300' type='text' value='Custom url for git. Empty = default'>
+
 				</li>
 				<?php
 
@@ -46,11 +49,12 @@
 					"Folder"			=> "Folder",
 					"Website"			=> "Website",
 					"githubRepo"		=> "Git Repo",
+					"branchList"		=> "Branch List",
+					"gitType"			=> "Git Type",
+					"customGit"			=> "Custom Git",
 					"groupInfo"			=> "Group Info",
 					"urlHit"			=> "URL Hit",
-					"gitType"			=> "Git Type",
-					"Archive"			=> "Archive",
-					"branchList"		=> "Branch List"
+					"Archive"			=> "Archive"
 				);
 
 				$defaultArray = array(
@@ -58,11 +62,12 @@
 					'Folder' 			=>  '',
 					'Website' 			=>  '',
 					'githubRepo' 		=>  '',
+					'branchList'		=>  'master',
+					'gitType'			=>	'github',
+					'customGit'			=>  '',
 					'groupInfo' 		=>  '',
 					'urlHit' 			=>  '',
-					'gitType'			=>	'github',
-					'branchList'		=> 'master',
-					"Archive" 			=> 'false'
+					'Archive' 			=>  'false'
 				);
 
 			elseif($pollType === "2"): ?>
@@ -124,7 +129,7 @@
 					 				if(!in_array($key2, $arrayOfKeys))
 					 				{
 					 					array_push($arrayOfKeys, $key2);
-					 				}	
+					 				}
 				 				?>
 				 				<?php
 				 				if($key2 === "gitType"):
@@ -149,13 +154,13 @@
 				 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if(isset($item[$key2])){ echo $item[$key2]; }?>'>
 				 				<?php endif;
 			 				endif;
-		 				endforeach; 
+		 				endforeach;
 		 				if($numCount < $j)
 		 				{
 		 					$numCount = $j;
 		 				}
 		 				?>
-		 				<br> <input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'> 
+		 				<br> <input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'>
 		 				<span class="leftSpacingserverNames" ></span>
 		 				<?php if($type !== "external"): ?>
 							<a class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $i; ?>, true);">Remove</a>

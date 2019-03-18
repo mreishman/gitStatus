@@ -189,12 +189,12 @@ function getToday()
 	if(dd<10)
 	{
 	    dd='0'+dd
-	} 
+	}
 
 	if(mm<10)
 	{
 	    mm='0'+mm
-	} 
+	}
 	return mm+'/'+dd+'/'+yyyy;
 }
 
@@ -221,7 +221,7 @@ function tryHTTPForPollRequest(count, name = null)
 		if (dateForEnd >= today)
 		{
 			doPollLogic = false;
-		} 
+		}
 	}
 	if(doPollLogic)
 	{
@@ -365,9 +365,9 @@ function tryHttpActuallyPollLogic(count, name)
 }
 
 
-function tryHTTPSForPollRequest(_data, _innerData)
+function tryHTTPSForPollRequest(data2, _innerData)
 {
-	var urlForSend = _data.urlForSend;
+	var urlForSend = data2.urlForSend;
 	urlForSend = urlForSend.replace("http","https");
 	var data = _innerData;
 	(function(_data){
@@ -384,7 +384,7 @@ function tryHTTPSForPollRequest(_data, _innerData)
 				pollFailure(xhr.status, error, _data);
 			}
 		});
-	}(data));
+	}(data2));
 }
 
 function showPopupWithMessage(type, message)
@@ -879,6 +879,10 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	    	{
 	    		baseRepoUrl = "gitlab.com";
 	    	}
+	    	if("customGit" in dataInner && customGit !== "")
+	    	{
+	    		baseRepoUrl = dataInner["customGit"];
+	    	}
 	    }
 	    $("#"+noSpaceName+"BranchHistory").html(generateBranchHistory(dataInner, repoName, baseRepoUrl));
 	    var dataBranchForFile = '<span id="'+noSpaceName+'";">';
@@ -911,7 +915,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	    {
 		    if(checkForIssueInCommit == "true")
 		    {
-			    for(var i = 0, len = dataBranchForFileStats.length; i < len; i++) 
+			    for(var i = 0, len = dataBranchForFileStats.length; i < len; i++)
 			    {
 					if((dataBranchForFileStats[i] == "#") && (!isNaN(dataBranchForFileStats[i+1])) && (dataBranchForFileStats[i-1] != "&"))
 					{
@@ -939,7 +943,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			}
 			//loop through filters, if match -> get number, add to title if != link
 
-			
+
 			//num for start
 			if(checkForIssueStartsWithNum == "true")
 			{
@@ -960,13 +964,13 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				}
 			}
 
-			
+
 			//num for end
 			if(checkForIssueEndsWithNum == "true")
 			{
 				var numForEnd = "";
 				var countForEndLoop = branchName.length - 1;
-				
+
 				while(!isNaN(branchName.charAt(countForEndLoop)) && countForEndLoop != 0)
 				{
 					numForEnd += branchName.charAt(countForEndLoop);
@@ -1011,19 +1015,19 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		}
 		dataBranchForFile += '</span>';
 		var nameForBackground = "innerFirstDevBox"+noSpaceName;
-	    dataToFilterBy = dataInner['branch']; 
+	    dataToFilterBy = dataInner['branch'];
 	    if(branchColorFilter == "authorName")
 	    {
 	    	dataToFilterByArray = dataBranchForFileStats.split("<br>");
 	    	dataToFilterByArray = dataToFilterByArray[0].split("</b>");
-	    	dataToFilterBy = $.trim(dataToFilterByArray[1]); 
+	    	dataToFilterBy = $.trim(dataToFilterByArray[1]);
 
 	    }
 	    else if(branchColorFilter == "committerName")
 	    {
 	    	dataToFilterByArray = dataBranchForFileStats.split("<br>");
 	    	dataToFilterByArray = dataToFilterByArray[0].split("</b>");
-	    	dataToFilterBy = $.trim(dataToFilterByArray[1]); 
+	    	dataToFilterBy = $.trim(dataToFilterByArray[1]);
 	    }
 	    var setFadeBool = false;
 	    var urlHit = "";
@@ -1075,7 +1079,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			arrayOfWatchFilters[noSpaceName]["branchList"] = branchList;
 			arrayOfWatchFilters[noSpaceName]["urlHit"] = urlHit;
 		}
-		
+
 		filterBGColor(dataToFilterBy, nameForBackground, 1);
 		arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
 		//custom message stuff
@@ -1090,11 +1094,11 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 
 			if(dd<10) {
 			    dd='0'+dd
-			} 
+			}
 
 			if(mm<10) {
 			    mm='0'+mm
-			} 
+			}
 
 			today = mm+'/'+dd+'/'+yyyy;
 
@@ -1320,7 +1324,7 @@ function refreshAction(all = -1, status = 'outer')
 }
 
 function endRefreshAction()
-{	
+{
 	if(isPaused())
 	{
 		document.title = "Git Status | Paused";
@@ -1559,7 +1563,7 @@ function dropdownShow(nameOfElem)
 }
 
 window.onclick = function(event) {
-	if (!event.target.matches('.expandMenu')) 
+	if (!event.target.matches('.expandMenu'))
 	{
 		$('.dropdown-content').hide();
 		$('.dropdown-content').css('margin-top',"0px");
@@ -1619,7 +1623,7 @@ function installUpdates()
 		type: "POST",
 		complete: function(data)
 		{
-			//set thing to check for updated files. 	
+			//set thing to check for updated files.
 			timeoutVar = setInterval(function(){verifyChange();},3000);
 		}
 	});
@@ -2306,7 +2310,7 @@ function commitStuffSuccess(data)
 			currentNumberMinus++;
 			currentNumberPlus++;
 		}
-		
+
 	}
 	htmlForCommit += "</table>";
 	$("#spanForMainDiff").html(htmlForCommit);
