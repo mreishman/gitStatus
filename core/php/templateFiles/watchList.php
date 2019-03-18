@@ -123,7 +123,10 @@
 		 					if(isset($approvedArrayKeys[$key2])):
 			 					$j++;
 			 					?>
-				 				<br> <span class="leftSpacingserverNames" > <?php echo $approvedArrayKeys[$key2]; ?>: </span>
+				 				<br>
+				 				<?php if($key2 !== "Archive"): ?>
+				 					<span class="leftSpacingserverNames" > <?php echo $approvedArrayKeys[$key2]; ?>: </span>
+				 				<?php endif; ?>
 				 				<input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
 				 				<?php
 					 				if(!in_array($key2, $arrayOfKeys))
@@ -146,9 +149,9 @@
 					 			<?php elseif($key2 === "Archive"): ?>
 					 				<input id="archiveInput<?php echo $i; ?>" class='inputWidth300'  type='hidden' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if(isset($item[$key2])){ echo $item[$key2]; }else{echo "false";}?>'>
 					 				<?php if ($item[$key2] === "true"): ?>
-										<a id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Un-Archive</a>
+										<a style="display: block;" id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Un-Archive</a>
 									<?php else: ?>
-										<a id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Archive</a>
+										<a style="display: block;" id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Archive</a>
 									<?php endif; ?>
 				 				<?php else: ?>
 				 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if(isset($item[$key2])){ echo $item[$key2]; }?>'>
@@ -160,13 +163,27 @@
 		 					$numCount = $j;
 		 				}
 		 				?>
-		 				<br> <input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'>
-		 				<span class="leftSpacingserverNames" ></span>
-		 				<?php if($type !== "external"): ?>
-							<a class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $i; ?>, true);">Remove</a>
-							<span> | </span>
-						<?php endif; ?>
-						<a class="mainLinkClass" onclick="testConnection(dataForWatchFolder<?php echo $i; ?>);" >Check Connection</a>
+		 				<input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'>
+		 				<table width="100%">
+	 					<tr>
+	 						<th width="50%" style=" text-align: center;">
+	 							<a style="display: block;" class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $i; ?>, true);">Remove</a>
+	 						</th>
+	 						<th width="50%" style=" text-align: center;">
+	 							<a style="display: block;" class="mainLinkClass" onclick="testConnection(dataForWatchFolder<?php echo $i; ?>);" >Check Connection</a>
+	 						</th>
+	 					</tr>
+	 				</table>
+	 				<table width="100%">
+	 					<tr>
+	 						<th width="50%" style=" text-align: center;">
+	 							<a style="display: block;" class="mainLinkClass" > Move Up One </a>
+	 						</th>
+	 						<th width="50%" style=" text-align: center;">
+	 							<a style="display: block;" class="mainLinkClass" > Move Down One </a>
+	 						</th>
+	 					</tr>
+	 				</table>
 					</li>
 				<?php endforeach; ?>
 				<div style="display: inline-block;" id="newRowLocationForWatchList"></div>
