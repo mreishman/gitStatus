@@ -1,22 +1,5 @@
 var urlForCurl = "./core/php/functions/sendCurl.php";
 
-function toggleArchive(currnetRow)
-{
-	var archiveButton = document.getElementById("archiveButton"+currnetRow);
-	if(archiveButton.innerHTML === "Archive")
-	{
-		//unarchive action (change to 1)
-		document.getElementById("archiveInput"+currnetRow).value = "true";
-		archiveButton.innerHTML = "Un-Archive";
-	}
-	else
-	{
-		//archive action (change to 0)
-		document.getElementById("archiveInput"+currnetRow).value = "false";
-		archiveButton.innerHTML = "Archive";
-	}
-}
-
 function addRowFunction()
 {
 	countOfWatchList++;
@@ -44,8 +27,10 @@ function addRowFunction()
 		else if(arrayOfKeysNonEnc[i] === "Archive")
 		{
 			documentUpdateText += " <br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>";
-			documentUpdateText += " <a id=\"archiveButton"+countOfWatchList+"\" onclick=\"toggleArchive("+countOfWatchList+");\" class=\"mainLinkClass\" >Archive</a>";
-			documentUpdateText += "<input id=\"archiveInput"+countOfWatchList+"\" class='inputWidth300'  type='hidden' name='watchListItem"+countOfWatchList+"-"+(i+1)+"' value='false'>";
+			documentUpdateText += " <select class='inputWidth300' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >";
+			documentUpdateText += "		<option value=\"true\" >True</option>";
+		 	documentUpdateText += "		<option value=\"false\" selected >False</option>";
+		 	documentUpdateText += " </select>";
 		}
 		else
 		{
@@ -72,26 +57,7 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 	if(currentRow < newValue)
 	{
 		//this wasn't the last folder deleted, update others
-		for(var i = currentRow + 1; i <= newValue; i++)
-		{
-			var updateItoIMinusOne = i - 1;
-			var elementToUpdate = "rowNumber" + i;
-			var documentUpdateText = "<li class='watchFolderGroups' id='rowNumber"+updateItoIMinusOne+"' ><span class='leftSpacingserverNames' > Name: </span> ";
-			var watchListKeyIdFind = "watchListKey"+i;
-			var previousElementNumIdentifierForKey  = document.getElementsByName(watchListKeyIdFind);
-			
-			documentUpdateText += "<input class='inputWidth300' type='text' name='watchListKey"+updateItoIMinusOne+"' value='"+previousElementNumIdentifierForKey[0].value+"'> ";
-			for(var j = 0; j < numberOfSubRows; j++)
-			{
-				var watchListItemIdFind = "watchListItem"+i+"-"+(j+1);
-				var previousElementNumIdentifierForItem  = document.getElementsByName(watchListItemIdFind);
-				documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[j]+": </span> <input style='display: none;' type='text' name='watchListItem"+updateItoIMinusOne+"-"+(j+1)+"-Name' value="+arrayOfKeysNonEnc[j]+">  <input class='inputWidth300' type='text' name='watchListItem"+updateItoIMinusOne+"-"+(j+1)+"' value='"+previousElementNumIdentifierForItem[0].value+"'>";
-			}
-			documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+updateItoIMinusOne+'-0" value="'+numberOfSubRows+'"> ';
-			documentUpdateText += '<span class="leftSpacingserverNames" ></span> <a class="mainLinkClass" onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove</a><span> | </span><a class="mainLinkClass" onclick="testConnection(dataForWatchFolder'+updateItoIMinusOne+');" >Check Connection</a>';
-			documentUpdateText += '</li>';
-			document.getElementById(elementToUpdate).outerHTML = documentUpdateText;
-		}
+		updateLaterFolders(currentRow, newValue);
 	}
 	newValue--;
 	if(countOfAddedFiles > 0)
@@ -100,7 +66,31 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 		countOfWatchList--;
 	}
 	document.getElementById('numberOfRows').value = newValue;
-}	
+}
+
+function updateLaterFolders(currentRow, newValue)
+{
+	for(var i = currentRow + 1; i <= newValue; i++)
+	{
+		var updateItoIMinusOne = i - 1;
+		var elementToUpdate = "rowNumber" + i;
+		var documentUpdateText = "<li class='watchFolderGroups' id='rowNumber"+updateItoIMinusOne+"' ><span class='leftSpacingserverNames' > Name: </span> ";
+		var watchListKeyIdFind = "watchListKey"+i;
+		var previousElementNumIdentifierForKey  = document.getElementsByName(watchListKeyIdFind);
+
+		documentUpdateText += "<input class='inputWidth300' type='text' name='watchListKey"+updateItoIMinusOne+"' value='"+previousElementNumIdentifierForKey[0].value+"'> ";
+		for(var j = 0; j < numberOfSubRows; j++)
+		{
+			var watchListItemIdFind = "watchListItem"+i+"-"+(j+1);
+			var previousElementNumIdentifierForItem  = document.getElementsByName(watchListItemIdFind);
+			documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[j]+": </span> <input style='display: none;' type='text' name='watchListItem"+updateItoIMinusOne+"-"+(j+1)+"-Name' value="+arrayOfKeysNonEnc[j]+">  <input class='inputWidth300' type='text' name='watchListItem"+updateItoIMinusOne+"-"+(j+1)+"' value='"+previousElementNumIdentifierForItem[0].value+"'>";
+		}
+		documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+updateItoIMinusOne+'-0" value="'+numberOfSubRows+'"> ';
+		documentUpdateText += '<span class="leftSpacingserverNames" ></span> <a class="mainLinkClass" onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove</a><span> | </span><a class="mainLinkClass" onclick="testConnection(dataForWatchFolder'+updateItoIMinusOne+');" >Check Connection</a>';
+		documentUpdateText += '</li>';
+		document.getElementById(elementToUpdate).outerHTML = documentUpdateText;
+	}
+}
 
 function testConnection(currentRowInformation)
 {
@@ -117,8 +107,8 @@ function testConnection(currentRowInformation)
 	popupHtml += "<div style=\"width:100%;text-align:center; line-height: 50px;\"> <img id=\"connectionCheckMainLoad\" src=\"core/img/loading.gif\" height=\"50\" width=\"50\"> <img style=\"display: none;\" id=\"connectionCheckMainGreen\" src=\"core/img/greenCheck.png\" height=\"50\" width=\"50\"> <img style=\"display: none;\" id=\"connectionCheckMainRed\" src=\"core/img/redWarning.png\" height=\"50\" width=\"50\">Website";
 	popupHtml += "<img id=\"connectionCheckStatusLoad\" src=\"core/img/loading.gif\" height=\"50\" width=\"50\"> <img style=\"display: none;\" id=\"connectionCheckStatusGreen\" src=\"core/img/greenCheck.png\" height=\"50\" width=\"50\"> <img style=\"display: none;\" id=\"connectionCheckStatusRed\" src=\"core/img/redWarning.png\" height=\"50\" width=\"50\"> Status </div>";
 	document.getElementById('popupContentInnerHTMLDiv').innerHTML = popupHtml;
-	
-	
+
+
 	//send check requests
 	checkWebsiteInGeneral(currentRowInformation['WebsiteBase']);
 	checkWebsiteStatus(sendUrlHere);

@@ -76,10 +76,13 @@
 					'type'				=>  '',
 					'Archive'			=>  'false'
 				);
-
+				?>
+				<script type="text/javascript">
+					var arrayOfKeysNonEnc = <?php echo json_encode(array_keys($defaultArray)); ?>
+				</script>
+				<?php
 				$i = 0;
 				$numCount = 0;
-				$arrayOfKeys = array();
 				foreach($config['serverWatchList'] as $key => $item): $i++; ?>
 				<script type="text/javascript">
 					var dataForWatchFolder<?php echo $i?> = JSON.parse('<?php echo json_encode($item); ?>');
@@ -93,15 +96,9 @@
 	 					$j++;
 	 					?>
 		 				<br>
-		 				<?php if($key2 !== "Archive"): ?>
-		 					<span class="leftSpacingserverNames" > <?php echo $arrayKeys[$key2]; ?>: </span>
-		 				<?php endif; ?>
+		 				<span class="leftSpacingserverNames" > <?php echo $arrayKeys[$key2]; ?>: </span>
 		 				<input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
 		 				<?php
-			 				if(!in_array($key2, $arrayOfKeys))
-			 				{
-			 					array_push($arrayOfKeys, $key2);
-			 				}
 			 			if($key2 === "type"):
 			 				?>
 			 				<select class='inputWidth300' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' >
@@ -115,16 +112,19 @@
 		 					<option value="github" <?php if($item[$key2] === "github"){echo "selected"; }?> >GitHub</option>
 		 					<option value="gitlab" <?php if($item[$key2] === "gitlab"){echo "selected"; }?> >GitLab</option>
 		 				</select>
-		 				<?php
-		 				elseif($key2 === "Archive"): ?>
-		 					<input id="archiveInput<?php echo $i; ?>" class='inputWidth300'  type='hidden' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if (isset($item[$key2])){ echo $item[$key2]; }else{echo "false";} ?>'>
-		 					<?php if ($item[$key2] === "true"): ?>
-								<a style="display: block;" id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Un-Archive</a>
-							<?php else: ?>
-								<a style="display: block;" id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Archive</a>
-							<?php endif; ?>
-		 				<?php
-		 				else: ?>
+		 				<?php elseif($key2 === "Archive"): ?>
+			 				<?php
+			 				$value = "false";
+			 				if(isset($item[$key2]))
+			 				{
+			 					$value = (string)$item[$key2];
+			 				}
+			 				?>
+			 				<select class='inputWidth300' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' >
+			 					<option value="true" <?php if($value === "true"){echo "selected"; }?> >True</option>
+			 					<option value="false" <?php if($value === "false"){echo "selected"; }?> >False</option>
+			 				</select>
+				 		<?php else: ?>
 		 					<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if (isset($item[$key2])){ echo $item[$key2]; } ?>'>
 		 				<?php endif; ?>
 	 				<?php endforeach;

@@ -26,20 +26,19 @@
 				<br>
 				<span class="leftSpacingserverNames" > Git Repo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'>
 				<br>
-				<span class="leftSpacingserverNames" > Group Info:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of group'>
-				<br>
-				<span class="leftSpacingserverNames" > URL Hit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'>
-				<br>
+				<span class="leftSpacingserverNames" > Branch List:</span> <input disabled="true" class='inputWidth300' type='text' value='Compare branches list example: master , develop'>
+ 				<br>
  				<span class="leftSpacingserverNames" > Git Type:</span>
 				<select disabled="true" class='inputWidth300' >
  					<option value="local" >github</option>
  					<option value="external" >gitlab</option>
  				</select>
  				<br>
- 				<span class="leftSpacingserverNames" > Branch List:</span> <input disabled="true" class='inputWidth300' type='text' value='Compare branches list example: master , develop'>
- 				<br>
  				<span class="leftSpacingserverNames" > Custom Git:</span> <input disabled="true" class='inputWidth300' type='text' value='Custom url for git. Empty = default'>
-
+ 				<br>
+				<span class="leftSpacingserverNames" > Group Info:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of group'>
+				<br>
+				<span class="leftSpacingserverNames" > URL Hit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'>
 				</li>
 				<?php
 
@@ -99,11 +98,13 @@
 				);
 
 			endif; ?>
+			<script type="text/javascript">
+				var arrayOfKeysNonEnc = <?php echo json_encode(array_keys($defaultArray)); ?>
+			</script>
 				<li><h2>Your Watch List: </h2></li>
 				<?php
 				$i = 0;
 				$numCount = 0;
-				$arrayOfKeys = array();
 				foreach($config['watchList'] as $key => $item): $i++;
 					$type = "internal";
 					if(isset($item["type"]) && $pollType === "2")
@@ -124,16 +125,8 @@
 			 					$j++;
 			 					?>
 				 				<br>
-				 				<?php if($key2 !== "Archive"): ?>
-				 					<span class="leftSpacingserverNames" > <?php echo $approvedArrayKeys[$key2]; ?>: </span>
-				 				<?php endif; ?>
+				 				<span class="leftSpacingserverNames" > <?php echo $approvedArrayKeys[$key2]; ?>: </span>
 				 				<input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
-				 				<?php
-					 				if(!in_array($key2, $arrayOfKeys))
-					 				{
-					 					array_push($arrayOfKeys, $key2);
-					 				}
-				 				?>
 				 				<?php
 				 				if($key2 === "gitType"):
 				 					$gitType = $item2;
@@ -147,12 +140,17 @@
 					 					<option value="gitlab" <?php if($gitType === "gitlab"){echo "selected"; }?> >GitLab</option>
 					 				</select>
 					 			<?php elseif($key2 === "Archive"): ?>
-					 				<input id="archiveInput<?php echo $i; ?>" class='inputWidth300'  type='hidden' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if(isset($item[$key2])){ echo $item[$key2]; }else{echo "false";}?>'>
-					 				<?php if ($item[$key2] === "true"): ?>
-										<a style="display: block;" id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Un-Archive</a>
-									<?php else: ?>
-										<a style="display: block;" id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Archive</a>
-									<?php endif; ?>
+					 				<?php
+					 				$value = "false";
+					 				if(isset($item[$key2]))
+					 				{
+					 					$value = (string)$item[$key2];
+					 				}
+					 				?>
+					 				<select class='inputWidth300' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' >
+					 					<option value="true" <?php if($value === "true"){echo "selected"; }?> >True</option>
+					 					<option value="false" <?php if($value === "false"){echo "selected"; }?> >False</option>
+					 				</select>
 				 				<?php else: ?>
 				 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if(isset($item[$key2])){ echo $item[$key2]; }?>'>
 				 				<?php endif;

@@ -14,7 +14,7 @@ function clean_url($url) {
 }
 
 
-require_once($baseUrl.'conf/config.php'); 
+require_once($baseUrl.'conf/config.php');
 require_once('setupProcessFile.php');
 
 if($setupProcess != "step3")
@@ -49,7 +49,7 @@ require_once('../core/php/loadVars.php'); ?>
 	</style>
 </head>
 <body>
-<?php readfile('../core/html/popup.html') ?>	
+<?php readfile('../core/html/popup.html') ?>
 <div class="firstBoxDev" style="width: 90%; margin: auto; margin-right: auto; margin-left: auto; display: block; height: auto; margin-top: 15px;" >
 	<div class="devBoxTitle">
 		<h1>Step 3 of <?php echo $counterSteps; ?></h1>
@@ -89,8 +89,6 @@ var countOfAddedFiles = 0;
 var countOfClicks = 0;
 var locationInsert = "newRowLocationForWatchList";
 var numberOfSubRows = <?php echo $numCount; ?>;
-var arrayOfKeysJsonEncoded = '<?php echo json_encode($arrayOfKeys); ?>';
-var arrayOfKeysNonEnc = JSON.parse(arrayOfKeysJsonEncoded);
 
 
 </script>
