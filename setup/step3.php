@@ -1,4 +1,5 @@
 <?php
+require_once("../core/php/functions/watchlistFunctions.php");
 $baseUrl = "../core/";
 if(file_exists('../local/layout.php'))
 {
@@ -83,14 +84,6 @@ require_once('../core/php/loadVars.php'); ?>
 		document.getElementById('settingsMainWatch').action = "../core/php/saveFunctions/settingsSaveMain.php";
 		document.getElementById('settingsMainWatch').submit();
 	}
-
-var countOfWatchList = <?php echo $i; ?>;
-var countOfAddedFiles = 0;
-var countOfClicks = 0;
-var locationInsert = "newRowLocationForWatchList";
-var numberOfSubRows = <?php echo $numCount; ?>;
-
-
 </script>
 <script src="../core/js/watchlist.js"></script>
 <script src="stepsJavascript.js"></script>

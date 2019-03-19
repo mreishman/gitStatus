@@ -1,4 +1,7 @@
 var urlForCurl = "./core/php/functions/sendCurl.php";
+var countOfAddedFiles = 0;
+var countOfClicks = 0;
+var locationInsert = "newRowLocationForWatchList";
 
 function addRowFunction()
 {
