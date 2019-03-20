@@ -97,6 +97,9 @@
 			</ul>
 		</div>
 		<div id="hidden" style="display: none">
+			<span id="hiddenWatchlistFormBlank">
+				<?php echo generateWatchlistBlock($defaultArray, $arrayKeys); ?>
+			</span>
 			<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
 			<input id="watchListServer" type="text" name="watchListServer" value="true" >
 		</div>

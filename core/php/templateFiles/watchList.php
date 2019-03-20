@@ -99,7 +99,7 @@
 			<script type="text/javascript">
 				var arrayOfKeysNonEnc = <?php echo json_encode(array_keys($defaultArray)); ?>;
 				var numberOfSubRows = <?php echo count(array_keys($defaultArray)); ?>;
-				var countOfWatchList = <?php echo count(array_keys($config['serverWatchList'])); ?>;
+				var countOfWatchList = <?php echo count(array_keys($config['watchList'])); ?>;
 			</script>
 				<li><h2>Your Watch List: </h2></li>
 				<?php
@@ -118,6 +118,9 @@
 			</ul>
 		</div>
 		<div id="hidden" style="display: none">
+			<span id="hiddenWatchlistFormBlank">
+				<?php echo generateWatchlistBlock($defaultArray, $arrayKeys); ?>
+			</span>
 			<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
 			<input id="watchListNormal" type="text" name="watchListNormal" value="true" >
 		</div>

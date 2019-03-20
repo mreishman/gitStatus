@@ -3,46 +3,91 @@ var countOfAddedFiles = 0;
 var countOfClicks = 0;
 var locationInsert = "newRowLocationForWatchList";
 
+function generateTypeSelect(value)
+{
+	returnText = "";
+	returnText += "<option value=\"local\"";
+	if(value === "local")
+	{
+		returnText += " selected ";
+	}
+	returnText += ">Local</option>";
+	returnText += "<option value=\"external\"";
+	if(value === "external")
+	{
+		returnText += " selected ";
+	}
+	returnText += " >External</option>";
+	return returnText;
+}
+
+function generateGitTypeSelect(value)
+{
+	returnText = "";
+	returnText += "<option value=\"github\"";
+	if(value === "github")
+	{
+		returnText += " selected ";
+	}
+	returnText += ">GitHub</option>";
+	returnText += "<option value=\"gitlab\"";
+	if(value === "gitlab")
+	{
+		returnText += " selected ";
+	}
+	returnText += " >GitLab</option>";
+	return returnText;
+}
+
+function generateTrueFalseSelect(value)
+{
+	returnText = "";
+	returnText += "<option value=\"true\"";
+	if(value === "true")
+	{
+		returnText += " selected ";
+	}
+	returnText += ">True</option>";
+	returnText += "<option value=\"false\"";
+	if(value === "false")
+	{
+		returnText += " selected ";
+	}
+	returnText += " >False</option>";
+	return returnText;
+}
+
 function addRowFunction()
 {
 	countOfWatchList++;
 	countOfClicks++;
-	var documentUpdateText = "<li class='watchFolderGroups' id='rowNumber"+countOfWatchList+"'><span class='leftSpacingserverNames' > Name: </span> <input class='inputWidth300' type='text'  name='watchListKey" + countOfWatchList + "' >";
+	let item = $("#hiddenWatchlistFormBlank").html();
+	item = item.replace(/{{i}}/g, countOfWatchList);
+	item = item.replace(/{{key}}/g, "");
 	for(var i = 0; i < numberOfSubRows; i++)
 	{
-		documentUpdateText += " <input style='display: none;' type='text' name='watchListItem"+countOfWatchList+"-"+(i+1)+"-Name' value="+arrayOfKeysNonEnc[i]+">";
+		let find = "{{"+countOfWatchList+"-"+(i+1)+"}}";
+		let replaceString = new RegExp(find, 'g');
+
 		if(arrayOfKeysNonEnc[i] === "type")
 		{
-			documentUpdateText += " <br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>";
-			documentUpdateText += " <select class='inputWidth300' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >";
-			documentUpdateText += " 		<option value=\"local\" selected >Local</option>";
-			documentUpdateText += " 		<option value=\"external\" >External</option>";
-			documentUpdateText += " </select>";
+			item = item.replace(replaceString, generateTypeSelect("local"));
 		}
 		else if(arrayOfKeysNonEnc[i] === "gitType")
 		{
-			documentUpdateText += " <br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>";
-			documentUpdateText += " <select class='inputWidth300' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >";
-			documentUpdateText += "		<option value=\"github\" selected>GitHub</option>";
-		 	documentUpdateText += "		<option value=\"gitlab\" >GitLab</option>";
-		 	documentUpdateText += " </select>";
+			item = item.replace(replaceString, generateGitTypeSelect("github"));
 		}
 		else if(arrayOfKeysNonEnc[i] === "Archive")
 		{
-			documentUpdateText += " <br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>";
-			documentUpdateText += " <select class='inputWidth300' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >";
-			documentUpdateText += "		<option value=\"true\" >True</option>";
-		 	documentUpdateText += "		<option value=\"false\" selected >False</option>";
-		 	documentUpdateText += " </select>";
+			item = item.replace(replaceString, generateTrueFalseSelect("false"));
 		}
 		else
 		{
-			documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>  <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >"
+			item = item.replace(replaceString, "");
 		}
 	}
-	documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+countOfWatchList+'-0" value="'+numberOfSubRows+'"> '
-	documentUpdateText += " <span class='leftSpacingserverNames' ></span> <a class='mainLinkClass'  onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a><span> | </span><a class='mainLinkClass' onclick='testConnection(dataForWatchFolder"+countOfWatchList+");' >Check Connection</a></li><div style='display:inline-block;' id='newRowLocationForWatchList"+countOfClicks+"'></div>";
-	document.getElementById(locationInsert).outerHTML += documentUpdateText;
+	item += "<div style=\"display: inline-block;\" id=\"newRowLocationForWatchList"+countOfClicks+"\"></div>";
+	document.getElementById(locationInsert).outerHTML += item;
 	document.getElementById('numberOfRows').value = countOfWatchList;
 	countOfAddedFiles++;
 	locationInsert = "newRowLocationForWatchList"+countOfClicks;

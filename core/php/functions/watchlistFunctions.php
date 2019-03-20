@@ -1,17 +1,31 @@
 <?php
 
-function generateWatchlistBlock($defaultArray, $arrayKeys, $key, $item, $i)
+function generateWatchlistBlock($defaultArray, $arrayKeys, $key = "{{key}}", $item = array(), $i = "{{i}}")
 {
-	$stringToReturn =	"
-<script type=\"text/javascript\">
-	var dataForWatchFolder" . $i . " = " . json_encode($item) . ";
-</script>
+	$stringToReturn = "";
+	if(!empty($item))
+	{
+		$stringToReturn .=	"
+		<script type=\"text/javascript\">
+			var dataForWatchFolder" . $i . " = " . json_encode($item) . ";
+		</script>";
+	}
+	$stringToReturn .= "
 <li class=\"watchFolderGroups\" id=\"rowNumber" . $i . "\" >
 	<span class=\"leftSpacingserverNames\" > Name: </span>
 	<input class='inputWidth300' type='text' name='watchListKey" . $i . "' value='" . $key . "'>";
 	$j = 0;
 	foreach($defaultArray as $key2 => $item2)
 	{
+		$varValue = "REPLACE";
+		if(!empty($item))
+		{
+			$varValue = "";
+			if(isset($item[$key2]))
+			{
+				$varValue = $item[$key2];
+			}
+		}
 		$j++;
 		$stringToReturn .=	"
 		<br>
@@ -20,69 +34,100 @@ function generateWatchlistBlock($defaultArray, $arrayKeys, $key, $item, $i)
  		if($key2 === "type")
  		{
  			$stringToReturn .=	"
- 			<select class='inputWidth300' name='watchListItem" . $i . "-" . $j . "' >
- 				<option value=\"local\" ";
- 				if($item[$key2] === "local")
- 				{
- 					$stringToReturn .= " selected ";
- 				}
- 				$stringToReturn .= " >Local</option>
- 				<option value=\"external\" ";
- 				if($item[$key2] === "external")
- 				{
- 					$stringToReturn .= " selected ";
- 				}
- 				$stringToReturn .= ">External</option>
- 			</select>";
+	 			<select class='inputWidth300' name='watchListItem" . $i . "-" . $j . "' >";
+ 			if(!empty($item))
+ 			{
+	 			$stringToReturn .=	"
+	 				<option value=\"local\" ";
+	 				if($varValue === "local")
+	 				{
+	 					$stringToReturn .= " selected ";
+	 				}
+	 				$stringToReturn .= " >Local</option>
+	 				<option value=\"external\" ";
+	 				if($varValue === "external")
+	 				{
+	 					$stringToReturn .= " selected ";
+	 				}
+	 				$stringToReturn .= ">External</option>";
+	 		}
+	 		else
+	 		{
+	 			$stringToReturn .= "{{" . $i . "-" . $j . "}}";
+	 		}
+	 		$stringToReturn .= "</select>";
  		}
  		elseif($key2 === "gitType")
  		{
-			$stringToReturn .=	"
-			<select class='inputWidth300' name='watchListItem" . $i . "-" . $j . "' >
-				<option value=\"github\" ";
-				if($item[$key2] === "github")
-				{
-					$stringToReturn .= " selected ";
-				}
-				$stringToReturn .= " >GitHub</option>
-				<option value=\"gitlab\" ";
-				if($item[$key2] === "gitlab")
-				{
-					$stringToReturn .= "selected";
-				}
-				$stringToReturn .= ">GitLab</option>
-			</select>";
+ 			$stringToReturn .=	"
+	 			<select class='inputWidth300' name='watchListItem" . $i . "-" . $j . "' >";
+ 			if(!empty($item))
+ 			{
+				$stringToReturn .=	"
+					<option value=\"github\" ";
+					if($varValue === "github")
+					{
+						$stringToReturn .= " selected ";
+					}
+					$stringToReturn .= " >GitHub</option>
+					<option value=\"gitlab\" ";
+					if($varValue === "gitlab")
+					{
+						$stringToReturn .= "selected";
+					}
+					$stringToReturn .= ">GitLab</option>";
+			}
+	 		else
+	 		{
+	 			$stringToReturn .= "{{" . $i . "-" . $j . "}}";
+	 		}
+	 		$stringToReturn .= "</select>";
 		}
 		elseif($key2 === "Archive")
 		{
- 			$value = "false";
- 			if(isset($item[$key2]))
+			$stringToReturn .=	"
+	 			<select class='inputWidth300' name='watchListItem" . $i . "-" . $j . "' >";
+			if(!empty($item))
  			{
- 				$value = (string)$item[$key2];
- 			}
- 			$stringToReturn .=	"
- 			<select class='inputWidth300' name='watchListItem" . $i . "-" . $j . "' >
- 				<option value=\"true\" ";
- 				if($value === "true")
- 				{
- 					$stringToReturn .= " selected ";
- 				}
- 				$stringToReturn .= " >True</option>
- 				<option value=\"false\" ";
- 				if($value === "false")
- 				{
- 					$stringToReturn .= " selected ";
- 				}
- 				$stringToReturn .= " >False</option>
- 			</select>";
+	 			$value = "false";
+	 			if(isset($varValue))
+	 			{
+	 				$value = (string)$varValue;
+	 			}
+	 			$stringToReturn .=	"
+	 				<option value=\"true\" ";
+	 				if($value === "true")
+	 				{
+	 					$stringToReturn .= " selected ";
+	 				}
+	 				$stringToReturn .= " >True</option>
+	 				<option value=\"false\" ";
+	 				if($value === "false")
+	 				{
+	 					$stringToReturn .= " selected ";
+	 				}
+	 				$stringToReturn .= " >False</option>";
+	 		}
+	 		else
+	 		{
+	 			$stringToReturn .= "{{" . $i . "-" . $j . "}}";
+	 		}
+	 		$stringToReturn .= "</select>";
 	 	}
 	 	else
 	 	{
 	 		$stringToReturn .=	"
 			<input class='inputWidth300'  type='text' name='watchListItem" . $i . "-" . $j . "' value='";
-			if(isset($item[$key2]))
+			if(!empty($item))
 			{
-				$stringToReturn .= "$item[$key2]";
+				if($varValue !== "")
+				{
+					$stringToReturn .= "$varValue";
+				}
+			}
+			else
+			{
+				$stringToReturn .= "{{" . $i . "-" . $j . "}}";
 			}
 			$stringToReturn .= "'>";
 		}
