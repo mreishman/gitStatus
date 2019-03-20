@@ -86,11 +86,11 @@ function addRowFunction()
 			item = item.replace(replaceString, "");
 		}
 	}
-	item += "<div style=\"display: inline-block;\" id=\"newRowLocationForWatchList"+countOfClicks+"\"></div>";
+	locationInsert = "newRowLocationForWatchList"+countOfClicks;
+	item += "<div style=\"display: inline-block;\" id=\""+locationInsert+"\"></div>";
 	document.getElementById(locationInsert).outerHTML += item;
 	document.getElementById('numberOfRows').value = countOfWatchList;
 	countOfAddedFiles++;
-	locationInsert = "newRowLocationForWatchList"+countOfClicks;
 }
 
 function deleteRowFunction(currentRow, decreaseCountWatchListNum)
@@ -122,21 +122,36 @@ function updateLaterFolders(currentRow, newValue)
 	{
 		var updateItoIMinusOne = i - 1;
 		var elementToUpdate = "rowNumber" + i;
-		var documentUpdateText = "<li class='watchFolderGroups' id='rowNumber"+updateItoIMinusOne+"' ><span class='leftSpacingserverNames' > Name: </span> ";
-		var watchListKeyIdFind = "watchListKey"+i;
-		var previousElementNumIdentifierForKey  = document.getElementsByName(watchListKeyIdFind);
-
-		documentUpdateText += "<input class='inputWidth300' type='text' name='watchListKey"+updateItoIMinusOne+"' value='"+previousElementNumIdentifierForKey[0].value+"'> ";
+		let item = $("#hiddenWatchlistFormBlank").html();
+		item = item.replace(/{{i}}/g, updateItoIMinusOne);
+		let watchListKeyIdFind = "watchListKey"+i;
+		let previousElementNumIdentifierForKey  = document.getElementsByName(watchListKeyIdFind)[0].value;
+		item = item.replace(/{{key}}/g, previousElementNumIdentifierForKey);
 		for(var j = 0; j < numberOfSubRows; j++)
 		{
-			var watchListItemIdFind = "watchListItem"+i+"-"+(j+1);
-			var previousElementNumIdentifierForItem  = document.getElementsByName(watchListItemIdFind);
-			documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[j]+": </span> <input style='display: none;' type='text' name='watchListItem"+updateItoIMinusOne+"-"+(j+1)+"-Name' value="+arrayOfKeysNonEnc[j]+">  <input class='inputWidth300' type='text' name='watchListItem"+updateItoIMinusOne+"-"+(j+1)+"' value='"+previousElementNumIdentifierForItem[0].value+"'>";
+			let watchListItemIdFind = "watchListItem"+i+"-"+(j+1);
+			let previousElementNumIdentifierForItem  = document.getElementsByName(watchListItemIdFind)[0].value;
+			let find = "{{"+updateItoIMinusOne+"-"+(j+1)+"}}";
+			let replaceString = new RegExp(find, 'g');
+
+			if(arrayOfKeysNonEnc[j] === "type")
+			{
+				item = item.replace(replaceString, generateTypeSelect(previousElementNumIdentifierForItem));
+			}
+			else if(arrayOfKeysNonEnc[j] === "gitType")
+			{
+				item = item.replace(replaceString, generateGitTypeSelect(previousElementNumIdentifierForItem));
+			}
+			else if(arrayOfKeysNonEnc[j] === "Archive")
+			{
+				item = item.replace(replaceString, generateTrueFalseSelect(previousElementNumIdentifierForItem));
+			}
+			else
+			{
+				item = item.replace(replaceString, previousElementNumIdentifierForItem);
+			}
 		}
-		documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+updateItoIMinusOne+'-0" value="'+numberOfSubRows+'"> ';
-		documentUpdateText += '<span class="leftSpacingserverNames" ></span> <a class="mainLinkClass" onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove</a><span> | </span><a class="mainLinkClass" onclick="testConnection(dataForWatchFolder'+updateItoIMinusOne+');" >Check Connection</a>';
-		documentUpdateText += '</li>';
-		document.getElementById(elementToUpdate).outerHTML = documentUpdateText;
+		document.getElementById(elementToUpdate).outerHTML = item;
 	}
 }
 
