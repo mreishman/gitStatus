@@ -112,6 +112,7 @@ require_once('setup/setupProcessFile.php');
 <?php
 	echo "var currentVersion = '".$configStatic['version']."';";
 ?>
+	var successVerifyNum = <?php echo $successVerifyNum; ?>;
 	</script>
 	<script src="core/js/allPages.js?v=<?php echo $configStatic['version']; ?>"></script>
 	<script src="core/js/settingsAll.js?v=<?php echo $configStatic['version']; ?>"></script>

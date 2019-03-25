@@ -54,6 +54,16 @@
 						</li>
 					</ul>
 				</li>
+				<li>
+					Save Success Num:
+					<select name="successVerifyNum">
+  						<option <?php if($successVerifyNum == 1){echo "selected";} ?> value="1">1</option>
+  						<option <?php if($successVerifyNum == 2){echo "selected";} ?> value="2">2</option>
+  						<option <?php if($successVerifyNum == 3){echo "selected";} ?> value="3">3</option>
+  						<option <?php if($successVerifyNum == 4){echo "selected";} ?> value="4">4</option>
+  						<option <?php if($successVerifyNum == 5){echo "selected";} ?> value="5">5</option>
+					</select>
+				</li>
 			</ul>
 		</div>
 	</div>

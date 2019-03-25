@@ -72,6 +72,8 @@ require_once('../core/php/loadVars.php'); ?>
 </body>
 <form id="defaultVarsForm" action="../core/php/saveFunctions/settingsSaveMain.php" method="post"></form>
 <script type="text/javascript">
+	var successVerifyNum = <?php echo $successVerifyNum; ?>;
+
 	function defaultSettings()
 	{
 		//change setupProcess to finished

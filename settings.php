@@ -72,6 +72,7 @@ require_once('setup/setupProcessFile.php');
 	var counfOfFiltersForbranchName = <?php echo $counfOfFiltersForbranchName; ?>;
 	var counfOfFiltersForAuthorName = <?php echo $counfOfFiltersForAuthorName; ?>;
 	var counfOfFiltersForComitteeName = <?php echo $counfOfFiltersForComitteeName; ?>;
+	var successVerifyNum = <?php echo $successVerifyNum; ?>;
 
 	function calcuateWidth()
 	{

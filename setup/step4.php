@@ -14,7 +14,7 @@ function clean_url($url) {
 }
 
 
-require_once($baseUrl.'conf/config.php'); 
+require_once($baseUrl.'conf/config.php');
 require_once('setupProcessFile.php');
 
 if($setupProcess != "step4")
@@ -49,7 +49,7 @@ require_once('../core/php/loadVars.php'); ?>
 	</style>
 </head>
 <body>
-<?php readfile('../core/html/popup.html') ?>	
+<?php readfile('../core/html/popup.html') ?>
 <div class="firstBoxDev" style="width: 90%; margin: auto; margin-right: auto; margin-left: auto; display: block; height: auto; margin-top: 15px;" >
 	<div class="devBoxTitle">
 		<h1>Step 4 of <?php echo $counterSteps; ?></h1>
@@ -71,6 +71,8 @@ require_once('../core/php/loadVars.php'); ?>
 </body>
 <form id="defaultVarsForm" action="../core/php/saveFunctions/settingsSaveMain.php" method="post"></form>
 <script type="text/javascript">
+	var successVerifyNum = <?php echo $successVerifyNum; ?>;
+
 	function defaultSettings()
 	{
 		//change setupProcess to finished
