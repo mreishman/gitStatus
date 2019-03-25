@@ -3,6 +3,16 @@ body{
 	margin: 0;
 }
 
+.watchlistButton
+{
+	display: block;
+}
+
+#moveUp1
+{
+	display: none;
+}
+
 .meterCommit
 {
 	height: 5px;
@@ -202,7 +212,7 @@ body{
 	position: fixed;
 	top: 40px;
 	left: 100px;
-	overflow: -moz-scrollbars-vertical; 
+	overflow: -moz-scrollbars-vertical;
     overflow-y: scroll;
 }
 .menuBarLeft{
@@ -358,7 +368,7 @@ body{
     background-color: rgb(235, 235, 235);
     font-size: 16px;
     height: 30px;
-    display: none; 
+    display: none;
     position: absolute;
     left: 120px;
     top: 0;
@@ -366,7 +376,7 @@ body{
     padding-right: 8px;
     padding-left: 8px;
 }
-.back-to-top:hover {    
+.back-to-top:hover {
     background-color: rgba(135, 135, 135, 1);
 }
 .colorSelectorDiv
@@ -450,7 +460,7 @@ body{
 	border: 1px solid black;
 	padding-top: 5px;
 	padding-bottom: 5px;
-	padding-left: 5px; 
+	padding-left: 5px;
 }
 
 

@@ -137,20 +137,20 @@ function generateWatchlistBlock($defaultArray, $arrayKeys, $key = "{{key}}", $it
 			<table width=\"100%\">
 				<tr>
 					<th width=\"50%\" style=\" text-align: center;\">
-						<a style=\"display: block;\" class=\"mainLinkClass\" onclick=\"deleteRowFunction(" . $i . ", true);\">Remove</a>
+						<a class=\"mainLinkClass watchlistButton\" onclick=\"deleteRowFunction(" . $i . ", true);\">Remove</a>
 					</th>
 					<th width=\"50%\" style=\" text-align: center;\">
-						<a style=\"display: block;\" class=\"mainLinkClass\" onclick=\"testConnection(dataForWatchFolder" . $i . ");\" >Check Connection</a>
+						<a class=\"mainLinkClass watchlistButton\" onclick=\"testConnection(dataForWatchFolder" . $i . ");\" >Check Connection</a>
 					</th>
 				</tr>
 			</table>
 			<table width=\"100%\">
 				<tr>
 					<th width=\"50%\" style=\" text-align: center;\">
-						<a style=\"display: block;\" class=\"mainLinkClass\" > Move Up One </a>
+						<a  id=\"moveUp".$i."\" onclick=\"moveRowUp(".$i.")\" class=\"mainLinkClass watchlistButton\" > Move Up One </a>
 					</th>
 					<th width=\"50%\" style=\" text-align: center;\">
-						<a style=\"display: block;\" class=\"mainLinkClass\" > Move Down One </a>
+						<a id=\"moveDown".$i."\" onclick=\"moveRowDown(".$i.")\" class=\"mainLinkClass watchlistButton\" > Move Down One </a>
 					</th>
 				</tr>
 			</table>

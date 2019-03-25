@@ -57,6 +57,33 @@ function generateTrueFalseSelect(value)
 	return returnText;
 }
 
+function moveRowUp(currentRow)
+{
+	let currentRowDiffOne = currentRow - 1;
+	let currentRowItem = moveBlock(currentRowDiffOne, currentRow);
+	let moved = moveBlock(currentRow, currentRowDiffOne);
+	document.getElementById("rowNumber" + currentRowDiffOne).outerHTML = moved;
+	document.getElementById("rowNumber" + currentRow).outerHTML = currentRowItem;
+}
+
+function moveRowDown(currentRow)
+{
+	let currentRowDiffOne = currentRow + 1;
+	let currentRowItem = moveBlock(currentRowDiffOne, currentRow);
+	let moved = moveBlock(currentRow, currentRowDiffOne);
+	document.getElementById("rowNumber" + currentRowDiffOne).outerHTML = moved;
+	document.getElementById("rowNumber" + currentRow).outerHTML = currentRowItem;
+}
+
+function hideLastMoveDownButton()
+{
+	for(let i = 1; i < countOfWatchList; i++)
+	{
+		document.getElementById("moveDown"+i).style.display = "block";
+	}
+	document.getElementById("moveDown"+countOfWatchList).style.display = "none";
+}
+
 function addRowFunction()
 {
 	countOfWatchList++;
@@ -86,11 +113,13 @@ function addRowFunction()
 			item = item.replace(replaceString, "");
 		}
 	}
-	locationInsert = "newRowLocationForWatchList"+countOfClicks;
-	item += "<div style=\"display: inline-block;\" id=\""+locationInsert+"\"></div>";
+	let newlocationInsert = "newRowLocationForWatchList"+countOfClicks;
+	item += "<div style=\"display: inline-block;\" id=\""+newlocationInsert+"\"></div>";
 	document.getElementById(locationInsert).outerHTML += item;
+	locationInsert = newlocationInsert;
 	document.getElementById('numberOfRows').value = countOfWatchList;
 	countOfAddedFiles++;
+	hideLastMoveDownButton();
 }
 
 function deleteRowFunction(currentRow, decreaseCountWatchListNum)
@@ -101,58 +130,61 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 	{
 		return;
 	}
-	newValue = document.getElementById('numberOfRows').value;
-	if(currentRow < newValue)
+	if(currentRow < countOfWatchList)
 	{
 		//this wasn't the last folder deleted, update others
-		updateLaterFolders(currentRow, newValue);
+		updateLaterFolders(currentRow, countOfWatchList);
 	}
-	newValue--;
+	countOfWatchList--;
 	if(countOfAddedFiles > 0)
 	{
 		countOfAddedFiles--;
-		countOfWatchList--;
 	}
-	document.getElementById('numberOfRows').value = newValue;
+	document.getElementById('numberOfRows').value = countOfWatchList;
+	hideLastMoveDownButton();
 }
 
 function updateLaterFolders(currentRow, newValue)
 {
 	for(var i = currentRow + 1; i <= newValue; i++)
 	{
-		var updateItoIMinusOne = i - 1;
-		var elementToUpdate = "rowNumber" + i;
-		let item = $("#hiddenWatchlistFormBlank").html();
-		item = item.replace(/{{i}}/g, updateItoIMinusOne);
-		let watchListKeyIdFind = "watchListKey"+i;
-		let previousElementNumIdentifierForKey  = document.getElementsByName(watchListKeyIdFind)[0].value;
-		item = item.replace(/{{key}}/g, previousElementNumIdentifierForKey);
-		for(var j = 0; j < numberOfSubRows; j++)
-		{
-			let watchListItemIdFind = "watchListItem"+i+"-"+(j+1);
-			let previousElementNumIdentifierForItem  = document.getElementsByName(watchListItemIdFind)[0].value;
-			let find = "{{"+updateItoIMinusOne+"-"+(j+1)+"}}";
-			let replaceString = new RegExp(find, 'g');
-
-			if(arrayOfKeysNonEnc[j] === "type")
-			{
-				item = item.replace(replaceString, generateTypeSelect(previousElementNumIdentifierForItem));
-			}
-			else if(arrayOfKeysNonEnc[j] === "gitType")
-			{
-				item = item.replace(replaceString, generateGitTypeSelect(previousElementNumIdentifierForItem));
-			}
-			else if(arrayOfKeysNonEnc[j] === "Archive")
-			{
-				item = item.replace(replaceString, generateTrueFalseSelect(previousElementNumIdentifierForItem));
-			}
-			else
-			{
-				item = item.replace(replaceString, previousElementNumIdentifierForItem);
-			}
-		}
-		document.getElementById(elementToUpdate).outerHTML = item;
+		let item = moveBlock(i, i - 1);
+		document.getElementById("rowNumber" + i).outerHTML = item;
 	}
+}
+
+function moveBlock(to, from)
+{
+	let item = $("#hiddenWatchlistFormBlank").html();
+	item = item.replace(/{{i}}/g, from);
+	let watchListKeyIdFind = "watchListKey"+to;
+	let previousElementNumIdentifierForKey  = document.getElementsByName(watchListKeyIdFind)[0].value;
+	item = item.replace(/{{key}}/g, previousElementNumIdentifierForKey);
+	for(var j = 0; j < numberOfSubRows; j++)
+	{
+		let watchListItemIdFind = "watchListItem"+to+"-"+(j+1);
+		let previousElementNumIdentifierForItem  = document.getElementsByName(watchListItemIdFind)[0].value;
+		let find = "{{"+from+"-"+(j+1)+"}}";
+		let replaceString = new RegExp(find, 'g');
+
+		if(arrayOfKeysNonEnc[j] === "type")
+		{
+			item = item.replace(replaceString, generateTypeSelect(previousElementNumIdentifierForItem));
+		}
+		else if(arrayOfKeysNonEnc[j] === "gitType")
+		{
+			item = item.replace(replaceString, generateGitTypeSelect(previousElementNumIdentifierForItem));
+		}
+		else if(arrayOfKeysNonEnc[j] === "Archive")
+		{
+			item = item.replace(replaceString, generateTrueFalseSelect(previousElementNumIdentifierForItem));
+		}
+		else
+		{
+			item = item.replace(replaceString, previousElementNumIdentifierForItem);
+		}
+	}
+	return item;
 }
 
 function testConnection(currentRowInformation)
@@ -216,3 +248,7 @@ function checkWebsiteStatus(sendUrlHere)
 		}
 	});
 }
+
+$( document ).ready(function() {
+    hideLastMoveDownButton();
+});
