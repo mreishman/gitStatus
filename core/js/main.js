@@ -1503,7 +1503,7 @@ function calcuateWidth()
 	{
 		windowWidthText = "0px";
 	}
-	document.getElementById("main").style.marginLeft = windowWidthText;
+	document.getElementById("main").style.paddingLeft = windowWidthText;
 	document.getElementById("main").style.paddingRight = windowWidthText;
 	if(document.getElementById("sideBox").style.display !== "none")
 	{

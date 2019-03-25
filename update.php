@@ -36,7 +36,7 @@ require_once('core/php/loadVars.php'); ?>
 <body>
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
 	<?php require_once('core/php/templateFiles/header.php'); ?>
-	<div id="main" style="overflow: auto; overflow-y: auto;" >
+	<div id="main" style="overflow: auto; overflow-y: auto; right: 0;" >
 		<div class="firstBoxDev">
 			<div class="innerFirstDevBox"  >
 				<div class="devBoxTitle">
