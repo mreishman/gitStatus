@@ -148,7 +148,7 @@ function generateWindow($data = array(), $pollType)
 	$blockHTML .= "				<img id=\"".$keyNoSpace."loadingSpinnerHeader\" class=\"loadingSpinnerHeader\" style=\"width: 20px; margin-bottom: -7px; display: none; margin-top: 3px; margin-left: 3px; margin-right: 1px;\" src=\"core/img/loading.gif\" >";
 	$blockHTML .= "				<a style=\"color: black;\" target=\"_blank\" href=\"https://".$website."\"><b>".$name."</b></a>";
 	$blockHTML .= "			</div>";
-	$blockHTML .= "			<div style=\"background-color: white; padding-left: 5px;  padding-right: 5px;\" >";
+	$blockHTML .= "			<div style=\"padding-left: 5px;  padding-right: 5px;\" >";
 	$blockHTML .= "			<img onclick=\"togglePinStatus('".$keyNoSpace."');\" id=\"".$keyNoSpace."Pin\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/pin.png\">";
 	$blockHTML .= "			<img onclick=\"togglePinStatus('".$keyNoSpace."');\" id=\"".$keyNoSpace."PinPinned\" style=\"cursor: pointer; height: 18px; display: none;\" src=\"core/img/pinPinned.png\">";
 	$blockHTML .= "			<img onclick=\"toggleDetailBar(event, '".$keyNoSpace."');\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/externalLink.png\">";
