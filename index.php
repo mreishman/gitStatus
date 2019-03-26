@@ -56,6 +56,7 @@ if($defaultViewBranch == 'Standard')
 <!doctype html>
 <head>
 	<title>Git Status | Index</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css?v=<?php echo $configStatic['version']; ?>">
 	<style type="text/css">
 		.devBoxTitle {
