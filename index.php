@@ -57,6 +57,11 @@ if($defaultViewBranch == 'Standard')
 <head>
 	<title>Git Status | Index</title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css?v=<?php echo $configStatic['version']; ?>">
+	<style type="text/css">
+		.devBoxTitle {
+			padding: 5px 5px;
+		}
+	</style>
 	<link rel="icon" type="image/png" href="core/img/favicon.png" />
 	<script src="core/js/jquery.js"></script>
 	<script src="core/js/jquery.xcolor.min.js"></script>
@@ -352,7 +357,7 @@ if($defaultViewBranch == 'Standard')
 							<td width="250px;" style="vertical-align: top;" >
 								<ul id="listOfCommitHistory" class="buttonListVert" style="width: 100%; border-right: 1px solid white; overflow: auto; ">
 									<li id="spinnerLiForSideBoxBoxForInfo">
-										<img style="width: 20px;" src="core/img/loading.gif"> 
+										<img style="width: 20px;" src="core/img/loading.gif">
 									</li>
 									<li class="colorAltBG" onclick="getListOfCommits();">
 										Refresh
@@ -416,10 +421,10 @@ if($defaultViewBranch == 'Standard')
 			else
 			{
 				echo "var arrayOfWatchFilters = {};";
-				foreach ($cachedStatusMainObject as $key => $value) 
+				foreach ($cachedStatusMainObject as $key => $value)
 				{
 					echo "arrayOfWatchFilters['".$key."'] =  {";
-					foreach ($value as $value2 => $key2) 
+					foreach ($value as $value2 => $key2)
 					{
 						echo $value2.": ";
 						if($key2 !== 'false' && $key2 !== 'true')
@@ -430,10 +435,10 @@ if($defaultViewBranch == 'Standard')
 					 	{
 					 		echo $key2.",";
 					 	}
-					} 
+					}
 					echo "};";
 				}
-				
+
 			}
 		?>
 		var branchColorFilter = '<?php echo $branchColorFilter;?>';
@@ -454,13 +459,13 @@ if($defaultViewBranch == 'Standard')
 			var errorAndColorAuthorArray = JSON.parse('<?php echo json_encode($errorAndColorAuthorArray); ?>');
 		}
 		catch(e){}
-		
+
 		try
 		{
 			var errorAndColorComitteeArray = JSON.parse('<?php echo json_encode($errorAndColorComitteeArray); ?>');
 		}
 		catch(e){}
-		
+
 		var pausePoll = false;
 		var pausePollFile = false;
 		var refreshActionVar;

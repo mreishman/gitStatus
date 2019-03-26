@@ -172,8 +172,7 @@ body{
 	border: 1px solid black;
 }
 .devBoxTitle{
-	padding: 2px;
-	padding-bottom: 12px;
+	padding: 12px 5px;
 	z-index: 10;
 	border-radius: 5px 5px 0 0;
 }
@@ -185,7 +184,7 @@ body{
 	overflow-y: auto;
 	overflow-x: hidden;
 	z-index: 1;
-	width: 280px;
+	min-width: 280px;
     box-shadow: inset 0px 7px 8px rgba(0,0,0,.7);
 }
 .devBoxContentSecondary{
@@ -238,8 +237,8 @@ body{
 	position: fixed;
 	top: 0;
 	height: 40px;
-	background-color: #222222;
-	border-bottom: 1px solid white;
+	background-color: #141921;
+	border-bottom: 1px solid #4a4a4a;
 	z-index: 10;
 }
 .menuSections{
@@ -316,13 +315,14 @@ body{
 	height: 25px;
 	width: 100px;
 	color: white;
-	border-radius: 0 0 15px 15px;
+	border-radius: 0 0 5px 5px;
 	border: 1px solid white;
 	text-align: center;
 	cursor: pointer;
 	display: inline-block;
 	position: relative;
 	z-index: 15;
+	margin-left: 5px;
 }
 .groupTab:hover{
 	background-color: #CCCCCC;
