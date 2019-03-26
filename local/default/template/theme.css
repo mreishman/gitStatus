@@ -176,6 +176,10 @@ body{
 	z-index: 10;
 	border-radius: 5px 5px 0 0;
 }
+.devBoxTitle .buttonButton{
+	float: right;
+	margin-top: -6px;
+}
 .devBoxContent{
 	word-wrap: break-word;
 	padding: 10px;
@@ -424,11 +428,11 @@ body{
 
 .buttonButton{
 	background-color: #ccc;
-	cursor: pointer;
-	border: 1px ridge;
-	border-bottom: ridge #999;
-	border-right: ridge #999;
-	text-align: center;
+    cursor: pointer;
+    border: 1px solid white;
+    text-align: center;
+    border-radius: 3px;
+    padding: 5px;
 }
 
 .buttonButton:hover{
