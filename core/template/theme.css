@@ -311,17 +311,13 @@ input {
 	box-shadow: 0 10px 5px #888888;
 }
 .buttonSelectorOuter{
-	border: 1px solid white;
-	border-radius: 7px;
 	width: 200px;
 	margin-right: auto;
 	margin-left: auto;
 	height: 20px;
-	background-color: #444444;
-	box-shadow: 0 5px 10px;
 }
 .buttonSlectorInnerBoxesAll{
-	width: 50%;
+	width: 95px;
 	height: 100%;
 	float: left;
 	text-align: center;
@@ -482,9 +478,7 @@ input {
 .buttonButton:hover, .mainLinkClass:hover{
 	background-color: #888;
 	color: white;
-	border: 1px ridge #999;
-	border-bottom: ridge #999;
-	border-right: ridge #999;
+	border: 1px solid #999;
 }
 
 .noticeMessage{

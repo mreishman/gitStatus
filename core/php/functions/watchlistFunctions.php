@@ -12,6 +12,9 @@ function generateWatchlistBlock($defaultArray, $arrayKeys, $key = "{{key}}", $it
 	}
 	$stringToReturn .= "
 <li class=\"watchFolderGroups\" id=\"rowNumber" . $i . "\" >
+	<div style=\"border-bottom: 1px solid black; margin-bottom: 5px;\">
+	<h2 style=\"margin: 5px;\">Server ".$i."</h2>
+	</div>
 	<span class=\"leftSpacingserverNames\" > Name: </span>
 	<input class='inputWidth300' type='text' name='watchListKey" . $i . "' value='" . $key . "'>";
 	$j = 0;

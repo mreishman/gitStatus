@@ -312,7 +312,7 @@ if($defaultViewBranch == 'Standard')
 				</ul>
 			</div>
 			<div>
-				<div id="sideBoxForActualInfo"">
+				<div id="sideBoxForActualInfo">
 					<table width="100%" style="border-spacing: 0; padding: 10px;">
 						<tr>
 							<td width="50%" style="vertical-align: top;">
