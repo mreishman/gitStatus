@@ -5,27 +5,38 @@
 			<a class="buttonButton" onclick="saveAndVerifyMain('settingsIssueSearchVars');" >Save Changes</a>
 		</div>
 		<div class="devBoxContent">
-			<ul class="settingsUl">
-				<li>
-					<h2>Look for Issues in branch name </h2>
-					
-				</li>
-				<li>
-					<input type="checkbox" name="checkForIssueStartsWithNum" <?php if($checkForIssueStartsWithNum == 'true'){echo "checked";} ?> value="true">  Starts With Numbers  <br>
-					<input type="checkbox" name="checkForIssueEndsWithNum" <?php if($checkForIssueEndsWithNum == 'true'){echo "checked";} ?> value="true"> Ends With Numbers <br>
-					<input type="checkbox" name="checkForIssueCustom" <?php if($checkForIssueCustom == 'true'){echo "checked";} ?> value="true">  Custom [Issue / Issue_ / Issue-] <br>
-				</li>
-				<!-- <li>
-					<a class="link underlineLink" >Add New Watch Condition</a>
-				</li> -->
-				<li>
-					<h2>Look for Issues in commit </h2>
-					
-				</li>
-				<li>
-					<input type="checkbox" name="checkForIssueInCommit" <?php if($checkForIssueInCommit == 'true'){echo "checked";} ?> value="true">  Look for #____  <br>
-				</li>
-			</ul>
+			<table>
+				<tr>
+					<th>
+						<h2>Look for Issues in branch name </h2>
+					</th>
+				</tr>
+				<tr>
+					<td>
+						<input type="checkbox" name="checkForIssueStartsWithNum" <?php if($checkForIssueStartsWithNum == 'true'){echo "checked";} ?> value="true">  Starts With Numbers
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="checkbox" name="checkForIssueEndsWithNum" <?php if($checkForIssueEndsWithNum == 'true'){echo "checked";} ?> value="true"> Ends With Numbers
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="checkbox" name="checkForIssueCustom" <?php if($checkForIssueCustom == 'true'){echo "checked";} ?> value="true">  Custom [Issue / Issue_ / Issue-]
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<h2>Look for Issues in commit </h2>
+					</th>
+				</tr>
+				<tr>
+					<td>
+						<input type="checkbox" name="checkForIssueInCommit" <?php if($checkForIssueInCommit == 'true'){echo "checked";} ?> value="true">  Look for #____
+					</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 </form>

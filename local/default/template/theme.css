@@ -30,6 +30,27 @@ body{
 	display: block;
 }
 
+select {
+	background: #ccc;
+    border: 1px solid black;
+    border-radius: 2px;
+    height: 30px;
+    margin: 5px;
+}
+
+#widthForWatchListSection select{
+	margin: 0;
+	width: 308px;
+	height: 25px;
+}
+
+input {
+	background: #ccc;
+    border: 1px solid black;
+    padding: 3px;
+    border-radius: 2px;
+}
+
 #moveUp1
 {
 	display: none;
@@ -433,9 +454,10 @@ body{
 	display: inline-block;
 	background-color: #CCCCCC;
 	padding: 5px;
-	border: 1px solid white;
-	margin: 10px;
-	box-shadow: 0 2px 5px rgba(0,0,0,.25);
+	border: 1px solid black;
+    margin: 10px;
+    box-shadow: 0px 0px 30px rgba(0,0,0,.5);
+    border-radius: 5px;
 }
 
 .backgroundButtonForColor{
@@ -448,7 +470,7 @@ body{
 	border: none;
 }
 
-.buttonButton{
+.buttonButton, .mainLinkClass{
 	background-color: #ccc;
     cursor: pointer;
     border: 1px solid white;
@@ -457,28 +479,9 @@ body{
     padding: 5px;
 }
 
-.buttonButton:hover{
+.buttonButton:hover, .mainLinkClass:hover{
 	background-color: #888;
 	color: white;
-	border: 1px ridge #999;
-	border-bottom: ridge #999;
-	border-right: ridge #999;
-}
-
-.mainLinkClass{
-	padding: 5px;
-	background-color: #ccc;
-	color: black;
-	text-decoration: none;
-	border: 1px ridge;
-	border-bottom: ridge #999;
-	border-right: ridge #999;
-}
-
-.mainLinkClass:hover{
-	background-color: #888;
-	color: white;
-	cursor: pointer;
 	border: 1px ridge #999;
 	border-bottom: ridge #999;
 	border-right: ridge #999;
