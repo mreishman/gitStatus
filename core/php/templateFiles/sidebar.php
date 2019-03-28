@@ -1,12 +1,12 @@
 	<div id="sidebar" <?php
-	
+	$URI = $_SERVER['REQUEST_URI'];
 	if($open)
 	{
 		echo "style='width: 100px;' class='sidebarIsVisible'";
 	}
 	?>
 	>
-		<div id="sidebarMenu"  <?php 
+		<div id="sidebarMenu"  <?php
 		if($open)
 	    {
 	    	echo "style='width: block;'";
@@ -31,12 +31,25 @@
 				<li id="menuBarLeftSettingsWatchList" onclick="window.location.href = 'settings-watchList.php';" >
 				Watch List
 				</li>
+				<?php if(strpos($URI, 'settings-watchList.php') !== false): ?>
+					<li style="background-color: rgb(255, 255, 255);">
+						<ul class="menuBarLeft">
+							<li class="ignoreHover">
+								<a onclick="addRowFunction()">Add Server</a>
+							</li>
+						</ul>
+					</li>
+				<?php endif; ?>
 				<li <?php if ($pollType !== "2"){ echo "style='display: none;'";} ?> id="menuBarLeftSettingsServerWatchList" onclick="window.location.href = 'settings-watchListServer.php';" >
 					Server Watch
 				</li>
-				<?php if($loginAuthType != 'disabled'): ?>
-					<li id="menuBarLeftSettingsLDPA" onclick="window.location.href = 'settings-auth.php';" >
-					LDPA
+				<?php if(strpos($URI, 'settings-watchListServer.php') !== false): ?>
+					<li style="background-color: rgb(255, 255, 255);">
+						<ul class="menuBarLeft">
+							<li class="ignoreHover">
+								<a onclick="addRowFunction()">Add Server</a>
+							</li>
+						</ul>
 					</li>
 				<?php endif; ?>
 				<li id="menuBarLeftUpdate" onclick="window.location.href = 'update.php';" >
@@ -91,7 +104,7 @@
 		</div>
 	</div>
 
-	<div id="sidebarBG" 
+	<div id="sidebarBG"
 	<?php
     if($open)
     {

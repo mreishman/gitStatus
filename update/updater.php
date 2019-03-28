@@ -130,6 +130,7 @@ if(count($arrayOfVersions) === 0)
 <!doctype html>
 <head>
 	<title>Status | Updater</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
 	<link rel="icon" type="image/png" href="../core/img/favicon.png" />
 	<script src="../core/js/jquery.js"></script>
@@ -173,7 +174,7 @@ if(count($arrayOfVersions) === 0)
 </body>
 
 <script src="../core/js/settings.js"></script>
-<script type="text/javascript"> 
+<script type="text/javascript">
 	var updateStatus = '<?php echo $updateStatus; ?>'
 	var headerForUpdate = document.getElementById('headerForUpdate');
 	var urlForSendMain = '../core/php/update/performSettingsInstallUpdateAction.php?format=json';
@@ -287,9 +288,9 @@ if(count($arrayOfVersions) === 0)
 			type: 'POST',
 			complete: function()
 			{
-				
+
 			}
-		});	
+		});
 
 		var data = {action: 'updateProgressFile', status: updateStatusInner, typeOfProgress: "updateProgressFile.php", actionSave: actionLocal, percent: percentToSave, pathToFile: ''};
 		$.ajax({
@@ -299,9 +300,9 @@ if(count($arrayOfVersions) === 0)
 			type: 'POST',
 			complete: function()
 			{
-				
+
 			}
-		});	
+		});
 	}
 
 	function downloadBranch()
@@ -328,7 +329,7 @@ if(count($arrayOfVersions) === 0)
 				updateText("Verifying Download");
 				verifyFile('downloadLogHog', '../../../update/downloads/updateFiles/updateFiles.zip');
 			}
-		});	
+		});
 
 	}
 
@@ -399,7 +400,7 @@ if(count($arrayOfVersions) === 0)
 					{
 						lock = false;
 					}
-				});	
+				});
 			}(data));
 		}
 	}
@@ -532,7 +533,7 @@ if(count($arrayOfVersions) === 0)
 					{
 						lock = false;
 					}
-				});	
+				});
 			}(data));
 		}
 	}
@@ -656,13 +657,13 @@ if(count($arrayOfVersions) === 0)
 					preScriptRun();
 				}
 			}
-		});	
+		});
 	}
 
 	function filterFilesFromArray()
 	{
 		filteredArray = new Array();
-		for (var i = arrayOfFilesExtracted.length - 1; i >= 0; i--) 
+		for (var i = arrayOfFilesExtracted.length - 1; i >= 0; i--)
 		{
 			var file = arrayOfFilesExtracted[i];
 			var copyFile = true;
@@ -686,7 +687,7 @@ if(count($arrayOfVersions) === 0)
 		{
 			updateProgressBar(((1/filteredArray.length)*50));
 		}
-		for (var i = filteredArray.length - 1; i >= 0; i--) 
+		for (var i = filteredArray.length - 1; i >= 0; i--)
 		{
 			if(i == fileCopyCount)
 			{
@@ -707,7 +708,7 @@ if(count($arrayOfVersions) === 0)
 	function copyFileFromArrayAjax(file)
 	{
 		updateText("File: "+file);
-		
+
 		var urlForSend = urlForSendMain;
 		var dataSend = {action: "copyFileToFile", fileCopyFrom: file};
 		$.ajax({
@@ -790,7 +791,7 @@ if(count($arrayOfVersions) === 0)
 					postScriptRun();
 				}
 			}
-		});	
+		});
 	}
 
 	function postScriptRedirect()
@@ -826,7 +827,7 @@ if(count($arrayOfVersions) === 0)
 				{
 					ajaxForRedirectScript();
 				}
-			});	
+			});
 		}(data));
 	}
 
@@ -906,10 +907,10 @@ if(count($arrayOfVersions) === 0)
 			{
 				retryCount = 0;
 				verifyFileTimer = setInterval(function(){finishUpdatePollCheck();},2000);
-				
+
 			}
 		});
-		
+
 
 	}
 
@@ -1022,8 +1023,8 @@ if(count($arrayOfVersions) === 0)
 			downloadBranch();
 		}
 	}
-	
-</script> 
+
+</script>
 
 <?php
 if($newestVersionCheck == $versionCheck)

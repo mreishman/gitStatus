@@ -111,11 +111,6 @@
 				} ?>
 				<div style="display: inline-block;" id="newRowLocationForWatchList"></div>
 			</ul>
-			<ul class="settingsUl">
-				<li>
-					<a class="mainLinkClass"   onclick="addRowFunction()">Add New Server</a>
-				</li>
-			</ul>
 		</div>
 		<div id="hidden" style="display: none">
 			<span id="hiddenWatchlistFormBlank">
