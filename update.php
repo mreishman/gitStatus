@@ -111,7 +111,7 @@ require_once('core/php/loadVars.php'); ?>
 			var left = "0px";
 			if(document.getElementById("sidebar").style.width == '100px')
 			{
-				left = "100px";
+				left = "103px";
 			}
 			document.getElementById("main").style.left = left;
 		}

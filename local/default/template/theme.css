@@ -241,7 +241,7 @@ input {
 	display: block;
 }
 #sidebar{
-	background-color: #aaaaaa;
+	background-color: #777777;
 	width: 0;
 	display: inline-table;
 	position: fixed;
@@ -251,7 +251,7 @@ input {
 	border-right: 3px solid white;
 }
 #sidebarBG{
-	background-color: #aaaaaa;
+	background-color: #777777;
 	width: 0;
 	height: 1px;
 	display: inline-table;
@@ -316,8 +316,8 @@ input {
 	width: 300px;
 }
 .paddingTopForLeftMenu{
-	height: 40px;
-	box-shadow: 0 10px 5px #888888;
+	height: 30px;
+	box-shadow: 0 10px 5px rgba(0,0,0,.5);
 }
 .buttonSelectorOuter{
 	width: 200px;
