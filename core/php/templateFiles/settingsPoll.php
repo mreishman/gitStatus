@@ -51,12 +51,12 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<p class="description" >Poll Type Version 1: _______</p>
+						<p class="description" >Poll Type Version 1: This version sends out individual requests to each server, along with data like location, type, etc. This poll type is not recommended because it sends more data. This may be removed at some point in the future. See issue <a href="https://github.com/mreishman/gitStatus/issues/188" >#188</a></p>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<p class="description" >Poll Type Version 2: _______</p>
+						<p class="description" >Poll Type Version 2: This version sends a request to a main status server, which gets the status from the servers on its local list. Much less data is sent, and is the recommended poll method</p>
 					</td>
 				</tr>
 				<tr>

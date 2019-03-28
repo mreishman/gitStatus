@@ -261,7 +261,7 @@ input {
 	background: radial-gradient(at center bottom, rgb(35, 45, 58) 0%, rgb(9, 10, 15) 100%);
 	position: fixed;
 	top: 40px;
-	left: 100px;
+	left: 103px;
 	overflow: -moz-scrollbars-vertical;
     overflow-y: scroll;
 }
