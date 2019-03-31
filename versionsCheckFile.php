@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '3.4.2',
+	'version'		=> '3.4.3',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -134,6 +134,10 @@ $versionCheckArray = array(
 		'3.4.2'		=> array(
 			'branchName'	=> '3.4.2Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>Added back individual refresh for poll type 2</li><li>Advanced<ul><li>Added option to block specific requests</li></ul></li></ul></li></ul>'
+		),
+		'3.4.3'		=> array(
+			'branchName'	=> '3.4.3Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>Added option for custom git url</li><li>Buttons to move watchlist blocks up / down</li></ul></li><li>Bug Fixes<ul><li>Fixed issue with errors not displaying correctly when poll fails</li><li>Changed archive to dropdown from button</li><li>Fixed bug where adding a new server / removing a server would show dropdown inputs as text field inputs</li><li>Added consecutive save verify check on saves</li></ul></li></ul>'
 		),
 	)
 );
