@@ -1,4 +1,5 @@
 <?php
+require_once("../core/php/functions/watchlistFunctions.php");
 $baseUrl = "../core/";
 if(file_exists('../local/layout.php'))
 {
@@ -14,7 +15,7 @@ function clean_url($url) {
 }
 
 
-require_once($baseUrl.'conf/config.php'); 
+require_once($baseUrl.'conf/config.php');
 require_once('setupProcessFile.php');
 
 if($setupProcess != "step3")
@@ -49,7 +50,7 @@ require_once('../core/php/loadVars.php'); ?>
 	</style>
 </head>
 <body>
-<?php readfile('../core/html/popup.html') ?>	
+<?php readfile('../core/html/popup.html') ?>
 <div class="firstBoxDev" style="width: 90%; margin: auto; margin-right: auto; margin-left: auto; display: block; height: auto; margin-top: 15px;" >
 	<div class="devBoxTitle">
 		<h1>Step 3 of <?php echo $counterSteps; ?></h1>
@@ -71,6 +72,8 @@ require_once('../core/php/loadVars.php'); ?>
 </body>
 <form id="defaultVarsForm" action="../core/php/saveFunctions/settingsSaveMain.php" method="post"></form>
 <script type="text/javascript">
+	var successVerifyNum = <?php echo $successVerifyNum; ?>;
+
 	function defaultSettings()
 	{
 		//change setupProcess to finished
@@ -83,16 +86,6 @@ require_once('../core/php/loadVars.php'); ?>
 		document.getElementById('settingsMainWatch').action = "../core/php/saveFunctions/settingsSaveMain.php";
 		document.getElementById('settingsMainWatch').submit();
 	}
-
-var countOfWatchList = <?php echo $i; ?>;
-var countOfAddedFiles = 0;
-var countOfClicks = 0;
-var locationInsert = "newRowLocationForWatchList";
-var numberOfSubRows = <?php echo $numCount; ?>;
-var arrayOfKeysJsonEncoded = '<?php echo json_encode($arrayOfKeys); ?>';
-var arrayOfKeysNonEnc = JSON.parse(arrayOfKeysJsonEncoded);
-
-
 </script>
 <script src="../core/js/watchlist.js"></script>
 <script src="stepsJavascript.js"></script>

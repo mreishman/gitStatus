@@ -24,6 +24,7 @@ $defaultConfig = array(
 	'blockGitCommitDiff'	=>	'false',
 	'blockGitCommitHistory'	=>	'false',
 	'blockGitShowCommitStuff'	=>	'false',
+	'successVerifyNum'			=> 3,
 	'defaultBranchList'	=> 'master',
 	'errorAndColorArray'	=> array(
 		'error'	=> array(

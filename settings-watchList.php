@@ -1,5 +1,6 @@
 <?php
 require_once("core/php/functions/commonFunctions.php");
+require_once("core/php/functions/watchlistFunctions.php");
 $baseUrl = "core/";
 if(file_exists('local/layout.php'))
 {
@@ -8,11 +9,11 @@ if(file_exists('local/layout.php'))
 	require_once('local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
-require_once($baseUrl.'conf/config.php'); 
+require_once($baseUrl.'conf/config.php');
 require_once('core/conf/config.php');
-require_once('core/php/configStatic.php');  
+require_once('core/php/configStatic.php');
 require_once('core/php/update/updateCheck.php');
-require_once('core/php/loadVars.php'); 
+require_once('core/php/loadVars.php');
 require_once('setup/setupProcessFile.php');
 ?>
 <!doctype html>
@@ -27,7 +28,7 @@ require_once('setup/setupProcessFile.php');
 	<script src="core/js/visibility.timers.js"></script>
 </head>
 <body>
-	
+
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
 	<?php require_once('core/php/templateFiles/header.php'); ?>
 	<div id="main">
@@ -108,18 +109,10 @@ require_once('setup/setupProcessFile.php');
 		}
 
 	}
-
-
-var countOfWatchList = <?php echo $i; ?>;
-var countOfAddedFiles = 0;
-var countOfClicks = 0;
-var locationInsert = "newRowLocationForWatchList";
-var numberOfSubRows = <?php echo $numCount; ?>;
-var arrayOfKeysJsonEncoded = '<?php echo json_encode($arrayOfKeys); ?>';
-var arrayOfKeysNonEnc = JSON.parse(arrayOfKeysJsonEncoded);
 <?php
 	echo "var currentVersion = '".$configStatic['version']."';";
 ?>
+	var successVerifyNum = <?php echo $successVerifyNum; ?>;
 </script>
 <script src="core/js/allPages.js?v=<?php echo $configStatic['version']; ?>"></script>
 <script src="core/js/cacheClear.js?v=<?php echo $configStatic['version']; ?>"></script>

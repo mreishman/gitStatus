@@ -26,31 +26,34 @@
 				<br>
 				<span class="leftSpacingserverNames" > Git Repo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'>
 				<br>
-				<span class="leftSpacingserverNames" > Group Info:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of group'>
-				<br>
-				<span class="leftSpacingserverNames" > URL Hit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'>
-				<br>
+				<span class="leftSpacingserverNames" > Branch List:</span> <input disabled="true" class='inputWidth300' type='text' value='Compare branches list example: master , develop'>
+ 				<br>
  				<span class="leftSpacingserverNames" > Git Type:</span>
 				<select disabled="true" class='inputWidth300' >
  					<option value="local" >github</option>
  					<option value="external" >gitlab</option>
  				</select>
  				<br>
- 				<span class="leftSpacingserverNames" > Branch List:</span> <input disabled="true" class='inputWidth300' type='text' value='Compare branches list example: master , develop'>
+ 				<span class="leftSpacingserverNames" > Custom Git:</span> <input disabled="true" class='inputWidth300' type='text' value='Custom url for git. Empty = default'>
+ 				<br>
+				<span class="leftSpacingserverNames" > Group Info:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of group'>
+				<br>
+				<span class="leftSpacingserverNames" > URL Hit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'>
 				</li>
 				<?php
 
-				$approvedArrayKeys = array(
+				$arrayKeys = array(
 					"Name"				=> "Name",
 					"WebsiteBase"		=> "Website Base",
 					"Folder"			=> "Folder",
 					"Website"			=> "Website",
 					"githubRepo"		=> "Git Repo",
+					"branchList"		=> "Branch List",
+					"gitType"			=> "Git Type",
+					"customGit"			=> "Custom Git",
 					"groupInfo"			=> "Group Info",
 					"urlHit"			=> "URL Hit",
-					"gitType"			=> "Git Type",
-					"Archive"			=> "Archive",
-					"branchList"		=> "Branch List"
+					"Archive"			=> "Archive"
 				);
 
 				$defaultArray = array(
@@ -58,11 +61,12 @@
 					'Folder' 			=>  '',
 					'Website' 			=>  '',
 					'githubRepo' 		=>  '',
+					'branchList'		=>  'master',
+					'gitType'			=>	'github',
+					'customGit'			=>  '',
 					'groupInfo' 		=>  '',
 					'urlHit' 			=>  '',
-					'gitType'			=>	'github',
-					'branchList'		=> 'master',
-					"Archive" 			=> 'false'
+					'Archive' 			=>  'false'
 				);
 
 			elseif($pollType === "2"): ?>
@@ -78,7 +82,7 @@
 				</li>
 				<?php
 
-				$approvedArrayKeys = array(
+				$arrayKeys = array(
 					"Name"			=> "Name",
 					"WebsiteBase"	=> "Website Base",
 					"urlHit"		=> "URl Hit",
@@ -87,83 +91,24 @@
 
 				$defaultArray = array(
 					'WebsiteBase' 	=>  '',
-					'Folder' 		=>  '',
 					'urlHit' 		=>  '',
-					"type" 			=> "",
 					"Archive" 		=> 'false'
 				);
 
 			endif; ?>
+			<script type="text/javascript">
+				var arrayOfKeysNonEnc = <?php echo json_encode(array_keys($defaultArray)); ?>;
+				var numberOfSubRows = <?php echo count(array_keys($defaultArray)); ?>;
+				var countOfWatchList = <?php echo count(array_keys($config['watchList'])); ?>;
+			</script>
 				<li><h2>Your Watch List: </h2></li>
 				<?php
 				$i = 0;
-				$numCount = 0;
-				$arrayOfKeys = array();
-				foreach($config['watchList'] as $key => $item): $i++;
-					$type = "internal";
-					if(isset($item["type"]) && $pollType === "2")
-					{
-						$type = $item["type"];
-					}
-					?>
-					<script type="text/javascript">
-						var dataForWatchFolder<?php echo $i?> = JSON.parse('<?php echo json_encode($item); ?>');
-					</script>
-					<li class="watchFolderGroups" id="rowNumber<?php echo $i; ?>" >
-						<span class="leftSpacingserverNames" > Name: </span>
-		 				<input <?php if ($type === "external"){ echo "disabled= \"true\";";}?> class='inputWidth300' type='text' name='watchListKey<?php echo $i; ?>' value='<?php echo $key; ?>'>
-		 				<?php
-		 				$j = 0;
-		 				foreach($defaultArray as $key2 => $item2):
-		 					if(isset($approvedArrayKeys[$key2])):
-			 					$j++;
-			 					?>
-				 				<br> <span class="leftSpacingserverNames" > <?php echo $approvedArrayKeys[$key2]; ?>: </span>
-				 				<input style="display: none;" type="text" name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>-Name' value="<?php echo $key2;?>" >
-				 				<?php
-					 				if(!in_array($key2, $arrayOfKeys))
-					 				{
-					 					array_push($arrayOfKeys, $key2);
-					 				}	
-				 				?>
-				 				<?php
-				 				if($key2 === "gitType"):
-				 					$gitType = $item2;
-				 					if(isset($item[$key2]))
-				 					{
-				 						$gitType = $item[$key2];
-				 					}
-				 					?>
-					 				<select class='inputWidth300' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' >
-					 					<option value="github" <?php if($gitType === "github"){echo "selected"; }?> >GitHub</option>
-					 					<option value="gitlab" <?php if($gitType === "gitlab"){echo "selected"; }?> >GitLab</option>
-					 				</select>
-					 			<?php elseif($key2 === "Archive"): ?>
-					 				<input id="archiveInput<?php echo $i; ?>" class='inputWidth300'  type='hidden' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if(isset($item[$key2])){ echo $item[$key2]; }else{echo "false";}?>'>
-					 				<?php if ($item[$key2] === "true"): ?>
-										<a id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Un-Archive</a>
-									<?php else: ?>
-										<a id="archiveButton<?php echo $i; ?>" onclick="toggleArchive(<?php echo $i; ?>);" class="mainLinkClass" >Archive</a>
-									<?php endif; ?>
-				 				<?php else: ?>
-				 				<input class='inputWidth300'  type='text' name='watchListItem<?php echo $i; ?>-<?php echo $j; ?>' value='<?php if(isset($item[$key2])){ echo $item[$key2]; }?>'>
-				 				<?php endif;
-			 				endif;
-		 				endforeach; 
-		 				if($numCount < $j)
-		 				{
-		 					$numCount = $j;
-		 				}
-		 				?>
-		 				<br> <input style="display: none" type="text" name="watchListItem<?php echo $i;?>-0" value='<?php echo $j;?>'> 
-		 				<span class="leftSpacingserverNames" ></span>
-		 				<?php if($type !== "external"): ?>
-							<a class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $i; ?>, true);">Remove</a>
-							<span> | </span>
-						<?php endif; ?>
-						<a class="mainLinkClass" onclick="testConnection(dataForWatchFolder<?php echo $i; ?>);" >Check Connection</a>
-					</li>
-				<?php endforeach; ?>
+				foreach($config['watchList'] as $key => $item)
+				{
+					$i++;
+					echo generateWatchlistBlock($defaultArray, $arrayKeys, $key, $item, $i);
+				} ?>
 				<div style="display: inline-block;" id="newRowLocationForWatchList"></div>
 			</ul>
 			<ul class="settingsUl">
@@ -173,6 +118,9 @@
 			</ul>
 		</div>
 		<div id="hidden" style="display: none">
+			<span id="hiddenWatchlistFormBlank">
+				<?php echo generateWatchlistBlock($defaultArray, $arrayKeys); ?>
+			</span>
 			<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
 			<input id="watchListNormal" type="text" name="watchListNormal" value="true" >
 		</div>

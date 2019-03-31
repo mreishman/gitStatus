@@ -1,4 +1,7 @@
 var modiferUrl = "";
+var countForVerifySave = 0;
+var countForVerifySaveSuccess = 0;
+var successVerifyNum = 3;
 
 function saveAndVerifyMain(idForForm, modifier = "")
 {
@@ -23,6 +26,7 @@ function saveAndVerifyMain(idForForm, modifier = "")
 function verifySaveTimer()
 {
 	countForVerifySave = 0;
+	countForVerifySaveSuccess = 0;
 	pollCheckForUpdate = setInterval(timerVerifySave,3000);
 }
 
@@ -42,27 +46,15 @@ function timerVerifySave()
 			{
 				if(data === true)
 				{
-					clearInterval(pollCheckForUpdate);
-					if(idForFormMain === "settingsMainWatch")
+					countForVerifySaveSuccess++;
+					if(countForVerifySaveSuccess >= successVerifyNum)
 					{
-						showPopupForCacheClear = false;
-						clearCache();
+						verifySuccess();
 					}
-					else
-					{
-						if(document.getElementsByName("pollType")[0])
-						{
-							if(document.getElementsByName("pollType")[0].value !== "2")
-							{
-								document.getElementById("menuBarLeftSettingsServerWatchList").style.display = "none";
-							}
-							else
-							{
-								document.getElementById("menuBarLeftSettingsServerWatchList").style.display = "block";
-							}
-						}
-						saveVerified();
-					}
+				}
+				else
+				{
+					countForVerifySaveSuccess = 0;
 				}
 			},
 		});
@@ -71,6 +63,31 @@ function timerVerifySave()
 	{
 		clearInterval(pollCheckForUpdate);
 		saveError();
+	}
+}
+
+function verifySuccess()
+{
+	clearInterval(pollCheckForUpdate);
+	if(idForFormMain === "settingsMainWatch")
+	{
+		showPopupForCacheClear = false;
+		clearCache();
+	}
+	else
+	{
+		if(document.getElementsByName("pollType")[0])
+		{
+			if(document.getElementsByName("pollType")[0].value !== "2")
+			{
+				document.getElementById("menuBarLeftSettingsServerWatchList").style.display = "none";
+			}
+			else
+			{
+				document.getElementById("menuBarLeftSettingsServerWatchList").style.display = "block";
+			}
+		}
+		saveVerified();
 	}
 }
 

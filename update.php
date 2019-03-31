@@ -8,9 +8,9 @@ if(file_exists('local/layout.php'))
 	require_once('local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
-require_once($baseUrl.'conf/config.php'); 
+require_once($baseUrl.'conf/config.php');
 require_once('core/conf/config.php');
-require_once('core/php/configStatic.php');  
+require_once('core/php/configStatic.php');
 
 $version = explode('.', $configStatic['version']);
 $newestVersion = explode('.', $configStatic['newestVersion']);
@@ -78,10 +78,10 @@ require_once('core/php/loadVars.php'); ?>
 				</div>
 				<div class="devBoxContent">
 					<ul id="settingsUl">
-					<?php 
+					<?php
 					if(array_key_exists('versionList', $configStatic) && ($levelOfUpdate != 0))
 					{
-						foreach ($configStatic['versionList'] as $key => $value) 
+						foreach ($configStatic['versionList'] as $key => $value)
 						{
 							$version = explode('.', $configStatic['version']);
 							$newestVersion = explode('.', $key);
@@ -95,7 +95,7 @@ require_once('core/php/loadVars.php'); ?>
 							}
 						}
 					}
-					
+
 					?>
 					</ul>
 				</div>
@@ -128,6 +128,7 @@ require_once('core/php/loadVars.php'); ?>
 	<script src="core/js/updateCommon.js?v=<?php echo $configStatic['version']; ?>"></script>
 	<script type="text/javascript">
 		document.getElementById("menuBarLeftUpdate").style.backgroundColor  = "#ffffff";
+		var successVerifyNum = <?php echo $successVerifyNum; ?>;
 		var updating = false;
 		<?php
 		echo "var currentVersion = '".$configStatic['version']."';";

@@ -1,63 +1,125 @@
 var urlForCurl = "./core/php/functions/sendCurl.php";
+var countOfAddedFiles = 0;
+var countOfClicks = 0;
+var locationInsert = "newRowLocationForWatchList";
 
-function toggleArchive(currnetRow)
+function generateTypeSelect(value)
 {
-	var archiveButton = document.getElementById("archiveButton"+currnetRow);
-	if(archiveButton.innerHTML === "Archive")
+	returnText = "";
+	returnText += "<option value=\"local\"";
+	if(value === "local")
 	{
-		//unarchive action (change to 1)
-		document.getElementById("archiveInput"+currnetRow).value = "true";
-		archiveButton.innerHTML = "Un-Archive";
+		returnText += " selected ";
 	}
-	else
+	returnText += ">Local</option>";
+	returnText += "<option value=\"external\"";
+	if(value === "external")
 	{
-		//archive action (change to 0)
-		document.getElementById("archiveInput"+currnetRow).value = "false";
-		archiveButton.innerHTML = "Archive";
+		returnText += " selected ";
 	}
+	returnText += " >External</option>";
+	return returnText;
+}
+
+function generateGitTypeSelect(value)
+{
+	returnText = "";
+	returnText += "<option value=\"github\"";
+	if(value === "github")
+	{
+		returnText += " selected ";
+	}
+	returnText += ">GitHub</option>";
+	returnText += "<option value=\"gitlab\"";
+	if(value === "gitlab")
+	{
+		returnText += " selected ";
+	}
+	returnText += " >GitLab</option>";
+	return returnText;
+}
+
+function generateTrueFalseSelect(value)
+{
+	returnText = "";
+	returnText += "<option value=\"true\"";
+	if(value === "true")
+	{
+		returnText += " selected ";
+	}
+	returnText += ">True</option>";
+	returnText += "<option value=\"false\"";
+	if(value === "false")
+	{
+		returnText += " selected ";
+	}
+	returnText += " >False</option>";
+	return returnText;
+}
+
+function moveRowUp(currentRow)
+{
+	let currentRowDiffOne = currentRow - 1;
+	let currentRowItem = moveBlock(currentRowDiffOne, currentRow);
+	let moved = moveBlock(currentRow, currentRowDiffOne);
+	document.getElementById("rowNumber" + currentRowDiffOne).outerHTML = moved;
+	document.getElementById("rowNumber" + currentRow).outerHTML = currentRowItem;
+}
+
+function moveRowDown(currentRow)
+{
+	let currentRowDiffOne = currentRow + 1;
+	let currentRowItem = moveBlock(currentRowDiffOne, currentRow);
+	let moved = moveBlock(currentRow, currentRowDiffOne);
+	document.getElementById("rowNumber" + currentRowDiffOne).outerHTML = moved;
+	document.getElementById("rowNumber" + currentRow).outerHTML = currentRowItem;
+}
+
+function hideLastMoveDownButton()
+{
+	for(let i = 1; i < countOfWatchList; i++)
+	{
+		document.getElementById("moveDown"+i).style.display = "block";
+	}
+	document.getElementById("moveDown"+countOfWatchList).style.display = "none";
 }
 
 function addRowFunction()
 {
 	countOfWatchList++;
 	countOfClicks++;
-	var documentUpdateText = "<li class='watchFolderGroups' id='rowNumber"+countOfWatchList+"'><span class='leftSpacingserverNames' > Name: </span> <input class='inputWidth300' type='text'  name='watchListKey" + countOfWatchList + "' >";
+	let item = $("#hiddenWatchlistFormBlank").html();
+	item = item.replace(/{{i}}/g, countOfWatchList);
+	item = item.replace(/{{key}}/g, "");
 	for(var i = 0; i < numberOfSubRows; i++)
 	{
-		documentUpdateText += " <input style='display: none;' type='text' name='watchListItem"+countOfWatchList+"-"+(i+1)+"-Name' value="+arrayOfKeysNonEnc[i]+">";
+		let find = "{{"+countOfWatchList+"-"+(i+1)+"}}";
+		let replaceString = new RegExp(find, 'g');
+
 		if(arrayOfKeysNonEnc[i] === "type")
 		{
-			documentUpdateText += " <br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>";
-			documentUpdateText += " <select class='inputWidth300' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >";
-			documentUpdateText += " 		<option value=\"local\" selected >Local</option>";
-			documentUpdateText += " 		<option value=\"external\" >External</option>";
-			documentUpdateText += " </select>";
+			item = item.replace(replaceString, generateTypeSelect("local"));
 		}
 		else if(arrayOfKeysNonEnc[i] === "gitType")
 		{
-			documentUpdateText += " <br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>";
-			documentUpdateText += " <select class='inputWidth300' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >";
-			documentUpdateText += "		<option value=\"github\" selected>GitHub</option>";
-		 	documentUpdateText += "		<option value=\"gitlab\" >GitLab</option>";
-		 	documentUpdateText += " </select>";
+			item = item.replace(replaceString, generateGitTypeSelect("github"));
 		}
 		else if(arrayOfKeysNonEnc[i] === "Archive")
 		{
-			documentUpdateText += " <br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>";
-			documentUpdateText += " <a id=\"archiveButton"+countOfWatchList+"\" onclick=\"toggleArchive("+countOfWatchList+");\" class=\"mainLinkClass\" >Archive</a>";
-			documentUpdateText += "<input id=\"archiveInput"+countOfWatchList+"\" class='inputWidth300'  type='hidden' name='watchListItem"+countOfWatchList+"-"+(i+1)+"' value='false'>";
+			item = item.replace(replaceString, generateTrueFalseSelect("false"));
 		}
 		else
 		{
-			documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[i]+": </span>  <input class='inputWidth300' type='text' name='watchListItem" + countOfWatchList + "-" + (i+1) + "' >"
+			item = item.replace(replaceString, "");
 		}
 	}
-	documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+countOfWatchList+'-0" value="'+numberOfSubRows+'"> '
-	documentUpdateText += " <span class='leftSpacingserverNames' ></span> <a class='mainLinkClass'  onclick='deleteRowFunction("+ countOfWatchList +", true)'>Remove</a><span> | </span><a class='mainLinkClass' onclick='testConnection(dataForWatchFolder"+countOfWatchList+");' >Check Connection</a></li><div style='display:inline-block;' id='newRowLocationForWatchList"+countOfClicks+"'></div>";
-	document.getElementById(locationInsert).outerHTML += documentUpdateText;
+	let newlocationInsert = "newRowLocationForWatchList"+countOfClicks;
+	item += "<div style=\"display: inline-block;\" id=\""+newlocationInsert+"\"></div>";
+	document.getElementById(locationInsert).outerHTML += item;
+	locationInsert = newlocationInsert;
 	document.getElementById('numberOfRows').value = countOfWatchList;
 	countOfAddedFiles++;
-	locationInsert = "newRowLocationForWatchList"+countOfClicks;
+	hideLastMoveDownButton();
 }
 
 function deleteRowFunction(currentRow, decreaseCountWatchListNum)
@@ -68,39 +130,62 @@ function deleteRowFunction(currentRow, decreaseCountWatchListNum)
 	{
 		return;
 	}
-	newValue = document.getElementById('numberOfRows').value;
-	if(currentRow < newValue)
+	if(currentRow < countOfWatchList)
 	{
 		//this wasn't the last folder deleted, update others
-		for(var i = currentRow + 1; i <= newValue; i++)
-		{
-			var updateItoIMinusOne = i - 1;
-			var elementToUpdate = "rowNumber" + i;
-			var documentUpdateText = "<li class='watchFolderGroups' id='rowNumber"+updateItoIMinusOne+"' ><span class='leftSpacingserverNames' > Name: </span> ";
-			var watchListKeyIdFind = "watchListKey"+i;
-			var previousElementNumIdentifierForKey  = document.getElementsByName(watchListKeyIdFind);
-			
-			documentUpdateText += "<input class='inputWidth300' type='text' name='watchListKey"+updateItoIMinusOne+"' value='"+previousElementNumIdentifierForKey[0].value+"'> ";
-			for(var j = 0; j < numberOfSubRows; j++)
-			{
-				var watchListItemIdFind = "watchListItem"+i+"-"+(j+1);
-				var previousElementNumIdentifierForItem  = document.getElementsByName(watchListItemIdFind);
-				documentUpdateText += "<br> <span class='leftSpacingserverNames' > "+arrayOfKeysNonEnc[j]+": </span> <input style='display: none;' type='text' name='watchListItem"+updateItoIMinusOne+"-"+(j+1)+"-Name' value="+arrayOfKeysNonEnc[j]+">  <input class='inputWidth300' type='text' name='watchListItem"+updateItoIMinusOne+"-"+(j+1)+"' value='"+previousElementNumIdentifierForItem[0].value+"'>";
-			}
-			documentUpdateText += '<br>  <input style="display: none" type="text" name="watchListItem'+updateItoIMinusOne+'-0" value="'+numberOfSubRows+'"> ';
-			documentUpdateText += '<span class="leftSpacingserverNames" ></span> <a class="mainLinkClass" onclick="deleteRowFunction('+updateItoIMinusOne+', true)">Remove</a><span> | </span><a class="mainLinkClass" onclick="testConnection(dataForWatchFolder'+updateItoIMinusOne+');" >Check Connection</a>';
-			documentUpdateText += '</li>';
-			document.getElementById(elementToUpdate).outerHTML = documentUpdateText;
-		}
+		updateLaterFolders(currentRow, countOfWatchList);
 	}
-	newValue--;
+	countOfWatchList--;
 	if(countOfAddedFiles > 0)
 	{
 		countOfAddedFiles--;
-		countOfWatchList--;
 	}
-	document.getElementById('numberOfRows').value = newValue;
-}	
+	document.getElementById('numberOfRows').value = countOfWatchList;
+	hideLastMoveDownButton();
+}
+
+function updateLaterFolders(currentRow, newValue)
+{
+	for(var i = currentRow + 1; i <= newValue; i++)
+	{
+		let item = moveBlock(i, i - 1);
+		document.getElementById("rowNumber" + i).outerHTML = item;
+	}
+}
+
+function moveBlock(to, from)
+{
+	let item = $("#hiddenWatchlistFormBlank").html();
+	item = item.replace(/{{i}}/g, from);
+	let watchListKeyIdFind = "watchListKey"+to;
+	let previousElementNumIdentifierForKey  = document.getElementsByName(watchListKeyIdFind)[0].value;
+	item = item.replace(/{{key}}/g, previousElementNumIdentifierForKey);
+	for(var j = 0; j < numberOfSubRows; j++)
+	{
+		let watchListItemIdFind = "watchListItem"+to+"-"+(j+1);
+		let previousElementNumIdentifierForItem  = document.getElementsByName(watchListItemIdFind)[0].value;
+		let find = "{{"+from+"-"+(j+1)+"}}";
+		let replaceString = new RegExp(find, 'g');
+
+		if(arrayOfKeysNonEnc[j] === "type")
+		{
+			item = item.replace(replaceString, generateTypeSelect(previousElementNumIdentifierForItem));
+		}
+		else if(arrayOfKeysNonEnc[j] === "gitType")
+		{
+			item = item.replace(replaceString, generateGitTypeSelect(previousElementNumIdentifierForItem));
+		}
+		else if(arrayOfKeysNonEnc[j] === "Archive")
+		{
+			item = item.replace(replaceString, generateTrueFalseSelect(previousElementNumIdentifierForItem));
+		}
+		else
+		{
+			item = item.replace(replaceString, previousElementNumIdentifierForItem);
+		}
+	}
+	return item;
+}
 
 function testConnection(currentRowInformation)
 {
@@ -117,8 +202,8 @@ function testConnection(currentRowInformation)
 	popupHtml += "<div style=\"width:100%;text-align:center; line-height: 50px;\"> <img id=\"connectionCheckMainLoad\" src=\"core/img/loading.gif\" height=\"50\" width=\"50\"> <img style=\"display: none;\" id=\"connectionCheckMainGreen\" src=\"core/img/greenCheck.png\" height=\"50\" width=\"50\"> <img style=\"display: none;\" id=\"connectionCheckMainRed\" src=\"core/img/redWarning.png\" height=\"50\" width=\"50\">Website";
 	popupHtml += "<img id=\"connectionCheckStatusLoad\" src=\"core/img/loading.gif\" height=\"50\" width=\"50\"> <img style=\"display: none;\" id=\"connectionCheckStatusGreen\" src=\"core/img/greenCheck.png\" height=\"50\" width=\"50\"> <img style=\"display: none;\" id=\"connectionCheckStatusRed\" src=\"core/img/redWarning.png\" height=\"50\" width=\"50\"> Status </div>";
 	document.getElementById('popupContentInnerHTMLDiv').innerHTML = popupHtml;
-	
-	
+
+
 	//send check requests
 	checkWebsiteInGeneral(currentRowInformation['WebsiteBase']);
 	checkWebsiteStatus(sendUrlHere);
@@ -163,3 +248,7 @@ function checkWebsiteStatus(sendUrlHere)
 		}
 	});
 }
+
+$( document ).ready(function() {
+    hideLastMoveDownButton();
+});
