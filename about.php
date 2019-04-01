@@ -78,7 +78,4 @@ require_once('core/php/loadVars.php'); ?>
 	}
 	</script>
 	<script src="core/js/allPages.js?v=<?php echo $configStatic['version']; ?>"></script>
-	<script type="text/javascript">
-		document.getElementById("menuBarLeftAbout").style.backgroundColor  = "#ffffff";
-	</script>
 </body>

@@ -247,6 +247,9 @@ input {
 	position: fixed;
 	height: 100%;
 }
+.selected {
+	background-color: #FFFFFF;
+}
 .sidebarIsVisible{
 	border-right: 3px solid white;
 }

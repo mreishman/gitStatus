@@ -128,7 +128,6 @@ require_once('core/php/loadVars.php'); ?>
 	<script src="core/js/allPages.js?v=<?php echo $configStatic['version']; ?>"></script>
 	<script src="core/js/updateCommon.js?v=<?php echo $configStatic['version']; ?>"></script>
 	<script type="text/javascript">
-		document.getElementById("menuBarLeftUpdate").style.backgroundColor  = "#ffffff";
 		var successVerifyNum = <?php echo $successVerifyNum; ?>;
 		var updating = false;
 		<?php
