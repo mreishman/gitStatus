@@ -70,6 +70,7 @@
 				);
 
 			elseif($pollType === "2"): ?>
+				<li><h2>Example:</h2></li>
 				<li class="watchFolderGroups">
 				<span>Poll Version 2</span>
 				<br>
