@@ -38,7 +38,7 @@ function toggleMenuSideBar()
 	document.cookie = objSett[selector]["cookie"];
 	calcuateWidth();
     document.getElementById("openMenuHamburger").style.display = objSett[selector]["openMenuHamburger"];
-    document.getElementById("closeMenuHamburger").style.display = objSett[selector]["closeMenuHamburger"];	
+    document.getElementById("closeMenuHamburger").style.display = objSett[selector]["closeMenuHamburger"];
 }
 
 calcuateWidth();
@@ -54,9 +54,9 @@ function resizeFunction()
         document.getElementById("windows").style.height = heightVar;
         document.getElementById("sideBox").style.height = (heightWindow-100)+"px";
         document.getElementById("iframeForStuff").style.height = (heightWindow-143)+"px";
-        document.getElementById("listOfCommitHistory").style.height = (heightWindow-138)+"px";
-        document.getElementById("spanForMainDiff").style.height = (heightWindow-138)+"px";
-
+        document.getElementById("listOfCommitHistory").style.height = (heightWindow-143)+"px";
+        document.getElementById("spanForMainDiff").style.height = (heightWindow-143)+"px";
+        document.getElementById("sideBoxForActualInfo").style.height = (heightWindow-143)+"px";
     }
     if(document.getElementById("widthForWatchListSection"))
     {
@@ -77,7 +77,7 @@ $(window).resize(function(){
 jQuery(document).ready(function()
 {
     calcuateWidth();
-    
+
     var offset = 220;
     var duration = 500;
     $('#main').scroll(function() {
@@ -87,7 +87,7 @@ jQuery(document).ready(function()
             jQuery('.back-to-top').fadeOut(duration);
         }
     });
-    
+
     jQuery('.back-to-top').click(function(event) {
         event.preventDefault();
         $('#main').animate({scrollTop: 0}, duration);

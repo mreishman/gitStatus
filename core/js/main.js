@@ -1655,10 +1655,20 @@ function actuallyInstallUpdates()
     $("#settingsInstallUpdate").submit();
 }
 
+function resetDevBoxTitleColor()
+{
+	$(".devBoxTitle , .devBoxActions").css("background-color","");
+}
+
+function setDevBoxTitleColor(key)
+{
+	$("#innerFirstDevBox"+key+" .devBoxTitle , #innerFirstDevBox"+key+" .devBoxActions").css("background-color","#FFFFFF");
+}
+
 function toggleDetailBar(e, key)
 {
-	$(".devBoxTitle").css("background-color","#aaaaaa");
-	$("#innerFirstDevBox"+key+" .devBoxTitle").css("background-color","#FFFFFF");
+	resetDevBoxTitleColor();
+	setDevBoxTitleColor(key);
 	if(document.getElementById("sideBox").style.display == "none")
 	{
 		document.getElementById("sideBox").style.display = "inline-block";
@@ -1702,7 +1712,7 @@ function toggleDetailBar(e, key)
 function closeDetailBar()
 {
 	$('#iframeForStuff').prop('src', "./iframe.html");
-	$(".devBoxTitle").css("background-color","#aaaaaa");
+	resetDevBoxTitleColor();
 	document.getElementById("sideBox").style.display = "none";
 	document.getElementById("windows").style.width = "auto";
 	resizeFunction();

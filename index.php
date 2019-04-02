@@ -288,8 +288,8 @@ if($defaultViewBranch == 'Standard')
 			}
 			?>
 		</div>
-		<div id="sideBox" style="background-color: rgb(119, 119, 119); margin-left: 25px; top: 45px; border: 1px solid white; position: absolute; display: none;">
-			<div class="devBoxTitle" style="padding: 0;">
+		<div id="sideBox" style="background-color: rgb(119, 119, 119); margin-left: 25px; top: 45px; border: 1px solid white; position: absolute; display: none; border-radius: 5px 5px 0 0;">
+			<div style="border-bottom: 3px solid white; box-shadow: 0 2px 16px rgba(0,0,0,0.7);" >
 				<ul class="buttonList">
 					<li onclick="closeDetailBar();" >
 						<a>Close</a>
@@ -312,15 +312,15 @@ if($defaultViewBranch == 'Standard')
 				</ul>
 			</div>
 			<div>
-				<div id="sideBoxForActualInfo">
+				<div id="sideBoxForActualInfo" style="overflow: auto;">
 					<table width="100%" style="border-spacing: 0; padding: 10px;">
 						<tr>
-							<td width="50%" style="vertical-align: top;">
+							<td class="tdChange" width="50%" style="vertical-align: top;">
 								<h2>Info:</h2>
 								<span id="nameMainLeft"></span>
 								<span id="infoMainLeft"></span>
 							</td>
-							<td width="50%"  style="vertical-align: top;" >
+							<td class="tdChange" width="50%"  style="vertical-align: top;" >
 								<h2>Git-Diff:</h2>
 								<span style="height: 29px; display: block;" ></span>
 								<table width="100%">

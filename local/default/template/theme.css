@@ -605,3 +605,11 @@ input {
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
   transform: scale(0.5);
 }
+
+@media screen and (max-width: 1400px) {
+    #sideBoxForActualInfo td.tdChange {
+		display: block;
+		width: 100%;
+	}
+
+}
