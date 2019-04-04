@@ -76,6 +76,26 @@
 					'type'				=>  '',
 					'Archive'			=>  'false'
 				);
+
+				$groups = array(
+					'General'	=>	array(
+						'WebsiteBase' 		=>  '',
+						'Folder' 			=>  '',
+						'Website' 			=>  ''
+					),
+					'Git'		=>	array(
+						'githubRepo' 		=>  '',
+						'branchList'		=>  'master',
+						'gitType'			=>	'github',
+						'customGit'			=>  ''
+					),
+					'Advanced'	=>	array(
+						'groupInfo' 		=>  '',
+						'urlHit' 			=>  '',
+						'type'				=>  '',
+						'Archive' 			=>  'false'
+					)
+				);
 				?>
 				<script type="text/javascript">
 					var arrayOfKeysNonEnc = <?php echo json_encode(array_keys($defaultArray)); ?>;
@@ -86,14 +106,14 @@
 				$i = 0;
 				foreach($config['serverWatchList'] as $key => $item){
 					$i++;
-					echo generateWatchlistBlock($defaultArray, $arrayKeys, $key, $item, $i);
+					echo generateWatchlistBlock($groups, $arrayKeys, $key, $item, $i);
 				} ?>
 				<div style="display: inline-block;" id="newRowLocationForWatchList"></div>
 			</ul>
 		</div>
 		<div id="hidden" style="display: none">
 			<span id="hiddenWatchlistFormBlank">
-				<?php echo generateWatchlistBlock($defaultArray, $arrayKeys); ?>
+				<?php echo generateWatchlistBlock($groups, $arrayKeys); ?>
 			</span>
 			<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
 			<input id="watchListServer" type="text" name="watchListServer" value="true" >

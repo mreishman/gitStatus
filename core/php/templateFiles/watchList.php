@@ -69,6 +69,25 @@
 					'Archive' 			=>  'false'
 				);
 
+				$groups = array(
+					'General'	=>	array(
+						'WebsiteBase' 		=>  '',
+						'Folder' 			=>  '',
+						'Website' 			=>  ''
+					),
+					'Git'		=>	array(
+						'githubRepo' 		=>  '',
+						'branchList'		=>  'master',
+						'gitType'			=>	'github',
+						'customGit'			=>  ''
+					),
+					'Advanced'	=>	array(
+						'groupInfo' 		=>  '',
+						'urlHit' 			=>  '',
+						'Archive' 			=>  'false'
+					)
+				);
+
 			elseif($pollType === "2"): ?>
 				<li><h2>Example:</h2></li>
 				<li class="watchFolderGroups">
@@ -96,6 +115,10 @@
 					"Archive" 		=> 'false'
 				);
 
+				$groups = array(
+					""	=>	$defaultArray
+				);
+
 			endif; ?>
 			<script type="text/javascript">
 				var arrayOfKeysNonEnc = <?php echo json_encode(array_keys($defaultArray)); ?>;
@@ -108,14 +131,14 @@
 				foreach($config['watchList'] as $key => $item)
 				{
 					$i++;
-					echo generateWatchlistBlock($defaultArray, $arrayKeys, $key, $item, $i);
+					echo generateWatchlistBlock($groups, $arrayKeys, $key, $item, $i);
 				} ?>
 				<div style="display: inline-block;" id="newRowLocationForWatchList"></div>
 			</ul>
 		</div>
 		<div id="hidden" style="display: none">
 			<span id="hiddenWatchlistFormBlank">
-				<?php echo generateWatchlistBlock($defaultArray, $arrayKeys); ?>
+				<?php echo generateWatchlistBlock($groups, $arrayKeys); ?>
 			</span>
 			<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
 			<input id="watchListNormal" type="text" name="watchListNormal" value="true" >
