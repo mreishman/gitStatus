@@ -137,7 +137,7 @@ function generateWatchlistBlock($defaultArray, $arrayKeys, $key = "{{key}}", $it
 	}
 	$stringToReturn .= "
 	<input style=\"display: none\" type=\"text\" name=\"watchListItem" . $i . "-0\" value='" . $j . "'>
-			<table width=\"100%\">
+			<table width=\"100%\" style=\"border-top: 1px solid black; margin-top: 5px; padding-top: 5px;\">
 				<tr>
 					<th width=\"50%\" style=\" text-align: center;\">
 						<a class=\"mainLinkClass watchlistButton\" onclick=\"deleteRowFunction(" . $i . ", true);\">Remove</a>
