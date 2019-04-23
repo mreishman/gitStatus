@@ -144,6 +144,10 @@ function pollTwo(all, counterForSaveNew)
 	{
 		counterForSave = numberOfLogs+1;
 		var arrayOfFilesLength = arrayOfFiles.length
+		//Change ALL leds to yellow
+		$(".led-green").hide();
+		$(".led-red").hide();
+		$(".led-yellow").css("display","inline-block");
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
 			var boolForRun = true;
@@ -164,7 +168,6 @@ function pollTwo(all, counterForSaveNew)
 				$("."+arrayOfFiles[i]["Name"]+" .loadingSpinnerHeader").css('display', 'inline-block');
 				$("."+arrayOfFiles[i]["Name"]+" .warningSpanHeader").css('display','none');
 				$("."+arrayOfFiles[i]["Name"]+" .refreshImageDevBox").css('display', 'none');
-				switchToColorLed(arrayOfFiles[i]["Name"], "yellow");
 				tryHTTPForPollRequest(i);
 			}
 			else
