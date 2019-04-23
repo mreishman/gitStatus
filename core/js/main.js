@@ -164,6 +164,7 @@ function pollTwo(all, counterForSaveNew)
 				$("."+arrayOfFiles[i]["Name"]+" .loadingSpinnerHeader").css('display', 'inline-block');
 				$("."+arrayOfFiles[i]["Name"]+" .warningSpanHeader").css('display','none');
 				$("."+arrayOfFiles[i]["Name"]+" .refreshImageDevBox").css('display', 'none');
+				switchToColorLed(arrayOfFiles[i]["Name"], "yellow");
 				tryHTTPForPollRequest(i);
 			}
 			else
@@ -544,11 +545,14 @@ function pollFailure(xhr, error, dataInnerPass)
 		//get all with class of id
 		var subBoxes = document.getElementsByClassName(dataInnerPass["id"]);
 		var countOfBoxes = subBoxes.length;
-		for(var i = 0; i < countOfBoxes; i++)
+		if(countOfBoxes > 0)
 		{
-			nameForBackground = subBoxes[i].getElementsByClassName("innerFirstDevBox")[0].id;
-			noSpaceName = nameForBackground.replace("innerFirstDevBox", "");
-			pollFailureInner(xhr, error, noSpaceName, nameForBackground);
+			for(var i = 0; i < countOfBoxes; i++)
+			{
+				nameForBackground = subBoxes[i].getElementsByClassName("innerFirstDevBox")[0].id;
+				noSpaceName = nameForBackground.replace("innerFirstDevBox", "");
+				pollFailureInner(xhr, error, noSpaceName, nameForBackground);
+			}
 		}
 	}
 }
