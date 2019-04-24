@@ -56,7 +56,13 @@ if($defaultViewBranch == 'Standard')
 <!doctype html>
 <head>
 	<title>Git Status | Index</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css?v=<?php echo $configStatic['version']; ?>">
+	<style type="text/css">
+		.devBoxTitle {
+			padding: 5px 5px;
+		}
+	</style>
 	<link rel="icon" type="image/png" href="core/img/favicon.png" />
 	<script src="core/js/jquery.js"></script>
 	<script src="core/js/jquery.xcolor.min.js"></script>
@@ -282,8 +288,8 @@ if($defaultViewBranch == 'Standard')
 			}
 			?>
 		</div>
-		<div id="sideBox" style="background-color: rgb(119, 119, 119); margin-left: 25px; top: 45px; border: 1px solid white; position: absolute; display: none;">
-			<div class="devBoxTitle" style="padding: 0;">
+		<div id="sideBox" style="background-color: rgb(119, 119, 119); margin-left: 25px; top: 45px; border: 1px solid white; position: absolute; display: none; border-radius: 5px 5px 0 0;">
+			<div style="border-bottom: 3px solid white; box-shadow: 0 2px 16px rgba(0,0,0,0.7);" >
 				<ul class="buttonList">
 					<li onclick="closeDetailBar();" >
 						<a>Close</a>
@@ -306,15 +312,15 @@ if($defaultViewBranch == 'Standard')
 				</ul>
 			</div>
 			<div>
-				<div id="sideBoxForActualInfo"">
+				<div id="sideBoxForActualInfo" style="overflow: auto;">
 					<table width="100%" style="border-spacing: 0; padding: 10px;">
 						<tr>
-							<td width="50%" style="vertical-align: top;">
+							<td class="tdChange" width="50%" style="vertical-align: top;">
 								<h2>Info:</h2>
 								<span id="nameMainLeft"></span>
 								<span id="infoMainLeft"></span>
 							</td>
-							<td width="50%"  style="vertical-align: top;" >
+							<td class="tdChange" width="50%"  style="vertical-align: top;" >
 								<h2>Git-Diff:</h2>
 								<span style="height: 29px; display: block;" ></span>
 								<table width="100%">
@@ -352,7 +358,7 @@ if($defaultViewBranch == 'Standard')
 							<td width="250px;" style="vertical-align: top;" >
 								<ul id="listOfCommitHistory" class="buttonListVert" style="width: 100%; border-right: 1px solid white; overflow: auto; ">
 									<li id="spinnerLiForSideBoxBoxForInfo">
-										<img style="width: 20px;" src="core/img/loading.gif"> 
+										<img style="width: 20px;" src="core/img/loading.gif">
 									</li>
 									<li class="colorAltBG" onclick="getListOfCommits();">
 										Refresh
@@ -416,10 +422,10 @@ if($defaultViewBranch == 'Standard')
 			else
 			{
 				echo "var arrayOfWatchFilters = {};";
-				foreach ($cachedStatusMainObject as $key => $value) 
+				foreach ($cachedStatusMainObject as $key => $value)
 				{
 					echo "arrayOfWatchFilters['".$key."'] =  {";
-					foreach ($value as $value2 => $key2) 
+					foreach ($value as $value2 => $key2)
 					{
 						echo $value2.": ";
 						if($key2 !== 'false' && $key2 !== 'true')
@@ -430,10 +436,10 @@ if($defaultViewBranch == 'Standard')
 					 	{
 					 		echo $key2.",";
 					 	}
-					} 
+					}
 					echo "};";
 				}
-				
+
 			}
 		?>
 		var branchColorFilter = '<?php echo $branchColorFilter;?>';
@@ -454,13 +460,13 @@ if($defaultViewBranch == 'Standard')
 			var errorAndColorAuthorArray = JSON.parse('<?php echo json_encode($errorAndColorAuthorArray); ?>');
 		}
 		catch(e){}
-		
+
 		try
 		{
 			var errorAndColorComitteeArray = JSON.parse('<?php echo json_encode($errorAndColorComitteeArray); ?>');
 		}
 		catch(e){}
-		
+
 		var pausePoll = false;
 		var pausePollFile = false;
 		var refreshActionVar;

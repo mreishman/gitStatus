@@ -1,7 +1,3 @@
-if(document.getElementById("menuBarLeftSettings"))
-{
-	document.getElementById("menuBarLeftSettings").style.backgroundColor  = "#ffffff";
-}
 var countOfClicksFilterBranch = 0;
 var countOfClicksFilterAuthor = 0;
 var countOfClicksFilterComittee = 0;
@@ -118,7 +114,7 @@ function whichTypeOfFilterIsSelected()
 	{
 		return 'newRowLocationForFilterComittee';
 	}
-}	
+}
 
 function switchToNewFilterBranchColor()
 {

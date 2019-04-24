@@ -120,6 +120,7 @@ function addRowFunction()
 	document.getElementById('numberOfRows').value = countOfWatchList;
 	countOfAddedFiles++;
 	hideLastMoveDownButton();
+	$(".devBoxContent").scrollTop($(".devBoxContent")[0].scrollHeight);
 }
 
 function deleteRowFunction(currentRow, decreaseCountWatchListNum)

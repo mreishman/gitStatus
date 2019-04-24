@@ -9,14 +9,26 @@
 			<?php endif; ?>
 		</div>
 		<div class="devBoxContent">
-			<ul class="settingsUl">
-				<li>
-					<span class="leftSpacingserverNames" > Commits: </span> <input style="width: 52px;" type="text" name="maxCommits" value="<?php echo $maxCommits;?>" > Max
-				</li>
-				<li>
-					Default Branch List:<input style="width: 200px;" type="text" name="defaultBranchList" value="<?php echo $defaultBranchList;?>" >
-				</li>
-			</ul>
+			<table width="100%">
+				<tr>
+					<td>
+						Max Commits:
+					</td>
+					<td>
+						<input style="width: 52px;" type="text" name="maxCommits" value="<?php echo $maxCommits;?>" >
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						Default Branch List:
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input style="width: 200px;" type="text" name="defaultBranchList" value="<?php echo $defaultBranchList;?>" >
+					</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 </form>

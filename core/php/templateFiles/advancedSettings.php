@@ -1,19 +1,13 @@
 
 <div class="innerFirstDevBox"  >
 	<div class="devBoxTitle">
-		<b>Advanced</b> 
+		<b>Advanced</b>
 	</div>
 	<div class="devBoxContent">
-		<ul class="settingsUl">
-		<?php if(!empty($cachedStatusMainObject)):?>
-			<li>
-				<button class="mainLinkClass" onclick="clearCache();" >Clear Cache</button>
-			</li>
-		<?php else: ?>
-			<li>
-				<p>Cache is empty</p>
-			</li>
-		<?php endif; ?>
-		</ul>
+	<?php if(!empty($cachedStatusMainObject)):?>
+		<button class="mainLinkClass" onclick="clearCache();" >Clear Cache</button>
+	<?php else: ?>
+		<p>Cache is empty</p>
+	<?php endif; ?>
 	</div>
 </div>

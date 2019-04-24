@@ -19,6 +19,7 @@ require_once('setup/setupProcessFile.php');
 <!doctype html>
 <head>
 	<title>Git Status | Settings</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css?v=<?php echo $configStatic['version']; ?>">
 	<link rel="icon" type="image/png" href="core/img/favicon.png" />
 	<script src="core/js/jquery.js"></script>
@@ -65,7 +66,7 @@ require_once('setup/setupProcessFile.php');
 		var remainingWidth = innerWidthWindow - ((innerWidthWindowCalcAdd)+40);
 		remainingWidth = remainingWidth / 2;
 		var windowWidthText = remainingWidth+"px";
-		document.getElementById("main").style.marginLeft = windowWidthText;
+		document.getElementById("main").style.paddingLeft = windowWidthText;
 		document.getElementById("main").style.paddingRight = windowWidthText;
 		document.getElementById("widthForWatchListSection").style.width = ((innerWidthWindowCalcAdd))+"px";
 	}
@@ -117,9 +118,6 @@ require_once('setup/setupProcessFile.php');
 <script src="core/js/allPages.js?v=<?php echo $configStatic['version']; ?>"></script>
 <script src="core/js/cacheClear.js?v=<?php echo $configStatic['version']; ?>"></script>
 <script src="core/js/settingsAll.js?v=<?php echo $configStatic['version']; ?>"></script>
-<script type="text/javascript">
-	document.getElementById("menuBarLeftSettingsWatchList").style.backgroundColor  = "#ffffff";
-</script>
 <script src="core/js/watchlist.js?v=<?php echo $configStatic['version']; ?>"></script>
 
 <?php readfile('core/html/popup.html') ?>

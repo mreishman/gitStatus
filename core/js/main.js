@@ -144,6 +144,10 @@ function pollTwo(all, counterForSaveNew)
 	{
 		counterForSave = numberOfLogs+1;
 		var arrayOfFilesLength = arrayOfFiles.length
+		//Change ALL leds to yellow
+		$(".led-green").hide();
+		$(".led-red").hide();
+		$(".led-yellow").css("display","inline-block");
 		for(var i = 0; i < arrayOfFilesLength; i++)
 		{
 			var boolForRun = true;
@@ -544,11 +548,14 @@ function pollFailure(xhr, error, dataInnerPass)
 		//get all with class of id
 		var subBoxes = document.getElementsByClassName(dataInnerPass["id"]);
 		var countOfBoxes = subBoxes.length;
-		for(var i = 0; i < countOfBoxes; i++)
+		if(countOfBoxes > 0)
 		{
-			nameForBackground = subBoxes[i].getElementsByClassName("innerFirstDevBox")[0].id;
-			noSpaceName = nameForBackground.replace("innerFirstDevBox", "");
-			pollFailureInner(xhr, error, noSpaceName, nameForBackground);
+			for(var i = 0; i < countOfBoxes; i++)
+			{
+				nameForBackground = subBoxes[i].getElementsByClassName("innerFirstDevBox")[0].id;
+				noSpaceName = nameForBackground.replace("innerFirstDevBox", "");
+				pollFailureInner(xhr, error, noSpaceName, nameForBackground);
+			}
 		}
 	}
 }
@@ -1503,7 +1510,7 @@ function calcuateWidth()
 	{
 		windowWidthText = "0px";
 	}
-	document.getElementById("main").style.marginLeft = windowWidthText;
+	document.getElementById("main").style.paddingLeft = windowWidthText;
 	document.getElementById("main").style.paddingRight = windowWidthText;
 	if(document.getElementById("sideBox").style.display !== "none")
 	{
@@ -1655,10 +1662,20 @@ function actuallyInstallUpdates()
     $("#settingsInstallUpdate").submit();
 }
 
+function resetDevBoxTitleColor()
+{
+	$(".devBoxTitle , .devBoxActions").css("background-color","");
+}
+
+function setDevBoxTitleColor(key)
+{
+	$("#innerFirstDevBox"+key+" .devBoxTitle , #innerFirstDevBox"+key+" .devBoxActions").css("background-color","#FFFFFF");
+}
+
 function toggleDetailBar(e, key)
 {
-	$(".devBoxTitle").css("background-color","#aaaaaa");
-	$("#innerFirstDevBox"+key+" .devBoxTitle").css("background-color","#FFFFFF");
+	resetDevBoxTitleColor();
+	setDevBoxTitleColor(key);
 	if(document.getElementById("sideBox").style.display == "none")
 	{
 		document.getElementById("sideBox").style.display = "inline-block";
@@ -1702,7 +1719,7 @@ function toggleDetailBar(e, key)
 function closeDetailBar()
 {
 	$('#iframeForStuff').prop('src', "./iframe.html");
-	$(".devBoxTitle").css("background-color","#aaaaaa");
+	resetDevBoxTitleColor();
 	document.getElementById("sideBox").style.display = "none";
 	document.getElementById("windows").style.width = "auto";
 	resizeFunction();

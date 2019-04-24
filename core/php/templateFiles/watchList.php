@@ -14,16 +14,21 @@
 			if($pollType === "1"): ?>
 				<li><h2>Example:</h2></li>
 				<li class="watchFolderGroups">
-				<span>Poll Version 1</span>
-				<br>
+				<div style="border-bottom: 1px solid black; margin-bottom: 5px;">
+					<h2 style="margin: 5px;">Server 0</h2>
+				</div>
 				<span class="leftSpacingserverNames" > Name:</span> <input disabled="true" class='inputWidth300' type='text' value='Name you want to call website'>
-				<br>
+				<div style="border-bottom: 1px solid black; margin-bottom: 5px;">
+					<h4 style="margin: 5px;">General</h4>
+				</div>
 				<span class="leftSpacingserverNames" > Website Base:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'>
 				<br>
 				<span class="leftSpacingserverNames" > Folder:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of github repo on server'>
 				<br>
 				<span class="leftSpacingserverNames" > Website:</span> <input disabled="true" class='inputWidth300' type='text' value='Specific directory of website'>
-				<br>
+				<div style="border-bottom: 1px solid black; margin-bottom: 5px;">
+					<h4 style="margin: 5px;">Git</h4>
+				</div>
 				<span class="leftSpacingserverNames" > Git Repo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'>
 				<br>
 				<span class="leftSpacingserverNames" > Branch List:</span> <input disabled="true" class='inputWidth300' type='text' value='Compare branches list example: master , develop'>
@@ -35,7 +40,9 @@
  				</select>
  				<br>
  				<span class="leftSpacingserverNames" > Custom Git:</span> <input disabled="true" class='inputWidth300' type='text' value='Custom url for git. Empty = default'>
- 				<br>
+ 				<div style="border-bottom: 1px solid black; margin-bottom: 5px;">
+					<h4 style="margin: 5px;">Advanced</h4>
+				</div>
 				<span class="leftSpacingserverNames" > Group Info:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of group'>
 				<br>
 				<span class="leftSpacingserverNames" > URL Hit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'>
@@ -69,12 +76,35 @@
 					'Archive' 			=>  'false'
 				);
 
+				$groups = array(
+					'General'	=>	array(
+						'WebsiteBase' 		=>  '',
+						'Folder' 			=>  '',
+						'Website' 			=>  ''
+					),
+					'Git'		=>	array(
+						'githubRepo' 		=>  '',
+						'branchList'		=>  'master',
+						'gitType'			=>	'github',
+						'customGit'			=>  ''
+					),
+					'Advanced'	=>	array(
+						'groupInfo' 		=>  '',
+						'urlHit' 			=>  '',
+						'Archive' 			=>  'false'
+					)
+				);
+
 			elseif($pollType === "2"): ?>
+				<li><h2>Example:</h2></li>
 				<li class="watchFolderGroups">
-				<span>Poll Version 2</span>
-				<br>
+				<div style="border-bottom: 1px solid black; margin-bottom: 5px;">
+					<h2 style="margin: 5px;">Server 0</h2>
+				</div>
 				<span class="leftSpacingserverNames" > Name:</span> <input disabled="true" class='inputWidth300' type='text' value='Name you want to call website'>
-				<br>
+				<div style="border-bottom: 1px solid black; margin-bottom: 5px;">
+					<h4 style="margin: 5px;">General</h4>
+				</div>
 				<span class="leftSpacingserverNames" > Website Base:</span> <input disabled="true" class='inputWidth300' type='text' value='Base URL of website'>
 				<br>
 				<span class="leftSpacingserverNames" > URL Hit:</span> <input disabled="true" class='inputWidth300' type='text' value='Location of file hit, blank = default'>
@@ -95,6 +125,10 @@
 					"Archive" 		=> 'false'
 				);
 
+				$groups = array(
+					"General"	=>	$defaultArray
+				);
+
 			endif; ?>
 			<script type="text/javascript">
 				var arrayOfKeysNonEnc = <?php echo json_encode(array_keys($defaultArray)); ?>;
@@ -107,19 +141,14 @@
 				foreach($config['watchList'] as $key => $item)
 				{
 					$i++;
-					echo generateWatchlistBlock($defaultArray, $arrayKeys, $key, $item, $i);
+					echo generateWatchlistBlock($groups, $arrayKeys, $key, $item, $i);
 				} ?>
 				<div style="display: inline-block;" id="newRowLocationForWatchList"></div>
-			</ul>
-			<ul class="settingsUl">
-				<li>
-					<a class="mainLinkClass"   onclick="addRowFunction()">Add New Server</a>
-				</li>
 			</ul>
 		</div>
 		<div id="hidden" style="display: none">
 			<span id="hiddenWatchlistFormBlank">
-				<?php echo generateWatchlistBlock($defaultArray, $arrayKeys); ?>
+				<?php echo generateWatchlistBlock($groups, $arrayKeys); ?>
 			</span>
 			<input id="numberOfRows" type="text" name="numberOfRows" value="<?php echo $i;?>">
 			<input id="watchListNormal" type="text" name="watchListNormal" value="true" >

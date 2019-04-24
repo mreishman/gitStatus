@@ -1,11 +1,54 @@
 body{
+	font-family: 'Open Sans', sans-serif;
+	font-size: 90%;
 	background-color: #222222;
 	margin: 0;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #222;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #ccc;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: white;
 }
 
 .watchlistButton
 {
 	display: block;
+}
+
+select {
+	background: #ccc;
+    border: 1px solid black;
+    border-radius: 2px;
+    height: 30px;
+    margin: 5px;
+}
+
+#widthForWatchListSection select{
+	margin: 0;
+	width: 308px;
+	height: 25px;
+}
+
+input {
+	background: #ccc;
+    border: 1px solid black;
+    padding: 3px;
+    border-radius: 2px;
 }
 
 #moveUp1
@@ -163,18 +206,22 @@ body{
 	background-color: #777777;
 	display: inline-table;
 	margin: 20px;
-	border: 1px solid white;
+	box-shadow: rgba(0,0,0,.5) 10px 11px 20px;
+	border-radius: 10px; 10px;
 }
 .innerFirstDevBox{
 	width: 300px;
+	border-radius: 5px 5px;
+	border: 1px solid black;
 }
 .devBoxTitle{
-	background-color: #aaaaaa;
-	padding: 2px;
-	padding-bottom: 12px;
-	border-bottom: 1px solid white;
-	box-shadow: 0 5px 2px rgba(0,0,0,.3);
+	padding: 12px 5px;
 	z-index: 10;
+	border-radius: 5px 5px 0 0;
+}
+.devBoxTitle .buttonButton{
+	float: right;
+	margin-top: -6px;
 }
 .devBoxContent{
 	word-wrap: break-word;
@@ -184,6 +231,8 @@ body{
 	overflow-y: auto;
 	overflow-x: hidden;
 	z-index: 1;
+	min-width: 280px;
+    box-shadow: inset 0px 7px 8px rgba(0,0,0,.7);
 }
 .devBoxContentSecondary{
 	display: none;
@@ -192,26 +241,30 @@ body{
 	display: block;
 }
 #sidebar{
-	background-color: #aaaaaa;
+	background-color: #777777;
 	width: 0;
 	display: inline-table;
 	position: fixed;
 	height: 100%;
 }
+.selected {
+	background-color: #FFFFFF;
+}
 .sidebarIsVisible{
 	border-right: 3px solid white;
 }
 #sidebarBG{
-	background-color: #aaaaaa;
+	background-color: #777777;
 	width: 0;
 	height: 1px;
 	display: inline-table;
 	border-right: 3px solid white;
 }
 #main{
+	background: radial-gradient(at center bottom, rgb(35, 45, 58) 0%, rgb(9, 10, 15) 100%);
 	position: fixed;
 	top: 40px;
-	left: 100px;
+	left: 103px;
 	overflow: -moz-scrollbars-vertical;
     overflow-y: scroll;
 }
@@ -224,8 +277,17 @@ body{
 	padding-left: 10px;
 	cursor: pointer;
 }
-.menuBarLeft li:hover{
+.menuBarLeft li:hover:not(.ignoreHover){
 	background-color: #DDDDDD;
+}
+.menuBarLeft a{
+	border: 1px solid black;
+    padding: 5px;
+    font-size: 80%;
+    border-radius: 3px;
+}
+.menuBarLeft a:hover{
+    background-color: #aaaaaa;
 }
 #menu{
 	padding-left: 5px;
@@ -234,8 +296,8 @@ body{
 	position: fixed;
 	top: 0;
 	height: 40px;
-	background-color: #222222;
-	border-bottom: 1px solid white;
+	background-color: #141921;
+	border-bottom: 1px solid #4a4a4a;
 	z-index: 10;
 }
 .menuSections{
@@ -257,21 +319,17 @@ body{
 	width: 300px;
 }
 .paddingTopForLeftMenu{
-	height: 40px;
-	box-shadow: 0 10px 5px #888888;
+	height: 30px;
+	box-shadow: 0 10px 5px rgba(0,0,0,.5);
 }
 .buttonSelectorOuter{
-	border: 1px solid white;
-	border-radius: 7px;
 	width: 200px;
 	margin-right: auto;
 	margin-left: auto;
 	height: 20px;
-	background-color: #444444;
-	box-shadow: 0 5px 10px;
 }
 .buttonSlectorInnerBoxesAll{
-	width: 50%;
+	width: 95px;
 	height: 100%;
 	float: left;
 	text-align: center;
@@ -312,13 +370,14 @@ body{
 	height: 25px;
 	width: 100px;
 	color: white;
-	border-radius: 0 0 15px 15px;
+	border-radius: 0 0 5px 5px;
 	border: 1px solid white;
 	text-align: center;
 	cursor: pointer;
 	display: inline-block;
 	position: relative;
 	z-index: 15;
+	margin-left: 5px;
 }
 .groupTab:hover{
 	background-color: #CCCCCC;
@@ -403,9 +462,10 @@ body{
 	display: inline-block;
 	background-color: #CCCCCC;
 	padding: 5px;
-	border: 1px solid white;
-	margin: 10px;
-	box-shadow: 0 2px 5px rgba(0,0,0,.25);
+	border: 1px solid black;
+    margin: 10px;
+    box-shadow: 0px 0px 30px rgba(0,0,0,.5);
+    border-radius: 5px;
 }
 
 .backgroundButtonForColor{
@@ -418,40 +478,19 @@ body{
 	border: none;
 }
 
-.buttonButton{
+.buttonButton, .mainLinkClass{
 	background-color: #ccc;
-	cursor: pointer;
-	border: 1px ridge;
-	border-bottom: ridge #999;
-	border-right: ridge #999;
-	text-align: center;
+    cursor: pointer;
+    border: 1px solid white;
+    text-align: center;
+    border-radius: 3px;
+    padding: 5px;
 }
 
-.buttonButton:hover{
+.buttonButton:hover, .mainLinkClass:hover{
 	background-color: #888;
 	color: white;
-	border: 1px ridge #999;
-	border-bottom: ridge #999;
-	border-right: ridge #999;
-}
-
-.mainLinkClass{
-	padding: 5px;
-	background-color: #ccc;
-	color: black;
-	text-decoration: none;
-	border: 1px ridge;
-	border-bottom: ridge #999;
-	border-right: ridge #999;
-}
-
-.mainLinkClass:hover{
-	background-color: #888;
-	color: white;
-	cursor: pointer;
-	border: 1px ridge #999;
-	border-bottom: ridge #999;
-	border-right: ridge #999;
+	border: 1px solid #999;
 }
 
 .noticeMessage{
@@ -565,4 +604,12 @@ body{
   border-radius: 50%;
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
   transform: scale(0.5);
+}
+
+@media screen and (max-width: 1400px) {
+    #sideBoxForActualInfo td.tdChange {
+		display: block;
+		width: 100%;
+	}
+
 }

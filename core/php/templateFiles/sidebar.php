@@ -1,12 +1,12 @@
 	<div id="sidebar" <?php
-	
+	$URI = $_SERVER['REQUEST_URI'];
 	if($open)
 	{
 		echo "style='width: 100px;' class='sidebarIsVisible'";
 	}
 	?>
 	>
-		<div id="sidebarMenu"  <?php 
+		<div id="sidebarMenu"  <?php
 		if($open)
 	    {
 	    	echo "style='width: block;'";
@@ -22,28 +22,41 @@
 				<li id="menuBarLeftMain" onclick="window.location.href = 'index.php';" >
 				Main
 				</li>
-				<li id="menuBarLeftAbout" onclick="window.location.href = 'about.php';" >
+				<li <?php if(strpos($URI, 'about.php') !== false) { echo "class='selected'"; } ?> id="menuBarLeftAbout" onclick="window.location.href = 'about.php';" >
 				About
 				</li>
-				<li id="menuBarLeftSettings" onclick="window.location.href = 'settings.php';" >
+				<li <?php if(strpos($URI, 'settings.php') !== false) { echo "class='selected'"; } ?> id="menuBarLeftSettings" onclick="window.location.href = 'settings.php';" >
 				Settings
 				</li>
-				<li id="menuBarLeftSettingsWatchList" onclick="window.location.href = 'settings-watchList.php';" >
+				<li <?php if(strpos($URI, 'settings-watchList.php') !== false) { echo "class='selected'"; } ?>  id="menuBarLeftSettingsWatchList" onclick="window.location.href = 'settings-watchList.php';" >
 				Watch List
 				</li>
-				<li <?php if ($pollType !== "2"){ echo "style='display: none;'";} ?> id="menuBarLeftSettingsServerWatchList" onclick="window.location.href = 'settings-watchListServer.php';" >
-					Server Watch
-				</li>
-				<?php if($loginAuthType != 'disabled'): ?>
-					<li id="menuBarLeftSettingsLDPA" onclick="window.location.href = 'settings-auth.php';" >
-					LDPA
+				<?php if(strpos($URI, 'settings-watchList.php') !== false): ?>
+					<li class="selected" >
+						<ul class="menuBarLeft">
+							<li class="ignoreHover">
+								<a onclick="addRowFunction()">Add Server</a>
+							</li>
+						</ul>
 					</li>
 				<?php endif; ?>
-				<li id="menuBarLeftUpdate" onclick="window.location.href = 'update.php';" >
+				<li <?php if(strpos($URI, 'settings-watchListServer.php') !== false) { echo "class='selected'"; } ?>  <?php if ($pollType !== "2"){ echo "style='display: none;'";} ?> id="menuBarLeftSettingsServerWatchList" onclick="window.location.href = 'settings-watchListServer.php';" >
+					Server Watch
+				</li>
+				<?php if(strpos($URI, 'settings-watchListServer.php') !== false): ?>
+					<li class="selected">
+						<ul class="menuBarLeft">
+							<li class="ignoreHover">
+								<a onclick="addRowFunction()">Add Server</a>
+							</li>
+						</ul>
+					</li>
+				<?php endif; ?>
+				<li <?php if(strpos($URI, 'update.php') !== false) { echo "class='selected'"; } ?> id="menuBarLeftUpdate" onclick="window.location.href = 'update.php';" >
 				Update
 				<?php  if($levelOfUpdate == 1){echo '<img src="core/img/yellowWarning.png" height="10px">';} ?> <?php if($levelOfUpdate == 2 || $levelOfUpdate == 3){echo '<img src="core/img/redWarning.png" height="10px">';} ?>
 				</li>
-				<li style="height: 0px; border-top: 1px solid white; border-bottom: 10px solid #aaaaaa;" >
+				<li class="ignoreHover" style="height: 10px; border-top: 1px solid white; cursor: default;" >
 				</li>
 				<!-- Monitor -->
 				<?php if(file_exists('../monitor/index.php')): ?>
@@ -91,7 +104,7 @@
 		</div>
 	</div>
 
-	<div id="sidebarBG" 
+	<div id="sidebarBG"
 	<?php
     if($open)
     {

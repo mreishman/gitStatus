@@ -22,6 +22,7 @@ require_once('setup/setupProcessFile.php');
 <!doctype html>
 <head>
 	<title>Git Status | Settings</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css?v=<?php echo $configStatic['version']; ?>">
 	<link rel="stylesheet" type="text/css" href="core/css/jquery-ui.css">
 	<link rel="icon" type="image/png" href="core/img/favicon.png" />
@@ -36,7 +37,7 @@ require_once('setup/setupProcessFile.php');
 <body>
 	<?php require_once('core/php/templateFiles/sidebar.php'); ?>
 	<?php require_once('core/php/templateFiles/header.php'); ?>
-	<div id="main" style="overflow: auto; overflow-y: auto;" >
+	<div id="main" style="overflow: auto; overflow-y: auto; right: 0;" >
 		<div class="firstBoxDev">
 			<?php require_once('core/php/templateFiles/settingsMain.php');?>
 		</div>
@@ -79,7 +80,7 @@ require_once('setup/setupProcessFile.php');
 		var left = "0px";
 		if(document.getElementById("sidebar").style.width == '100px')
 		{
-			left = "100px";
+			left = "103px";
 		}
 		document.getElementById("main").style.left = left;
 	}
