@@ -1522,8 +1522,9 @@ function calcuateWidth()
 function showOrHideGroups(event, groupName)
 {
 	//change tab to selected / unselected
-	if(event.ctrlKey && groupName !== "All")
+	if((event.ctrlKey || event.metaKey) && groupName !== "All")
 	{
+		event.preventDefault();
 		if($('#GroupAll').hasClass('groupTabSelected'))
 		{
 			$('#GroupAll').removeClass('groupTabSelected');
