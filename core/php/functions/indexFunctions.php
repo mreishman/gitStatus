@@ -15,7 +15,7 @@ function generateGroup($data = array())
 		}
 	}
 	$groupBlock =  "<div class=\"groupTabShadow\">";
-	$groupBlock .= "	<div data-group=\"".$group."\" class=\"groupTab ".$selected." \" id=\"Group".$group."\" onclick=\"showOrHideGroups('".$group."');\" >";
+	$groupBlock .= "	<div data-group=\"".$group."\" class=\"groupTab ".$selected." \" id=\"Group".$group."\" onclick=\"showOrHideGroups(event, '".$group."');\" >";
 	$groupBlock .= 			$group;
 	$groupBlock .= "	</div>";
 	$groupBlock .= "</div>";

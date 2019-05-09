@@ -386,7 +386,6 @@ input {
 .groupTabSelected{
 	background-color: white;
 	color: black !important;
-	cursor: default;
 }
 .groupTabSelected:hover{
 	background-color: white;

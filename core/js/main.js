@@ -1519,11 +1519,34 @@ function calcuateWidth()
 	document.getElementById("iframeForStuff").style.width = ((innerWidthWindow)-415)+"px";
 }
 
-function showOrHideGroups(groupName)
+function showOrHideGroups(event, groupName)
 {
 	//change tab to selected / unselected
-	$('.groupTab').removeClass('groupTabSelected');
-	$('#Group'+groupName).addClass('groupTabSelected');
+	if(event.ctrlKey && groupName !== "All")
+	{
+		//if hold ctrl and not 'all'
+		if($('#Group'+groupName).hasClass('groupTabSelected'))
+		{
+			$('#Group'+groupName).removeClass('groupTabSelected');
+		}
+		else
+		{
+			$('#Group'+groupName).addClass('groupTabSelected');
+		}
+	}
+	else
+	{
+		if($('#Group'+groupName).hasClass('groupTabSelected'))
+		{
+			$('.groupTab').removeClass('groupTabSelected');
+			$('#GroupAll').addClass('groupTabSelected');
+		}
+		else
+		{
+			$('.groupTab').removeClass('groupTabSelected');
+			$('#Group'+groupName).addClass('groupTabSelected');
+		}
+	}
 
 	//show / hide groups
 	updateGroupsShown();
