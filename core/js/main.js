@@ -1524,6 +1524,10 @@ function showOrHideGroups(event, groupName)
 	//change tab to selected / unselected
 	if(event.ctrlKey && groupName !== "All")
 	{
+		if($('#GroupAll').hasClass('groupTabSelected'))
+		{
+			$('#GroupAll').removeClass('groupTabSelected');
+		}
 		//if hold ctrl and not 'all'
 		if($('#Group'+groupName).hasClass('groupTabSelected'))
 		{
@@ -1536,7 +1540,7 @@ function showOrHideGroups(event, groupName)
 	}
 	else
 	{
-		if($('#Group'+groupName).hasClass('groupTabSelected'))
+		if($('#Group'+groupName).hasClass('groupTabSelected') && $('.groupTab.groupTabSelected').length == 1)
 		{
 			$('.groupTab').removeClass('groupTabSelected');
 			$('#GroupAll').addClass('groupTabSelected');
