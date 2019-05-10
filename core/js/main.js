@@ -1395,65 +1395,111 @@ function startPoll()
 
 function singleDecreaseView(idOfBlock)
 {
-	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').addClass('devBoxContentSecondary');
-	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
-	document.getElementById(idOfBlock+"DownArrow").style.display = "inline-block";
-	document.getElementById(idOfBlock+"UpArrow").style.display = "none";
+	if($('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').hasClass('devBoxContentSecondaryExpanded'))
+	{
+		if($('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded .devBoxContentTertiaryExpanded').hasClass('devBoxContentTertiaryExpanded'))
+		{
+			$('#innerFirstDevBox'+idOfBlock+' .devBoxContentTertiaryExpanded').addClass('devBoxContentTertiary');
+			$('#innerFirstDevBox'+idOfBlock+' .devBoxContentTertiaryExpanded').removeClass('devBoxContentTertiaryExpanded');
+		}
+		else
+		{
+			$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').addClass('devBoxContentSecondary');
+			$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
+			document.getElementById(idOfBlock+"UpArrow").style.display = "none";
+		}
+		document.getElementById(idOfBlock+"DownArrow").style.display = "inline-block";
+	}
+}
+
+function singleIncreaseView(idOfBlock)
+{
+	if($('#innerFirstDevBox'+idOfBlock+' .devBoxContentTertiary').hasClass('devBoxContentTertiary'))
+	{
+		if($('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').hasClass('devBoxContentSecondaryExpanded'))
+		{
+			$('#innerFirstDevBox'+idOfBlock+' .devBoxContentTertiary').addClass('devBoxContentTertiaryExpanded');
+			$('#innerFirstDevBox'+idOfBlock+' .devBoxContentTertiary').removeClass('devBoxContentTertiary');
+			document.getElementById(idOfBlock+"DownArrow").style.display = "none";
+		}
+		else
+		{
+			$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
+			$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondary').removeClass('devBoxContentSecondary');
+		}
+		document.getElementById(idOfBlock+"UpArrow").style.display = "inline-block";
+	}
+}
+
+function switchToMinimizedView()
+{
+	if($('#minimizedViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
+	{
+		if(defaultViewBranchCookie = "true")
+		{
+			document.cookie = "defaultViewBranchCookie=Minimized";
+		}
+		removeAllButtonSelectorClasses('minimizedViewButtonMainSection');
+		branchView = "Minimized";
+		$('#minimizedViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
+		$('#minimizedViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
+
+		$('.devBoxContentSecondaryExpanded').addClass('devBoxContentSecondary');
+		$('.devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
+
+		$('.devBoxContentTertiaryExpanded').addClass('devBoxContentTertiary');
+		$('.devBoxContentTertiaryExpanded').removeClass('devBoxContentTertiaryExpanded');
+
+		$(".downArrow").css("display","inline-block");
+		$(".upArrow").css("display","none");
+	}
 }
 
 function switchToStandardView()
 {
 	if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
 	{
-		if($('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
+		if(defaultViewBranchCookie = "true")
 		{
-			if(defaultViewBranchCookie = "true")
-			{
-				document.cookie = "defaultViewBranchCookie=Standard";
-			}
-			removeAllButtonSelectorClasses('standardViewButtonMainSection');
-			branchView = "Standard";
-			$('#standardViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
-			$('#standardViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
-
-			$('.devBoxContentSecondaryExpanded').addClass('devBoxContentSecondary');
-			$('.devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
-
-			$(".downArrow").css("display","inline-block");
-			$(".upArrow").css("display","none");
+			document.cookie = "defaultViewBranchCookie=Standard";
 		}
-	}
-}
+		removeAllButtonSelectorClasses('standardViewButtonMainSection');
+		branchView = "Standard";
+		$('#standardViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
+		$('#standardViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
 
-function singleIncreaseView(idOfBlock)
-{
-	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
-	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondary').removeClass('devBoxContentSecondary');
-	document.getElementById(idOfBlock+"DownArrow").style.display = "none";
-	document.getElementById(idOfBlock+"UpArrow").style.display = "inline-block";
+		$('.devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
+		$('.devBoxContentSecondary').removeClass('devBoxContentSecondary');
+
+		$('.devBoxContentTertiaryExpanded').addClass('devBoxContentTertiary');
+		$('.devBoxContentTertiaryExpanded').removeClass('devBoxContentTertiaryExpanded');
+
+		$(".downArrow").css("display","inline-block");
+		$(".upArrow").css("display","inline-block");
+	}
 }
 
 function switchToExpandedView()
 {
 	if($('#expandedViewButtonMainSection').hasClass('buttonSlectorInnerBoxes'))
 	{
-		if($('#standardViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
+		if(defaultViewBranchCookie = "true")
 		{
-			if(defaultViewBranchCookie = "true")
-			{
-				document.cookie = "defaultViewBranchCookie=Expanded";
-			}
-			removeAllButtonSelectorClasses('expandedViewButtonMainSection');
-			branchView = "Expanded";
-			$('#expandedViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
-			$('#expandedViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
-
-			$('.devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
-			$('.devBoxContentSecondary').removeClass('devBoxContentSecondary');
-
-			$(".downArrow").css("display","none");
-			$(".upArrow").css("display","inline-block");
+			document.cookie = "defaultViewBranchCookie=Expanded";
 		}
+		removeAllButtonSelectorClasses('expandedViewButtonMainSection');
+		branchView = "Expanded";
+		$('#expandedViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
+		$('#expandedViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
+
+		$('.devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
+		$('.devBoxContentSecondary').removeClass('devBoxContentSecondary');
+
+		$('.devBoxContentTertiary').addClass('devBoxContentTertiaryExpanded');
+		$('.devBoxContentTertiary').removeClass('devBoxContentTertiary');
+
+		$(".downArrow").css("display","none");
+		$(".upArrow").css("display","inline-block");
 	}
 }
 
@@ -1474,6 +1520,16 @@ function removeAllButtonSelectorClasses(ignore)
 		{
 			$('#expandedViewButtonMainSection').removeClass('buttonSlectorInnerBoxesSelected');
 			$('#expandedViewButtonMainSection').addClass('buttonSlectorInnerBoxes');
+
+		}
+	}
+
+	if(ignore != 'minimizedViewButtonMainSection')
+	{
+		if($('#minimizedViewButtonMainSection').hasClass('buttonSlectorInnerBoxesSelected'))
+		{
+			$('#minimizedViewButtonMainSection').removeClass('buttonSlectorInnerBoxesSelected');
+			$('#minimizedViewButtonMainSection').addClass('buttonSlectorInnerBoxes');
 
 		}
 	}

@@ -115,11 +115,18 @@ function generateWindow($data = array(), $pollType)
 		$showRefresh = $data["showRefresh"];
 	}
 
-	if($branchView === "Standard")
+	if($branchView === "Minimized")
 	{
 		$upArrow = "display: none;";
 		$downArrow = "";
 		$branchViewClass = "devBoxContentSecondary";
+		$branchViewClassTwo = "devBoxContentTertiary";
+	}
+	elseif($branchView === "Standard")
+	{
+		$upArrow = "display: none;";
+		$downArrow = "";
+		$branchViewClass = "devBoxContentSecondaryExpanded";
 		$branchViewClassTwo = "devBoxContentTertiary";
 	}
 	elseif($branchView === "Expanded")
@@ -182,14 +189,14 @@ function generateWindow($data = array(), $pollType)
 	$blockHTML .= 					$branchData;
 	$blockHTML .= "				</b>";
 	$blockHTML .= "				<div class=\"".$branchViewClass."\">";
-	$blockHTML .= "					<span style=\"display: none;\" id=\"".$keyNoSpace."UpdateOuter\">";
-	$blockHTML .= "						<br><br>";
+	$blockHTML .= "					<span style=\"display: none;margin-top: 5px;\" id=\"".$keyNoSpace."UpdateOuter\">";
 	$blockHTML .= "						<b>Last Updated:</b>";
-	$blockHTML .= "						<span class=\"".$branchViewClassTwo."\" id=\"".$keyNoSpace."Update\"> --Pending-- </span>";
+	$blockHTML .= "						<span id=\"".$keyNoSpace."Update\"> --Pending-- </span>";
 	$blockHTML .= " 					<br>";
 	$blockHTML .= " 				</span>";
-	$blockHTML .= "					<br>";
+	$blockHTML .= "					<div class=\"".$branchViewClassTwo."\">";
 	$blockHTML .= 					$status;
+	$blockHTML .= "					</div>";
 	$blockHTML .= "				</div>";
 	$blockHTML .= "			</div>";
 	$blockHTML .= "		</div>";
