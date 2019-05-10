@@ -1406,9 +1406,9 @@ function singleDecreaseView(idOfBlock)
 		{
 			$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').addClass('devBoxContentSecondary');
 			$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
-			document.getElementById(idOfBlock+"UpArrow").style.display = "none";
+			$("#"+idOfBlock+"UpArrow").addClass("disabledArrow");
 		}
-		document.getElementById(idOfBlock+"DownArrow").style.display = "inline-block";
+		$("#"+idOfBlock+"DownArrow").removeClass("disabledArrow");
 	}
 }
 
@@ -1420,14 +1420,14 @@ function singleIncreaseView(idOfBlock)
 		{
 			$('#innerFirstDevBox'+idOfBlock+' .devBoxContentTertiary').addClass('devBoxContentTertiaryExpanded');
 			$('#innerFirstDevBox'+idOfBlock+' .devBoxContentTertiary').removeClass('devBoxContentTertiary');
-			document.getElementById(idOfBlock+"DownArrow").style.display = "none";
+			$("#"+idOfBlock+"DownArrow").addClass("disabledArrow");
 		}
 		else
 		{
 			$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
 			$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondary').removeClass('devBoxContentSecondary');
 		}
-		document.getElementById(idOfBlock+"UpArrow").style.display = "inline-block";
+		$("#"+idOfBlock+"UpArrow").removeClass("disabledArrow");
 	}
 }
 
@@ -1450,8 +1450,8 @@ function switchToMinimizedView()
 		$('.devBoxContentTertiaryExpanded').addClass('devBoxContentTertiary');
 		$('.devBoxContentTertiaryExpanded').removeClass('devBoxContentTertiaryExpanded');
 
-		$(".downArrow").css("display","inline-block");
-		$(".upArrow").css("display","none");
+		$(".downArrow").removeClass("disabledArrow");
+		$(".upArrow").addClass("disabledArrow");
 	}
 }
 
@@ -1474,8 +1474,8 @@ function switchToStandardView()
 		$('.devBoxContentTertiaryExpanded').addClass('devBoxContentTertiary');
 		$('.devBoxContentTertiaryExpanded').removeClass('devBoxContentTertiaryExpanded');
 
-		$(".downArrow").css("display","inline-block");
-		$(".upArrow").css("display","inline-block");
+		$(".downArrow").removeClass("disabledArrow");
+		$(".upArrow").removeClass("disabledArrow");
 	}
 }
 
@@ -1498,8 +1498,8 @@ function switchToExpandedView()
 		$('.devBoxContentTertiary').addClass('devBoxContentTertiaryExpanded');
 		$('.devBoxContentTertiary').removeClass('devBoxContentTertiary');
 
-		$(".downArrow").css("display","none");
-		$(".upArrow").css("display","inline-block");
+		$(".downArrow").addClass("disabledArrow");
+		$(".upArrow").removeClass("disabledArrow");
 	}
 }
 

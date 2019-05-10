@@ -117,14 +117,14 @@ function generateWindow($data = array(), $pollType)
 
 	if($branchView === "Minimized")
 	{
-		$upArrow = "display: none;";
+		$upArrow = "disabledArrow";
 		$downArrow = "";
 		$branchViewClass = "devBoxContentSecondary";
 		$branchViewClassTwo = "devBoxContentTertiary";
 	}
 	elseif($branchView === "Standard")
 	{
-		$upArrow = "display: none;";
+		$upArrow = "";
 		$downArrow = "";
 		$branchViewClass = "devBoxContentSecondaryExpanded";
 		$branchViewClassTwo = "devBoxContentTertiary";
@@ -132,7 +132,7 @@ function generateWindow($data = array(), $pollType)
 	elseif($branchView === "Expanded")
 	{
 		$upArrow = "";
-		$downArrow = "display: none;";
+		$downArrow = "disabledArrow";
 		$branchViewClass = "devBoxContentSecondaryExpanded";
 		$branchViewClassTwo = "devBoxContentTertiaryExpanded";
 	}
@@ -165,8 +165,8 @@ function generateWindow($data = array(), $pollType)
 	$blockHTML .= "			<img onclick=\"togglePinStatus('".$keyNoSpace."');\" id=\"".$keyNoSpace."Pin\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/pin.png\">";
 	$blockHTML .= "			<img onclick=\"togglePinStatus('".$keyNoSpace."');\" id=\"".$keyNoSpace."PinPinned\" style=\"cursor: pointer; height: 18px; display: none;\" src=\"core/img/pinPinned.png\">";
 	$blockHTML .= "			<img onclick=\"toggleDetailBar(event, '".$keyNoSpace."');\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/externalLink.png\">";
-	$blockHTML .= "			<img class=\"downArrow\" onclick=\"singleIncreaseView('".$keyNoSpace."');\" id=\"".$keyNoSpace."DownArrow\" style=\"cursor: pointer; height: 18px; ".$downArrow." \" src=\"core/img/downarrow.png\">";
-	$blockHTML .= "			<img class=\"upArrow\" onclick=\"singleDecreaseView('".$keyNoSpace."');\" id=\"".$keyNoSpace."UpArrow\" style=\"cursor: pointer; height: 18px; ".$upArrow."  \" src=\"core/img/uparrow.png\">";
+	$blockHTML .= "			<img class=\"downArrow ".$downArrow."\" onclick=\"singleIncreaseView('".$keyNoSpace."');\" id=\"".$keyNoSpace."DownArrow\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/downarrow.png\">";
+	$blockHTML .= "			<img class=\"upArrow ".$upArrow." \" onclick=\"singleDecreaseView('".$keyNoSpace."');\" id=\"".$keyNoSpace."UpArrow\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/uparrow.png\">";
 	$blockHTML .= "				<div class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
 	$blockHTML .= "			    	<a  style=\"cursor: pointer;\" onclick=\"refreshAction('".$keyNoSpace."','inner');\" ><img style=\"height: 18px;\" src=\"core/img/Refresh2.png\"></a>";
 	$blockHTML .= "				<div  id=\"dropdown-".$keyNoSpace."\" class=\"dropdown-content\">";

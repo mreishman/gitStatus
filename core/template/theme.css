@@ -246,6 +246,10 @@ input {
 .devBoxContentTertiaryExpanded{
 	display: block;
 }
+.disabledArrow{
+	filter: opacity(25%);
+	cursor: default !important;
+}
 #sidebar{
 	background-color: #777777;
 	width: 0;
