@@ -47,11 +47,7 @@ else
 	}
 }
 
-$branchView = "devBoxContentSecondaryExpanded";
-if($defaultViewBranch == 'Standard')
-{
-	$branchView =  "devBoxContentSecondary";
-}
+
 ?>
 <!doctype html>
 <head>
@@ -272,7 +268,7 @@ if($defaultViewBranch == 'Standard')
 							"redLED"				=>	$redLED,
 							"yellowLED"				=>	$yellowLED,
 							"greenLED"				=>	$greenLED,
-							"branchView"			=>	$branchView,
+							"branchView"			=>	$defaultViewBranch,
 							"noticeMessageShow"		=>	$noticeMessageShow,
 							"messageText"			=>	$messageText,
 							"showRefresh"			=>	$showRefresh,
@@ -410,7 +406,7 @@ if($defaultViewBranch == 'Standard')
 			echo "var dontNotifyVersion = '".$dontNotifyVersion."';";
 			echo "var currentVersion = '".$configStatic['version']."';";
 			echo "var pollType ='".$pollType."';";
-			echo "var branchView = '".$branchView."';";
+			echo "var branchView = '".$defaultViewBranch."';";
 			echo "var arrayOfGroups = ".json_encode($arrayOfGroups).";";
 			echo "var maxCommits = ".$maxCommits.";";
 			echo "var onServerRemoveRemoveNotError = ".$onServerRemoveRemoveNotError.";";

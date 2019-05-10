@@ -789,16 +789,19 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			website = websitePass;
 		}
 		item = item.replace(/{{website}}/g,website);
-		item = item.replace(/{{branchView}}/g,branchView);
-		if(branchView === "devBoxContentSecondary")
+		if(branchView === "Standard")
 		{
 			item = item.replace(/{{upArrow}}/g,"display: none;");
 			item = item.replace(/{{downArrow}}/g,"");
+			item = item.replace(/{{branchView}}/g,"devBoxContentSecondary");
+			item = item.replace(/{{branchViewTwo}}/g,"devBoxContentTertiary");
 		}
-		else if(branchView === "devBoxContentSecondaryExpanded")
+		else if(branchView === "Expanded")
 		{
 			item = item.replace(/{{upArrow}}/g,"");
 			item = item.replace(/{{downArrow}}/g,"display: none;");
+			item = item.replace(/{{branchView}}/g,"devBoxContentSecondaryExpanded");
+			item = item.replace(/{{branchViewTwo}}/g,"devBoxContentTertiaryExpanded");
 		}
 		else
 		{
@@ -1390,7 +1393,7 @@ function startPoll()
 	pollTimer = Visibility.every(pollingRate, pollingRateBG, function () { poll(); });
 }
 
-function singleSwitchToStandardView(idOfBlock)
+function singleDecreaseView(idOfBlock)
 {
 	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').addClass('devBoxContentSecondary');
 	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondaryExpanded').removeClass('devBoxContentSecondaryExpanded');
@@ -1409,7 +1412,7 @@ function switchToStandardView()
 				document.cookie = "defaultViewBranchCookie=Standard";
 			}
 			removeAllButtonSelectorClasses('standardViewButtonMainSection');
-			branchView = "devBoxContentSecondary";
+			branchView = "Standard";
 			$('#standardViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
 			$('#standardViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
 
@@ -1422,7 +1425,7 @@ function switchToStandardView()
 	}
 }
 
-function singleSwitchToExpandView(idOfBlock)
+function singleIncreaseView(idOfBlock)
 {
 	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondary').addClass('devBoxContentSecondaryExpanded');
 	$('#innerFirstDevBox'+idOfBlock+' .devBoxContentSecondary').removeClass('devBoxContentSecondary');
@@ -1441,7 +1444,7 @@ function switchToExpandedView()
 				document.cookie = "defaultViewBranchCookie=Expanded";
 			}
 			removeAllButtonSelectorClasses('expandedViewButtonMainSection');
-			branchView = "devBoxContentSecondaryExpanded";
+			branchView = "Expanded";
 			$('#expandedViewButtonMainSection').addClass('buttonSlectorInnerBoxesSelected');
 			$('#expandedViewButtonMainSection').removeClass('buttonSlectorInnerBoxes');
 

@@ -240,6 +240,12 @@ input {
 .devBoxContentSecondaryExpanded{
 	display: block;
 }
+.devBoxContentTertiary{
+	display: none;
+}
+.devBoxContentTertiaryExpanded{
+	display: block;
+}
 #sidebar{
 	background-color: #777777;
 	width: 0;
