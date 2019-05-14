@@ -122,14 +122,14 @@ function generateWindow($data = array(), $pollType)
 		$branchViewClass = "devBoxContentSecondary";
 		$branchViewClassTwo = "devBoxContentTertiary";
 	}
-	elseif($branchView === "Standard")
+	elseif($branchView === "Standard" || $branchView === "devBoxContentSecondary")
 	{
 		$upArrow = "";
 		$downArrow = "";
 		$branchViewClass = "devBoxContentSecondaryExpanded";
 		$branchViewClassTwo = "devBoxContentTertiary";
 	}
-	elseif($branchView === "Expanded")
+	elseif($branchView === "Expanded" || $branchView === "devBoxContentSecondaryExpanded")
 	{
 		$upArrow = "";
 		$downArrow = "disabledArrow";
