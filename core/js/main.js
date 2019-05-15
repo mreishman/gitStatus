@@ -807,6 +807,8 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		{
 			item = item.replace(/{{upArrow}}/g,"");
 			item = item.replace(/{{downArrow}}/g,"");
+			item = item.replace(/{{branchView}}/g,"devBoxContentSecondary");
+			item = item.replace(/{{branchViewTwo}}/g,"devBoxContentTertiary");
 		}
 		item = item.replace(/{{groupInfo}}/g,groupNames);
 		$("#windows").append(item);
