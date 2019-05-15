@@ -1649,6 +1649,8 @@ function dropdownShow(nameOfElem)
     	var currentElement = document.getElementById("dropdown-"+nameOfElem);
     	currentElement.style.display = 'block';
     	currentElement.style.marginTop = "0px";
+    	$("#dropdown-"+nameOfElem).css("top" , "" + ($("#innerFirstDevBox"+nameOfElem+" .expandMenu").position().top + $("#innerFirstDevBox"+nameOfElem+" .expandMenu").height()) + "px")
+    	currentElement = document.getElementById("dropdown-"+nameOfElem);
     	var elementLowestPosition = (currentElement.getBoundingClientRect().top+currentElement.offsetHeight);
     	var heightWindow = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
     	if(elementLowestPosition > heightWindow)
