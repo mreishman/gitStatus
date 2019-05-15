@@ -3,6 +3,7 @@ var updating = false;
 var pollTimer = null;
 var blocekdInnerObj = {};
 var currentIdOfMainSidebar = "";
+var currentOpenMenu = "";
 
 function escapeHTML(unsafeStr)
 {
@@ -1642,6 +1643,7 @@ function dropdownShow(nameOfElem)
     {
     	$('.dropdown-content').hide();
     	$('.dropdown-content').css('margin-top',"0px");
+    	currentOpenMenu = "";
     }
     else
     {
@@ -1657,15 +1659,49 @@ function dropdownShow(nameOfElem)
     	{
     		currentElement.style.marginTop = "-"+(currentElement.offsetHeight+25)+"px";
     	}
+    	currentOpenMenu = nameOfElem;
     }
 }
+
+$( "#windows" ).scroll(function() {
+	let nameOfElem = currentOpenMenu;
+	if(nameOfElem === "")
+	{
+		return;
+	}
+  	if(document.getElementById("dropdown-"+nameOfElem).style.display === 'block')
+  	{
+  		let heightWindow = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+  		if($("#innerFirstDevBox"+nameOfElem+" .expandMenu").position().top < 0 || ($("#innerFirstDevBox"+nameOfElem+" .expandMenu").position().top) > heightWindow)
+  		{
+  			forceCloseDropdownMenu();
+  		}
+  		else
+  		{
+  			let currentElement = document.getElementById("dropdown-"+nameOfElem);
+  			$("#dropdown-"+nameOfElem).css("top" , "" + ($("#innerFirstDevBox"+nameOfElem+" .expandMenu").position().top + $("#innerFirstDevBox"+nameOfElem+" .expandMenu").height()) + "px")
+  			let elementLowestPosition = (currentElement.getBoundingClientRect().top+currentElement.offsetHeight);
+	    	let heightWindow = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+	    	if(elementLowestPosition > heightWindow)
+	    	{
+	    		currentElement.style.marginTop = "-"+(currentElement.offsetHeight+25)+"px";
+	    	}
+  		}
+  	}
+});
 
 window.onclick = function(event) {
 	if (!event.target.matches('.expandMenu'))
 	{
-		$('.dropdown-content').hide();
-		$('.dropdown-content').css('margin-top',"0px");
+		forceCloseDropdownMenu();
 	}
+}
+
+function forceCloseDropdownMenu()
+{
+	$('.dropdown-content').hide();
+	$('.dropdown-content').css('margin-top',"0px");
+	currentOpenMenu = "";
 }
 
 function showUpdateCheckPopup(data)
