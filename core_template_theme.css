@@ -1,0 +1,624 @@
+body{
+	font-family: 'Open Sans', sans-serif;
+	font-size: 90%;
+	background-color: #222222;
+	margin: 0;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #222;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #ccc;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: white;
+}
+
+.watchlistButton
+{
+	display: block;
+}
+
+select {
+	background: #ccc;
+    border: 1px solid black;
+    border-radius: 2px;
+    height: 30px;
+    margin: 5px;
+}
+
+#widthForWatchListSection select{
+	margin: 0;
+	width: 308px;
+	height: 25px;
+}
+
+input {
+	background: #ccc;
+    border: 1px solid black;
+    padding: 3px;
+    border-radius: 2px;
+}
+
+#moveUp1
+{
+	display: none;
+}
+
+.meterCommit
+{
+	height: 5px;
+	width: 100px;
+	margin: 5px;
+	background-color: rgb(119, 119, 119);
+}
+
+.meterCommitLeft
+{
+	direction: rtl;
+	float: right;
+}
+
+.meterCommit::-webkit-meter-bar
+{
+	background: rgb(119, 119, 119);
+}
+
+.meterCommit::-webkit-meter-optimum-value
+{
+	background: rgba(50,50,50);
+}
+
+.commitLi
+{
+	height: 55px;
+	overflow: hidden;
+}
+
+.buttonListVert .colorAltBG:not(.selectedButton)
+{
+	background-color: rgb(170, 170, 170);
+}
+
+.buttonListVert .colorAltBG:hover
+{
+	background-color: white;
+}
+
+.buttonListVert
+{
+	list-style: none;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}
+
+.buttonListVert li
+{
+	padding: 10px;
+	cursor: pointer;
+}
+
+.buttonListVert li:hover
+{
+	background-color: white;
+}
+
+.buttonList
+{
+	list-style: none;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}
+
+.buttonList li
+{
+	display: inline-block;
+	padding: 10px;
+	cursor: pointer;
+}
+
+.buttonList li:hover
+{
+	background-color: white;
+}
+
+.selectedButton
+{
+	background-color: white;
+}
+
+.nav-toggle {
+	display: inline-block;
+	background-color: transparent;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	height: 30px;
+}
+.icon-bar-top
+{
+	display: block;
+	width: 22px;
+	height: 2px;
+	border-radius: 1px;
+	background-color: #ffffff;
+	margin-top: 4px;
+	-ms-transform: rotate(-45deg); /* IE 9 */
+    -webkit-transform: rotate(-45deg); /* Chrome, Safari, Opera */
+    transform: rotate(-45deg);
+    margin-top: 9px;
+}
+.icon-bar-mid
+{
+	display: none;
+	width: 22px;
+	height: 2px;
+	border-radius: 1px;
+	background-color: #ffffff;
+	margin-top: 4px;
+}
+.icon-bar-bot
+{
+	display: block;
+	width: 22px;
+	height: 2px;
+	border-radius: 1px;
+	background-color: #ffffff;
+	margin-top: 4px;
+	-ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+    margin-top: -2px;
+}
+.icon-bar {
+	display: block;
+	width: 22px;
+	height: 2px;
+	border-radius: 1px;
+	background-color: #ffffff;
+	margin-top: 4px;
+}
+.show-sidebar {
+	display: block;
+	margin-top: 8px;
+}
+.link{
+	cursor: pointer;
+}
+.underlineLink{
+	text-decoration: underline;
+}
+.firstBoxDev{
+	width: 300px;
+	height: 50px;
+	background-color: #777777;
+	display: inline-table;
+	margin: 20px;
+	box-shadow: rgba(0,0,0,.5) 10px 11px 20px;
+	border-radius: 10px; 10px;
+}
+.innerFirstDevBox{
+	width: 300px;
+	border-radius: 5px 5px;
+	border: 1px solid black;
+}
+.devBoxTitle{
+	padding: 12px 5px;
+	z-index: 10;
+	border-radius: 5px 5px 0 0;
+}
+.devBoxTitle .buttonButton{
+	float: right;
+	margin-top: -6px;
+}
+.devBoxContent{
+	word-wrap: break-word;
+	padding: 10px;
+	color: #000000;
+	max-height: 500px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	z-index: 1;
+	min-width: 280px;
+    box-shadow: inset 0px 7px 8px rgba(0,0,0,.7);
+}
+.devBoxContentSecondary{
+	display: none;
+}
+.devBoxContentSecondaryExpanded{
+	display: block;
+}
+.devBoxContentTertiary{
+	display: none;
+}
+.devBoxContentTertiaryExpanded{
+	display: block;
+}
+.disabledArrow{
+	filter: opacity(25%);
+	cursor: default !important;
+}
+#sidebar{
+	background-color: #777777;
+	width: 0;
+	display: inline-table;
+	position: fixed;
+	height: 100%;
+}
+.selected {
+	background-color: #FFFFFF;
+}
+.sidebarIsVisible{
+	border-right: 3px solid white;
+}
+#sidebarBG{
+	background-color: #777777;
+	width: 0;
+	height: 1px;
+	display: inline-table;
+	border-right: 3px solid white;
+}
+#main{
+	background: radial-gradient(at center bottom, rgb(35, 45, 58) 0%, rgb(9, 10, 15) 100%);
+	position: fixed;
+	top: 40px;
+	left: 103px;
+	overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+}
+.menuBarLeft{
+	list-style-type: none;
+	padding: 0;
+}
+.menuBarLeft li{
+	line-height: 200%;
+	padding-left: 10px;
+	cursor: pointer;
+}
+.menuBarLeft li:hover:not(.ignoreHover){
+	background-color: #DDDDDD;
+}
+.menuBarLeft a{
+	border: 1px solid black;
+    padding: 5px;
+    font-size: 80%;
+    border-radius: 3px;
+}
+.menuBarLeft a:hover{
+    background-color: #aaaaaa;
+}
+#menu{
+	padding-left: 5px;
+	padding-right: 5px;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	height: 40px;
+	background-color: #141921;
+	border-bottom: 1px solid #4a4a4a;
+	z-index: 10;
+}
+.menuSections{
+	width: 32%;
+	display: inline-block;
+}
+.settingsUl
+{
+	list-style: none;
+}
+.settingsUl li{
+	line-height: 200%;
+}
+.leftSpacingserverNames{
+	width: 100px;
+	display: inline-block;
+}
+.inputWidth300{
+	width: 300px;
+}
+.paddingTopForLeftMenu{
+	height: 30px;
+	box-shadow: 0 10px 5px rgba(0,0,0,.5);
+}
+.buttonSelectorOuter{
+	width: 300px;
+	margin-right: auto;
+	margin-left: auto;
+	height: 20px;
+}
+.buttonSlectorInnerBoxesAll{
+	width: 95px;
+	height: 100%;
+	float: left;
+	text-align: center;
+}
+.buttonSlectorInnerBoxes{
+	color: white;
+	cursor: pointer;
+}
+.buttonSlectorInnerBoxes:hover{
+	color: black;
+	background-color: #CCCCCC;
+}
+.buttonSlectorInnerBoxesSelected{
+	color: black;
+	background-color: white;
+	cursor: default;
+}
+.description{
+	line-height: 125%;
+	font-size: 75%
+}
+#groupInfo{
+	width: 100%;
+	height: 25px;
+	position: fixed;
+}
+#groupInfoPlaceholder{
+	height: 25px;
+}
+.groupTabShadow{
+	position: relative;
+	display: inline-block;
+	border-radius: 0 9px 15px 15px;
+	box-shadow: 0 0 20px 5px rgba(0,0,0,0.5);
+}
+.groupTab{
+	background-color: #222222;
+	height: 25px;
+	width: 100px;
+	color: white;
+	border-radius: 0 0 5px 5px;
+	border: 1px solid white;
+	text-align: center;
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	z-index: 15;
+	margin-left: 5px;
+}
+.groupTab:hover{
+	background-color: #CCCCCC;
+	color: black;
+}
+.groupTabSelected{
+	background-color: white;
+	color: black !important;
+}
+.groupTabSelected:hover{
+	background-color: white;
+	color: black;
+}
+.expandMenu{
+	display: block;
+	float: right;
+	cursor: pointer;
+}
+.expandMenu:after{
+	content: '\2807';
+ 	font-size: 20px;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    width: 160px;
+    overflow: auto;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+    margin-left: 131px;
+}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content a:hover {
+    color: white !important;
+    background-color: #777777;
+}
+.back-to-top {
+    text-decoration: none;
+    color: #000000;
+    background-color: rgb(235, 235, 235);
+    font-size: 16px;
+    height: 30px;
+    display: none;
+    position: absolute;
+    left: 120px;
+    top: 0;
+    padding-top: 10px;
+    padding-right: 8px;
+    padding-left: 8px;
+}
+.back-to-top:hover {
+    background-color: rgba(135, 135, 135, 1);
+}
+.colorSelectorDiv
+{
+	border: 1px solid white;
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+}
+
+.inner-triangle{
+    border-left: 7px solid transparent;
+    border-bottom: 7px solid white;
+    height: 0;
+    width: 0;
+    position: relative;
+    right: 0;
+    z-index: 2;
+    top: 13px;
+    left: 13px;
+}
+
+.watchFolderGroups{
+	display: inline-block;
+	background-color: #CCCCCC;
+	padding: 5px;
+	border: 1px solid black;
+    margin: 10px;
+    box-shadow: 0px 0px 30px rgba(0,0,0,.5);
+    border-radius: 5px;
+}
+
+.backgroundButtonForColor{
+	width: 20px;
+	height: 20px;
+	margin: 0;
+	position: relative;
+	right: 0;
+	top: -9px;
+	border: none;
+}
+
+.buttonButton, .mainLinkClass{
+	background-color: #ccc;
+    cursor: pointer;
+    border: 1px solid white;
+    text-align: center;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.buttonButton:hover, .mainLinkClass:hover{
+	background-color: #888;
+	color: white;
+	border: 1px solid #999;
+}
+
+.noticeMessage{
+	background-color: white;
+	width: 100%;
+	border: 1px solid black;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+}
+
+
+
+.led-red {
+  margin: 0 auto;
+  width: 24px;
+  height: 24px;
+  background-color: #F00;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
+  -webkit-animation: blinkRed 0.5s infinite;
+  -moz-animation: blinkRed 0.5s infinite;
+  -ms-animation: blinkRed 0.5s infinite;
+  -o-animation: blinkRed 0.5s infinite;
+  animation: blinkRed 0.5s infinite;
+  transform: scale(0.5);
+}
+
+@-webkit-keyframes blinkRed {
+    from { background-color: #F00; }
+    50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+    to { background-color: #F00; }
+}
+@-moz-keyframes blinkRed {
+    from { background-color: #F00; }
+    50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+    to { background-color: #F00; }
+}
+@-ms-keyframes blinkRed {
+    from { background-color: #F00; }
+    50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+    to { background-color: #F00; }
+}
+@-o-keyframes blinkRed {
+    from { background-color: #F00; }
+    50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+    to { background-color: #F00; }
+}
+@keyframes blinkRed {
+    from { background-color: #F00; }
+    50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+    to { background-color: #F00; }
+}
+
+.led-yellow {
+  margin: 0 auto;
+  width: 24px;
+  height: 24px;
+  background-color: #FF0;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 12px;
+  -webkit-animation: blinkYellow 1s infinite;
+  -moz-animation: blinkYellow 1s infinite;
+  -ms-animation: blinkYellow 1s infinite;
+  -o-animation: blinkYellow 1s infinite;
+  animation: blinkYellow 1s infinite;
+  transform: scale(0.5);
+}
+
+@-webkit-keyframes blinkYellow {
+    from { background-color: #FF0; }
+    50% { background-color: #AA0; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 0; }
+    to { background-color: #FF0; }
+}
+@-moz-keyframes blinkYellow {
+    from { background-color: #FF0; }
+    50% { background-color: #AA0; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 0; }
+    to { background-color: #FF0; }
+}
+@-ms-keyframes blinkYellow {
+    from { background-color: #FF0; }
+    50% { background-color: #AA0; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 0; }
+    to { background-color: #FF0; }
+}
+@-o-keyframes blinkYellow {
+    from { background-color: #FF0; }
+    50% { background-color: #AA0; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 0; }
+    to { background-color: #FF0; }
+}
+@keyframes blinkYellow {
+    from { background-color: #FF0; }
+    50% { background-color: #AA0; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 0; }
+    to { background-color: #FF0; }
+}
+
+.led-green {
+  margin: 0 auto;
+  width: 24px;
+  height: 24px;
+  background-color: #ABFF00;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
+  transform: scale(0.5);
+}
+
+.led-blue {
+  margin: 0 auto;
+  width: 24px;
+  height: 24px;
+  background-color: #24E0FF;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
+  transform: scale(0.5);
+}
+
+@media screen and (max-width: 1400px) {
+    #sideBoxForActualInfo td.tdChange {
+		display: block;
+		width: 100%;
+	}
+
+}
