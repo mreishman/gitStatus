@@ -59,7 +59,10 @@
 	<div class="menuSections" >
 		<?php if($onHome): ?>
 			<div class="buttonSelectorOuter" >
-				<div onclick="switchToStandardView();" id="standardViewButtonMainSection" class="<?php if($defaultViewBranch == 'Standard'){echo 'buttonSlectorInnerBoxesSelected';}else{echo'buttonSlectorInnerBoxes';}?> buttonSlectorInnerBoxesAll" style="border-radius: 2px 0px 0px 2px; border: 1px solid white;" >
+				<div onclick="switchToMinimizedView();" id="minimizedViewButtonMainSection" class="<?php if($defaultViewBranch == 'Minimized'){echo 'buttonSlectorInnerBoxesSelected';}else{echo'buttonSlectorInnerBoxes';}?> buttonSlectorInnerBoxesAll" style="border-radius: 2px 0px 0px 2px; border: 1px solid white;" >
+					Minimized
+				</div>
+				<div onclick="switchToStandardView();" id="standardViewButtonMainSection" class="<?php if($defaultViewBranch == 'Standard'){echo 'buttonSlectorInnerBoxesSelected';}else{echo'buttonSlectorInnerBoxes';}?> buttonSlectorInnerBoxesAll" style="border: 1px solid white;" >
 					Standard
 				</div>
 				<div onclick="switchToExpandedView();" id="expandedViewButtonMainSection" class="<?php if($defaultViewBranch == 'Expanded'){echo 'buttonSlectorInnerBoxesSelected';}else{echo'buttonSlectorInnerBoxes';}?> buttonSlectorInnerBoxesAll" style="border-radius: 0px 2px 2px 0px; border: 1px solid white;">
