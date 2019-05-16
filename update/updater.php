@@ -138,7 +138,7 @@ if(count($arrayOfVersions) === 0)
 <body>
 
 
-<div id="main" style="width: 90%; background-color: #CCC; border: 3px solid white; left: 5%; overflow-y: none;">
+<div id="main" style="width: 90%; background-color: #CCC; border: 3px solid white; left: 5%; overflow-y: none; color: white;">
 	<div class="settingsHeader" style="text-align: center;" >
 		<span id="titleHeader" >
 		<?php if($update):?>
