@@ -15,7 +15,7 @@ function generateGroup($data = array())
 		}
 	}
 	$groupBlock =  "<div class=\"groupTabShadow\">";
-	$groupBlock .= "	<div data-group=\"".$group."\" class=\"groupTab ".$selected." \" id=\"Group".$group."\" onclick=\"showOrHideGroups('".$group."');\" >";
+	$groupBlock .= "	<div data-group=\"".$group."\" class=\"groupTab ".$selected." \" id=\"Group".$group."\" onclick=\"showOrHideGroups(event, '".$group."');\" >";
 	$groupBlock .= 			$group;
 	$groupBlock .= "	</div>";
 	$groupBlock .= "</div>";
@@ -33,6 +33,8 @@ function generateWindow($data = array(), $pollType)
 	$counter = "{{counter}}";
 	$name = "{{name}}";
 	$branchView = "{{branchView}}";
+	$branchViewClass = "{{branchView}}";
+	$branchViewClassTwo = "{{branchViewTwo}}";
 	$upArrow = "{{upArrow}}";
 	$downArrow = "{{downArrow}}";
 
@@ -113,15 +115,26 @@ function generateWindow($data = array(), $pollType)
 		$showRefresh = $data["showRefresh"];
 	}
 
-	if($branchView === "devBoxContentSecondary")
+	if($branchView === "Minimized")
 	{
-		$upArrow = "display: none;";
+		$upArrow = "disabledArrow";
 		$downArrow = "";
+		$branchViewClass = "devBoxContentSecondary";
+		$branchViewClassTwo = "devBoxContentTertiary";
 	}
-	elseif($branchView === "devBoxContentSecondaryExpanded")
+	elseif($branchView === "Standard" || $branchView === "devBoxContentSecondary")
 	{
 		$upArrow = "";
-		$downArrow = "display: none;";
+		$downArrow = "";
+		$branchViewClass = "devBoxContentSecondaryExpanded";
+		$branchViewClassTwo = "devBoxContentTertiary";
+	}
+	elseif($branchView === "Expanded" || $branchView === "devBoxContentSecondaryExpanded")
+	{
+		$upArrow = "";
+		$downArrow = "disabledArrow";
+		$branchViewClass = "devBoxContentSecondaryExpanded";
+		$branchViewClassTwo = "devBoxContentTertiaryExpanded";
 	}
 
 	$status = "<span style=\"display: none;\" id=\"".$keyNoSpace."Stats\"></span>";
@@ -152,8 +165,8 @@ function generateWindow($data = array(), $pollType)
 	$blockHTML .= "			<img onclick=\"togglePinStatus('".$keyNoSpace."');\" id=\"".$keyNoSpace."Pin\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/pin.png\">";
 	$blockHTML .= "			<img onclick=\"togglePinStatus('".$keyNoSpace."');\" id=\"".$keyNoSpace."PinPinned\" style=\"cursor: pointer; height: 18px; display: none;\" src=\"core/img/pinPinned.png\">";
 	$blockHTML .= "			<img onclick=\"toggleDetailBar(event, '".$keyNoSpace."');\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/externalLink.png\">";
-	$blockHTML .= "			<img class=\"downArrow\" onclick=\"singleSwitchToExpandView('".$keyNoSpace."');\" id=\"".$keyNoSpace."DownArrow\" style=\"cursor: pointer; height: 18px; ".$downArrow." \" src=\"core/img/downarrow.png\">";
-	$blockHTML .= "			<img class=\"upArrow\" onclick=\"singleSwitchToStandardView('".$keyNoSpace."');\" id=\"".$keyNoSpace."UpArrow\" style=\"cursor: pointer; height: 18px; ".$upArrow."  \" src=\"core/img/uparrow.png\">";
+	$blockHTML .= "			<img class=\"downArrow ".$downArrow."\" onclick=\"singleIncreaseView('".$keyNoSpace."');\" id=\"".$keyNoSpace."DownArrow\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/downarrow.png\">";
+	$blockHTML .= "			<img class=\"upArrow ".$upArrow." \" onclick=\"singleDecreaseView('".$keyNoSpace."');\" id=\"".$keyNoSpace."UpArrow\" style=\"cursor: pointer; height: 18px;\" src=\"core/img/uparrow.png\">";
 	$blockHTML .= "				<div class=\"expandMenu\" onclick=\"dropdownShow('".$keyNoSpace."')\" ></div>";
 	$blockHTML .= "			    	<a  style=\"cursor: pointer;\" onclick=\"refreshAction('".$keyNoSpace."','inner');\" ><img style=\"height: 18px;\" src=\"core/img/Refresh2.png\"></a>";
 	$blockHTML .= "				<div  id=\"dropdown-".$keyNoSpace."\" class=\"dropdown-content\">";
@@ -175,15 +188,15 @@ function generateWindow($data = array(), $pollType)
 	$blockHTML .= "				<b>";
 	$blockHTML .= 					$branchData;
 	$blockHTML .= "				</b>";
-	$blockHTML .= "				<div class=\"".$branchView."\">";
-	$blockHTML .= "					<span style=\"display: none;\" id=\"".$keyNoSpace."UpdateOuter\">";
-	$blockHTML .= "						<br><br>";
+	$blockHTML .= "				<div class=\"".$branchViewClass."\">";
+	$blockHTML .= "					<span style=\"display: none;margin-top: 5px;\" id=\"".$keyNoSpace."UpdateOuter\">";
 	$blockHTML .= "						<b>Last Updated:</b>";
 	$blockHTML .= "						<span id=\"".$keyNoSpace."Update\"> --Pending-- </span>";
 	$blockHTML .= " 					<br>";
 	$blockHTML .= " 				</span>";
-	$blockHTML .= "					<br>";
+	$blockHTML .= "					<div class=\"".$branchViewClassTwo."\">";
 	$blockHTML .= 					$status;
+	$blockHTML .= "					</div>";
 	$blockHTML .= "				</div>";
 	$blockHTML .= "			</div>";
 	$blockHTML .= "		</div>";

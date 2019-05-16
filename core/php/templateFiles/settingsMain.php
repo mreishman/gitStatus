@@ -48,6 +48,7 @@ array_push($arrayOfGroups, "All");
 					</td>
 					<td>
 						<select name="defaultViewBranch">
+							<option <?php if($defaultViewBranch == 'Minimized'){echo "selected";} ?> value="Minimized">Minimized</option>
 	  						<option <?php if($defaultViewBranch == 'Standard'){echo "selected";} ?> value="Standard">Standard</option>
 	  						<option <?php if($defaultViewBranch == 'Expanded'){echo "selected";} ?> value="Expanded">Expanded</option>
 						</select>

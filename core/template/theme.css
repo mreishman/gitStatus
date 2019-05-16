@@ -240,6 +240,16 @@ input {
 .devBoxContentSecondaryExpanded{
 	display: block;
 }
+.devBoxContentTertiary{
+	display: none;
+}
+.devBoxContentTertiaryExpanded{
+	display: block;
+}
+.disabledArrow{
+	filter: opacity(25%);
+	cursor: default !important;
+}
 #sidebar{
 	background-color: #777777;
 	width: 0;
@@ -323,7 +333,7 @@ input {
 	box-shadow: 0 10px 5px rgba(0,0,0,.5);
 }
 .buttonSelectorOuter{
-	width: 200px;
+	width: 300px;
 	margin-right: auto;
 	margin-left: auto;
 	height: 20px;
@@ -386,7 +396,6 @@ input {
 .groupTabSelected{
 	background-color: white;
 	color: black !important;
-	cursor: default;
 }
 .groupTabSelected:hover{
 	background-color: white;
