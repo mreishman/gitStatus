@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '4.0',
+	'version'		=> '4.1',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -142,6 +142,10 @@ $versionCheckArray = array(
 		'4.0'		=> array(
 			'branchName'	=> '4.0Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>New theme! (Lots of style changes)</li></ul></li><li>Bug Fixes<ul><li>Cleaned up look of settings pages making some settings easier to understand</li><li>Info panel in popup sidebar now easier to read at lower resolution</li><li>LED indicator switches to yellow when unsure of status</li></ul></li></ul>'
+		),
+		'4.1'		=> array(
+			'branchName'	=> '4.1Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>Grouped Groups! (Ctrl / Command click to view more than one group)</li><li>Added a minimized display type (Same as standard prior to 4.1, Standard now shows last update info)</li></ul></li><li>Bug Fixes<ul><li>Expand menu dropdown near bottom of screen now changes directions on first click</li><li>Expand menu dropdown follows scroll of window</li></ul></li></ul>'
 		),
 	)
 );
