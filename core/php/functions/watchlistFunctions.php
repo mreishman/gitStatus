@@ -19,9 +19,19 @@ function generateWatchlistBlock($defaultArray, $arrayKeys, $key = "{{key}}", $it
 	<input class='inputWidth300' type='text' name='watchListKey" . $i . "' value='" . $key . "'>";
 	$j = 0;
 	$stringToReturn .=	"<div style=\"border-bottom: 1px solid black; margin-bottom: 5px; padding: 5px;\">";
-	foreach($defaultArray as $groupName => $groupData)
+	if(count($defaultArray) > 1)
 	{
-		$stringToReturn .= "<span class=\"buttonButton\" style=\"margin-right: 5px;\" onclick=\"toggleSettingsGroupSection('".$i."','".$groupName."');\"  >".$groupName."</span>";
+		foreach($defaultArray as $groupName => $groupData)
+		{
+			$stringToReturn .= "<span class=\"buttonButton\" style=\"margin-right: 5px;\" onclick=\"toggleSettingsGroupSection('".$i."','".$groupName."');\"  >".$groupName."</span>";
+		}
+	}
+	else
+	{
+		foreach($defaultArray as $groupName => $groupData)
+		{
+			$stringToReturn .= "<h4 style=\"margin: 5px;\">".$groupName."</h4>";
+		}
 	}
 	$stringToReturn .= "</div>";
 	foreach($defaultArray as $groupName => $groupData)
