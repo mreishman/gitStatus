@@ -250,6 +250,14 @@ function checkWebsiteStatus(sendUrlHere)
 	});
 }
 
+function toggleSettingsGroupSection(number, type)
+{
+	$("#"+number+"General").hide();
+	$("#"+number+"Git").hide();
+	$("#"+number+"Advanced").hide();
+	$("#"+number+type).show();
+}
+
 $( document ).ready(function() {
     hideLastMoveDownButton();
 });

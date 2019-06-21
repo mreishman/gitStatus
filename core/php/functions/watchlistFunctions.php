@@ -18,14 +18,20 @@ function generateWatchlistBlock($defaultArray, $arrayKeys, $key = "{{key}}", $it
 	<span class=\"leftSpacingserverNames\" > Name: </span>
 	<input class='inputWidth300' type='text' name='watchListKey" . $i . "' value='" . $key . "'>";
 	$j = 0;
+	$stringToReturn .=	"<div style=\"border-bottom: 1px solid black; margin-bottom: 5px; padding: 5px;\">";
 	foreach($defaultArray as $groupName => $groupData)
 	{
-		if($groupName !== "")
+		$stringToReturn .= "<span class=\"buttonButton\" style=\"margin-right: 5px;\" onclick=\"toggleSettingsGroupSection('".$i."','".$groupName."');\"  >".$groupName."</span>";
+	}
+	$stringToReturn .= "</div>";
+	foreach($defaultArray as $groupName => $groupData)
+	{
+		$stringToReturn .= "<span id=\"".$i.$groupName."\" ";
+		if($j !== 0)
 		{
-			$stringToReturn .=	"<div style=\"border-bottom: 1px solid black; margin-bottom: 5px;\">
-	<h4 style=\"margin: 5px;\">".$groupName."</h4>
-	</div>";
+			$stringToReturn .= " style=\"display: none;\" ";
 		}
+		$stringToReturn .= "  >";
 		$brCount = 0;
 		foreach($groupData as $key2 => $item2)
 		{
@@ -148,6 +154,7 @@ function generateWatchlistBlock($defaultArray, $arrayKeys, $key = "{{key}}", $it
 				$stringToReturn .= "'>";
 			}
 		}
+		$stringToReturn .= "</span>";
 	}
 	$stringToReturn .= "
 	<input style=\"display: none\" type=\"text\" name=\"watchListItem" . $i . "-0\" value='" . $j . "'>
