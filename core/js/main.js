@@ -1839,7 +1839,13 @@ function toggleDetailBar(e, key)
 	}
 	else
 	{
-		toggleInfoTab();
+		if(defaultExpandTab === "info")
+		{
+			toggleInfoTab();
+		}
+		else if(defaultExpandTab === "commits") {
+			toggleCommitsTab();
+		}
 	}
 }
 

@@ -411,6 +411,7 @@ else
 			echo "var maxCommits = ".$maxCommits.";";
 			echo "var onServerRemoveRemoveNotError = ".$onServerRemoveRemoveNotError.";";
 			echo "var defaultBranchList = '".$defaultBranchList."';";
+			echo "var defaultExpandTab = '".$defaultExpandTab."';";
 			if(empty($cachedStatusMainObject))
 			{
 				echo "var arrayOfWatchFilters = {};";
