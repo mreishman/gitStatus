@@ -21,9 +21,16 @@ function generateWatchlistBlock($defaultArray, $arrayKeys, $key = "{{key}}", $it
 	$stringToReturn .=	"<div style=\"border-bottom: 1px solid black; margin-bottom: 5px; padding: 5px;\">";
 	if(count($defaultArray) > 1)
 	{
+		$selectedOption = false;
 		foreach($defaultArray as $groupName => $groupData)
 		{
-			$stringToReturn .= "<span class=\"buttonButton\" style=\"margin-right: 5px;\" onclick=\"toggleSettingsGroupSection('".$i."','".$groupName."');\"  >".$groupName."</span>";
+			$stringToReturn .= "<span id=\"".$i.$groupName."Button\" class=\"buttonButton ";
+			if(!$selectedOption)
+			{
+				$stringToReturn .= " selected ";
+				$selectedOption = true;
+			}
+			$stringToReturn .= " \" style=\"margin-right: 5px;\" onclick=\"toggleSettingsGroupSection('".$i."','".$groupName."');\"  >".$groupName."</span>";
 		}
 	}
 	else
