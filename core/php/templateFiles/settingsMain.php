@@ -107,6 +107,17 @@ array_push($arrayOfGroups, "All");
 					</td>
 				</tr>
 				<?php endif; ?>
+				<tr>
+					<td>
+						Default Expand Tab
+					</td>
+					<td>
+						<select name="defaultExpandTab">
+	  						<option <?php if($defaultExpandTab == 'info'){echo "selected";} ?> value="info">Info</option>
+	  						<option <?php if($defaultExpandTab == 'commits'){echo "selected";} ?> value="commits">Commits</option>
+						</select>
+					</td>
+				</tr>
 			</table>
 		</div>
 	</div>

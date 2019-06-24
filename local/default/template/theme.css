@@ -502,6 +502,13 @@ input {
 	border: 1px solid #999;
 }
 
+.buttonButton.selected {
+    background-color: #555;
+    color: white;
+	border: 1px solid #777;
+	cursor: default;
+}
+
 .noticeMessage{
 	background-color: white;
 	width: 100%;

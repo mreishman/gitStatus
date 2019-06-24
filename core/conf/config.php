@@ -15,6 +15,7 @@ $defaultConfig = array(
 	'enableSystemPrefShellOrPhp'	=> 'false',
 	'expSettingsAvail'	=> 'true',
 	'defaultViewBranch'	=> 'Standard',
+	'defaultExpandTab'	=>	'info',
 	'cacheEnabled'		=> 'true',
 	'dontNotifyVersion'	=> '0',
 	'onlyRefreshVisible'	=> 'true',

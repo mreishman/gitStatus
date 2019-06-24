@@ -250,6 +250,18 @@ function checkWebsiteStatus(sendUrlHere)
 	});
 }
 
+function toggleSettingsGroupSection(number, type)
+{
+	$("#"+number+"General").hide();
+	$("#"+number+"GeneralButton").removeClass("selected");
+	$("#"+number+"Git").hide();
+	$("#"+number+"GitButton").removeClass("selected");
+	$("#"+number+"Advanced").hide();
+	$("#"+number+"AdvancedButton").removeClass("selected");
+	$("#"+number+type).show();
+	$("#"+number+type+"Button").addClass("selected");
+}
+
 $( document ).ready(function() {
     hideLastMoveDownButton();
 });
