@@ -221,6 +221,10 @@ else
 					{
 						$website = $value["Website"];
 					}
+					if(isset($value['website']))
+					{
+						$website = $value["website"];
+					}
 
 					if($showTopBarOfGroups && $defaultGroupViewOnLoad !== "All" && strpos($groupInfo, $defaultGroupViewOnLoad) > -1)
 					{
