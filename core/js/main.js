@@ -1250,7 +1250,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			{
 				arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = null;
 			}
-			if(!("Website" in arrayOfWatchFilters[noSpaceName]))
+			if(!("website" in arrayOfWatchFilters[noSpaceName]))
 			{
 				arrayOfWatchFilters[noSpaceName]["website"] = null;
 			}
