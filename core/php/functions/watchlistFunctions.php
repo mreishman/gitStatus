@@ -103,18 +103,24 @@ function generateWatchlistBlock($defaultArray, $arrayKeys, $key = "{{key}}", $it
 	 			if(!empty($item))
 	 			{
 					$stringToReturn .=	"
-						<option value=\"github\" ";
-						if($varValue === "github")
-						{
-							$stringToReturn .= " selected ";
-						}
-						$stringToReturn .= " >GitHub</option>
-						<option value=\"gitlab\" ";
-						if($varValue === "gitlab")
-						{
-							$stringToReturn .= "selected";
-						}
-						$stringToReturn .= ">GitLab</option>";
+					<option value=\"auto\" ";
+					if($varValue === "auto")
+					{
+						$stringToReturn .= " selected ";
+					}
+					$stringToReturn .= " >Auto (v2 Only)</option>
+					<option value=\"github\" ";
+					if($varValue === "github")
+					{
+						$stringToReturn .= " selected ";
+					}
+					$stringToReturn .= " >GitHub</option>
+					<option value=\"gitlab\" ";
+					if($varValue === "gitlab")
+					{
+						$stringToReturn .= "selected";
+					}
+					$stringToReturn .= ">GitLab</option>";
 				}
 		 		else
 		 		{

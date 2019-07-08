@@ -186,6 +186,31 @@ function getBranchStats($location)
 	return substr($branchStats, 0, strpos($branchStats, "}"));
 }
 
+function getRepo($location)
+{
+	$function = "git --git-dir=".escapeshellarg($location).".git config --get remote.origin.url";
+	$repoName = trim(shell_exec($function));
+	$secondHalf = basename($repoName, ".git");
+	$repoName = implode("", explode($secondHalf.".git", $repoName));
+	$firstHalf = basename($repoName);
+	return $firstHalf."/".$secondHalf;
+}
+
+function getGitType($location)
+{
+	$function = "git --git-dir=".escapeshellarg($location).".git config --get remote.origin.url";
+	$gitType = trim(shell_exec($function));
+	if(strpos($gitType, "github.com"))
+	{
+		return "github";
+	}
+	elseif(strpos($gitType, "gitlab"))
+	{
+		return "gitlab";
+	}
+	return false;
+}
+
 $pollType = null;
 if(isset($_POST['pollType']))
 {
@@ -279,6 +304,14 @@ else
 				if(isset($value["urlHit"]) && $value["urlHit"] !== "")
 				{
 					$websiteBase = str_replace("gitBranchName.php", "", $value["urlHit"]);
+				}
+				if($value["githubRepo"] === "auto")
+				{
+					$value["githubRepo"] = getRepo($value["Folder"]);
+				}
+				if($value["gitType"] === "auto")
+				{
+					$value["gitType"] = getGitType($value["Folder"]);
 				}
 				$response["info"][$key] = array(
 					'isHere' => true,

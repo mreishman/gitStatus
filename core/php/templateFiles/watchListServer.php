@@ -30,12 +30,14 @@
 				</div>
 				<span class="leftSpacingserverNames" > Git Repo:</span> <input disabled="true" class='inputWidth300' type='text' value='Name of your github repo: username/repo'>
 				<br>
+				<span>Put "auto" to automatically get the repo config on poll</span>
+				<br>
  				<span class="leftSpacingserverNames" > Branch List:</span> <input disabled="true" class='inputWidth300' type='text' value='Compare branches list example: master , develop'>
 				<br>
 				<span class="leftSpacingserverNames" > Git Type:</span>
 				<select disabled="true" class='inputWidth300' >
- 					<option value="local" >github</option>
- 					<option value="external" >gitlab</option>
+ 					<option value="github" >github</option>
+ 					<option value="gitlab" >gitlab</option>
  				</select>
  				<br>
  				<span class="leftSpacingserverNames" > Custom Git:</span> <input disabled="true" class='inputWidth300' type='text' value='Custom url for git. Empty = default'>

@@ -592,6 +592,7 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 				groupInfo: "",
 				location: null,
 				WebsiteBase: null,
+				website: null,
 				urlHit: ""
 			};
 	}
@@ -613,6 +614,10 @@ function pollFailureInner(xhr, error, noSpaceName, nameForBackground)
 		if(!("WebsiteBase" in arrayOfWatchFilters[noSpaceName]))
 		{
 			arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = null;
+		}
+		if(!("Website" in arrayOfWatchFilters[noSpaceName]))
+		{
+			arrayOfWatchFilters[noSpaceName]["website"] = null;
 		}
 		if(!("urlHit" in arrayOfWatchFilters[noSpaceName]))
 		{
@@ -861,6 +866,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	addGroup(dataInner["groupInfo"]);
 	if(dataInner['branch'] && dataInner['branch'] != 'Location var is too long.')
 	{
+		var linkList = "";
 		switchToColorLed(noSpaceName, "green");
 		document.getElementById(noSpaceName+'errorMessageLink').style.display = "none";
 		document.getElementById(noSpaceName+'noticeMessageLink').style.display = "none";
@@ -902,6 +908,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 	    if(repoDataPresent)
 	    {
 	    	dataBranchForFile += '<a style="color: black;" target="_blank" href="https://'+baseRepoUrl+'/'+repoName+'/tree/'+dataInner['branch']+'">';
+	    	linkList += '<a style="color: black;" target="_blank" href="https://'+baseRepoUrl+'/'+repoName+'/tree/'+dataInner['branch']+'">Branch</a>';
 	    }
 	    dataBranchForFile += dataInner['branch'];
 	    if(repoDataPresent)
@@ -945,6 +952,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 					  		{
 				  				link = '<a target="_blank" style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+num+'">'+dataBranchForFileStats[i]+num+'</a>';
 					  			dataBranchForFile += " "+link;
+					  			linkList += " "+link;
 					  			linksFromCommitMessage.push(num.toString());
 						  		dataBranchForFileStats = dataBranchForFileStats.replace(dataBranchForFileStats[i]+num,link);
 						  		len = dataBranchForFileStats.length;
@@ -974,6 +982,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				{
 					link = '<a target="_blank" style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForStart+'">#'+numForStart+'</a>';
 					dataBranchForFile += " "+link;
+					linkList += " "+link;
 				}
 			}
 
@@ -995,6 +1004,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				{
 					link = '<a target="_blank" style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForEnd+'">#'+numForEnd+'</a>';
 					dataBranchForFile += " "+link;
+					linkList += " "+link;
 				}
 			}
 
@@ -1020,6 +1030,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 						{
 							link = '<a target="_blank" style="color: black;"  href="https://'+baseRepoUrl+'/'+repoName+'/issues/'+numForLinkIssue+'">#'+numForLinkIssue+'</a>';
 							dataBranchForFile += " "+link;
+							linkList += " "+link;
 						}
 						branchNameTMP = branchNameTMP.substring(numForcalc);
 					}
@@ -1067,6 +1078,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				groupInfo: groupNames,
 				location: "location" in dataInner ? dataInner["location"] : null,
 				WebsiteBase: "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null,
+				website: "website" in dataInner ? dataInner["website"] : null,
 				branchList: branchList,
 				urlHit: urlHit
 			};
@@ -1089,6 +1101,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			arrayOfWatchFilters[noSpaceName]["groupInfo"] = groupNames;
 			arrayOfWatchFilters[noSpaceName]["location"] = "location" in dataInner ? dataInner["location"] : null;
 			arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = "WebsiteBase" in dataInner ? dataInner["WebsiteBase"] : null;
+			arrayOfWatchFilters[noSpaceName]["website"] = "website" in dataInner ? dataInner["website"] : null;
 			arrayOfWatchFilters[noSpaceName]["branchList"] = branchList;
 			arrayOfWatchFilters[noSpaceName]["urlHit"] = urlHit;
 		}
@@ -1096,7 +1109,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 		filterBGColor(dataToFilterBy, nameForBackground, 1);
 		arrayOfWatchFilters[noSpaceName]["backgroundColor"] = document.getElementById(nameForBackground).style.backgroundColor;
 		//custom message stuff
-		(Object.values(dataInner).indexOf('messageTextEnabled') > -1)
+		if(Object.values(dataInner).indexOf('messageTextEnabled') > -1)
 		{
 
 			var dateForEnd = dataInner['datePicker'];
@@ -1172,6 +1185,12 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			}
 		}
 
+
+		if(linkList !== "" && linkList !== document.getElementById(noSpaceName+"extraLinks").innerHTML)
+		{
+			document.getElementById(noSpaceName+"extraLinks").innerHTML = linkList;
+		}
+
 		if(setFadeBool)
 		{
 			setFade(noSpaceName);
@@ -1207,6 +1226,7 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 				groupInfo: "",
 				location: null,
 				WebsiteBase: null,
+				website: null,
 				branchList: false
 			};
 		}
@@ -1229,6 +1249,10 @@ function pollSuccessInner(dataInner, dataInnerPass, dataInnerPassMaster)
 			if(!("WebsiteBase" in arrayOfWatchFilters[noSpaceName]))
 			{
 				arrayOfWatchFilters[noSpaceName]["WebsiteBase"] = null;
+			}
+			if(!("website" in arrayOfWatchFilters[noSpaceName]))
+			{
+				arrayOfWatchFilters[noSpaceName]["website"] = null;
 			}
 		}
 	}

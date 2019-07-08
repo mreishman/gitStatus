@@ -179,6 +179,9 @@ function generateWindow($data = array(), $pollType)
 	$blockHTML .= "					<div id=\"".$keyNoSpace."SearchOuter\" style=\"display: none; cursor: pointer; width: 100%;\" >";
 	$blockHTML .= "						<a id=\"".$keyNoSpace."SearchInner\" style=\"color: black;\" target=\"_blank\" href=\"#\">Search</a>";
 	$blockHTML .= "					</div>";
+	$blockHTML .= "					<p style=\"border-bottom: 1px solid black;\" ></p>";
+	$blockHTML .= "					<a style=\"color: black;\" target=\"_blank\" href=\"https://".$website."\">Website</a>";
+	$blockHTML .= "					<div id=\"".$keyNoSpace."extraLinks\"></div> ";
 	$blockHTML .= "					<a id=\"".$keyNoSpace."errorMessageLink\" style=\"cursor: pointer; display: none;\">Error</a> ";
 	$blockHTML .= "					<a id=\"".$keyNoSpace."noticeMessageLink\" style=\"cursor: pointer; display: none;\">Notice</a> ";
 	$blockHTML .= "				</div>";
