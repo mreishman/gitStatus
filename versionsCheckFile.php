@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '4.1.1',
+	'version'		=> '4.1.2',
 	'versionList'		=> array(
 		'1.0'	        => array(
 			'branchName'	=> '1.0Update',
@@ -150,6 +150,10 @@ $versionCheckArray = array(
 		'4.1.1'		=> array(
 			'branchName'	=> '4.1.1Update',
 			'releaseNotes'  => '<ul><li>Features<ul><li>Added option to select default open tab in expanded info window</li></ul></li><li>Bug Fixes<ul><li>Font style change for updater</li><li>Created tabs for watchlist settings, more servers are now visible on one screen</li></ul></li></ul>'
+		),
+		'4.1.2'		=> array(
+			'branchName'	=> '4.1.2Update',
+			'releaseNotes'  => '<ul><li>Features<ul><li>Added option for auto get repo name from poll requests (Only works with poll type 2)</li><li>Added option for auto get repo type from poll requests (Only works with poll type 2)</li><li>Added issue links / branch link into seperate dropdown</li></ul></li><li>Bug Fixes<ul><li>Fixed bug with url not linking properly when loading from cache</li></ul></li></ul>'
 		),
 	)
 );
