@@ -11,18 +11,18 @@
 						Set Message:
 					</td>
 					<td>
-						<select name="messageTextEnabled">
+						<select onchange="toggleMessageText();" name="messageTextEnabled" id="messageTextEnabled">
 	  						<option <?php if($messageTextEnabled == 'true'){echo "selected";} ?> value="true">True</option>
 	  						<option <?php if($messageTextEnabled == 'false'){echo "selected";} ?> value="false">False</option>
 						</select>
 					</td>
 				</tr>
-				<tr>
+				<tr class="messageTextTr" <?php if($messageTextEnabled != 'true'){echo "style='display: none'";} ?> >
 					<td colspan="2">
 						Message Text:
 					</td>
 				</tr>
-				<tr>
+				<tr class="messageTextTr" <?php if($messageTextEnabled != 'true'){echo "style='display: none'";} ?> >
 					<td colspan="2">
 						<input type="text" name="messageText" value='<?php echo $messageText;?>'>
 					</td>
@@ -32,7 +32,7 @@
 						Disable:
 					</td>
 					<td>
-						<select name="enableBlockUntilDate">
+						<select onchange="toggleDateBlockText();" name="enableBlockUntilDate" id="enableBlockUntilDate">
 	  						<option <?php if($enableBlockUntilDate == 'true'){echo "selected";} ?> value="true">True</option>
 	  						<option <?php if($enableBlockUntilDate == 'false'){echo "selected";} ?> value="false">False</option>
 						</select>
@@ -43,12 +43,12 @@
 						<p class="description" >Disable other git-status severs from getting info from this server untill specified date</p>
 					</td>
 				</tr>
-				<tr>
+				<tr class="blockDateTr" <?php if($enableBlockUntilDate != 'true'){echo "style='display: none'";} ?> >
 					<td colspan="2">
 						Specified Date:
 					</td>
 				</tr>
-				<tr>
+				<tr class="blockDateTr" <?php if($enableBlockUntilDate != 'true'){echo "style='display: none'";} ?> >
 					<td colspan="2">
 						<input type="text" id="datepicker" name='datePicker' value='<?php echo $datePicker;?>'>
 					</td>
@@ -57,3 +57,28 @@
 		</div>
 	</div>
 </form>
+<script type="text/javascript">
+	function toggleMessageText()
+	{
+		if(document.getElementById("messageTextEnabled").value == "true")
+		{
+			$(".messageTextTr").show();
+		}
+		else
+		{
+			$(".messageTextTr").hide();
+		}
+	}
+
+	function toggleDateBlockText()
+	{
+		if(document.getElementById("enableBlockUntilDate").value == "true")
+		{
+			$(".blockDateTr").show();
+		}
+		else
+		{
+			$(".blockDateTr").hide();
+		}
+	}
+</script>
