@@ -43,7 +43,7 @@
 									<input id="newRowLocationForFilterBranchName<?php echo $counfOfFiltersForbranchName;?>" type="text" value="<?php echo $key?>" name="newRowLocationForFilterBranchName<?php echo $counfOfFiltersForbranchName;?>">
 									&nbsp;
 									<select name="newRowLocationForFilterBranchSelect<?php echo $counfOfFiltersForbranchName;?>" >
-										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Default(=)</option>
+										<option <?php if($value['type']=="default"){echo "selected";}?> value="default" >Equals</option>
 										<option <?php if($value['type']=="includes"){echo "selected";}?> value="includes" >Includes</option>
 									</select>
 									<a class="mainLinkClass"  onclick="deleteRowFunction(<?php echo $counfOfFiltersForbranchName;?>, true)">Remove Filter</a>
