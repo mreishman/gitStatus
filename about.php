@@ -35,23 +35,12 @@ require_once('core/php/loadVars.php'); ?>
 					<b>About</b>
 				</div>
 				<div class="devBoxContent">
-					gitStatus
-					<br><br>
+					<h3>gitStatus</h3>
 					A Simple Git Status Monitor
 					<br><br>
 					Version <?php echo $configStatic['version']; ?>
-				</div>
-			</div>
-		</div>
-		<div class="firstBoxDev">
-			<div class="innerFirstDevBox"  >
-				<div class="devBoxTitle">
-					<b>Github:</b>
-				</div>
-				<div class="devBoxContent">
-					<a style="color: black;" href="https://github.com/mreishman/gitStatus">Github link</a>
 					<br><br>
-					<a style="color: black;" href="https://github.com/mreishman/gitStatus/issues">Issues</a>
+					<a style="color: black;" href="https://github.com/mreishman/gitStatus">View on Github</a>
 				</div>
 			</div>
 		</div>
